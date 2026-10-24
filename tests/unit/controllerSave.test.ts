@@ -145,6 +145,29 @@ describe('SESSION GUARD: one editing tab per profile', () => {
     expect(controller.getSnapshot().activeProfile).toBeNull();
   });
 
+  it('does not release the active Web Lock when a same-ID import fails', async () => {
+    const initial = initialProfile('same-id-lock', 500);
+    const repository = new FakeRepository([initial], initial.profileId);
+    const guard = new FakeSessionGuard();
+    const controller = makeController(repository, { sessionGuard: guard });
+    await controller.initialize();
+    expect(guard.held.has('same-id-lock')).toBe(true);
+
+    const imported = profileWith([unit('unit-9', 'lightning-scorpion', 2, 4, 3)], {
+      profileId: 'same-id-lock',
+      coins: 4321,
+    });
+    expect(await controller.prepareImport(serializeEnvelope(imported), 'same-id.json')).toBe(true);
+    repository.failSaveAndActivateCount = 1;
+    await controller.confirmImport();
+    await repository.settle();
+
+    expect(guard.held.has('same-id-lock')).toBe(true);
+    expect(controller.getSnapshot().activeProfile?.coins).toBe(500);
+    expect(controller.getSnapshot().modal).toBe('import-confirm');
+    expect(controller.getSnapshot().toast?.tone).toBe('error');
+  });
+
   it('keeps the old session when switching to a locked profile fails', async () => {
     const first = initialProfile('first');
     const second = initialProfile('second', 222);
@@ -255,7 +278,7 @@ describe('WRITE COORDINATION: switching and overlapping gameplay saves', () => {
     const saved = repository.getProfile('gameplay-coalesce');
     expect(saved?.coins).toBe(500);
     expect(saved?.characters).toHaveLength(5);
-    expect(saved?.characters.some((character) => character.level === 2)).toBe(true);
+    expect(saved?.characters.some((character) => character.mergeRank === 2)).toBe(true);
   });
 
   it('keeps the profile and reports an error when deletion fails', async () => {

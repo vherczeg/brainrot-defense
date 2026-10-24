@@ -2,11 +2,12 @@ import Phaser from 'phaser';
 import type { GameController, VisualEvent } from '../../../app/controller';
 import { CHARACTER_DEFINITIONS } from '../../../game/domain/characters';
 import { ENEMY_DEFINITIONS } from '../../../game/domain/enemies';
+import { characterLevelFromXp } from '../../../game/domain/progression';
 import {
   ALLY_ROW_START,
   BOARD_COLS,
   BOARD_ROWS,
-  MAX_CHARACTER_LEVEL,
+  MAX_MERGE_RANK,
   type CharacterTypeId,
   type EnemyTypeId,
 } from '../../../game/domain/types';
@@ -242,6 +243,7 @@ export class BattleScene extends Phaser.Scene {
           team: 'enemy',
           typeId: enemy.typeId,
           level: enemy.level,
+          mergeRank: 0,
           col: enemy.col + 0.5,
           row: enemy.row + 0.5,
         },
@@ -259,7 +261,8 @@ export class BattleScene extends Phaser.Scene {
           id: character.id,
           team: 'ally',
           typeId: character.typeId,
-          level: character.level,
+          level: characterLevelFromXp(character.totalXp),
+          mergeRank: character.mergeRank,
           col: character.col + 0.5,
           row: character.row + 0.5,
         },
@@ -291,13 +294,15 @@ export class BattleScene extends Phaser.Scene {
       team: 'ally' | 'enemy';
       typeId: CharacterTypeId | EnemyTypeId;
       level: number;
+      mergeRank: number;
       col: number;
       row: number;
     },
     options: { ghost?: boolean; selected?: boolean } = {},
   ): Phaser.GameObjects.Container {
     const isBoss = spec.typeId === 'mega-brainrot-gorilla';
-    const levelScale = 1 + Math.min(spec.level - 1, 9) * 0.03;
+    const progressionLevel = spec.team === 'ally' ? spec.mergeRank : spec.level;
+    const levelScale = 1 + Math.min(progressionLevel - 1, 9) * 0.03;
     const scale = (isBoss ? 1.32 : levelScale) * (options.ghost ? 0.82 : 1);
     const x = BOARD_X + spec.col * CELL;
     const y = BOARD_Y + spec.row * CELL;
@@ -317,7 +322,7 @@ export class BattleScene extends Phaser.Scene {
     art.fillEllipse(0, 30, 62, 14);
 
     if (spec.team === 'ally') {
-      this.drawAllyArt(art, spec.typeId as CharacterTypeId, spec.level);
+      this.drawAllyArt(art, spec.typeId as CharacterTypeId, spec.mergeRank);
     } else {
       this.drawEnemyArt(art, spec.typeId as EnemyTypeId, spec.level, isBoss);
       if (!options.ghost) {
@@ -333,8 +338,9 @@ export class BattleScene extends Phaser.Scene {
     badge.lineStyle(2, 0x4a2c00, 1);
     badge.strokeCircle(28, 24, isBoss ? 17 : 14);
     container.add(badge);
+    const badgeValue = spec.team === 'ally' ? spec.mergeRank : spec.level;
     const badgeText = this.add
-      .text(28, 24, String(spec.level), {
+      .text(28, 24, String(badgeValue), {
         fontFamily: '"Trebuchet MS", "Segoe UI", sans-serif',
         fontSize: isBoss ? '17px' : '15px',
         fontStyle: 'bold',
@@ -343,7 +349,7 @@ export class BattleScene extends Phaser.Scene {
       .setOrigin(0.5);
     container.add(badgeText);
 
-    if (spec.level >= MAX_CHARACTER_LEVEL) {
+    if (spec.team === 'ally' && spec.mergeRank >= MAX_MERGE_RANK) {
       const crown = this.add
         .text(0, -48, '★', {
           fontFamily: '"Trebuchet MS", sans-serif',
@@ -378,12 +384,12 @@ export class BattleScene extends Phaser.Scene {
   private drawAllyArt(
     g: Phaser.GameObjects.Graphics,
     typeId: CharacterTypeId,
-    level: number,
+    mergeRank: number,
   ): void {
     const colors = CHARACTER_DEFINITIONS[typeId].colors;
-    if (level >= 4) {
+    if (mergeRank >= 4) {
       g.lineStyle(3, colors.accent, 0.55);
-      g.strokeCircle(0, 2, 40 + Math.min(level, 10));
+      g.strokeCircle(0, 2, 40 + Math.min(mergeRank, 10));
     }
     if (typeId === 'laser-crocodile') {
       g.fillStyle(colors.secondary, 1);
@@ -608,6 +614,7 @@ export class BattleScene extends Phaser.Scene {
           team: unit.team,
           typeId: unit.typeId as CharacterTypeId | EnemyTypeId,
           level: unit.level,
+          mergeRank: unit.mergeRank,
           col: unit.x,
           row: unit.y,
         });
@@ -957,8 +964,8 @@ export class BattleScene extends Phaser.Scene {
         selected !== undefined &&
         selected.id !== occupant.id &&
         selected.typeId === occupant.typeId &&
-        selected.level === occupant.level &&
-        selected.level < MAX_CHARACTER_LEVEL;
+        selected.mergeRank === occupant.mergeRank &&
+        selected.mergeRank < MAX_MERGE_RANK;
       if (isMergeTarget) {
         this.pendingMergeTargetId = occupant.id;
         this.draggingId = null;
@@ -1088,7 +1095,7 @@ export class BattleScene extends Phaser.Scene {
       occupant.id !== this.draggingId &&
       selected !== undefined &&
       selected.typeId === occupant.typeId &&
-      selected.level === occupant.level;
+      selected.mergeRank === occupant.mergeRank;
     const isValidMove = !occupant && cell.row >= ALLY_ROW_START;
     g.lineStyle(4, canMerge ? 0xc067ff : isValidMove ? 0x4cff9a : 0xff5a7a, 0.95);
     g.strokeRoundedRect(

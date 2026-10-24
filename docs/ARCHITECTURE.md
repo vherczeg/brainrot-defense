@@ -1,10 +1,10 @@
-# Architecture Decision Record — Brainrot Defense M0
+# Architecture Decision Record — Brainrot Defense M1.1
 
 ## Context
 
-M0 must be a genuinely playable, offline-capable browser game that works on GitHub Pages with
-no backend. The game needs deterministic combat, merge rules, local saves, touch/keyboard input,
-and a clear separation between gameplay and rendering.
+M1.1 extends the M0 playable game with a hybrid progression system: merge rank 1–10 and
+XP-derived character level 1–100. The game must remain deterministic, offline-capable, save-safe,
+and fully playable with existing M0.1 saves after an explicit schema migration.
 
 ## Decisions
 
@@ -30,7 +30,10 @@ with an observer interface and `useSyncExternalStore` is enough for this scale.
 - `GameController` owns the active `PlayerProfile`, battle session, navigation, modals, toasts,
   and save status.
 - Domain commands (`purchaseCharacter`, `mergeCharacters`, `moveCharacter`, `claimWaveReward`,
-  `updateSettings`) are pure functions that return an immutable next profile or a typed error.
+  `resolveBattleRewards`, `updateSettings`) are pure functions that return an immutable next
+  profile or a typed error.
+- Pure progression helpers in `src/game/domain/progression.ts` own the XP curve, level derivation,
+  XP awards, merge XP combination, and wave XP formulas. Character level is never persisted.
 - Failed commands return the original state untouched. Duplicate UI events therefore cannot
   execute a merge twice: after the first transition, the consumed units no longer exist.
 - Rendering reads the controller (Phaser scene) or a React snapshot. Phaser never mutates domain
@@ -88,7 +91,12 @@ race conditions between projectile travel, death, and target acquisition.
 - A record is written in one `readwrite` transaction. Validation happens before the write, so an
   invalid transaction never replaces a valid record.
 - Each record stores a schema version, timestamp, checksum, and payload. Load recomputes the
-  checksum and validates the full schema. Corruption is surfaced, never silently reset.
+  checksum, validates legacy data if needed, migrates it with a pure function, and validates the
+  final v2 schema. Corruption is surfaced, never silently reset.
+- The database version is 2. A v1 character `level` maps to `mergeRank`, and `totalXp` starts at 0.
+  Backups and v2 shadow records live in the `meta` store so migration never consumes one of the
+  three profile slots. A stale v1 write from an old tab is detected and replaced in memory by the
+  validated v2 shadow.
 - Metadata (`activeProfileId`) lives in a separate `meta` store. Profile creation and import use
   one transaction across `profiles` and `meta`, so the saved profile and active selection cannot
   diverge.
@@ -105,8 +113,9 @@ race conditions between projectile travel, death, and target acquisition.
 - A Web Locks guard prevents two tabs from editing the same profile simultaneously. The second
   tab gets an explicit blocking error instead of silently overwriting the first tab.
 - During battle, only settings changes are persisted; the persistent army/current wave remain the
-  last preparation snapshot. Victory/defeat results and coin changes are written after the battle
-  resolves.
+  last preparation snapshot. Victory/defeat results, XP, and coin changes are written after the
+  battle resolves. The controller captures the participating persistent character IDs at battle
+  start, so XP uses that roster even if temporary battle copies die or the formation changes.
 
 See `docs/SAVE_SCHEMA.md` for fields and bounds.
 
@@ -160,10 +169,15 @@ future sprite/asset catalog can replace placeholders without touching domain rul
 ## Testing strategy
 
 - Domain rules and simulation: Vitest, plain Node, fixed seeds and deterministic scenarios.
-- Persistence: Vitest with `fake-indexeddb`, including corruption, unsupported version, atomic
-  failure, profile isolation.
-- Integration: a scripted 10-wave playthrough validates that ordinary spending/merging remains
-  mathematically completable.
+- Progression: exhaustive XP threshold boundaries, rank/XP stat formulas, merge XP combination,
+  first-victory and reduced replay XP, death/nonparticipant eligibility, and XP cap behaviour.
+- Persistence: Vitest with `fake-indexeddb`, including strict v1→v2 migration, stale v1 shadow
+  recovery, missing-shadow recovery, deletion tombstones, corruption, unsupported version, atomic
+  failure, retryable open failures, and profile isolation.
+- Integration: a scripted 10-wave playthrough with XP rewards validates that ordinary
+  spending/merging remains mathematically completable. The simulation script covers zero-XP new
+  games, migrated saves, aggressive merging, low-rank retention, type-focused armies, mixed
+  formations, retries after defeat, per-wave XP progression, and max-rank/max-level boundaries.
 - Browser: Playwright against the production build, real IndexedDB, real Phaser canvas, desktop
   and Pixel 7-like mobile Chromium profiles. Canvas drag, accessible placement, persistence,
   import/export, defeat/retry, and offline reload are covered.
@@ -176,5 +190,5 @@ future sprite/asset catalog can replace placeholders without touching domain rul
   accessibility path.
 - The UI and scene share a controller but keep separate local visual state. This avoids React
   re-rendering every simulation tick and avoids Phaser mutating domain state.
-- Additional levels, characters, or waves require data/config changes plus tests, not rendering
-  rewrites.
+- Additional ranks, characters, waves, or progression tuning require data/helper changes plus
+  tests, not rendering rewrites.

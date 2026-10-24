@@ -118,12 +118,12 @@ describe('damage and armor', () => {
   });
 
   it('does not let dead units attack again', () => {
-    const characters = [unit('unit-1', 'laser-crocodile', 10, 2, 3)];
+    const characters = [unit('unit-1', 'laser-crocodile', 5, 2, 3)];
     const wave = waveWith([{ typeId: 'mini-brainrot', level: 1, col: 2, row: 2 }]);
     let state = createBattleState(characters, wave);
     const allEvents: BattleEvent[] = [];
     let deathTick = -1;
-    for (let tick = 1; tick <= 10; tick += 1) {
+    for (let tick = 1; tick <= 40; tick += 1) {
       const result = stepBattle(state);
       state = result.state;
       allEvents.push(...result.events);

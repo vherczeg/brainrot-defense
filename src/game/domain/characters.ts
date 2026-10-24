@@ -1,10 +1,12 @@
 import {
-  MAX_CHARACTER_LEVEL,
+  MAX_CHARACTER_XP,
+  MAX_MERGE_RANK,
   MAX_SAFE_STAT,
   type CharacterDefinition,
   type CharacterStats,
   type CharacterTypeId,
 } from './types';
+import { characterLevelFromXp, normalizeTotalXp } from './progression';
 
 export const CHARACTER_DEFINITIONS: Readonly<Record<CharacterTypeId, CharacterDefinition>> = {
   'laser-crocodile': {
@@ -52,16 +54,18 @@ export const CHARACTER_TYPE_IDS: readonly CharacterTypeId[] = [
   'lightning-scorpion',
 ];
 
-export const ATTACK_GROWTH = 1.65;
-export const HP_GROWTH = 1.5;
+export const ATTACK_RANK_GROWTH = 1.45;
+export const HP_RANK_GROWTH = 1.5;
+export const ATTACK_LEVEL_FACTOR = 0.035;
+export const HP_LEVEL_FACTOR = 0.04;
 
 export function isCharacterTypeId(value: unknown): value is CharacterTypeId {
   return value === 'laser-crocodile' || value === 'lightning-scorpion';
 }
 
-function clampLevel(level: number): number {
-  if (!Number.isFinite(level)) return 1;
-  return Math.min(MAX_CHARACTER_LEVEL, Math.max(1, Math.floor(level)));
+function clampMergeRank(mergeRank: number): number {
+  if (!Number.isFinite(mergeRank)) return 1;
+  return Math.min(MAX_MERGE_RANK, Math.max(1, Math.floor(mergeRank)));
 }
 
 function boundedRound(value: number): number {
@@ -69,18 +73,36 @@ function boundedRound(value: number): number {
   return Math.min(MAX_SAFE_STAT, Math.max(1, Math.round(value)));
 }
 
-export function characterStats(typeId: CharacterTypeId, level: number): CharacterStats {
+export function characterStats(
+  typeId: CharacterTypeId,
+  mergeRank: number,
+  totalXp = 0,
+): CharacterStats {
   const definition = CHARACTER_DEFINITIONS[typeId];
-  const safeLevel = clampLevel(level);
+  const safeRank = clampMergeRank(mergeRank);
+  const safeXp = normalizeTotalXp(totalXp);
+  const level = characterLevelFromXp(safeXp);
+  const rankAttackMultiplier = ATTACK_RANK_GROWTH ** (safeRank - 1);
+  const rankHpMultiplier = HP_RANK_GROWTH ** (safeRank - 1);
+  const levelAttackMultiplier = 1 + ATTACK_LEVEL_FACTOR * (level - 1);
+  const levelHpMultiplier = 1 + HP_LEVEL_FACTOR * (level - 1);
   return {
-    attack: boundedRound(definition.baseAttack * Math.pow(ATTACK_GROWTH, safeLevel - 1)),
-    maxHp: boundedRound(definition.baseHp * Math.pow(HP_GROWTH, safeLevel - 1)),
+    attack: boundedRound(definition.baseAttack * rankAttackMultiplier * levelAttackMultiplier),
+    maxHp: boundedRound(definition.baseHp * rankHpMultiplier * levelHpMultiplier),
     attackIntervalSec: definition.attackIntervalSec,
     range: definition.range,
     moveSpeed: definition.moveSpeed,
   };
 }
 
-export function canMergeLevels(levelA: number, levelB: number): boolean {
-  return levelA === levelB && levelA < MAX_CHARACTER_LEVEL;
+export function canMergeRanks(rankA: number, rankB: number): boolean {
+  return rankA === rankB && rankA < MAX_MERGE_RANK;
+}
+
+export function isMaxMergeRank(mergeRank: number): boolean {
+  return mergeRank >= MAX_MERGE_RANK;
+}
+
+export function normalizedXp(totalXp: number): number {
+  return Math.min(MAX_CHARACTER_XP, normalizeTotalXp(totalXp));
 }

@@ -3,7 +3,7 @@ import { moveCharacter } from '../../src/game/commands/profileCommands';
 import { NOW, profileWith, unit } from './testFixtures';
 
 describe('movement rules', () => {
-  it('moves a unit into an empty allied cell and preserves its identity and level', () => {
+  it('moves a unit into an empty allied cell and preserves its identity, rank and XP', () => {
     const profile = profileWith([unit('unit-1', 'laser-crocodile', 3, 0, 3)]);
     const result = moveCharacter(profile, 'unit-1', 5, 4, NOW + 1);
     expect(result.ok).toBe(true);
@@ -11,7 +11,8 @@ describe('movement rules', () => {
     expect(result.value.characters[0]).toMatchObject({
       id: 'unit-1',
       typeId: 'laser-crocodile',
-      level: 3,
+      mergeRank: 3,
+      totalXp: 0,
       col: 5,
       row: 4,
     });

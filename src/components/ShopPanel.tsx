@@ -29,7 +29,7 @@ export function ShopPanel({ profile }: { profile: PlayerProfile }) {
       <div className="shop-list">
         {CHARACTER_TYPE_IDS.map((typeId: CharacterTypeId) => {
           const definition = CHARACTER_DEFINITIONS[typeId];
-          const stats = characterStats(typeId, 1);
+          const stats = characterStats(typeId, 1, 0);
           const tooExpensive = profile.coins < definition.cost;
           const disabled = tooExpensive || !hasSpace;
           const reason = tooExpensive ? t('notEnoughCoins') : !hasSpace ? t('boardFull') : t('buy');
@@ -41,7 +41,8 @@ export function ShopPanel({ profile }: { profile: PlayerProfile }) {
               <div className="shop-card__body">
                 <div className="shop-card__title-row">
                   <h3 className="shop-card__name">{definition.nameHu}</h3>
-                  <span className="level-chip">1. {t('levelShort')}</span>
+                  <span className="rank-chip">{t('rankWithNumber', { rank: 1 })}</span>
+                  <span className="level-chip">{t('levelWithNumber', { level: 1 })}</span>
                 </div>
                 <p className="shop-card__role">{definition.roleHu}</p>
                 <div className="mini-stats">

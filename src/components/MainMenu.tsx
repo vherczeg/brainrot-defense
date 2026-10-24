@@ -168,7 +168,7 @@ export function MainMenu({ snapshot }: { snapshot: AppSnapshot }) {
 
       <footer className="menu-footer">
         <span>{t('menuFooter')}</span>
-        <span className="menu-footer__dna">v0.1 · M0</span>
+        <span className="menu-footer__dna">v0.2 · M1.1</span>
       </footer>
     </main>
   );

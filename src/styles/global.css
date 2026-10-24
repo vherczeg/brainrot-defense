@@ -364,6 +364,34 @@ ol {
   color: #3a1b00;
 }
 
+.inspector-chips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 5px;
+}
+
+.rank-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 9px;
+  border-radius: 999px;
+  border: 1px solid rgba(192, 103, 255, 0.45);
+  background: rgba(192, 103, 255, 0.14);
+  color: #e4c5ff;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.rank-chip--max {
+  border-color: rgba(255, 212, 71, 0.6);
+  background: linear-gradient(90deg, rgba(192, 103, 255, 0.4), rgba(255, 212, 71, 0.4));
+  color: #fff2b8;
+}
+
 .role-chip {
   display: inline-flex;
   padding: 4px 10px;
@@ -762,6 +790,10 @@ ol {
   border-radius: inherit;
   background: linear-gradient(90deg, #2bd67a, #62e7ff);
   transition: width 400ms ease;
+}
+
+.progress-track--xp {
+  height: 8px;
 }
 
 .menu-actions {
@@ -1636,6 +1668,39 @@ ol {
   min-width: 0;
 }
 
+.progression-box {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px 12px;
+  border-radius: 13px;
+  border: 1px solid rgba(98, 231, 255, 0.2);
+  background: rgba(98, 231, 255, 0.05);
+}
+
+.progression-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.progression-row strong {
+  color: var(--text);
+  font-size: 0.82rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.progression-hint {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
 .inspector-description {
   margin: 6px 0;
   color: var(--muted);
@@ -2310,6 +2375,11 @@ ol {
   line-height: 1.45;
 }
 
+.result-hint--error {
+  color: var(--red);
+  font-weight: 700;
+}
+
 .reward-box {
   position: relative;
   display: flex;
@@ -2330,6 +2400,54 @@ ol {
   border: 1px solid rgba(98, 231, 255, 0.25);
   background: rgba(98, 231, 255, 0.05);
   color: var(--blue);
+}
+
+.reward-box--xp {
+  border: 1px solid rgba(192, 103, 255, 0.35);
+  background: rgba(192, 103, 255, 0.08);
+  color: #e4c5ff;
+}
+
+.reward-box--xp .reward-amount {
+  color: #f0ddff;
+}
+
+.level-up-box {
+  padding: 10px 13px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 212, 71, 0.35);
+  background: rgba(255, 212, 71, 0.07);
+}
+
+.level-up-box .panel-label {
+  color: var(--gold);
+}
+
+.level-up-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 6px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.level-up-list li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #ffe98a;
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.max-level-note {
+  margin: 0;
+  color: var(--gold);
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-align: center;
 }
 
 .reward-amount {

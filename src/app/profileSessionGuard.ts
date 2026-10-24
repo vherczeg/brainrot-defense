@@ -1,5 +1,10 @@
+export interface LockAcquisition {
+  readonly acquired: boolean;
+  readonly newlyAcquired: boolean;
+}
+
 export interface ProfileSessionGuard {
-  acquire(profileId: string): Promise<boolean>;
+  acquire(profileId: string): Promise<LockAcquisition>;
   release(profileId: string): Promise<void>;
   releaseOthers(profileId: string): Promise<void>;
 }
@@ -12,16 +17,16 @@ interface HeldLock {
 export class WebLocksProfileSessionGuard implements ProfileSessionGuard {
   private readonly held = new Map<string, HeldLock>();
 
-  async acquire(profileId: string): Promise<boolean> {
-    if (this.held.has(profileId)) return true;
+  async acquire(profileId: string): Promise<LockAcquisition> {
+    if (this.held.has(profileId)) return { acquired: true, newlyAcquired: false };
     const locks = typeof navigator !== 'undefined' ? navigator.locks : undefined;
     if (!locks?.request) {
       this.held.set(profileId, { release: () => undefined, done: Promise.resolve() });
-      return true;
+      return { acquired: true, newlyAcquired: true };
     }
 
-    let decide: (value: boolean) => void = () => undefined;
-    const decision = new Promise<boolean>((resolve) => {
+    let decide: (value: LockAcquisition) => void = () => undefined;
+    const decision = new Promise<LockAcquisition>((resolve) => {
       decide = resolve;
     });
     let releaseLock: () => void = () => undefined;
@@ -36,23 +41,23 @@ export class WebLocksProfileSessionGuard implements ProfileSessionGuard {
         { mode: 'exclusive', ifAvailable: true },
         async (lock) => {
           if (!lock) {
-            decide(false);
+            decide({ acquired: false, newlyAcquired: false });
             return;
           }
           this.held.set(profileId, { release: releaseLock, done });
-          decide(true);
+          decide({ acquired: true, newlyAcquired: true });
           await hold;
         },
       )
-      .catch(() => decide(false));
+      .catch(() => decide({ acquired: false, newlyAcquired: false }));
 
-    const acquired = await decision;
-    if (!acquired) {
+    const acquisition = await decision;
+    if (!acquisition.acquired) {
       this.held.delete(profileId);
       await done.catch(() => undefined);
-      return false;
+      return acquisition;
     }
-    return true;
+    return acquisition;
   }
 
   async release(profileId: string): Promise<void> {

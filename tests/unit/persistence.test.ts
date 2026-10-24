@@ -44,7 +44,10 @@ async function getRawRecord(profileId: string): Promise<StoredProfileRecord> {
 
 function completeProfile() {
   return profileWith(
-    [unit('unit-1', 'laser-crocodile', 3, 1, 4), unit('unit-2', 'lightning-scorpion', 2, 4, 3)],
+    [
+      unit('unit-1', 'laser-crocodile', 3, 1, 4, 3025),
+      unit('unit-2', 'lightning-scorpion', 2, 4, 3, 1225),
+    ],
     {
       profileId: 'profile-one',
       name: 'Ábel',
@@ -78,7 +81,8 @@ describe('IndexedDB save repository', () => {
     expect(loaded.value.currentWave).toBe(4);
     expect(loaded.value.unlockedWave).toBe(5);
     expect(loaded.value.completedWaves).toEqual([1, 2, 3]);
-    expect(loaded.value.characters.map((character) => character.level)).toEqual([3, 2]);
+    expect(loaded.value.characters.map((character) => character.mergeRank)).toEqual([3, 2]);
+    expect(loaded.value.characters.map((character) => character.totalXp)).toEqual([3025, 1225]);
     expect(loaded.value.characters.map((character) => `${character.col},${character.row}`)).toEqual(
       ['1,4', '4,3'],
     );
@@ -144,6 +148,30 @@ describe('IndexedDB save repository', () => {
     expect(deleted.ok).toBe(true);
     expect((await repository.loadProfile(profile.profileId)).ok).toBe(false);
     expect(await repository.getActiveProfileId()).toEqual({ ok: true, value: null });
+  });
+
+  it('retries a failed database open instead of caching the rejection', async () => {
+    const factory = new IDBFactory();
+    globalThis.indexedDB = factory;
+    const originalOpen = factory.open.bind(factory);
+    let failNext = true;
+    factory.open = ((...args: Parameters<IDBFactory['open']>): IDBOpenDBRequest => {
+      if (failNext) {
+        failNext = false;
+        throw new Error('temporary open failure');
+      }
+      return originalOpen(...args);
+    }) as IDBFactory['open'];
+
+    const repository = new IndexedDbProfileRepository();
+    const first = await repository.loadProfile('missing');
+    expect(first.ok).toBe(false);
+    if (first.ok) return;
+    expect(first.error).toBe('storage-unavailable');
+
+    const profile = completeProfile();
+    expect((await repository.saveProfile(profile)).ok).toBe(true);
+    expect((await repository.loadProfile(profile.profileId)).ok).toBe(true);
   });
 
   it('rejects an unsupported stored save version safely', async () => {
@@ -239,7 +267,7 @@ describe('save import validation', () => {
     const profile = completeProfile();
     const envelope = {
       ...createEnvelope(profile),
-      schemaVersion: 2,
+      schemaVersion: 3,
     };
     const parsed = parseProfileFromImport(JSON.stringify(envelope));
     expect(parsed.ok).toBe(false);
@@ -301,7 +329,8 @@ describe('save import validation', () => {
             {
               id: 'unit-1',
               typeId: 'infinite-money-croc',
-              level: 1,
+              mergeRank: 1,
+              totalXp: 0,
               col: 1,
               row: 4,
             },

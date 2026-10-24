@@ -1,10 +1,10 @@
 import { isCharacterTypeId } from '../../game/domain/characters';
+import { MAX_CHARACTER_XP, MAX_MERGE_RANK } from '../../game/domain/progression';
 import {
   ALLY_ROW_START,
   BOARD_COLS,
   BOARD_ROWS,
   MAX_ARMY_SIZE,
-  MAX_CHARACTER_LEVEL,
   MAX_COINS,
   MAX_NEXT_CHARACTER_ID,
   TOTAL_WAVES,
@@ -17,7 +17,8 @@ import {
   type Result,
 } from '../../game/domain/types';
 
-export const CURRENT_SAVE_VERSION = 1;
+export const CURRENT_SAVE_VERSION = 2;
+export const LEGACY_SAVE_VERSION = 1;
 export const SAVE_APP_ID = 'brainrot-defense';
 export const SAVE_FORMAT = 'brainrot-defense-save';
 export { MAX_COINS } from '../../game/domain/types';
@@ -39,6 +40,30 @@ export interface StoredProfileRecord {
   readonly checksum: string;
   readonly savedAt: number;
   readonly payload: unknown;
+}
+
+export interface LegacyCharacterInstanceV1 {
+  readonly id: string;
+  readonly typeId: CharacterInstance['typeId'];
+  readonly level: number;
+  readonly col: number;
+  readonly row: number;
+}
+
+export interface LegacyPlayerProfileV1 {
+  readonly profileId: string;
+  readonly name: string;
+  readonly coins: number;
+  readonly currentWave: number;
+  readonly unlockedWave: number;
+  readonly completedWaves: readonly number[];
+  readonly characters: readonly LegacyCharacterInstanceV1[];
+  readonly upgrades: Readonly<Record<string, number>>;
+  readonly settings: GameSettings;
+  readonly tutorialSeen: boolean;
+  readonly nextCharacterId: number;
+  readonly createdAt: number;
+  readonly lastSavedAt: number;
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -81,28 +106,6 @@ function parseSettings(value: unknown): Result<GameSettings> {
   });
 }
 
-function parseCharacter(value: unknown): Result<CharacterInstance> {
-  if (!isRecord(value)) return fail('invalid-import', 'character');
-  if (!isSafeId(value.id)) return fail('invalid-import', 'character.id');
-  if (!isCharacterTypeId(value.typeId)) return fail('invalid-import', 'character.typeId');
-  if (!isInt(value.level, 1, MAX_CHARACTER_LEVEL)) {
-    return fail('invalid-import', 'character.level');
-  }
-  if (!isInt(value.col, 0, BOARD_COLS - 1)) {
-    return fail('invalid-import', 'character.col');
-  }
-  if (!isInt(value.row, ALLY_ROW_START, BOARD_ROWS - 1)) {
-    return fail('invalid-import', 'character.row');
-  }
-  return ok({
-    id: value.id,
-    typeId: value.typeId,
-    level: value.level,
-    col: value.col,
-    row: value.row,
-  });
-}
-
 function parseUpgrades(value: unknown): Result<Readonly<Record<string, number>>> {
   if (!isRecord(value)) return fail('invalid-import', 'upgrades');
   const entries = Object.entries(value);
@@ -123,8 +126,41 @@ function parseUpgrades(value: unknown): Result<Readonly<Record<string, number>>>
   return ok(upgrades);
 }
 
-export function validateProfile(value: unknown): Result<PlayerProfile> {
-  if (!isRecord(value)) return fail('invalid-import', 'profile');
+function parseCompletedWaves(value: unknown, currentWave: number): Result<readonly number[]> {
+  if (!Array.isArray(value)) return fail('invalid-import', 'completedWaves');
+  const completedWaves: number[] = [];
+  for (const wave of value) {
+    if (!isInt(wave, 1, TOTAL_WAVES)) return fail('invalid-import', 'completedWaves.item');
+    if (completedWaves.includes(wave)) return fail('invalid-import', 'completedWaves.duplicate');
+    completedWaves.push(wave);
+  }
+  completedWaves.sort((a, b) => a - b);
+  for (let index = 0; index < completedWaves.length; index += 1) {
+    if (completedWaves[index] !== index + 1) {
+      return fail('invalid-import', 'completedWaves.prefix');
+    }
+  }
+  const expectedCurrentWave = Math.min(completedWaves.length + 1, TOTAL_WAVES);
+  if (currentWave !== expectedCurrentWave) {
+    return fail('invalid-import', 'currentWave.order');
+  }
+  return ok(completedWaves);
+}
+
+function parseBaseProfile(value: Record<string, unknown>): Result<{
+  readonly profileId: string;
+  readonly name: string;
+  readonly coins: number;
+  readonly currentWave: number;
+  readonly unlockedWave: number;
+  readonly completedWaves: readonly number[];
+  readonly upgrades: Readonly<Record<string, number>>;
+  readonly settings: GameSettings;
+  readonly tutorialSeen: boolean;
+  readonly nextCharacterId: number;
+  readonly createdAt: number;
+  readonly lastSavedAt: number;
+}> {
   if (!isSafeId(value.profileId) || value.profileId.length > MAX_PROFILE_ID_LENGTH) {
     return fail('invalid-import', 'profileId');
   }
@@ -141,52 +177,12 @@ export function validateProfile(value: unknown): Result<PlayerProfile> {
   if (value.currentWave > value.unlockedWave) {
     return fail('invalid-import', 'wave-order');
   }
-
-  if (!Array.isArray(value.completedWaves)) {
-    return fail('invalid-import', 'completedWaves');
-  }
-  const completedWaves: number[] = [];
-  for (const wave of value.completedWaves) {
-    if (!isInt(wave, 1, TOTAL_WAVES)) return fail('invalid-import', 'completedWaves.item');
-    if (completedWaves.includes(wave)) return fail('invalid-import', 'completedWaves.duplicate');
-    completedWaves.push(wave);
-  }
-  completedWaves.sort((a, b) => a - b);
-  for (let index = 0; index < completedWaves.length; index += 1) {
-    if (completedWaves[index] !== index + 1) {
-      return fail('invalid-import', 'completedWaves.prefix');
-    }
-  }
-  const expectedCurrentWave = Math.min(completedWaves.length + 1, TOTAL_WAVES);
-  if (value.currentWave !== expectedCurrentWave) {
-    return fail('invalid-import', 'currentWave.order');
-  }
-
-  if (!Array.isArray(value.characters)) return fail('invalid-import', 'characters');
-  if (value.characters.length > MAX_ARMY_SIZE) {
-    return fail('invalid-import', 'characters.size');
-  }
-  const characters: CharacterInstance[] = [];
-  const unitIds = new Set<string>();
-  const positions = new Set<string>();
-  for (const rawCharacter of value.characters) {
-    const parsed = parseCharacter(rawCharacter);
-    if (!parsed.ok) return parsed;
-    const character = parsed.value;
-    if (unitIds.has(character.id)) return fail('invalid-import', 'characters.id-duplicate');
-    const position = `${character.col},${character.row}`;
-    if (positions.has(position)) return fail('invalid-import', 'characters.position-duplicate');
-    unitIds.add(character.id);
-    positions.add(position);
-    characters.push(character);
-  }
-
+  const completedWaves = parseCompletedWaves(value.completedWaves, value.currentWave);
+  if (!completedWaves.ok) return completedWaves;
   const upgrades = parseUpgrades(value.upgrades);
   if (!upgrades.ok) return upgrades;
-
   const settings = parseSettings(value.settings);
   if (!settings.ok) return settings;
-
   if (typeof value.tutorialSeen !== 'boolean') {
     return fail('invalid-import', 'tutorialSeen');
   }
@@ -199,21 +195,165 @@ export function validateProfile(value: unknown): Result<PlayerProfile> {
   if (!isInt(value.lastSavedAt, 0, Number.MAX_SAFE_INTEGER)) {
     return fail('invalid-import', 'lastSavedAt');
   }
-
   return ok({
     profileId: value.profileId,
     name: value.name.trim(),
     coins: value.coins,
     currentWave: value.currentWave,
     unlockedWave: value.unlockedWave,
-    completedWaves,
-    characters,
+    completedWaves: completedWaves.value,
     upgrades: upgrades.value,
     settings: settings.value,
     tutorialSeen: value.tutorialSeen,
     nextCharacterId: value.nextCharacterId,
     createdAt: value.createdAt,
     lastSavedAt: value.lastSavedAt,
+  });
+}
+
+function parseCharacter(value: unknown): Result<CharacterInstance> {
+  if (!isRecord(value)) return fail('invalid-import', 'character');
+  if (!isSafeId(value.id)) return fail('invalid-import', 'character.id');
+  if (!isCharacterTypeId(value.typeId)) return fail('invalid-import', 'character.typeId');
+  if (!isInt(value.mergeRank, 1, MAX_MERGE_RANK)) {
+    return fail('invalid-import', 'character.mergeRank');
+  }
+  if (!isInt(value.totalXp, 0, MAX_CHARACTER_XP)) {
+    return fail('invalid-import', 'character.totalXp');
+  }
+  if (!isInt(value.col, 0, BOARD_COLS - 1)) {
+    return fail('invalid-import', 'character.col');
+  }
+  if (!isInt(value.row, ALLY_ROW_START, BOARD_ROWS - 1)) {
+    return fail('invalid-import', 'character.row');
+  }
+  return ok({
+    id: value.id,
+    typeId: value.typeId,
+    mergeRank: value.mergeRank,
+    totalXp: value.totalXp,
+    col: value.col,
+    row: value.row,
+  });
+}
+
+function parseLegacyCharacter(value: unknown): Result<LegacyCharacterInstanceV1> {
+  if (!isRecord(value)) return fail('invalid-import', 'character');
+  if ('mergeRank' in value || 'totalXp' in value) {
+    return fail('invalid-import', 'character.legacy-shape');
+  }
+  if (!isSafeId(value.id)) return fail('invalid-import', 'character.id');
+  if (!isCharacterTypeId(value.typeId)) return fail('invalid-import', 'character.typeId');
+  if (!isInt(value.level, 1, MAX_MERGE_RANK)) {
+    return fail('invalid-import', 'character.level');
+  }
+  if (!isInt(value.col, 0, BOARD_COLS - 1)) {
+    return fail('invalid-import', 'character.col');
+  }
+  if (!isInt(value.row, ALLY_ROW_START, BOARD_ROWS - 1)) {
+    return fail('invalid-import', 'character.row');
+  }
+  return ok({
+    id: value.id,
+    typeId: value.typeId,
+    level: value.level,
+    col: value.col,
+    row: value.row,
+  });
+}
+
+function parseCharacterList<T>(
+  value: unknown,
+  parse: (character: unknown) => Result<T>,
+  keyOf: (character: T) => { readonly id: string; readonly col: number; readonly row: number },
+): Result<readonly T[]> {
+  if (!Array.isArray(value)) return fail('invalid-import', 'characters');
+  if (value.length > MAX_ARMY_SIZE) {
+    return fail('invalid-import', 'characters.size');
+  }
+  const characters: T[] = [];
+  const unitIds = new Set<string>();
+  const positions = new Set<string>();
+  for (const rawCharacter of value) {
+    const parsed = parse(rawCharacter);
+    if (!parsed.ok) return parsed;
+    const character = parsed.value;
+    const key = keyOf(character);
+    if (unitIds.has(key.id)) return fail('invalid-import', 'characters.id-duplicate');
+    const position = `${key.col},${key.row}`;
+    if (positions.has(position)) return fail('invalid-import', 'characters.position-duplicate');
+    unitIds.add(key.id);
+    positions.add(position);
+    characters.push(character);
+  }
+  return ok(characters);
+}
+
+export function validateProfile(value: unknown): Result<PlayerProfile> {
+  if (!isRecord(value)) return fail('invalid-import', 'profile');
+  const base = parseBaseProfile(value);
+  if (!base.ok) return base;
+  const characters = parseCharacterList(value.characters, parseCharacter, (character) => character);
+  if (!characters.ok) return characters;
+  return ok({
+    profileId: base.value.profileId,
+    name: base.value.name,
+    coins: base.value.coins,
+    currentWave: base.value.currentWave,
+    unlockedWave: base.value.unlockedWave,
+    completedWaves: base.value.completedWaves,
+    characters: characters.value,
+    upgrades: base.value.upgrades,
+    settings: base.value.settings,
+    tutorialSeen: base.value.tutorialSeen,
+    nextCharacterId: base.value.nextCharacterId,
+    createdAt: base.value.createdAt,
+    lastSavedAt: base.value.lastSavedAt,
+  });
+}
+
+export function validateLegacyProfileV1(value: unknown): Result<LegacyPlayerProfileV1> {
+  if (!isRecord(value)) return fail('invalid-import', 'profile');
+  const base = parseBaseProfile(value);
+  if (!base.ok) return base;
+  const characters = parseCharacterList(
+    value.characters,
+    parseLegacyCharacter,
+    (character) => character,
+  );
+  if (!characters.ok) return characters;
+  return ok({
+    profileId: base.value.profileId,
+    name: base.value.name,
+    coins: base.value.coins,
+    currentWave: base.value.currentWave,
+    unlockedWave: base.value.unlockedWave,
+    completedWaves: base.value.completedWaves,
+    characters: characters.value,
+    upgrades: base.value.upgrades,
+    settings: base.value.settings,
+    tutorialSeen: base.value.tutorialSeen,
+    nextCharacterId: base.value.nextCharacterId,
+    createdAt: base.value.createdAt,
+    lastSavedAt: base.value.lastSavedAt,
+  });
+}
+
+export function migrateV1Profile(value: unknown): Result<PlayerProfile> {
+  // A v1 payload must use the v1 character shape. Accepting v2-shaped characters behind a v1
+  // version marker would make the declared schema version meaningless and hide client mistakes.
+  const legacy = validateLegacyProfileV1(value);
+  if (!legacy.ok) return legacy;
+  return validateProfile({
+    ...legacy.value,
+    characters: legacy.value.characters.map((character) => ({
+      id: character.id,
+      typeId: character.typeId,
+      mergeRank: character.level,
+      totalXp: 0,
+      col: character.col,
+      row: character.row,
+    })),
   });
 }
 
@@ -228,10 +368,10 @@ export function validateEnvelope(value: unknown): Result<SaveEnvelope> {
   if (value.schemaVersion > CURRENT_SAVE_VERSION) {
     return fail('unsupported-version', `schemaVersion ${value.schemaVersion}`);
   }
-  if (value.schemaVersion < CURRENT_SAVE_VERSION) {
-    return fail('unsupported-version', `schemaVersion ${value.schemaVersion}`);
-  }
-  const profile = validateProfile(value.profile);
+  const profile =
+    value.schemaVersion === LEGACY_SAVE_VERSION
+      ? migrateV1Profile(value.profile)
+      : validateProfile(value.profile);
   if (!profile.ok) return profile;
   return ok({
     format: SAVE_FORMAT,

@@ -4,6 +4,7 @@ import {
   claimWaveReward,
   mergeCharacters,
   purchaseCharacter,
+  resolveBattleRewards,
 } from '../../src/game/commands/profileCommands';
 import { emptyAlliedCells } from '../../src/game/domain/grid';
 import { createInitialProfile } from '../../src/game/domain/state';
@@ -15,7 +16,7 @@ import { IndexedDbProfileRepository } from '../../src/persistence/indexeddb/prof
 function mergeLowestPair(profile: PlayerProfile): PlayerProfile | null {
   const groups = new Map<string, string[]>();
   for (const character of profile.characters) {
-    const key = `${character.typeId}:${character.level}`;
+    const key = `${character.typeId}:${character.mergeRank}`;
     const ids = groups.get(key) ?? [];
     ids.push(character.id);
     groups.set(key, ids);
@@ -71,13 +72,14 @@ describe('complete M0 playthrough', () => {
 
     for (const wave of WAVE_DEFINITIONS) {
       profile = spendCoins(profile);
+      const roster = profile.characters.map((character) => character.id);
       const battle = createBattleState(profile.characters, wave, wave.id * 1000);
       const result = runBattleToCompletion(battle);
       expect(result.state.status, `wave ${wave.id}`).toBe('victory');
-      const claimed = claimWaveReward(profile, wave.id, wave.id);
-      expect(claimed.ok).toBe(true);
-      if (!claimed.ok) return;
-      profile = claimed.value.profile;
+      const resolved = resolveBattleRewards(profile, wave.id, roster, wave.id);
+      expect(resolved.ok).toBe(true);
+      if (!resolved.ok) return;
+      profile = resolved.value.profile;
     }
 
     expect(profile.completedWaves).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
@@ -85,7 +87,7 @@ describe('complete M0 playthrough', () => {
     expect(profile.unlockedWave).toBe(10);
     expect(profile.coins).toBeGreaterThan(0);
     profile.characters.forEach((character) => {
-      expect(character.level).toBeGreaterThanOrEqual(1);
+      expect(character.mergeRank).toBeGreaterThanOrEqual(1);
       expect(character.row).toBeGreaterThanOrEqual(3);
     });
   });
@@ -99,11 +101,12 @@ describe('complete M0 playthrough', () => {
     });
     for (const wave of WAVE_DEFINITIONS.slice(0, 4)) {
       profile = spendCoins(profile);
+      const roster = profile.characters.map((character) => character.id);
       const result = runBattleToCompletion(createBattleState(profile.characters, wave, wave.id));
       expect(result.state.status).toBe('victory');
-      const claimed = claimWaveReward(profile, wave.id, wave.id);
-      if (!claimed.ok) throw new Error('claim failed');
-      profile = claimed.value.profile;
+      const resolved = resolveBattleRewards(profile, wave.id, roster, wave.id);
+      if (!resolved.ok) throw new Error('claim failed');
+      profile = resolved.value.profile;
     }
 
     expect((await repository.saveProfile(profile)).ok).toBe(true);
@@ -115,8 +118,11 @@ describe('complete M0 playthrough', () => {
     expect(loaded.value.currentWave).toBe(5);
     expect(loaded.value.completedWaves).toEqual([1, 2, 3, 4]);
     expect(loaded.value.characters.length).toBe(profile.characters.length);
-    expect(loaded.value.characters.map((character) => character.level)).toEqual(
-      profile.characters.map((character) => character.level),
+    expect(loaded.value.characters.map((character) => character.mergeRank)).toEqual(
+      profile.characters.map((character) => character.mergeRank),
+    );
+    expect(loaded.value.characters.map((character) => character.totalXp)).toEqual(
+      profile.characters.map((character) => character.totalXp),
     );
   });
 

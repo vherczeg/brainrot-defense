@@ -70,7 +70,7 @@ test('a confirmed import survives a large pending autosave backlog and reload', 
   const envelope = {
     format: 'brainrot-defense-save',
     appId: 'brainrot-defense',
-    schemaVersion: 1,
+    schemaVersion: 2,
     exportedAt: new Date().toISOString(),
     profile: { ...profile, coins: 4321, lastSavedAt: Date.now() },
   };

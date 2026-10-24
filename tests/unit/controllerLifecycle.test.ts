@@ -14,6 +14,24 @@ function profile(profileId = 'lifecycle', coins = 350) {
   );
 }
 
+describe('STORAGE LIFECYCLE: blocked upgrades never create an ephemeral game', () => {
+  it('shows an actionable error instead of a fresh in-memory profile when an upgrade is blocked', async () => {
+    const initial = profile('blocked-upgrade');
+    const repository = new FakeRepository([initial], initial.profileId);
+    repository.failListDetail = 'upgrade-blocked';
+    const controller = makeController(repository);
+    await controller.initialize();
+
+    const snapshot = controller.getSnapshot();
+    expect(snapshot.screen).toBe('error');
+    expect(snapshot.fatalError).not.toBeNull();
+    expect(snapshot.fatalError?.title).toContain('várakozik');
+    expect(snapshot.activeProfile).toBeNull();
+    expect(snapshot.profiles).toEqual([]);
+    expect(repository.hasProfile('blocked-upgrade')).toBe(true);
+  });
+});
+
 describe('BATTLE LIFECYCLE: surrender modal', () => {
   it('clears a surrender modal when the battle finishes', async () => {
     const initial = profile();
