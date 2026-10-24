@@ -1,0 +1,73 @@
+import {
+  STARTING_COINS,
+  type CharacterInstance,
+  type GameSettings,
+  type PlayerProfile,
+} from './types';
+
+export const DEFAULT_PROFILE_NAME = 'Ábel';
+export const DEFEAT_COMFORT_COINS = 20;
+
+const STARTER_CHARACTERS: readonly CharacterInstance[] = [
+  {
+    id: 'unit-1',
+    typeId: 'laser-crocodile',
+    level: 1,
+    col: 2,
+    row: 4,
+  },
+  {
+    id: 'unit-2',
+    typeId: 'laser-crocodile',
+    level: 1,
+    col: 3,
+    row: 4,
+  },
+  {
+    id: 'unit-3',
+    typeId: 'lightning-scorpion',
+    level: 1,
+    col: 2,
+    row: 3,
+  },
+];
+
+export const DEFAULT_SETTINGS: GameSettings = {
+  soundEnabled: true,
+  reducedMotion: false,
+  battleSpeed: 1,
+};
+
+export interface CreateProfileOptions {
+  readonly name?: string;
+  readonly reducedMotion?: boolean;
+  readonly now?: number;
+  readonly profileId?: string;
+}
+
+export function createInitialProfile(options: CreateProfileOptions = {}): PlayerProfile {
+  const now = options.now ?? Date.now();
+  const profileId = options.profileId ?? `profile-${now}-${Math.floor(Math.random() * 1e6)}`;
+  return {
+    profileId,
+    name: (options.name ?? DEFAULT_PROFILE_NAME).trim().slice(0, 24),
+    coins: STARTING_COINS,
+    currentWave: 1,
+    unlockedWave: 1,
+    completedWaves: [],
+    characters: STARTER_CHARACTERS.map((character) => ({ ...character })),
+    upgrades: {},
+    settings: {
+      ...DEFAULT_SETTINGS,
+      reducedMotion: options.reducedMotion ?? DEFAULT_SETTINGS.reducedMotion,
+    },
+    tutorialSeen: false,
+    nextCharacterId: 4,
+    createdAt: now,
+    lastSavedAt: now,
+  };
+}
+
+export function starterCharacterCount(): number {
+  return STARTER_CHARACTERS.length;
+}
