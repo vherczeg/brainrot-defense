@@ -1,0 +1,26 @@
+{
+  "format": "brainrot-defense-save",
+  "appId": "brainrot-defense",
+  "schemaVersion": 1,
+  "exportedAt": "2026-01-15T18:30:00.000Z",
+  "profile": {
+    "profileId": "legacy-m01-abel",
+    "name": "Régi Ábel",
+    "coins": 690,
+    "currentWave": 4,
+    "unlockedWave": 5,
+    "completedWaves": [1, 2, 3],
+    "characters": [
+      { "id": "unit-1", "typeId": "laser-crocodile", "level": 6, "col": 0, "row": 3 },
+      { "id": "unit-2", "typeId": "laser-crocodile", "level": 5, "col": 1, "row": 3 },
+      { "id": "unit-3", "typeId": "lightning-scorpion", "level": 5, "col": 2, "row": 3 },
+      { "id": "unit-4", "typeId": "lightning-scorpion", "level": 4, "col": 3, "row": 3 }
+    ],
+    "upgrades": { "laser:damage": 2 },
+    "settings": { "soundEnabled": true, "reducedMotion": false, "battleSpeed": 1 },
+    "tutorialSeen": true,
+    "nextCharacterId": 5,
+    "createdAt": 1736965800000,
+    "lastSavedAt": 1736965800000
+  }
+}

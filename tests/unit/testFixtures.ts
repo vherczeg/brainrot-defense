@@ -23,11 +23,12 @@ export function profileWith(
 export function unit(
   id: string,
   typeId: CharacterInstance['typeId'],
-  level: number,
+  mergeRank: number,
   col: number,
   row: number,
+  totalXp = 0,
 ): CharacterInstance {
-  return { id, typeId, level, col, row };
+  return { id, typeId, mergeRank, totalXp, col, row };
 }
 
 export function oneEnemyWave(

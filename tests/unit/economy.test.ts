@@ -28,7 +28,8 @@ describe('purchase economy', () => {
     expect(result.value.profile.coins).toBe(STARTING_COINS - 100);
     expect(result.value.purchased).toMatchObject({
       typeId: 'laser-crocodile',
-      level: 1,
+      mergeRank: 1,
+      totalXp: 0,
       col: 1,
       row: 3,
     });

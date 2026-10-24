@@ -1,5 +1,5 @@
 import type { GameController } from '../../src/app/controller';
-import type { ProfileSessionGuard } from '../../src/app/profileSessionGuard';
+import type { LockAcquisition, ProfileSessionGuard } from '../../src/app/profileSessionGuard';
 import { GameController as RealGameController } from '../../src/app/controller';
 import {
   fail,
@@ -39,6 +39,7 @@ export class FakeRepository implements ProfileRepository {
   failActiveCount = 0;
   failSaveAndActivateCount = 0;
   failDeleteCount = 0;
+  failListDetail: string | null = null;
   delayMs = 0;
   lastSaved: PlayerProfile | null = null;
 
@@ -64,6 +65,9 @@ export class FakeRepository implements ProfileRepository {
   }
 
   async listProfiles(): Promise<Result<readonly ProfileSummary[]>> {
+    if (this.failListDetail !== null) {
+      return fail('storage-unavailable', this.failListDetail);
+    }
     return ok([...this.profiles.values()].map(summaryOf));
   }
 
@@ -194,10 +198,11 @@ export class FakeSessionGuard implements ProfileSessionGuard {
   allowed = true;
   readonly held = new Set<string>();
 
-  async acquire(profileId: string): Promise<boolean> {
-    if (!this.allowed) return false;
+  async acquire(profileId: string): Promise<LockAcquisition> {
+    if (!this.allowed) return { acquired: false, newlyAcquired: false };
+    const newlyAcquired = !this.held.has(profileId);
     this.held.add(profileId);
-    return true;
+    return { acquired: true, newlyAcquired };
   }
 
   async release(profileId: string): Promise<void> {

@@ -1,5 +1,6 @@
 import { useGameController } from '../app/ControllerContext';
 import type { BattleResultView } from '../app/controller';
+import { CHARACTER_DEFINITIONS } from '../game/domain/characters';
 import { getWave } from '../game/domain/waves';
 import { formatNumber, t } from '../localization';
 import { CreatureAvatar } from './CreatureAvatar';
@@ -43,41 +44,86 @@ export function ResultOverlay({ result }: { result: BattleResultView }) {
         </div>
       </div>
 
-      {victory ? (
-        <div className="reward-box reward-box--gold">
-          <Icon name="coin" size={24} />
+      {result.persistenceError ? (
+        <p className="result-hint result-hint--error" role="alert" data-testid="result-save-error">
+          {t('errorSaveFailed')}
+        </p>
+      ) : null}
+
+      {!result.persistenceError ? (
+        victory ? (
+          <div className="reward-box reward-box--gold">
+            <Icon name="coin" size={24} />
+            <div>
+              <p className="panel-label">{t('resultReward')}</p>
+              <p className="reward-amount">
+                {result.rewardCoins > 0
+                  ? `+${formatNumber(result.rewardCoins)}`
+                  : t('resultNoReward')}
+              </p>
+            </div>
+            {result.rewardCoins > 0 ? (
+              <div className="coin-rain" aria-hidden="true">
+                {Array.from({ length: 7 }, (_, index) => (
+                  <span key={index} style={{ animationDelay: `${index * 90}ms` }}>
+                    <Icon name="coin" size={16} />
+                  </span>
+                ))}
+              </div>
+            ) : null}
+          </div>
+        ) : (
+          <div className="reward-box reward-box--comfort">
+            <Icon name="coin" size={24} />
+            <div>
+              <p className="panel-label">{t('resultComfort')}</p>
+              <p className="reward-amount">+{formatNumber(result.comfortCoins)}</p>
+            </div>
+            <div className="result-comfort-art" aria-hidden="true">
+              <CreatureAvatar kind="laser-crocodile" size={44} />
+            </div>
+          </div>
+        )
+      ) : null}
+
+      {!result.persistenceError && victory && result.xpPerUnit > 0 ? (
+        <div className="reward-box reward-box--xp" data-testid="result-xp-reward">
+          <Icon name="bolt" size={24} />
           <div>
-            <p className="panel-label">{t('resultReward')}</p>
+            <p className="panel-label">{t('resultXpReward')}</p>
             <p className="reward-amount">
-              {result.rewardCoins > 0
-                ? `+${formatNumber(result.rewardCoins)}`
-                : t('resultNoReward')}
+              {t('resultXpPerUnit', { xp: formatNumber(result.xpPerUnit) })}
+            </p>
+            <p className="progression-hint">
+              {t('resultXpTotal', { xp: formatNumber(result.totalXpAwarded) })}
             </p>
           </div>
-          {result.rewardCoins > 0 ? (
-            <div className="coin-rain" aria-hidden="true">
-              {Array.from({ length: 7 }, (_, index) => (
-                <span key={index} style={{ animationDelay: `${index * 90}ms` }}>
-                  <Icon name="coin" size={16} />
-                </span>
-              ))}
-            </div>
-          ) : null}
         </div>
-      ) : (
-        <div className="reward-box reward-box--comfort">
-          <Icon name="coin" size={24} />
-          <div>
-            <p className="panel-label">{t('resultComfort')}</p>
-            <p className="reward-amount">+{formatNumber(result.comfortCoins)}</p>
-          </div>
-          <div className="result-comfort-art" aria-hidden="true">
-            <CreatureAvatar kind="laser-crocodile" size={44} />
-          </div>
-        </div>
-      )}
+      ) : null}
 
-      {victory && !result.completedAllWaves ? (
+      {victory && result.levelUps.length > 0 ? (
+        <div className="level-up-box" data-testid="result-level-ups">
+          <p className="panel-label">{t('resultLevelUps')}</p>
+          <ul className="level-up-list">
+            {result.levelUps.map((levelUp) => (
+              <li key={levelUp.characterId}>
+                <Icon name="bolt" size={16} />
+                {t('resultLevelUpDetail', {
+                  name: CHARACTER_DEFINITIONS[levelUp.typeId].nameHu,
+                  from: levelUp.fromLevel,
+                  to: levelUp.toLevel,
+                })}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
+
+      {victory && result.maxLevelReached ? (
+        <p className="max-level-note">{t('maxLevelReached')}</p>
+      ) : null}
+
+      {victory && !result.persistenceError && !result.completedAllWaves ? (
         <p className="next-wave-hint">
           {t('menuWaveLabel')}: <strong>{t('waveLabel', { wave: result.nextWave })}</strong>
         </p>

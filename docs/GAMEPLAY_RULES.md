@@ -1,4 +1,4 @@
-# Gameplay rules (M0)
+# Gameplay rules (M1.1)
 
 ## Board
 
@@ -19,40 +19,119 @@ Coordinates in code are 0-based (`col`, `row`). Hungarian UI labels are 1-based.
 - Invalid moves (enemy area, occupied non-merge target, out of bounds) cause no state change.
 - Enemy wave composition is previewed before the battle.
 
-## Merge
+## Two progression dimensions
+
+### Merge rank (1–10)
+
+Merge rank is the evolution dimension. It is increased only by merging two characters of the same
+type and rank.
 
 Two characters can merge only if all are true:
 
 1. same `typeId`;
-2. same `level`;
-3. level is below the cap (`MAX_CHARACTER_LEVEL = 10`);
-4. both exist in the persistent army;
-5. the interaction refers to two distinct units.
+2. same `mergeRank`;
+3. rank is below the cap (`MAX_MERGE_RANK = 10`);
+4. both exist in the active player's persistent army;
+5. the interaction refers to two distinct units;
+6. the game is in the preparation phase.
+
+Character levels **do not** have to match. For example, a rank 3 / level 12 Laser Crocodile and a
+rank 3 / level 8 Laser Crocodile merge into a rank 4 character with their combined XP.
 
 On success:
 
 - exactly two units are removed;
-- exactly one new unit is created with `level + 1`, same type;
+- exactly one new unit is created with `mergeRank + 1`, same type;
 - the new unit occupies the **target** unit's cell;
+- the new unit's XP is `min(MAX_CHARACTER_XP, xpA + xpB)`;
 - a new unique ID is allocated;
 - `nextCharacterId` advances;
 - `lastSavedAt` updates;
 - the transition is atomic and persisted.
 
-At level 10, merging is rejected. A unit cannot merge with itself. Duplicate events are safe:
-after the first successful merge those IDs no longer exist, so a repeated command fails.
+At rank 10, merging is rejected and both units are kept. A unit cannot merge with itself. Duplicate
+events are safe: after the first successful merge those IDs no longer exist, so a repeated command
+fails.
 
-## Character progression
+Merging is intentionally the most powerful progression step: each rank multiplies attack by
+`1.45` and HP by `1.5`, while XP levels add a smaller linear bonus.
+
+### Character level (1–100, derived from XP)
+
+The character level is never stored as an independent field. It is calculated from lifetime XP:
 
 ```text
-attack  = round(baseAttack * 1.65^(level - 1))
-maxHp   = round(baseHp     * 1.5 ^(level - 1))
+xpRequiredForLevel(level) = 25 * (level - 1)^2
 ```
 
-- Level is clamped to `1..10`.
+| Level | XP required |
+| ----: | ----------: |
+|     1 |           0 |
+|     2 |          25 |
+|    10 |       2 025 |
+|    50 |      60 025 |
+|   100 |     245 025 |
+
+- XP is a nonnegative safe integer and is capped at `245 025`.
+- Exactly hitting a threshold gives that level; one XP below stays on the previous level.
+- `totalXp` is clamped to `0..245 025`; negative or non-finite inputs are normalized safely.
+- Negative XP awards do nothing. XP is never averaged or replaced by the higher of two levels.
+- At level 100, further XP is discarded. The UI shows `MAX. SZINT`.
+
+## Combat XP rewards
+
+XP is granted when a battle ends in victory, not on defeat or surrender.
+
+```text
+baseWaveXp(wave) = 60 + 15 * wave
+```
+
+| Wave | Base XP per participating character |
+| ---: | ----------------------------------: |
+|    1 |                                  75 |
+|    5 |                                 135 |
+|   10 |                                 210 |
+
+- First victory of a wave: each participant receives the full base XP.
+- Repeat victory of an already completed wave: each participant receives `floor(base * 0.25)`.
+  Replay is not exposed in the current UI; this rule is implemented and tested for a later
+  wave-selector milestone.
+- Defeat and surrender grant **0 XP**.
+- The participating persistent character IDs are captured when the battle starts. XP is applied
+  to that roster only, even if the temporary battle copy died or the persistent formation changes
+  later.
+- Acquiring a character after the battle started does not grant XP for that battle.
+- Persistent characters are never removed because of a combat death.
+- XP is awarded exactly once per resolved battle. The result action advances to preparation; it
+  cannot re-award XP. Reloading a completed battle does not repeat the grant.
+- Coin rewards and XP rewards remain independent. A completed wave grants its first-clear coins
+  once; a replay may still grant reduced XP without granting coins again.
+- If the coin cap prevents a first-clear reward, the wave still completes and XP is granted; the
+  player sees a coin-overflow notice.
+
+## Character stats
+
+```text
+attack = round(baseAttack * 1.45^(mergeRank - 1) * (1 + 0.035 * (characterLevel - 1)))
+maxHp  = round(baseHp     * 1.5 ^(mergeRank - 1) * (1 + 0.04  * (characterLevel - 1)))
+```
+
+- Rank is clamped to `1..10`; XP is normalized to `0..245 025`.
 - Stats are rounded and clamped to `1..1_000_000_000` to avoid overflow.
-- Attack interval, range, movement speed, chain behavior, and type do not change with level in M0.
-- Visuals add a level badge, increasing glow, and an original larger character drawing.
+- Attack interval, range, movement speed, chain behavior, and type do not change with rank or level.
+- The same `characterStats` function feeds the UI inspector, shop preview, battle simulation, army
+  power calculation, and balance simulation, so the multipliers are applied exactly once.
+- Visuals add a merge-rank badge, increasing glow, and an original larger character drawing. The
+  character's XP level is shown separately in the inspector.
+
+### M0.1 migration balance note (M1.4 playtesting)
+
+M0.1 scaled a unit's attack by `1.65^(level - 1)` while using its level as the merge rank. M1.1
+keeps the same rank but uses the agreed merge-rank formula `1.45^(mergeRank - 1)` for attack (HP
+still uses `1.5`). A migrated character therefore keeps its rank, IDs, position, coins and wave
+progress, but its attack is lower than the old M0.1 stat at the same historical level. This is a
+deliberate formula change, not a bug and not a reason to rewrite old saves. It is recorded as an
+M1.4 balance/playtesting item; M1.1 must not silently change the agreed progression formulas.
 
 ### Characters
 
@@ -71,16 +150,16 @@ maxHp   = round(baseHp     * 1.5 ^(level - 1))
 | `mega-brainrot-gorilla` | Mega Brainrot Gorilla | 1400 |  34 |    1.4 s |  0.55 |   1.2 |   25% |
 
 Enemy stat scaling per level: HP × `1.35^(level-1)`, ATK × `1.28^(level-1)`. The boss is visually
-larger, has `isBoss`, and starts at wave-defined level (M0: level 3).
+larger, has `isBoss`, and starts at wave-defined level (M1.1: level 3).
 
 ## Economy
 
 - Starting coins: **350**.
-- Starting army: 2 × level 1 Lézer Krokodil, 1 × level 1 Villám Skorpió.
-- Purchases create level 1 units in the first empty allied cell (row-major order).
+- Starting army: 2 × rank 1 Lézer Krokodil, 1 × rank 1 Villám Skorpió, all at 0 XP.
+- Purchases create rank 1, level 1 units in the first empty allied cell (row-major order).
 - Purchases validate funds and free space before any mutation.
 - A full board blocks purchasing; the player must merge to free a cell.
-- Wave rewards are claimable once per wave. Replaying a completed wave gives no new reward.
+- Wave coin rewards are claimable once per wave. Replaying a completed wave gives no new coins.
 - Defeat grants **20 comfort coins**. Units are never lost, and retries are free. This guarantees
   that an unlucky ordinary playthrough cannot become permanently unplayable.
 - Coins have a hard persistence bound of **1,000,000,000**. A reward or comfort grant that would
@@ -111,8 +190,8 @@ Exact positions are data in `src/game/domain/waves.ts` and are validated by test
 - Rendering rate has no influence on the simulation; tests compare 5 ms and 50 ms frame feeding.
 - Damage is applied synchronously at the attack tick. Projectile/beam visuals are cosmetic.
 - A 90-second simulation limit ends the battle as a defeat if neither side has been eliminated.
-- Persistent characters are copied into battle entities. Death in battle never deletes a
-  persistent character.
+- Persistent characters are copied into battle entities using their rank/XP-derived stats. Death
+  in battle never deletes a persistent character.
 
 ### Action order
 
@@ -133,7 +212,7 @@ ordering. This is explicit and tested; future balance changes can adjust IDs/ord
 - Armored Slug: 35% mitigation. Boss: 25%.
 - Chain lightning: primary target takes full damage; exactly one additional enemy within 1.6 grid
   units of the primary takes `attack × 0.6` (after its armor). Ties resolved by distance then ID.
-  In M0 the chain only jumps if the primary target survives the initial hit.
+  The chain only jumps if the primary target survives the initial hit.
 - Health is clamped at 0; a unit at 0 HP becomes dead and is no longer targetable/able to act.
 
 ### Targeting and movement
@@ -143,30 +222,31 @@ ordering. This is explicit and tested; future balance changes can adjust IDs/ord
 - Movement is continuous in grid coordinates and clamped to the board bounds.
 - Units stop moving once within attack range; no collision/occupancy restrictions in battle.
 
-### Victory and defeat
+## Victory and defeat
 
 - Victory: no living enemies remain.
 - Defeat: no living allies remain, or the 90 s limit is reached.
-- On victory, the wave reward is granted **once**, `completedWaves` is updated, and `currentWave`
-  advances up to wave 10.
-- On defeat, the persistent army is untouched and 20 comfort coins are granted.
+- On victory, each battle-start participant receives XP, the wave coin reward is granted **once**,
+  `completedWaves` is updated, and `currentWave` advances up to wave 10.
+- On defeat, no XP is granted, the persistent army is untouched, and 20 comfort coins are granted.
+- On surrender, no XP and no coins are granted; the army is untouched.
 - The result is stored only after the battle resolves. A mid-battle browser close restores the
-  last preparation save.
+  last preparation save and grants no XP.
 
 ## Persistence timing
 
-The game autosaves complete preparation snapshots after every persistent change. Autosaves are
-serialized and coalesced; import/delete/profile switches are barriers that cannot be overwritten
-by older queued snapshots. No save is made for transient visual animation state. See
-`docs/SAVE_SCHEMA.md`.
+The game autosaves complete preparation snapshots after every persistent change, including XP
+awards and merges. Autosaves are serialized and coalesced; import/delete/profile switches are
+barriers that cannot be overwritten by older queued snapshots. No save is made for transient
+visual animation state. See `docs/SAVE_SCHEMA.md`.
 
 ## Tutorial
 
 First-time players see a three-step Hungarian tutorial:
 
 1. buy characters with coins;
-2. drag/tap equal characters to merge;
-3. press **HARCOLJ!** for the automatic battle.
+2. drag/tap equal characters of equal rank to merge;
+3. press **HARCOLJ!** for the automatic battle and XP rewards.
 
 The tutorial is marked seen and saved when dismissed. It can be reopened from the menu or the
 preparation sidebar.

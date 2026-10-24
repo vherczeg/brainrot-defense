@@ -8,6 +8,7 @@ export interface BattleUnit {
   readonly team: Team;
   readonly typeId: string;
   readonly level: number;
+  readonly mergeRank: number;
   readonly x: number;
   readonly y: number;
   readonly hp: number;

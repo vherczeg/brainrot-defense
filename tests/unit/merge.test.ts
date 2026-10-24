@@ -1,10 +1,10 @@
 import { describe, expect, it } from 'vitest';
 import { mergeCharacters } from '../../src/game/commands/profileCommands';
-import { MAX_CHARACTER_LEVEL } from '../../src/game/domain/types';
+import { MAX_MERGE_RANK } from '../../src/game/domain/types';
 import { NOW, profileWith, unit } from './testFixtures';
 
 describe('merge rules', () => {
-  it('merges two matching level 1 units into one level 2 unit', () => {
+  it('merges two matching rank 1 units into one rank 2 unit', () => {
     const profile = profileWith([
       unit('unit-1', 'laser-crocodile', 1, 1, 4),
       unit('unit-2', 'laser-crocodile', 1, 2, 4),
@@ -15,17 +15,18 @@ describe('merge rules', () => {
 
     expect(result.value.merged).toMatchObject({
       typeId: 'laser-crocodile',
-      level: 2,
+      mergeRank: 2,
+      totalXp: 0,
       col: 2,
       row: 4,
     });
     expect(result.value.profile.characters).toHaveLength(1);
-    expect(result.value.profile.characters[0]?.level).toBe(2);
+    expect(result.value.profile.characters[0]?.mergeRank).toBe(2);
     expect(result.value.profile.characters[0]?.id).not.toBe('unit-1');
     expect(result.value.profile.characters[0]?.id).not.toBe('unit-2');
   });
 
-  it('merges two matching level 3 units into one level 4 unit', () => {
+  it('merges two matching rank 3 units into one rank 4 unit', () => {
     const profile = profileWith([
       unit('unit-1', 'lightning-scorpion', 3, 1, 4),
       unit('unit-2', 'lightning-scorpion', 3, 2, 4),
@@ -33,7 +34,7 @@ describe('merge rules', () => {
     const result = mergeCharacters(profile, 'unit-1', 'unit-2');
     expect(result.ok).toBe(true);
     if (!result.ok) return;
-    expect(result.value.merged.level).toBe(4);
+    expect(result.value.merged.mergeRank).toBe(4);
     expect(result.value.merged.typeId).toBe('lightning-scorpion');
   });
 
@@ -46,22 +47,24 @@ describe('merge rules', () => {
     expect(result).toEqual({ ok: false, error: 'type-mismatch' });
   });
 
-  it('rejects merging different levels', () => {
+  it('rejects merging different ranks even when XP levels match', () => {
     const profile = profileWith([
       unit('unit-1', 'laser-crocodile', 1, 1, 4),
       unit('unit-2', 'laser-crocodile', 3, 2, 4),
     ]);
     const result = mergeCharacters(profile, 'unit-1', 'unit-2');
-    expect(result).toEqual({ ok: false, error: 'level-mismatch' });
+    expect(result).toEqual({ ok: false, error: 'rank-mismatch' });
   });
 
-  it('rejects merging at maximum level', () => {
+  it('rejects merging at maximum rank without losing units', () => {
     const profile = profileWith([
-      unit('unit-1', 'laser-crocodile', MAX_CHARACTER_LEVEL, 1, 4),
-      unit('unit-2', 'laser-crocodile', MAX_CHARACTER_LEVEL, 2, 4),
+      unit('unit-1', 'laser-crocodile', MAX_MERGE_RANK, 1, 4, 5000),
+      unit('unit-2', 'laser-crocodile', MAX_MERGE_RANK, 2, 4, 9000),
     ]);
+    const before = structuredClone(profile);
     const result = mergeCharacters(profile, 'unit-1', 'unit-2');
-    expect(result).toEqual({ ok: false, error: 'max-level' });
+    expect(result).toEqual({ ok: false, error: 'max-rank' });
+    expect(profile).toEqual(before);
   });
 
   it('rejects missing characters', () => {
@@ -94,7 +97,7 @@ describe('merge rules', () => {
     expect(result.ok).toBe(true);
     if (!result.ok) return;
     expect(result.value.profile.characters).toHaveLength(2);
-    expect(result.value.profile.characters.filter((c) => c.level === 2)).toHaveLength(2);
+    expect(result.value.profile.characters.filter((c) => c.mergeRank === 2)).toHaveLength(2);
     expect(result.value.profile.characters.some((c) => c.id === 'unit-1')).toBe(false);
     expect(result.value.profile.characters.some((c) => c.id === 'unit-2')).toBe(false);
   });
@@ -111,7 +114,7 @@ describe('merge rules', () => {
     const second = mergeCharacters(first.value.profile, 'unit-1', 'unit-2');
     expect(second.ok).toBe(false);
     expect(first.value.profile.characters).toHaveLength(1);
-    expect(first.value.profile.characters[0]?.level).toBe(2);
+    expect(first.value.profile.characters[0]?.mergeRank).toBe(2);
   });
 
   it('leaves state unchanged after a failed merge', () => {
@@ -123,6 +126,18 @@ describe('merge rules', () => {
     const result = mergeCharacters(profile, 'unit-1', 'unit-2');
     expect(result.ok).toBe(false);
     expect(profile).toEqual(before);
+  });
+
+  it('merges units with different XP levels and combines their XP', () => {
+    const profile = profileWith([
+      unit('unit-1', 'laser-crocodile', 3, 1, 4, 3025),
+      unit('unit-2', 'laser-crocodile', 3, 2, 4, 1225),
+    ]);
+    const result = mergeCharacters(profile, 'unit-1', 'unit-2', NOW + 1);
+    expect(result.ok).toBe(true);
+    if (!result.ok) return;
+    expect(result.value.merged.mergeRank).toBe(4);
+    expect(result.value.merged.totalXp).toBe(4250);
   });
 
   it('updates lastSavedAt on success only', () => {

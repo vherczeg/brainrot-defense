@@ -1,7 +1,9 @@
 export const BOARD_COLS = 6;
 export const BOARD_ROWS = 5;
 export const ALLY_ROW_START = 3;
-export const MAX_CHARACTER_LEVEL = 10;
+export const MAX_MERGE_RANK = 10;
+export const MAX_CHARACTER_LEVEL = 100;
+export const MAX_CHARACTER_XP = 245025;
 export const STARTING_COINS = 350;
 export const TOTAL_WAVES = 10;
 export const MAX_ARMY_SIZE = BOARD_COLS * (BOARD_ROWS - ALLY_ROW_START);
@@ -37,7 +39,8 @@ export interface GameSettings {
 export interface CharacterInstance {
   readonly id: string;
   readonly typeId: CharacterTypeId;
-  readonly level: number;
+  readonly mergeRank: number;
+  readonly totalXp: number;
   readonly col: number;
   readonly row: number;
 }
@@ -133,8 +136,8 @@ export type CommandErrorCode =
   | 'cell-occupied'
   | 'same-unit'
   | 'type-mismatch'
-  | 'level-mismatch'
-  | 'max-level'
+  | 'rank-mismatch'
+  | 'max-rank'
   | 'insufficient-coins'
   | 'coin-overflow'
   | 'board-full'

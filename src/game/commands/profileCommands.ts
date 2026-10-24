@@ -1,9 +1,15 @@
 import { characterStats, CHARACTER_DEFINITIONS, isCharacterTypeId } from '../domain/characters';
 import { firstEmptyAlliedCell, isAlliedCell, isPositionFree, sameCell } from '../domain/grid';
+import {
+  awardXp,
+  battleXpPerUnit,
+  characterLevelFromXp,
+  mergeCharacterXp,
+} from '../domain/progression';
 import { DEFEAT_COMFORT_COINS } from '../domain/state';
 import {
-  MAX_CHARACTER_LEVEL,
   MAX_COINS,
+  MAX_MERGE_RANK,
   MAX_NEXT_CHARACTER_ID,
   TOTAL_WAVES,
   fail,
@@ -31,6 +37,23 @@ export interface WaveRewardOutcome {
   readonly profile: PlayerProfile;
   readonly rewardCoins: number;
   readonly firstCompletion: boolean;
+}
+
+export interface BattleLevelUp {
+  readonly characterId: string;
+  readonly typeId: CharacterTypeId;
+  readonly fromLevel: number;
+  readonly toLevel: number;
+}
+
+export interface BattleRewardOutcome {
+  readonly profile: PlayerProfile;
+  readonly rewardCoins: number;
+  readonly firstCompletion: boolean;
+  readonly xpPerUnit: number;
+  readonly totalXpAwarded: number;
+  readonly levelUps: readonly BattleLevelUp[];
+  readonly coinOverflow: boolean;
 }
 
 function updated(profile: PlayerProfile, now: number): PlayerProfile {
@@ -81,14 +104,15 @@ export function mergeCharacters(
   const target = profile.characters.find((character) => character.id === targetId);
   if (!source || !target) return fail('not-found');
   if (source.typeId !== target.typeId) return fail('type-mismatch');
-  if (source.level !== target.level) return fail('level-mismatch');
-  if (source.level >= MAX_CHARACTER_LEVEL) return fail('max-level');
+  if (source.mergeRank !== target.mergeRank) return fail('rank-mismatch');
+  if (source.mergeRank >= MAX_MERGE_RANK) return fail('max-rank');
 
   const allocation = allocateCharacterId(profile);
   const merged: CharacterInstance = {
     id: allocation.id,
     typeId: target.typeId,
-    level: target.level + 1,
+    mergeRank: target.mergeRank + 1,
+    totalXp: mergeCharacterXp(source.totalXp, target.totalXp),
     col: target.col,
     row: target.row,
   };
@@ -124,7 +148,8 @@ export function purchaseCharacter(
   const purchased: CharacterInstance = {
     id: allocation.id,
     typeId,
-    level: 1,
+    mergeRank: 1,
+    totalXp: 0,
     col: emptyCell.col,
     row: emptyCell.row,
   };
@@ -164,6 +189,77 @@ export function claimWaveReward(
     now,
   );
   return ok({ profile: nextProfile, rewardCoins: wave.rewardCoins, firstCompletion: true });
+}
+
+export function resolveBattleRewards(
+  profile: PlayerProfile,
+  waveId: number,
+  participantIds: readonly string[],
+  now = Date.now(),
+): Result<BattleRewardOutcome> {
+  const wave = getWave(waveId);
+  if (!wave) return fail('invalid-wave');
+
+  const firstCompletion = !profile.completedWaves.includes(waveId);
+  const xpPerUnit = battleXpPerUnit(waveId, firstCompletion);
+  const participants = new Set(participantIds);
+  const levelUps: BattleLevelUp[] = [];
+  let totalXpAwarded = 0;
+
+  const characters = profile.characters.map((character) => {
+    if (!participants.has(character.id) || xpPerUnit <= 0) return character;
+    const beforeLevel = characterLevelFromXp(character.totalXp);
+    const nextXp = awardXp(character.totalXp, xpPerUnit);
+    const afterLevel = characterLevelFromXp(nextXp);
+    totalXpAwarded += nextXp - character.totalXp;
+    if (afterLevel > beforeLevel) {
+      levelUps.push({
+        characterId: character.id,
+        typeId: character.typeId,
+        fromLevel: beforeLevel,
+        toLevel: afterLevel,
+      });
+    }
+    return { ...character, totalXp: nextXp };
+  });
+
+  const withXp = updated({ ...profile, characters }, now);
+  const claimed = claimWaveReward(withXp, waveId, now);
+  if (claimed.ok) {
+    return ok({
+      profile: claimed.value.profile,
+      rewardCoins: claimed.value.rewardCoins,
+      firstCompletion: claimed.value.firstCompletion,
+      xpPerUnit,
+      totalXpAwarded,
+      levelUps,
+      coinOverflow: false,
+    });
+  }
+  if (claimed.error === 'coin-overflow') {
+    const completedWaves = profile.completedWaves.includes(waveId)
+      ? profile.completedWaves
+      : [...profile.completedWaves, waveId].sort((a, b) => a - b);
+    const nextWave = Math.min(waveId + 1, TOTAL_WAVES);
+    return ok({
+      profile: updated(
+        {
+          ...withXp,
+          completedWaves,
+          unlockedWave: Math.max(withXp.unlockedWave, nextWave),
+          currentWave: Math.max(withXp.currentWave, nextWave),
+        },
+        now,
+      ),
+      rewardCoins: 0,
+      firstCompletion,
+      xpPerUnit,
+      totalXpAwarded,
+      levelUps,
+      coinOverflow: true,
+    });
+  }
+  return claimed;
 }
 
 export function applyDefeatComfort(
@@ -213,7 +309,7 @@ export function currentWaveDefinition(profile: PlayerProfile) {
 
 export function armyPower(profile: PlayerProfile): number {
   return profile.characters.reduce((total, character) => {
-    const stats = characterStats(character.typeId, character.level);
+    const stats = characterStats(character.typeId, character.mergeRank, character.totalXp);
     return total + stats.attack + stats.maxHp / 10;
   }, 0);
 }

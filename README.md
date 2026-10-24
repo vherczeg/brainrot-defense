@@ -8,6 +8,8 @@ az azonosakat, majd indíts automatikus csatát a betolakodó szörnyek ellen.
 - Nincs fiók, nincs backend, nincs mikrotransaction.
 - Három helyi játékosprofil, automatikus mentés IndexedDB-be.
 - 10 adatvezérelt hullám, köztük a **Mega Brainrot Gorilla** főellenség.
+- Kétdimenziós fejlődés: **evolúciós rang 1–10** egyesítésből és **karakterszint 1–100**
+  tapasztalati pontból.
 - Egérrel, érintéssel és billentyűzettel is játszható.
 - A játéklogika teljesen független a Phaser rendereléstől és a React UI-tól.
 
@@ -27,12 +29,16 @@ Mobilnézet: [docs/screenshots/mobile.png](docs/screenshots/mobile.png)
 
 1. A játékos **350 érmével** és három kezdőharcossal indul.
 2. A felkészülési szakaszban nincs időkorlát. Lehet vásárolni, rendezkedni, egyesíteni.
-3. Két **azonos típusú és szintű** harcos egy magasabb szintű harcossá egyesíthető.
+3. Két **azonos típusú és rangú** harcos egy magasabb rangú harcossá egyesíthető. Az egyesítés
+   a két harcos tapasztalati pontját is összeadja; a szintek nem kell hogy megegyezzenek.
 4. A **HARCOLJ!** gombra kattintva elindul a determinisztikus, automatikus csata.
-5. Győzelem esetén a hullám jutalma begyűjthető, és nyílik a következő hullám.
+5. Győzelem esetén a hullám érmejutalma begyűjthető, a résztvevő harcosok tapasztalati pontot
+   kapnak, és nyílik a következő hullám. A harcosok szintje a tapasztalatból számolódik.
 6. Vereség esetén a sereg **nem tűnik el**. Ingyen újrapróbálható, és apró vigasztaló érmék
    segítik a továbbjutást (20 érme/vereség), így nem alakulhat ki gazdasági zsákutca.
 7. A haladás minden fontos művelet után automatikusan mentődik. A böngésző bármikor bezárható.
+8. A korábbi M0.1 mentések automatikusan migrálódnak: a régi `level` mező az új `mergeRank`
+   érték lesz, a tapasztalat 0-ról indul, minden más előrehaladás megmarad.
 
 A részletes szabályokat lásd: [docs/GAMEPLAY_RULES.md](docs/GAMEPLAY_RULES.md).
 
@@ -77,8 +83,9 @@ src/
   app/            Alkalmazásvezérlő, React belépési pont, nézetek
   components/     React UI (menük, bolt, felkészülés, modálok)
   game/
-    domain/       Tiszta domainmodellek, karakterek, ellenségek, hullámok, gazdaság
-    commands/     Immutábilis állapotátmenetek (vásárlás, mozgatás, egyesítés, jutalom)
+    domain/       Tiszta domainmodellek, karakterek, ellenségek, hullámok, gazdaság,
+                  tapasztalati görbe és szintszámítás (progression.ts)
+    commands/     Immutábilis állapotátmenetek (vásárlás, mozgatás, egyesítés, jutalom, XP)
     simulation/   Determinisztikus, fix lépésközű csataszimuláció
     rendering/    Phaser jelenet és rajzolás (csak megjelenítés)
   persistence/    IndexedDB, séma, validáció, import/export
@@ -101,7 +108,11 @@ Részletek: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 ## Mentés
 
 - IndexedDB adatbázis: `brainrot-defense`, `profiles` és `meta` object store-ok.
-- Verziózott séma (`schemaVersion: 1`), szigorú validáció, FNV-1a checksum.
+- Verziózott séma (`schemaVersion: 2`), szigorú validáció, FNV-1a checksum.
+- Az M0.1 `schemaVersion: 1` mentések betöltéskor/importkor tiszta migrációval v2-re váltanak.
+  A régi rekord biztonsági másolata és egy v2 árnyékmásolat a `meta` store-ban marad; a migráció
+  nem foglal el egyetlen játékosprofil-helyet sem. Egy régi lap elavult v1 írását a v2
+  árnyékmásolat védi ki.
 - Profilonként egy atomi rekordfrissítés; megszakadt írás nem hoz létre félkész mentést.
 - Az autosave-ek egy szerializált, koaleszkált írási sorban futnak. A legfrissebb állapot
   felülírja a még nem elindult korábbi pillanatképeket, így nincs korlátlan írási torlódás.
@@ -161,39 +172,56 @@ véletlenül éles deploy történjen. **A custom domain és a Pages beállítá
 
 ## Tesztelés
 
-- **Unit/integrációs:** 105 teszt, 13 fájlban. merge/mozgatás-szabályok, gazdaság,
-  statisztikák, rács, hullámok, targeting, range, cooldown, páncél, láncvillám, halál,
-  győzelem/vereség, determinizmus, 1×/2× sebesség, frame-rate függetlenség, IndexedDB
-  round-trip, checksum, korrupt mentés, import validáció és invariánsok, profilizoláció,
-  írási sor/koaleszálás, import/törlés versenyhelyzetek, boundary- és overflow-tesztek,
-  aktív profil metaadat hibakezelés, több-lapos zárolás, teljes 10 hullámos végigjátszás.
-- **Böngésző:** 40 sikeres teszt + 2 kihagyott (desktop-only tablet- és canvas drag teszt a
-  mobil futásban), valódi IndexedDB-vel: menü, játék indítás, vásárlás, egyesítés egérrel és
-  akadálymentes panellel, áthelyezés, csata, pause/resume, 2× sebesség, győzelem, vereség,
-  jutalom, reload utáni folytatás, export/import, profil létrehozás/törlés, boundary import,
-  nagy autosave-backlog utáni import/törlés, hang-szinkron, surrender lifecycle,
-  több-lapos védelem, friss első látogatás utáni offline újranyitás.
+- **Unit/integrációs:** 158 teszt, 16 fájlban. merge/rang-szabályok, XP-küszöbök minden
+  határon, XP-összeadás és sapka, első győzelmi és csökkentett ismételt XP, halott és nem
+  résztvevő harcosok kizárása, gazdaság, statisztikák, rács, hullámok, targeting, range,
+  cooldown, páncél, láncvillám, halál, győzelem/vereség, determinizmus, 1×/2× sebesség,
+  frame-rate függetlenség, IndexedDB round-trip, szigorú v1→v2 migráció, hiányzó shadow
+  biztonságos helyreállítása, törlési tombstone, elavult v1 írás kivédése, checksum, korrupt
+  mentés, import validáció és invariánsok, profilizoláció, írási sor/koaleszálás,
+  import/törlés versenyhelyzetek, boundary- és overflow-tesztek, aktív profil metaadat
+  hibakezelés, zárolás tulajdonjog, késleltetett/hibás csatajutalom-mentés, több-lapos
+  védelem, teljes 10 hullámos végigjátszás.
+- **Böngésző:** 50 sikeres teszt + 2 kihagyott (desktop-only tablet- és canvas drag teszt a
+  mobil futásban), Chromium desktopon és mobil emulációban, valódi IndexedDB-vel: menü, játék
+  indítás, vásárlás, egyesítés egérrel és akadálymentes panellel, eltérő XP-szintű harcosok
+  egyesítése, rang/szint/XP megjelenítés, győzelmi XP és szintlépés, reload utáni
+  XP-megmaradás, M0.1 mentés importja, áthelyezés, csata, pause/resume, 2× sebesség, győzelem,
+  vereség, jutalom, export/import, profil létrehozás/törlés, boundary import, nagy
+  autosave-backlog utáni import/törlés, hang-szinkron, surrender lifecycle, több-lapos
+  védelem, sikertelen azonos ID-s import utáni zárolás, régi tab melletti migráció és offline
+  újranyitás, törölt profil feltámadásának kivédése, friss első látogatás utáni offline
+  újranyitás. A mobil futás Chromium-emuláció, nem valódi iOS Safari.
 - Determinisztikus tesztek fix seeddel és fix lépésközzel; nincs kép-összehasonlításos
   törékeny teszt.
 
-## Ismert korlátok (M0)
+## Ismert korlátok (M1.1)
 
 - A csatatér Phaser canvas; a nem-drag interakciót és a billentyűzetes elhelyezést külön DOM
   panel biztosítja. A canvas tartalma önmagában nem olvasható képernyőolvasóval.
 - A hangok szintetizált placeholderek, nincs zene.
 - A grafikák programozott, eredeti placeholderek; nincs még sprite atlas vagy asset pipeline.
-- A Phaser miatt a JS bundle ~1.56 MB (gzip ~437 kB). Később kódrészletekre bontható.
+- A Phaser miatt a JS bundle ~1.58 MB (gzip ~441 kB). Később kódrészletekre bontható.
+- Új karaktergrafika még nincs; a rangot és szintet a meglévő programozott placeholderek
+  badge-ei, a felkészülési inspector és a csataeredmény jeleníti meg. Az M1.2 hozhat
+  sprite/asset pipeline-t.
+- Az ismételt hullám csökkentett XP-je implementált és tesztelt, de a jelenlegi UI még nem
+  kínál hullámválasztót, ezért játék közben csak egy későbbi mérföldköben válik elérhetővé.
 - Az automatikus több-lapos védelem a Web Locks API-ra épül; ahol ez nem elérhető, ott a
   játék a korábbi single-tab viselkedésre esik vissza.
+- **M1.4 kiegyensúlyozási ismert hiba:** a szimuláció szerint a 10. hullám több stratégiánál
+  33–73 vereséget okoz. Ez nem progression softlock (minden stratégia teljesíti a 10. hullámot),
+  ezért az M1.1 nem változtatja meg a jóváhagyott képleteket; a nehézségi görbét az M1.4-ben kell
+  újrahangolni. A `npm run simulate` ezt figyelmeztetésként jelzi, nem korrektségi hibaként.
 - Automatizált böngészőteszt Chromiumon (desktop + mobil emuláció) fut. Firefox és Safari
   manuális ellenőrzést igényel; a kód szabványos Pointer Events/IndexedDB/Web Locks API-kra épül.
 - A custom domain beállítása és az éles deploy a tulajdonos jóváhagyását igényli.
 
 ## Következő mérföldkövek
 
-- **M1:** sprite/asset pipeline, zene és több hangeffekt, animált hátterek.
+- **M1.2:** sprite/asset pipeline, animált hangeffektek, rang szerinti karaktergrafika.
 - **M2:** további karakterek, upgrade-ek, passzív képességek, hullámválasztó.
-- **M3:** verziózott sémamigrációk, export/import minden profilra.
+- **M3:** export/import minden profilra, további sémamigrációk.
 - **M4:** akadálymentességi audit, Firefox/Safari CI, teljesítményprofilozás, kódrészletezés.
 
 ## Jogosultság és assetek

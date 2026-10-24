@@ -2,6 +2,7 @@ import { useGameController } from '../app/ControllerContext';
 import type { PrepView } from '../app/controller';
 import { CHARACTER_DEFINITIONS } from '../game/domain/characters';
 import { cellKey } from '../game/domain/grid';
+import { characterLevelFromXp } from '../game/domain/progression';
 import { ALLY_ROW_START, BOARD_COLS } from '../game/domain/types';
 import { t } from '../localization';
 import { CreatureAvatar } from './CreatureAvatar';
@@ -56,7 +57,10 @@ export function AccessiblePlacement({
                   <CreatureAvatar kind={character.typeId} size={28} />
                   <span className="accessible-unit__name">{definition.shortNameHu}</span>
                   <span className="accessible-unit__level">
-                    {t('levelWithNumber', { level: character.level })}
+                    {t('rankWithNumber', { rank: character.mergeRank })} ·{' '}
+                    {t('levelWithNumber', {
+                      level: characterLevelFromXp(character.totalXp),
+                    })}
                   </span>
                   <span className="accessible-unit__pos">
                     {character.col + 1}/{character.row + 1}
@@ -83,7 +87,11 @@ export function AccessiblePlacement({
               const isMove = moveKeys.has(key);
               const isMerge = mergeKeys.has(key);
               const label = occupant
-                ? `${CHARACTER_DEFINITIONS[occupant.typeId].shortNameHu}, ${occupant.level}. szint`
+                ? `${CHARACTER_DEFINITIONS[occupant.typeId].shortNameHu}, ${t('rankWithNumber', {
+                    rank: occupant.mergeRank,
+                  })}, ${t('levelWithNumber', {
+                    level: characterLevelFromXp(occupant.totalXp),
+                  })}`
                 : t('emptyCell');
               return (
                 <button
@@ -105,7 +113,7 @@ export function AccessiblePlacement({
                     {occupant ? (
                       <>
                         <CreatureAvatar kind={occupant.typeId} size={22} />
-                        <span>{occupant.level}</span>
+                        <span>{occupant.mergeRank}</span>
                       </>
                     ) : isMerge ? (
                       t('mergeTarget')

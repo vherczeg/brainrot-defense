@@ -1,6 +1,7 @@
 import { useGameController } from '../app/ControllerContext';
-import { CHARACTER_DEFINITIONS, characterStats } from '../game/domain/characters';
-import { MAX_CHARACTER_LEVEL, type PlayerProfile } from '../game/domain/types';
+import { CHARACTER_DEFINITIONS, characterStats, isMaxMergeRank } from '../game/domain/characters';
+import { xpProgress } from '../game/domain/progression';
+import { MAX_MERGE_RANK, type PlayerProfile } from '../game/domain/types';
 import { formatNumber, t } from '../localization';
 import { CreatureAvatar } from './CreatureAvatar';
 import { Icon } from './Icon';
@@ -31,15 +32,22 @@ export function UnitInspector({ profile }: { profile: PlayerProfile }) {
   }
 
   const definition = CHARACTER_DEFINITIONS[selected.typeId];
-  const stats = characterStats(selected.typeId, selected.level);
+  const stats = characterStats(selected.typeId, selected.mergeRank, selected.totalXp);
+  const progression = xpProgress(selected.totalXp);
   const partners = profile.characters.filter(
     (character) =>
       character.id !== selected.id &&
       character.typeId === selected.typeId &&
-      character.level === selected.level &&
-      character.level < MAX_CHARACTER_LEVEL,
+      character.mergeRank === selected.mergeRank &&
+      character.mergeRank < MAX_MERGE_RANK,
   );
-  const atMax = selected.level >= MAX_CHARACTER_LEVEL;
+  const atMaxRank = isMaxMergeRank(selected.mergeRank);
+  const atMaxLevel = progression.level >= 100;
+  const progressRatio =
+    progression.nextLevelXp === null
+      ? 1
+      : (selected.totalXp - progression.currentLevelXp) /
+        (progression.nextLevelXp - progression.currentLevelXp);
 
   return (
     <section className="panel inspector" data-testid="unit-inspector">
@@ -48,15 +56,22 @@ export function UnitInspector({ profile }: { profile: PlayerProfile }) {
           <p className="panel-label">{t('selectedTitle')}</p>
           <h2 className="panel-title">{definition.nameHu}</h2>
         </div>
-        <span className={`level-chip${atMax ? ' level-chip--max' : ''}`}>
-          {atMax ? t('levelMax') : `${selected.level}. ${t('levelShort')}`}
-        </span>
+        <div className="inspector-chips">
+          <span className={`rank-chip${atMaxRank ? ' rank-chip--max' : ''}`}>
+            {atMaxRank ? t('rankMax') : t('rankWithNumber', { rank: selected.mergeRank })}
+          </span>
+          <span className={`level-chip${atMaxLevel ? ' level-chip--max' : ''}`}>
+            {atMaxLevel ? t('levelMax') : t('levelWithNumber', { level: progression.level })}
+          </span>
+        </div>
       </div>
 
       <div className="inspector-hero">
-        <div className={`inspector-avatar level-glow level-glow--${Math.min(selected.level, 6)}`}>
+        <div
+          className={`inspector-avatar level-glow level-glow--${Math.min(selected.mergeRank, 6)}`}
+        >
           <CreatureAvatar kind={selected.typeId} size={92} title={definition.nameHu} />
-          <span className="inspector-level-badge">{selected.level}</span>
+          <span className="inspector-level-badge">{selected.mergeRank}</span>
         </div>
         <div className="inspector-role">
           <span className="role-chip">{definition.roleHu}</span>
@@ -65,6 +80,33 @@ export function UnitInspector({ profile }: { profile: PlayerProfile }) {
             {t('positionLabel', { col: selected.col + 1, row: selected.row + 1 })}
           </p>
         </div>
+      </div>
+
+      <div className="progression-box">
+        <div className="progression-row">
+          <span>{t('mergeRankLabel')}</span>
+          <strong data-testid="inspector-rank">
+            {selected.mergeRank} / {MAX_MERGE_RANK}
+          </strong>
+        </div>
+        <div className="progression-row">
+          <span>{t('characterLevelLabel')}</span>
+          <strong data-testid="inspector-level">{progression.level}</strong>
+        </div>
+        <div className="progression-row">
+          <span>{t('totalXpLabel')}</span>
+          <strong data-testid="inspector-xp">{formatNumber(selected.totalXp)}</strong>
+        </div>
+        <div className="progress-track progress-track--xp" aria-hidden="true">
+          <span style={{ width: `${Math.max(0, Math.min(1, progressRatio)) * 100}%` }} />
+        </div>
+        <p className="progression-hint" data-testid="inspector-next-level">
+          {atMaxLevel
+            ? t('maxLevelReached')
+            : t('xpToNextLevelLabel', {
+                xp: formatNumber(progression.remaining),
+              })}
+        </p>
       </div>
 
       <dl className="stat-grid">
@@ -100,8 +142,8 @@ export function UnitInspector({ profile }: { profile: PlayerProfile }) {
 
       <div className={`merge-callout${partners.length > 0 ? ' merge-callout--ready' : ''}`}>
         <Icon name="merge" size={18} />
-        {atMax ? (
-          <span>{t('mergeMaxLevel')}</span>
+        {atMaxRank ? (
+          <span>{t('mergeMaxRank')}</span>
         ) : partners.length > 0 ? (
           <span>
             {t('mergeHint')} <strong>{t('mergeHintActive', { name: definition.nameHu })}</strong>

@@ -1,4 +1,5 @@
 import { characterStats } from '../domain/characters';
+import { characterLevelFromXp } from '../domain/progression';
 import { enemyStats } from '../domain/enemies';
 import {
   BOARD_COLS,
@@ -60,13 +61,14 @@ export function createBattleState(
   seed = 1,
 ): BattleState {
   const allyUnits: BattleUnit[] = characters.map((character) => {
-    const stats = characterStats(character.typeId, character.level);
+    const stats = characterStats(character.typeId, character.mergeRank, character.totalXp);
     const position = cellCenter(character.col, character.row);
     return {
       id: character.id,
       team: 'ally',
       typeId: character.typeId,
-      level: character.level,
+      level: characterLevelFromXp(character.totalXp),
+      mergeRank: character.mergeRank,
       x: position.x,
       y: position.y,
       hp: stats.maxHp,
@@ -94,6 +96,7 @@ export function createBattleState(
       team: 'enemy',
       typeId: config.typeId,
       level: config.level,
+      mergeRank: 0,
       x: position.x,
       y: position.y,
       hp: stats.maxHp,

@@ -51,7 +51,7 @@ test('can purchase a character and merge two matching characters', async ({ page
   await expect.poll(() => unitCount(page)).toBe(3);
   const inspector = page.getByTestId('unit-inspector');
   await expect(inspector).toContainText('Lézer Krokodil');
-  await expect(inspector).toContainText('2. Szint');
+  await expect(inspector).toContainText('2. rang');
   await expect(inspector).toContainText('3. oszlop, 5. sor');
   expect(await coins(page)).toBe(250);
 
@@ -83,6 +83,8 @@ test('fights a real battle, rewards the player, and persists progress after relo
   await expect(page.getByTestId('result-overlay')).toBeVisible({ timeout: 60_000 });
   await expect(page.getByTestId('result-title')).toContainText('teljesítve');
   await expect(page.getByTestId('result-overlay')).toContainText('+120');
+  await expect(page.getByTestId('result-xp-reward')).toContainText('+75 TP / harcos');
+  await expect(page.getByTestId('result-level-ups')).toContainText('SZINTLÉPÉS');
 
   await page.getByTestId('result-next').click();
   await expect(page.getByTestId('battle-button')).toBeVisible();
@@ -95,6 +97,11 @@ test('fights a real battle, rewards the player, and persists progress after relo
   await expect(page.getByTestId('battle-button')).toBeVisible();
   await expect(page.locator('.game-topbar__title h1')).toContainText('2. hullám');
   expect(await coins(page)).toBe(470);
+  await openAccessiblePlacement(page);
+  await page.getByTestId('accessible-unit-unit-1').click();
+  await expect(page.getByTestId('inspector-rank')).toHaveText('1 / 10');
+  await expect(page.getByTestId('inspector-level')).toHaveText('2');
+  await expect(page.getByTestId('inspector-xp')).toHaveText('75');
 });
 
 test('can pause, resume, and toggle battle speed without breaking the battle', async ({ page }) => {
@@ -154,7 +161,7 @@ test('exports a save, imports a valid modified save, and persists it', async ({ 
     profile: { coins: number; name: string; profileId: string };
   };
   expect(envelope.appId).toBe('brainrot-defense');
-  expect(envelope.schemaVersion).toBe(1);
+  expect(envelope.schemaVersion).toBe(2);
   expect(envelope.profile.coins).toBe(350);
 
   envelope.profile.coins = 4321;
@@ -206,7 +213,7 @@ test('can merge two characters with a canvas drag gesture', async ({ page }, tes
   await page.mouse.move(to.x, to.y, { steps: 12 });
   await page.mouse.up();
   await expect.poll(() => unitCount(page)).toBe(2);
-  await expect(page.getByTestId('unit-inspector')).toContainText('2. Szint');
+  await expect(page.getByTestId('unit-inspector')).toContainText('2. rang');
 });
 
 test('shows the defeat screen and allows a free retry with comfort coins', async ({ page }) => {
@@ -235,7 +242,14 @@ test('shows the defeat screen and allows a free retry with comfort coins', async
   envelope.profile.coins = 0;
   envelope.profile.nextCharacterId = 10;
   envelope.profile.characters = [
-    { id: 'unit-1', typeId: 'laser-crocodile', level: 1, col: 2, row: 4 },
+    {
+      id: 'unit-1',
+      typeId: 'laser-crocodile',
+      mergeRank: 1,
+      totalXp: 0,
+      col: 2,
+      row: 4,
+    },
   ];
   await page.getByTestId('import-save-input').setInputFiles({
     name: 'gyenge-sereg.json',
