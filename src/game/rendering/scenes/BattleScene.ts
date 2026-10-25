@@ -25,6 +25,7 @@ import {
 } from '../laserCrocodile';
 import { LaserAttackRelease } from '../laserAttackRelease';
 import { playLaserCrocodileDeathOnce } from '../laserCrocodileDeath';
+import { LaserCrocodileLocomotion } from '../laserCrocodileLocomotion';
 import {
   LIGHTNING_SCORPION_ANIMATIONS,
   LIGHTNING_SCORPION_DISPLAY_WIDTH,
@@ -154,6 +155,7 @@ interface UnitView {
   actionHandler: UnitActionHandler | null;
   laserRelease: LaserAttackRelease | null;
   deathCleanup: (() => void) | null;
+  locomotionTween: LaserCrocodileLocomotion | null;
   pendingHurt: boolean;
   lastX: number;
   lastY: number;
@@ -346,6 +348,7 @@ export class BattleScene extends Phaser.Scene {
         view.deathCleanup = null;
         view.laserRelease?.cancel();
         view.laserRelease = null;
+        view.locomotionTween?.stop();
       }
     });
   }
@@ -464,6 +467,7 @@ export class BattleScene extends Phaser.Scene {
       view.deathCleanup = null;
       view.laserRelease?.cancel();
       view.laserRelease = null;
+      view.locomotionTween?.stop();
       view.container.destroy(true);
     }
     this.unitViews.clear();
@@ -552,6 +556,8 @@ export class BattleScene extends Phaser.Scene {
         Phaser.GameObjects.Sprite | undefined;
       const visual = container.getData('animatedCharacterVisual') as
         AnimatedCharacterVisual | undefined;
+      const locomotionTween = container.getData('locomotionTween') as
+        LaserCrocodileLocomotion | undefined;
       const viewEntry: UnitView = {
         container,
         health: health ?? this.add.graphics(),
@@ -567,6 +573,7 @@ export class BattleScene extends Phaser.Scene {
         actionHandler: null,
         laserRelease: null,
         deathCleanup: null,
+        locomotionTween: locomotionTween ?? null,
         pendingHurt: false,
         lastX: character.col + 0.5,
         lastY: character.row + 0.5,
@@ -641,6 +648,11 @@ export class BattleScene extends Phaser.Scene {
       container.add(sprite);
       container.setData('animatedCharacterSprite', sprite);
       container.setData('animatedCharacterVisual', animated);
+      if (spec.typeId === 'laser-crocodile') {
+        const locomotion = new LaserCrocodileLocomotion({ sprite, tweens: this.tweens });
+        if (!this.prefersReducedMotion()) locomotion.play('idle');
+        container.setData('locomotionTween', locomotion);
+      }
     }
 
     const badge = this.add.graphics();
@@ -912,6 +924,8 @@ export class BattleScene extends Phaser.Scene {
           Phaser.GameObjects.Sprite | undefined;
         const visual = container.getData('animatedCharacterVisual') as
           AnimatedCharacterVisual | undefined;
+        const locomotionTween = container.getData('locomotionTween') as
+          LaserCrocodileLocomotion | undefined;
         view = {
           container,
           health,
@@ -927,6 +941,7 @@ export class BattleScene extends Phaser.Scene {
           actionHandler: null,
           laserRelease: null,
           deathCleanup: null,
+          locomotionTween: locomotionTween ?? null,
           pendingHurt: false,
           lastX: unit.x,
           lastY: unit.y,
@@ -1014,10 +1029,19 @@ export class BattleScene extends Phaser.Scene {
         view.nextTrailAt = now + 360;
       }
     }
-    if (!view.sprite || !view.visual || view.action) return;
+    if (!view.sprite || !view.visual || view.action) {
+      view.locomotionTween?.stop();
+      return;
+    }
     const key = view.visual.animationKey(view.locomotion);
-    if (view.sprite.anims.isPlaying && view.sprite.anims.currentAnim?.key === key) return;
-    view.sprite.play(key);
+    if (!(view.sprite.anims.isPlaying && view.sprite.anims.currentAnim?.key === key)) {
+      view.sprite.play(key);
+    }
+    if (this.prefersReducedMotion()) {
+      view.locomotionTween?.stop();
+    } else {
+      view.locomotionTween?.play(view.locomotion);
+    }
   }
 
   private playAnimatedCharacterAction(unitId: string, action: UnitAction): void {
@@ -1034,6 +1058,7 @@ export class BattleScene extends Phaser.Scene {
       sprite.off(view.actionHandler.event, view.actionHandler.handler);
       view.actionHandler = null;
     }
+    view.locomotionTween?.stop();
     const event = `animationcomplete-${key}`;
     const handler = () => {
       if (view.actionHandler?.handler !== handler) return;
@@ -1097,6 +1122,7 @@ export class BattleScene extends Phaser.Scene {
     view.deathCleanup = null;
     view.laserRelease?.cancel();
     view.laserRelease = null;
+    view.locomotionTween?.stop();
     if (view.sprite && view.actionHandler) {
       view.sprite.off(view.actionHandler.event, view.actionHandler.handler);
       view.actionHandler = null;
