@@ -1,0 +1,404 @@
+{
+  "version": 1,
+  "theme": "chaos-invasion-basalt-ruins",
+  "camera": "mild-top-down-three-quarter",
+  "tileSize": [
+    256,
+    256
+  ],
+  "gridTarget": [
+    6,
+    5
+  ],
+  "facingNotes": "Enemy and player unit directions unchanged. Terrain assets are decorative backgrounds only.",
+  "files": [
+    {
+      "key": "basalt-01",
+      "type": "floor",
+      "url": "/assets/terrain/chaos-arena/tiles/basalt-01.png",
+      "atlasFrame": 0,
+      "frameRect": [
+        0,
+        0,
+        256,
+        256
+      ]
+    },
+    {
+      "key": "basalt-02",
+      "type": "floor",
+      "url": "/assets/terrain/chaos-arena/tiles/basalt-02.png",
+      "atlasFrame": 1,
+      "frameRect": [
+        256,
+        0,
+        256,
+        256
+      ]
+    },
+    {
+      "key": "basalt-03",
+      "type": "floor",
+      "url": "/assets/terrain/chaos-arena/tiles/basalt-03.png",
+      "atlasFrame": 2,
+      "frameRect": [
+        512,
+        0,
+        256,
+        256
+      ]
+    },
+    {
+      "key": "basalt-04",
+      "type": "floor",
+      "url": "/assets/terrain/chaos-arena/tiles/basalt-04.png",
+      "atlasFrame": 3,
+      "frameRect": [
+        768,
+        0,
+        256,
+        256
+      ]
+    },
+    {
+      "key": "moss-01",
+      "type": "floor",
+      "url": "/assets/terrain/chaos-arena/tiles/moss-01.png",
+      "atlasFrame": 4,
+      "frameRect": [
+        0,
+        256,
+        256,
+        256
+      ]
+    },
+    {
+      "key": "moss-02",
+      "type": "floor",
+      "url": "/assets/terrain/chaos-arena/tiles/moss-02.png",
+      "atlasFrame": 5,
+      "frameRect": [
+        256,
+        256,
+        256,
+        256
+      ]
+    },
+    {
+      "key": "moss-03",
+      "type": "floor",
+      "url": "/assets/terrain/chaos-arena/tiles/moss-03.png",
+      "atlasFrame": 6,
+      "frameRect": [
+        512,
+        256,
+        256,
+        256
+      ]
+    },
+    {
+      "key": "moss-04",
+      "type": "floor",
+      "url": "/assets/terrain/chaos-arena/tiles/moss-04.png",
+      "atlasFrame": 7,
+      "frameRect": [
+        768,
+        256,
+        256,
+        256
+      ]
+    },
+    {
+      "key": "rune-01",
+      "type": "floor",
+      "url": "/assets/terrain/chaos-arena/tiles/rune-01.png",
+      "atlasFrame": 8,
+      "frameRect": [
+        0,
+        512,
+        256,
+        256
+      ]
+    },
+    {
+      "key": "rune-02",
+      "type": "floor",
+      "url": "/assets/terrain/chaos-arena/tiles/rune-02.png",
+      "atlasFrame": 9,
+      "frameRect": [
+        256,
+        512,
+        256,
+        256
+      ]
+    },
+    {
+      "key": "rune-03",
+      "type": "floor",
+      "url": "/assets/terrain/chaos-arena/tiles/rune-03.png",
+      "atlasFrame": 10,
+      "frameRect": [
+        512,
+        512,
+        256,
+        256
+      ]
+    },
+    {
+      "key": "rune-04",
+      "type": "floor",
+      "url": "/assets/terrain/chaos-arena/tiles/rune-04.png",
+      "atlasFrame": 11,
+      "frameRect": [
+        768,
+        512,
+        256,
+        256
+      ]
+    },
+    {
+      "key": "zone-01",
+      "type": "floor",
+      "url": "/assets/terrain/chaos-arena/tiles/zone-01.png",
+      "atlasFrame": 12,
+      "frameRect": [
+        0,
+        768,
+        256,
+        256
+      ]
+    },
+    {
+      "key": "zone-02",
+      "type": "floor",
+      "url": "/assets/terrain/chaos-arena/tiles/zone-02.png",
+      "atlasFrame": 13,
+      "frameRect": [
+        256,
+        768,
+        256,
+        256
+      ]
+    },
+    {
+      "key": "zone-03",
+      "type": "floor",
+      "url": "/assets/terrain/chaos-arena/tiles/zone-03.png",
+      "atlasFrame": 14,
+      "frameRect": [
+        512,
+        768,
+        256,
+        256
+      ]
+    },
+    {
+      "key": "zone-04",
+      "type": "floor",
+      "url": "/assets/terrain/chaos-arena/tiles/zone-04.png",
+      "atlasFrame": 15,
+      "frameRect": [
+        768,
+        768,
+        256,
+        256
+      ]
+    },
+    {
+      "key": "broken-pillar-base",
+      "type": "prop",
+      "url": "/assets/terrain/chaos-arena/props/broken-pillar-base.png",
+      "atlasFrame": 0,
+      "frameRect": [
+        0,
+        0,
+        256,
+        256
+      ]
+    },
+    {
+      "key": "short-pillar",
+      "type": "prop",
+      "url": "/assets/terrain/chaos-arena/props/short-pillar.png",
+      "atlasFrame": 1,
+      "frameRect": [
+        256,
+        0,
+        256,
+        256
+      ]
+    },
+    {
+      "key": "blue-crystal-cluster",
+      "type": "prop",
+      "url": "/assets/terrain/chaos-arena/props/blue-crystal-cluster.png",
+      "atlasFrame": 2,
+      "frameRect": [
+        512,
+        0,
+        256,
+        256
+      ]
+    },
+    {
+      "key": "brazier",
+      "type": "prop",
+      "url": "/assets/terrain/chaos-arena/props/brazier.png",
+      "atlasFrame": 3,
+      "frameRect": [
+        768,
+        0,
+        256,
+        256
+      ]
+    },
+    {
+      "key": "rubble-pile",
+      "type": "prop",
+      "url": "/assets/terrain/chaos-arena/props/rubble-pile.png",
+      "atlasFrame": 4,
+      "frameRect": [
+        0,
+        256,
+        256,
+        256
+      ]
+    },
+    {
+      "key": "moss-fern-patch",
+      "type": "prop",
+      "url": "/assets/terrain/chaos-arena/props/moss-fern-patch.png",
+      "atlasFrame": 5,
+      "frameRect": [
+        256,
+        256,
+        256,
+        256
+      ]
+    },
+    {
+      "key": "skull-bones",
+      "type": "prop",
+      "url": "/assets/terrain/chaos-arena/props/skull-bones.png",
+      "atlasFrame": 6,
+      "frameRect": [
+        512,
+        256,
+        256,
+        256
+      ]
+    },
+    {
+      "key": "rune-tablet",
+      "type": "prop",
+      "url": "/assets/terrain/chaos-arena/props/rune-tablet.png",
+      "atlasFrame": 7,
+      "frameRect": [
+        768,
+        256,
+        256,
+        256
+      ]
+    },
+    {
+      "key": "crystal-obelisk",
+      "type": "prop",
+      "url": "/assets/terrain/chaos-arena/props/crystal-obelisk.png",
+      "atlasFrame": 8,
+      "frameRect": [
+        0,
+        512,
+        256,
+        256
+      ]
+    },
+    {
+      "key": "fallen-column",
+      "type": "prop",
+      "url": "/assets/terrain/chaos-arena/props/fallen-column.png",
+      "atlasFrame": 9,
+      "frameRect": [
+        256,
+        512,
+        256,
+        256
+      ]
+    },
+    {
+      "key": "torch-brazier",
+      "type": "prop",
+      "url": "/assets/terrain/chaos-arena/props/torch-brazier.png",
+      "atlasFrame": 10,
+      "frameRect": [
+        512,
+        512,
+        256,
+        256
+      ]
+    },
+    {
+      "key": "gold-stone-emblem",
+      "type": "prop",
+      "url": "/assets/terrain/chaos-arena/props/gold-stone-emblem.png",
+      "atlasFrame": 11,
+      "frameRect": [
+        768,
+        512,
+        256,
+        256
+      ]
+    },
+    {
+      "key": "cracked-obelisk",
+      "type": "prop",
+      "url": "/assets/terrain/chaos-arena/props/cracked-obelisk.png",
+      "atlasFrame": 12,
+      "frameRect": [
+        0,
+        768,
+        256,
+        256
+      ]
+    },
+    {
+      "key": "crystal-shards",
+      "type": "prop",
+      "url": "/assets/terrain/chaos-arena/props/crystal-shards.png",
+      "atlasFrame": 13,
+      "frameRect": [
+        256,
+        768,
+        256,
+        256
+      ]
+    },
+    {
+      "key": "mossy-arch",
+      "type": "prop",
+      "url": "/assets/terrain/chaos-arena/props/mossy-arch.png",
+      "atlasFrame": 14,
+      "frameRect": [
+        512,
+        768,
+        256,
+        256
+      ]
+    },
+    {
+      "key": "stone-debris",
+      "type": "prop",
+      "url": "/assets/terrain/chaos-arena/props/stone-debris.png",
+      "atlasFrame": 15,
+      "frameRect": [
+        768,
+        768,
+        256,
+        256
+      ]
+    }
+  ],
+  "atlasFiles": {
+    "floor": "/assets/terrain/chaos-arena/floor-tiles.png",
+    "decorations": "/assets/terrain/chaos-arena/decorations.png"
+  }
+}

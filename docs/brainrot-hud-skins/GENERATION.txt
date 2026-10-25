@@ -1,0 +1,1 @@
+Generated a transparent-background 4x4 atlas of 16 blank dark basalt/bronze/cyan HUD skins, sliced into independent RGBA PNGs. No text or icons baked into the skins. Intended for existing UI components only.

@@ -1,0 +1,1 @@
+Generated a 4x4 transparent-background atlas with shell impact, armor glint, slime trail and slime splash effect sequences. Cropped into four animations of four frames each. Use only with existing visual events; no gameplay changes.

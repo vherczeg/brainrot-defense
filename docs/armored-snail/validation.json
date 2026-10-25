@@ -1,0 +1,661 @@
+{
+  "result": "PASS",
+  "pngCount": 22,
+  "animations": 4,
+  "frames": 16,
+  "checks": [
+    "RGBA decode",
+    "actual alpha channel and anti-aliasing",
+    "grid cuts have zero alpha>160 pixels",
+    "all frames contain pixels",
+    "four unique frames per spritesheet",
+    "minimum two-pixel outer alpha margin"
+  ],
+  "sourceGridCuts": [
+    {
+      "row": 0,
+      "cut": 313,
+      "opaquePixels": 0
+    },
+    {
+      "row": 0,
+      "cut": 631,
+      "opaquePixels": 0
+    },
+    {
+      "row": 0,
+      "cut": 959,
+      "opaquePixels": 0
+    },
+    {
+      "row": 1,
+      "cut": 316,
+      "opaquePixels": 0
+    },
+    {
+      "row": 1,
+      "cut": 643,
+      "opaquePixels": 0
+    },
+    {
+      "row": 1,
+      "cut": 959,
+      "opaquePixels": 0
+    },
+    {
+      "row": 2,
+      "cut": 326,
+      "opaquePixels": 0
+    },
+    {
+      "row": 2,
+      "cut": 645,
+      "opaquePixels": 0
+    },
+    {
+      "row": 2,
+      "cut": 957,
+      "opaquePixels": 0
+    },
+    {
+      "row": 3,
+      "cut": 330,
+      "opaquePixels": 0
+    },
+    {
+      "row": 3,
+      "cut": 645,
+      "opaquePixels": 0
+    },
+    {
+      "row": 3,
+      "cut": 959,
+      "opaquePixels": 0
+    }
+  ],
+  "files": [
+    {
+      "file": "public/assets/icons/armored-snail.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "d1f54737f626d99be32845f61b21c691a3a51a93ec847eb3f891dcc9676f0bad",
+      "frames": [
+        {
+          "alphaBBox": [
+            25,
+            52,
+            229,
+            226
+          ],
+          "transparentPixels": 39424,
+          "semiTransparentPixels": 25931
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/armored-snail/armored-snail.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "d1f54737f626d99be32845f61b21c691a3a51a93ec847eb3f891dcc9676f0bad",
+      "frames": [
+        {
+          "alphaBBox": [
+            25,
+            52,
+            229,
+            226
+          ],
+          "transparentPixels": 39424,
+          "semiTransparentPixels": 25931
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/armored-snail/attack.png",
+      "size": [
+        1024,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "5eb88676fd0f06d966eeaaf8fb77f53d01ae901cde2aff7fd68c7ef3da9422ec",
+      "frames": [
+        {
+          "alphaBBox": [
+            33,
+            76,
+            223,
+            228
+          ],
+          "transparentPixels": 44174,
+          "semiTransparentPixels": 21246
+        },
+        {
+          "alphaBBox": [
+            26,
+            71,
+            230,
+            228
+          ],
+          "transparentPixels": 43570,
+          "semiTransparentPixels": 21824
+        },
+        {
+          "alphaBBox": [
+            35,
+            72,
+            221,
+            227
+          ],
+          "transparentPixels": 44990,
+          "semiTransparentPixels": 20379
+        },
+        {
+          "alphaBBox": [
+            40,
+            76,
+            215,
+            228
+          ],
+          "transparentPixels": 45701,
+          "semiTransparentPixels": 19664
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/armored-snail/frames/attack/00.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "4eefff1ec84737ed21edace437344117f723476f0154f3fc69d3fdf700fe57c3",
+      "frames": [
+        {
+          "alphaBBox": [
+            33,
+            76,
+            223,
+            228
+          ],
+          "transparentPixels": 44174,
+          "semiTransparentPixels": 21246
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/armored-snail/frames/attack/01.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "752725cae948715b820a8d053dd040996e9f08bc4bb0fd0a7c3a1d19f62e8908",
+      "frames": [
+        {
+          "alphaBBox": [
+            26,
+            71,
+            230,
+            228
+          ],
+          "transparentPixels": 43570,
+          "semiTransparentPixels": 21824
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/armored-snail/frames/attack/02.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "84528234985bfca1b3ada8af0770e2e8fe72b67150fc3faae48b821f625e3145",
+      "frames": [
+        {
+          "alphaBBox": [
+            35,
+            72,
+            221,
+            227
+          ],
+          "transparentPixels": 44990,
+          "semiTransparentPixels": 20379
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/armored-snail/frames/attack/03.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "3d788d9e4cef40aee0de99cc6ca0862d55b7fec804c05023013c68391068fe32",
+      "frames": [
+        {
+          "alphaBBox": [
+            40,
+            76,
+            215,
+            228
+          ],
+          "transparentPixels": 45701,
+          "semiTransparentPixels": 19664
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/armored-snail/frames/hurt/00.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "e3ba52fcf4ea2b4b8c9670e20776cf5afd7d823c6b9fb21604822a78eb6f0cbe",
+      "frames": [
+        {
+          "alphaBBox": [
+            27,
+            75,
+            230,
+            228
+          ],
+          "transparentPixels": 43766,
+          "semiTransparentPixels": 21587
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/armored-snail/frames/hurt/01.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "004dcef9873bc33455ca7d39af489c40faf198edacbb4958d7973d4ccac34fce",
+      "frames": [
+        {
+          "alphaBBox": [
+            32,
+            81,
+            224,
+            228
+          ],
+          "transparentPixels": 45903,
+          "semiTransparentPixels": 19480
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/armored-snail/frames/hurt/02.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "c5a038a1cf604d8ba052b2d328a5543705f8d41acc31606ffdac788cf73c7119",
+      "frames": [
+        {
+          "alphaBBox": [
+            38,
+            75,
+            218,
+            227
+          ],
+          "transparentPixels": 45101,
+          "semiTransparentPixels": 20283
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/armored-snail/frames/hurt/03.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "7efb6cfe141356ab77961be955b5aa8118363539b5d88a8091353405e59b48ed",
+      "frames": [
+        {
+          "alphaBBox": [
+            42,
+            76,
+            215,
+            228
+          ],
+          "transparentPixels": 46216,
+          "semiTransparentPixels": 19157
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/armored-snail/frames/idle/00.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "d1f54737f626d99be32845f61b21c691a3a51a93ec847eb3f891dcc9676f0bad",
+      "frames": [
+        {
+          "alphaBBox": [
+            25,
+            52,
+            229,
+            226
+          ],
+          "transparentPixels": 39424,
+          "semiTransparentPixels": 25931
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/armored-snail/frames/idle/01.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "8479f641546fcdcaf0825f32de0ff2f9ba2eedfa5661bb0bdfbfcc777f3989b2",
+      "frames": [
+        {
+          "alphaBBox": [
+            26,
+            49,
+            229,
+            228
+          ],
+          "transparentPixels": 39360,
+          "semiTransparentPixels": 26039
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/armored-snail/frames/idle/02.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "5ebc1aac1964d8b3d521c649749b6cffa329108d276c2c98d57383dc68583344",
+      "frames": [
+        {
+          "alphaBBox": [
+            26,
+            49,
+            231,
+            226
+          ],
+          "transparentPixels": 39237,
+          "semiTransparentPixels": 26161
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/armored-snail/frames/idle/03.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "4fce66700f2dfab7571665d5a4ddc19f60a480d7d8084fc472c735f7eae053e6",
+      "frames": [
+        {
+          "alphaBBox": [
+            28,
+            51,
+            226,
+            227
+          ],
+          "transparentPixels": 39385,
+          "semiTransparentPixels": 26010
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/armored-snail/frames/walk/00.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "2ac807481b5af7140f69a4b2200e27e35daee6cc3b1826585e4f8dbc286ea4f7",
+      "frames": [
+        {
+          "alphaBBox": [
+            28,
+            67,
+            228,
+            228
+          ],
+          "transparentPixels": 43861,
+          "semiTransparentPixels": 21511
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/armored-snail/frames/walk/01.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "69045644f5ee99bd66fb039e6980c53668cbce3f1f744084ccdcdf0154e3eae6",
+      "frames": [
+        {
+          "alphaBBox": [
+            26,
+            66,
+            231,
+            228
+          ],
+          "transparentPixels": 42651,
+          "semiTransparentPixels": 22758
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/armored-snail/frames/walk/02.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "e8b668c6da4f7d93c06cd34b5f587136549e53cf0740303d1436b308650e10e4",
+      "frames": [
+        {
+          "alphaBBox": [
+            30,
+            64,
+            227,
+            227
+          ],
+          "transparentPixels": 43353,
+          "semiTransparentPixels": 22054
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/armored-snail/frames/walk/03.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "080cd93543c2b90dfb2bf5dfe46f24d9071a73acb77ca0465895f0371e933776",
+      "frames": [
+        {
+          "alphaBBox": [
+            36,
+            68,
+            221,
+            228
+          ],
+          "transparentPixels": 44205,
+          "semiTransparentPixels": 21216
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/armored-snail/hurt.png",
+      "size": [
+        1024,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "9b5bd746cc02ec8e202662218c0d23895a1143ce9b6fd33d1d879a3d918bb4dd",
+      "frames": [
+        {
+          "alphaBBox": [
+            27,
+            75,
+            230,
+            228
+          ],
+          "transparentPixels": 43766,
+          "semiTransparentPixels": 21587
+        },
+        {
+          "alphaBBox": [
+            32,
+            81,
+            224,
+            228
+          ],
+          "transparentPixels": 45903,
+          "semiTransparentPixels": 19480
+        },
+        {
+          "alphaBBox": [
+            38,
+            75,
+            218,
+            227
+          ],
+          "transparentPixels": 45101,
+          "semiTransparentPixels": 20283
+        },
+        {
+          "alphaBBox": [
+            42,
+            76,
+            215,
+            228
+          ],
+          "transparentPixels": 46216,
+          "semiTransparentPixels": 19157
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/armored-snail/idle.png",
+      "size": [
+        1024,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "5825f9fe0351d4e5cd37a4d71517ce457478d721df2d4bb5b3d025812cc2e0dc",
+      "frames": [
+        {
+          "alphaBBox": [
+            25,
+            52,
+            229,
+            226
+          ],
+          "transparentPixels": 39424,
+          "semiTransparentPixels": 25931
+        },
+        {
+          "alphaBBox": [
+            26,
+            49,
+            229,
+            228
+          ],
+          "transparentPixels": 39360,
+          "semiTransparentPixels": 26039
+        },
+        {
+          "alphaBBox": [
+            26,
+            49,
+            231,
+            226
+          ],
+          "transparentPixels": 39237,
+          "semiTransparentPixels": 26161
+        },
+        {
+          "alphaBBox": [
+            28,
+            51,
+            226,
+            227
+          ],
+          "transparentPixels": 39385,
+          "semiTransparentPixels": 26010
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/armored-snail/walk.png",
+      "size": [
+        1024,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "def3ffa2c53792db34565cdeb1979f2cd67636621197defeec50fdea3a89df10",
+      "frames": [
+        {
+          "alphaBBox": [
+            28,
+            67,
+            228,
+            228
+          ],
+          "transparentPixels": 43861,
+          "semiTransparentPixels": 21511
+        },
+        {
+          "alphaBBox": [
+            26,
+            66,
+            231,
+            228
+          ],
+          "transparentPixels": 42651,
+          "semiTransparentPixels": 22758
+        },
+        {
+          "alphaBBox": [
+            30,
+            64,
+            227,
+            227
+          ],
+          "transparentPixels": 43353,
+          "semiTransparentPixels": 22054
+        },
+        {
+          "alphaBBox": [
+            36,
+            68,
+            221,
+            228
+          ],
+          "transparentPixels": 44205,
+          "semiTransparentPixels": 21216
+        }
+      ]
+    }
+  ],
+  "note": "Newly generated 4-frame action-game sprites. In-game timing and enemy direction should be visually reviewed during integration."
+}

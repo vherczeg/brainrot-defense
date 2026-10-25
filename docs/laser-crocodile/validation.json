@@ -1,0 +1,2655 @@
+{
+  "result": "PASS",
+  "pngCount": 86,
+  "animationStrips": 16,
+  "animatedFrames": 64,
+  "checks": [
+    "PNG decode and RGBA",
+    "all frames nonempty",
+    "four distinct frame hashes per strip",
+    "minimum 3px fully transparent outer margin",
+    "partially transparent antialiased pixels retained",
+    "source split has no alpha>160 body pixels on internal cut"
+  ],
+  "sourceBoundaryChecks": [
+    {
+      "source": "v1",
+      "row": 0,
+      "boundary": 1,
+      "x": 336,
+      "opaquePixelsOnCut": 0
+    },
+    {
+      "source": "v1",
+      "row": 0,
+      "boundary": 2,
+      "x": 625,
+      "opaquePixelsOnCut": 0
+    },
+    {
+      "source": "v1",
+      "row": 0,
+      "boundary": 3,
+      "x": 936,
+      "opaquePixelsOnCut": 0
+    },
+    {
+      "source": "v1",
+      "row": 1,
+      "boundary": 1,
+      "x": 313,
+      "opaquePixelsOnCut": 0
+    },
+    {
+      "source": "v1",
+      "row": 1,
+      "boundary": 2,
+      "x": 617,
+      "opaquePixelsOnCut": 0
+    },
+    {
+      "source": "v1",
+      "row": 1,
+      "boundary": 3,
+      "x": 971,
+      "opaquePixelsOnCut": 0
+    },
+    {
+      "source": "v1",
+      "row": 2,
+      "boundary": 1,
+      "x": 352,
+      "opaquePixelsOnCut": 0
+    },
+    {
+      "source": "v1",
+      "row": 2,
+      "boundary": 2,
+      "x": 649,
+      "opaquePixelsOnCut": 0
+    },
+    {
+      "source": "v1",
+      "row": 2,
+      "boundary": 3,
+      "x": 963,
+      "opaquePixelsOnCut": 0
+    },
+    {
+      "source": "v1",
+      "row": 3,
+      "boundary": 1,
+      "x": 338,
+      "opaquePixelsOnCut": 0
+    },
+    {
+      "source": "v1",
+      "row": 3,
+      "boundary": 2,
+      "x": 605,
+      "opaquePixelsOnCut": 0
+    },
+    {
+      "source": "v1",
+      "row": 3,
+      "boundary": 3,
+      "x": 930,
+      "opaquePixelsOnCut": 0
+    },
+    {
+      "source": "v2",
+      "row": 0,
+      "boundary": 1,
+      "x": 332,
+      "opaquePixelsOnCut": 0
+    },
+    {
+      "source": "v2",
+      "row": 0,
+      "boundary": 2,
+      "x": 629,
+      "opaquePixelsOnCut": 0
+    },
+    {
+      "source": "v2",
+      "row": 0,
+      "boundary": 3,
+      "x": 940,
+      "opaquePixelsOnCut": 0
+    },
+    {
+      "source": "v2",
+      "row": 1,
+      "boundary": 1,
+      "x": 332,
+      "opaquePixelsOnCut": 0
+    },
+    {
+      "source": "v2",
+      "row": 1,
+      "boundary": 2,
+      "x": 637,
+      "opaquePixelsOnCut": 0
+    },
+    {
+      "source": "v2",
+      "row": 1,
+      "boundary": 3,
+      "x": 951,
+      "opaquePixelsOnCut": 0
+    },
+    {
+      "source": "v2",
+      "row": 2,
+      "boundary": 1,
+      "x": 334,
+      "opaquePixelsOnCut": 0
+    },
+    {
+      "source": "v2",
+      "row": 2,
+      "boundary": 2,
+      "x": 635,
+      "opaquePixelsOnCut": 0
+    },
+    {
+      "source": "v2",
+      "row": 2,
+      "boundary": 3,
+      "x": 943,
+      "opaquePixelsOnCut": 0
+    },
+    {
+      "source": "v2",
+      "row": 3,
+      "boundary": 1,
+      "x": 322,
+      "opaquePixelsOnCut": 0
+    },
+    {
+      "source": "v2",
+      "row": 3,
+      "boundary": 2,
+      "x": 625,
+      "opaquePixelsOnCut": 0
+    },
+    {
+      "source": "v2",
+      "row": 3,
+      "boundary": 3,
+      "x": 938,
+      "opaquePixelsOnCut": 0
+    },
+    {
+      "source": "v3",
+      "row": 0,
+      "boundary": 1,
+      "x": 342,
+      "opaquePixelsOnCut": 0
+    },
+    {
+      "source": "v3",
+      "row": 0,
+      "boundary": 2,
+      "x": 641,
+      "opaquePixelsOnCut": 0
+    },
+    {
+      "source": "v3",
+      "row": 0,
+      "boundary": 3,
+      "x": 963,
+      "opaquePixelsOnCut": 0
+    },
+    {
+      "source": "v3",
+      "row": 1,
+      "boundary": 1,
+      "x": 346,
+      "opaquePixelsOnCut": 0
+    },
+    {
+      "source": "v3",
+      "row": 1,
+      "boundary": 2,
+      "x": 655,
+      "opaquePixelsOnCut": 0
+    },
+    {
+      "source": "v3",
+      "row": 1,
+      "boundary": 3,
+      "x": 955,
+      "opaquePixelsOnCut": 0
+    },
+    {
+      "source": "v3",
+      "row": 2,
+      "boundary": 1,
+      "x": 336,
+      "opaquePixelsOnCut": 0
+    },
+    {
+      "source": "v3",
+      "row": 2,
+      "boundary": 2,
+      "x": 633,
+      "opaquePixelsOnCut": 0
+    },
+    {
+      "source": "v3",
+      "row": 2,
+      "boundary": 3,
+      "x": 963,
+      "opaquePixelsOnCut": 0
+    },
+    {
+      "source": "v3",
+      "row": 3,
+      "boundary": 1,
+      "x": 344,
+      "opaquePixelsOnCut": 0
+    },
+    {
+      "source": "v3",
+      "row": 3,
+      "boundary": 2,
+      "x": 633,
+      "opaquePixelsOnCut": 0
+    },
+    {
+      "source": "v3",
+      "row": 3,
+      "boundary": 3,
+      "x": 963,
+      "opaquePixelsOnCut": 0
+    },
+    {
+      "source": "v3attack",
+      "row": 0,
+      "boundary": 1,
+      "x": 627,
+      "opaquePixelsOnCut": 0
+    },
+    {
+      "source": "v3attack",
+      "row": 1,
+      "boundary": 1,
+      "x": 673,
+      "opaquePixelsOnCut": 0
+    },
+    {
+      "source": "effects",
+      "row": 0,
+      "boundary": 1,
+      "x": 336,
+      "opaquePixelsOnCut": 0
+    },
+    {
+      "source": "effects",
+      "row": 0,
+      "boundary": 2,
+      "x": 633,
+      "opaquePixelsOnCut": 0
+    },
+    {
+      "source": "effects",
+      "row": 0,
+      "boundary": 3,
+      "x": 906,
+      "opaquePixelsOnCut": 0
+    },
+    {
+      "source": "effects",
+      "row": 1,
+      "boundary": 1,
+      "x": 342,
+      "opaquePixelsOnCut": 0
+    },
+    {
+      "source": "effects",
+      "row": 1,
+      "boundary": 2,
+      "x": 633,
+      "opaquePixelsOnCut": 0
+    },
+    {
+      "source": "effects",
+      "row": 1,
+      "boundary": 3,
+      "x": 971,
+      "opaquePixelsOnCut": 0
+    },
+    {
+      "source": "effects",
+      "row": 2,
+      "boundary": 1,
+      "x": 344,
+      "opaquePixelsOnCut": 0
+    },
+    {
+      "source": "effects",
+      "row": 2,
+      "boundary": 2,
+      "x": 665,
+      "opaquePixelsOnCut": 0
+    },
+    {
+      "source": "effects",
+      "row": 2,
+      "boundary": 3,
+      "x": 971,
+      "opaquePixelsOnCut": 0
+    },
+    {
+      "source": "effects",
+      "row": 3,
+      "boundary": 1,
+      "x": 336,
+      "opaquePixelsOnCut": 0
+    },
+    {
+      "source": "effects",
+      "row": 3,
+      "boundary": 2,
+      "x": 625,
+      "opaquePixelsOnCut": 0
+    },
+    {
+      "source": "effects",
+      "row": 3,
+      "boundary": 3,
+      "x": 971,
+      "opaquePixelsOnCut": 0
+    }
+  ],
+  "files": [
+    {
+      "file": "public/assets/effects/laser-crocodile/frames/impact/00.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "3bf09553d11f79022e760f972ab133fa51414e716db2072526672a5b339b078b",
+      "frames": [
+        {
+          "alphaBBox": [
+            18,
+            28,
+            238,
+            228
+          ],
+          "fullyTransparentPixels": 52454,
+          "semiTransparentPixels": 13082
+        }
+      ]
+    },
+    {
+      "file": "public/assets/effects/laser-crocodile/frames/impact/01.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "d17044862c4a861bf345f681169f0aec8a03b2fee4453a8204d266f8c8c42137",
+      "frames": [
+        {
+          "alphaBBox": [
+            25,
+            28,
+            230,
+            228
+          ],
+          "fullyTransparentPixels": 42815,
+          "semiTransparentPixels": 22721
+        }
+      ]
+    },
+    {
+      "file": "public/assets/effects/laser-crocodile/frames/impact/02.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "184253f05162e233f88784a411a90d9a204310e36c7e049a9b8accd21a6468b1",
+      "frames": [
+        {
+          "alphaBBox": [
+            30,
+            28,
+            226,
+            228
+          ],
+          "fullyTransparentPixels": 44837,
+          "semiTransparentPixels": 20699
+        }
+      ]
+    },
+    {
+      "file": "public/assets/effects/laser-crocodile/frames/impact/03.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "576e69a2787628650a304c9c72073ee718049934f40a489d350daab040cf193c",
+      "frames": [
+        {
+          "alphaBBox": [
+            38,
+            28,
+            219,
+            228
+          ],
+          "fullyTransparentPixels": 50599,
+          "semiTransparentPixels": 14937
+        }
+      ]
+    },
+    {
+      "file": "public/assets/effects/laser-crocodile/frames/laser-bolt/00.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "32f94054dedef1cf3982155009c9c8379160d5d3cdc2d9d87652dff189863d74",
+      "frames": [
+        {
+          "alphaBBox": [
+            22,
+            29,
+            234,
+            228
+          ],
+          "fullyTransparentPixels": 55475,
+          "semiTransparentPixels": 10061
+        }
+      ]
+    },
+    {
+      "file": "public/assets/effects/laser-crocodile/frames/laser-bolt/01.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "d738fe3d0f3c9f4b53faaa7500562f0c27646cc717891eb95f2b0774994949b4",
+      "frames": [
+        {
+          "alphaBBox": [
+            34,
+            29,
+            222,
+            228
+          ],
+          "fullyTransparentPixels": 51908,
+          "semiTransparentPixels": 13628
+        }
+      ]
+    },
+    {
+      "file": "public/assets/effects/laser-crocodile/frames/laser-bolt/02.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "5b572f9eae5b58d85de4969f8d07253e5805c8047c928a5f114afd3ced4426bc",
+      "frames": [
+        {
+          "alphaBBox": [
+            42,
+            37,
+            215,
+            228
+          ],
+          "fullyTransparentPixels": 51361,
+          "semiTransparentPixels": 14175
+        }
+      ]
+    },
+    {
+      "file": "public/assets/effects/laser-crocodile/frames/laser-bolt/03.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "599113f10cd69a592c240dc8265498cbe0f77fd3f5dab033adc463b89fa94b1a",
+      "frames": [
+        {
+          "alphaBBox": [
+            18,
+            29,
+            238,
+            228
+          ],
+          "fullyTransparentPixels": 51805,
+          "semiTransparentPixels": 13731
+        }
+      ]
+    },
+    {
+      "file": "public/assets/effects/laser-crocodile/frames/muzzle-flash/00.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "895814544a79ef10f2e6089dcc070bf1490e57c5bdd4ad24bfcba3e95afb5d25",
+      "frames": [
+        {
+          "alphaBBox": [
+            18,
+            28,
+            238,
+            229
+          ],
+          "fullyTransparentPixels": 52698,
+          "semiTransparentPixels": 12838
+        }
+      ]
+    },
+    {
+      "file": "public/assets/effects/laser-crocodile/frames/muzzle-flash/01.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "122fbb90634d81f17e8724f2e2fe9ccb0cd640b2a45f6bd5fb2cefac07fa3a51",
+      "frames": [
+        {
+          "alphaBBox": [
+            34,
+            28,
+            221,
+            229
+          ],
+          "fullyTransparentPixels": 45944,
+          "semiTransparentPixels": 19592
+        }
+      ]
+    },
+    {
+      "file": "public/assets/effects/laser-crocodile/frames/muzzle-flash/02.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "23f50b62f87bfebadced7bf421ffd7f20948027ba8abd27ee506a3bf9edcb4fb",
+      "frames": [
+        {
+          "alphaBBox": [
+            19,
+            28,
+            236,
+            229
+          ],
+          "fullyTransparentPixels": 39223,
+          "semiTransparentPixels": 26313
+        }
+      ]
+    },
+    {
+      "file": "public/assets/effects/laser-crocodile/frames/muzzle-flash/03.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "fd54b24766716a385ce2861379937f8706e9ba02121f71fbb399ba7887afe14c",
+      "frames": [
+        {
+          "alphaBBox": [
+            37,
+            28,
+            219,
+            229
+          ],
+          "fullyTransparentPixels": 47802,
+          "semiTransparentPixels": 17734
+        }
+      ]
+    },
+    {
+      "file": "public/assets/effects/laser-crocodile/frames/upgrade/00.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "a78aaf400a2ad0a70b1dec133c4df97ce1517c71f15a1a0dcdddd91963e6f84f",
+      "frames": [
+        {
+          "alphaBBox": [
+            21,
+            28,
+            235,
+            228
+          ],
+          "fullyTransparentPixels": 53183,
+          "semiTransparentPixels": 12353
+        }
+      ]
+    },
+    {
+      "file": "public/assets/effects/laser-crocodile/frames/upgrade/01.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "116a03cb7a503ae6ef7bdfe8d11fce8d3b0f87b2154e2e4791a96410de59d645",
+      "frames": [
+        {
+          "alphaBBox": [
+            36,
+            28,
+            220,
+            228
+          ],
+          "fullyTransparentPixels": 48648,
+          "semiTransparentPixels": 16888
+        }
+      ]
+    },
+    {
+      "file": "public/assets/effects/laser-crocodile/frames/upgrade/02.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "c772195ddaa140bb1d3b7d715dc3fc332cda5aae49493a0d605cc966e6bdb77a",
+      "frames": [
+        {
+          "alphaBBox": [
+            18,
+            28,
+            238,
+            228
+          ],
+          "fullyTransparentPixels": 38363,
+          "semiTransparentPixels": 27173
+        }
+      ]
+    },
+    {
+      "file": "public/assets/effects/laser-crocodile/frames/upgrade/03.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "8401441a609214ca58573bc8bd2f4c3c0a11e2ac6eeab07742db8159253b83f2",
+      "frames": [
+        {
+          "alphaBBox": [
+            38,
+            28,
+            218,
+            228
+          ],
+          "fullyTransparentPixels": 51137,
+          "semiTransparentPixels": 14399
+        }
+      ]
+    },
+    {
+      "file": "public/assets/effects/laser-crocodile/impact.png",
+      "size": [
+        1024,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "d3cec809a8fc259195df46879efd864341f46c18b5529f24a42a71cae68e4aa2",
+      "frames": [
+        {
+          "alphaBBox": [
+            18,
+            28,
+            238,
+            228
+          ],
+          "fullyTransparentPixels": 52454,
+          "semiTransparentPixels": 13082
+        },
+        {
+          "alphaBBox": [
+            25,
+            28,
+            230,
+            228
+          ],
+          "fullyTransparentPixels": 42815,
+          "semiTransparentPixels": 22721
+        },
+        {
+          "alphaBBox": [
+            30,
+            28,
+            226,
+            228
+          ],
+          "fullyTransparentPixels": 44837,
+          "semiTransparentPixels": 20699
+        },
+        {
+          "alphaBBox": [
+            38,
+            28,
+            219,
+            228
+          ],
+          "fullyTransparentPixels": 50599,
+          "semiTransparentPixels": 14937
+        }
+      ]
+    },
+    {
+      "file": "public/assets/effects/laser-crocodile/laser-bolt.png",
+      "size": [
+        1024,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "1bc70f1977f755b1394e16b388fbd4e7b3e6a9f384d8707e3e826e64c408c25e",
+      "frames": [
+        {
+          "alphaBBox": [
+            22,
+            29,
+            234,
+            228
+          ],
+          "fullyTransparentPixels": 55475,
+          "semiTransparentPixels": 10061
+        },
+        {
+          "alphaBBox": [
+            34,
+            29,
+            222,
+            228
+          ],
+          "fullyTransparentPixels": 51908,
+          "semiTransparentPixels": 13628
+        },
+        {
+          "alphaBBox": [
+            42,
+            37,
+            215,
+            228
+          ],
+          "fullyTransparentPixels": 51361,
+          "semiTransparentPixels": 14175
+        },
+        {
+          "alphaBBox": [
+            18,
+            29,
+            238,
+            228
+          ],
+          "fullyTransparentPixels": 51805,
+          "semiTransparentPixels": 13731
+        }
+      ]
+    },
+    {
+      "file": "public/assets/effects/laser-crocodile/muzzle-flash.png",
+      "size": [
+        1024,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "7e3e88866c19fb39f8073eb3e792d06521c071fd7fa8166a4b78da70fb9c6cdb",
+      "frames": [
+        {
+          "alphaBBox": [
+            18,
+            28,
+            238,
+            229
+          ],
+          "fullyTransparentPixels": 52698,
+          "semiTransparentPixels": 12838
+        },
+        {
+          "alphaBBox": [
+            34,
+            28,
+            221,
+            229
+          ],
+          "fullyTransparentPixels": 45944,
+          "semiTransparentPixels": 19592
+        },
+        {
+          "alphaBBox": [
+            19,
+            28,
+            236,
+            229
+          ],
+          "fullyTransparentPixels": 39223,
+          "semiTransparentPixels": 26313
+        },
+        {
+          "alphaBBox": [
+            37,
+            28,
+            219,
+            229
+          ],
+          "fullyTransparentPixels": 47802,
+          "semiTransparentPixels": 17734
+        }
+      ]
+    },
+    {
+      "file": "public/assets/effects/laser-crocodile/upgrade.png",
+      "size": [
+        1024,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "f6aa64d0279bd2e09920125a00674af1f56158b66dd425853d953696262383d1",
+      "frames": [
+        {
+          "alphaBBox": [
+            21,
+            28,
+            235,
+            228
+          ],
+          "fullyTransparentPixels": 53183,
+          "semiTransparentPixels": 12353
+        },
+        {
+          "alphaBBox": [
+            36,
+            28,
+            220,
+            228
+          ],
+          "fullyTransparentPixels": 48648,
+          "semiTransparentPixels": 16888
+        },
+        {
+          "alphaBBox": [
+            18,
+            28,
+            238,
+            228
+          ],
+          "fullyTransparentPixels": 38363,
+          "semiTransparentPixels": 27173
+        },
+        {
+          "alphaBBox": [
+            38,
+            28,
+            218,
+            228
+          ],
+          "fullyTransparentPixels": 51137,
+          "semiTransparentPixels": 14399
+        }
+      ]
+    },
+    {
+      "file": "public/assets/icons/laser-crocodile-v1.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "f6d4f1ef15655a6fa53a507d21445af28be51e05cf391752df4f0bfa2010ec78",
+      "frames": [
+        {
+          "alphaBBox": [
+            22,
+            39,
+            234,
+            224
+          ],
+          "fullyTransparentPixels": 54595,
+          "semiTransparentPixels": 10870
+        }
+      ]
+    },
+    {
+      "file": "public/assets/icons/laser-crocodile-v2.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "594f8b798fd8ecc51cdc8ca80f23a738dfe0b31c1c336c01179ea889dc98e559",
+      "frames": [
+        {
+          "alphaBBox": [
+            22,
+            48,
+            234,
+            224
+          ],
+          "fullyTransparentPixels": 51118,
+          "semiTransparentPixels": 14325
+        }
+      ]
+    },
+    {
+      "file": "public/assets/icons/laser-crocodile-v3.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "761eda18dee23caf95658f4f1700f2223c4d7c1a2d9622d2588fccbad0eae0af",
+      "frames": [
+        {
+          "alphaBBox": [
+            22,
+            35,
+            234,
+            224
+          ],
+          "fullyTransparentPixels": 51775,
+          "semiTransparentPixels": 13669
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/laser-crocodile/frames/v1-attack/00.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "26847c83a1b165a78921d73888fe59749cc9c3f68ba7bc8053712e4a4690d3e0",
+      "frames": [
+        {
+          "alphaBBox": [
+            22,
+            35,
+            234,
+            224
+          ],
+          "fullyTransparentPixels": 54784,
+          "semiTransparentPixels": 10660
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/laser-crocodile/frames/v1-attack/01.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "cd04390d400dd04564ac8936abc46bbc5632d039709ba765f5ffdfb223c15df5",
+      "frames": [
+        {
+          "alphaBBox": [
+            39,
+            36,
+            217,
+            224
+          ],
+          "fullyTransparentPixels": 53414,
+          "semiTransparentPixels": 12052
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/laser-crocodile/frames/v1-attack/02.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "9302f68bd467eed8ff1bbfcd6f547a9288dcaec1b8054e07fa67e056b60e5e3f",
+      "frames": [
+        {
+          "alphaBBox": [
+            33,
+            36,
+            222,
+            224
+          ],
+          "fullyTransparentPixels": 52768,
+          "semiTransparentPixels": 12679
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/laser-crocodile/frames/v1-attack/03.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "8053d8e0b24db0a180b63e681e3ace211aeea1abe000aae7a8a93145a721bdb8",
+      "frames": [
+        {
+          "alphaBBox": [
+            44,
+            35,
+            213,
+            224
+          ],
+          "fullyTransparentPixels": 54795,
+          "semiTransparentPixels": 10636
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/laser-crocodile/frames/v1-hurt/00.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "9715f6442de25e4cf045e53d9b107213ba9bf73888a018e0a1bfd1bfa577708b",
+      "frames": [
+        {
+          "alphaBBox": [
+            22,
+            27,
+            234,
+            224
+          ],
+          "fullyTransparentPixels": 52792,
+          "semiTransparentPixels": 12667
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/laser-crocodile/frames/v1-hurt/01.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "0c817843509b9af44a6aa68484702d4a574d7ea44b309cac67fc42f6c4f3b1f7",
+      "frames": [
+        {
+          "alphaBBox": [
+            45,
+            27,
+            212,
+            224
+          ],
+          "fullyTransparentPixels": 53612,
+          "semiTransparentPixels": 11849
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/laser-crocodile/frames/v1-hurt/02.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "b5dc9aeb1b4cd16e85b23b490195573b54d74852c45c38aa8338f8fe3de72e1f",
+      "frames": [
+        {
+          "alphaBBox": [
+            27,
+            27,
+            230,
+            224
+          ],
+          "fullyTransparentPixels": 54677,
+          "semiTransparentPixels": 10752
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/laser-crocodile/frames/v1-hurt/03.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "e692e7bf01b440b886accc18eb0eb1305dd83300c30414061e1bb34692e45b74",
+      "frames": [
+        {
+          "alphaBBox": [
+            30,
+            27,
+            224,
+            224
+          ],
+          "fullyTransparentPixels": 53922,
+          "semiTransparentPixels": 11530
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/laser-crocodile/frames/v1-idle/00.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "f6d4f1ef15655a6fa53a507d21445af28be51e05cf391752df4f0bfa2010ec78",
+      "frames": [
+        {
+          "alphaBBox": [
+            22,
+            39,
+            234,
+            224
+          ],
+          "fullyTransparentPixels": 54595,
+          "semiTransparentPixels": 10870
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/laser-crocodile/frames/v1-idle/01.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "963fb1228f851f5baf93cccf8c132b3863333a7237e2151858592e401f26cf80",
+      "frames": [
+        {
+          "alphaBBox": [
+            37,
+            32,
+            219,
+            224
+          ],
+          "fullyTransparentPixels": 54511,
+          "semiTransparentPixels": 10949
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/laser-crocodile/frames/v1-idle/02.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "480568d41e6ad85d42c28bc9d397406d3dcee98eccede4063fe8b42e80f76f7c",
+      "frames": [
+        {
+          "alphaBBox": [
+            30,
+            38,
+            226,
+            224
+          ],
+          "fullyTransparentPixels": 55106,
+          "semiTransparentPixels": 10359
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/laser-crocodile/frames/v1-idle/03.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "4197d576387f4543dcb3b885713de52b347ac4f29c1fa76ffe123e6696dd3230",
+      "frames": [
+        {
+          "alphaBBox": [
+            33,
+            35,
+            224,
+            224
+          ],
+          "fullyTransparentPixels": 54603,
+          "semiTransparentPixels": 10845
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/laser-crocodile/frames/v1-walk/00.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "e98377b827dcd915b1bb77e1300f220a6369fcf6348d94df993268cca75d0384",
+      "frames": [
+        {
+          "alphaBBox": [
+            34,
+            36,
+            221,
+            224
+          ],
+          "fullyTransparentPixels": 54451,
+          "semiTransparentPixels": 10990
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/laser-crocodile/frames/v1-walk/01.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "1b0f4945115710cd2e3733b874195e11b837453e5e52d6e67525b4d527e95b66",
+      "frames": [
+        {
+          "alphaBBox": [
+            38,
+            36,
+            220,
+            224
+          ],
+          "fullyTransparentPixels": 54213,
+          "semiTransparentPixels": 11199
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/laser-crocodile/frames/v1-walk/02.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "fc406bf17c27684f5067ce842c290a0fede43bb1760e868cf1d672e93d69671e",
+      "frames": [
+        {
+          "alphaBBox": [
+            22,
+            36,
+            234,
+            224
+          ],
+          "fullyTransparentPixels": 53835,
+          "semiTransparentPixels": 11607
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/laser-crocodile/frames/v1-walk/03.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "ad1da7995fc51620c104efec664e78585f4770709af53c352e30272f897028dd",
+      "frames": [
+        {
+          "alphaBBox": [
+            45,
+            36,
+            206,
+            224
+          ],
+          "fullyTransparentPixels": 55189,
+          "semiTransparentPixels": 10236
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/laser-crocodile/frames/v2-attack/00.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "f32268e419bd0a306eadd3d2ad7852c41446481cea683f13fd898b37b7a07565",
+      "frames": [
+        {
+          "alphaBBox": [
+            22,
+            31,
+            234,
+            223
+          ],
+          "fullyTransparentPixels": 51606,
+          "semiTransparentPixels": 13829
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/laser-crocodile/frames/v2-attack/01.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "1d5f6961734a64b7553c2fcbe378685a07d945e8f92ae30df2a9a148cb56f810",
+      "frames": [
+        {
+          "alphaBBox": [
+            33,
+            27,
+            223,
+            224
+          ],
+          "fullyTransparentPixels": 50670,
+          "semiTransparentPixels": 14773
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/laser-crocodile/frames/v2-attack/02.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "337bccae5197c773970ba45e541335a0ba53480be1860b379e868e3313058f13",
+      "frames": [
+        {
+          "alphaBBox": [
+            31,
+            26,
+            225,
+            224
+          ],
+          "fullyTransparentPixels": 49864,
+          "semiTransparentPixels": 15564
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/laser-crocodile/frames/v2-attack/03.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "d98f07aa24609b4d1201098afa69fc5390cc869d3086394d3d2e6f4193a6f00c",
+      "frames": [
+        {
+          "alphaBBox": [
+            34,
+            27,
+            222,
+            224
+          ],
+          "fullyTransparentPixels": 52013,
+          "semiTransparentPixels": 13445
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/laser-crocodile/frames/v2-hurt/00.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "5b9ebd257d67c8d22b4b20d5a9c7654be44235a20264b9c0905792fe157f2a71",
+      "frames": [
+        {
+          "alphaBBox": [
+            24,
+            23,
+            231,
+            224
+          ],
+          "fullyTransparentPixels": 50057,
+          "semiTransparentPixels": 15343
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/laser-crocodile/frames/v2-hurt/01.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "8e40fd11f6e5f78cb3013690eae3a7f969fd4b752cdbf68a92444ae656609a9b",
+      "frames": [
+        {
+          "alphaBBox": [
+            31,
+            48,
+            225,
+            224
+          ],
+          "fullyTransparentPixels": 49258,
+          "semiTransparentPixels": 16144
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/laser-crocodile/frames/v2-hurt/02.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "7c3bcaafd67f6395d5239b1c0ef68ef3c79bf620f7885965c172ebecd1cc77c2",
+      "frames": [
+        {
+          "alphaBBox": [
+            29,
+            46,
+            226,
+            223
+          ],
+          "fullyTransparentPixels": 52290,
+          "semiTransparentPixels": 13120
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/laser-crocodile/frames/v2-hurt/03.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "08c84c549b13540e462f60fc4b7d56d6a6ce2de027675df5f0f66320064e155e",
+      "frames": [
+        {
+          "alphaBBox": [
+            32,
+            37,
+            225,
+            224
+          ],
+          "fullyTransparentPixels": 50431,
+          "semiTransparentPixels": 14982
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/laser-crocodile/frames/v2-idle/00.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "594f8b798fd8ecc51cdc8ca80f23a738dfe0b31c1c336c01179ea889dc98e559",
+      "frames": [
+        {
+          "alphaBBox": [
+            22,
+            48,
+            234,
+            224
+          ],
+          "fullyTransparentPixels": 51118,
+          "semiTransparentPixels": 14325
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/laser-crocodile/frames/v2-idle/01.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "3563ca653dbf2ca37aee9fb5890b03024340b5b157543a5c1eac5adc1f2e0886",
+      "frames": [
+        {
+          "alphaBBox": [
+            33,
+            43,
+            222,
+            224
+          ],
+          "fullyTransparentPixels": 50433,
+          "semiTransparentPixels": 14977
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/laser-crocodile/frames/v2-idle/02.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "a022bb34fc6d84c708c53c9967646e63188286cfce99a40e1f992db467505cc5",
+      "frames": [
+        {
+          "alphaBBox": [
+            31,
+            37,
+            226,
+            224
+          ],
+          "fullyTransparentPixels": 51416,
+          "semiTransparentPixels": 14016
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/laser-crocodile/frames/v2-idle/03.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "4fb94609758e39f792fce38ab5031bae8826e12710eeadc9a7485d772cef5802",
+      "frames": [
+        {
+          "alphaBBox": [
+            40,
+            67,
+            222,
+            222
+          ],
+          "fullyTransparentPixels": 51671,
+          "semiTransparentPixels": 13734
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/laser-crocodile/frames/v2-walk/00.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "842e0f077277be6902aea00c13d0bdc987b997fd7c95d311b795538ec33b4d8b",
+      "frames": [
+        {
+          "alphaBBox": [
+            30,
+            26,
+            227,
+            224
+          ],
+          "fullyTransparentPixels": 49377,
+          "semiTransparentPixels": 16057
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/laser-crocodile/frames/v2-walk/01.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "29c3d7e456899b2e152a7c8cce4c94e81e4a723c5ff59646f6621fb84d118887",
+      "frames": [
+        {
+          "alphaBBox": [
+            29,
+            22,
+            227,
+            224
+          ],
+          "fullyTransparentPixels": 49159,
+          "semiTransparentPixels": 16242
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/laser-crocodile/frames/v2-walk/02.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "0da550dce7665132aee667699b3da534de879cf8c46d24a9f9af67ce541fb0d3",
+      "frames": [
+        {
+          "alphaBBox": [
+            26,
+            25,
+            229,
+            224
+          ],
+          "fullyTransparentPixels": 49838,
+          "semiTransparentPixels": 15570
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/laser-crocodile/frames/v2-walk/03.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "c8f89880fd1dbf145caf7176f80e85010ed6d193b9d8d1c0022c958bebfb8c7f",
+      "frames": [
+        {
+          "alphaBBox": [
+            30,
+            22,
+            227,
+            224
+          ],
+          "fullyTransparentPixels": 49931,
+          "semiTransparentPixels": 15501
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/laser-crocodile/frames/v3-attack/00.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "34be2b219435b5adcab3d5ccf1e5e5c3c135aa1469ff1ce678ba480a8688fdcc",
+      "frames": [
+        {
+          "alphaBBox": [
+            37,
+            34,
+            223,
+            224
+          ],
+          "fullyTransparentPixels": 53634,
+          "semiTransparentPixels": 11543
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/laser-crocodile/frames/v3-attack/01.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "9b521fdce4f1806863a1e17ed624d400a21231f1c17a2dd50aa8ab895338d5c2",
+      "frames": [
+        {
+          "alphaBBox": [
+            35,
+            42,
+            225,
+            222
+          ],
+          "fullyTransparentPixels": 52284,
+          "semiTransparentPixels": 12931
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/laser-crocodile/frames/v3-attack/02.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "1d7ecd1c975e2981a567af950a329c83500e91b5b36bd3001ed4e06deb07008a",
+      "frames": [
+        {
+          "alphaBBox": [
+            28,
+            26,
+            233,
+            216
+          ],
+          "fullyTransparentPixels": 52310,
+          "semiTransparentPixels": 12903
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/laser-crocodile/frames/v3-attack/03.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "f87bab8e3f0c9dfc5491460bd4764e8a3116ffe50c3ccbbd1cf977c04ad9d49b",
+      "frames": [
+        {
+          "alphaBBox": [
+            39,
+            35,
+            220,
+            214
+          ],
+          "fullyTransparentPixels": 53957,
+          "semiTransparentPixels": 11302
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/laser-crocodile/frames/v3-hurt/00.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "a0429ab978019333d6fcdea892e9eec9b4041edc83418105618f154bb521076e",
+      "frames": [
+        {
+          "alphaBBox": [
+            22,
+            30,
+            234,
+            224
+          ],
+          "fullyTransparentPixels": 49874,
+          "semiTransparentPixels": 15606
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/laser-crocodile/frames/v3-hurt/01.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "3571ad8f44d8f19483945f300bb72519f991f31cfd6092943763f9491915f427",
+      "frames": [
+        {
+          "alphaBBox": [
+            39,
+            30,
+            217,
+            224
+          ],
+          "fullyTransparentPixels": 50034,
+          "semiTransparentPixels": 15427
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/laser-crocodile/frames/v3-hurt/02.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "5c3257042631d0a2492c7f58f8b9172d22ddab63d9000daea3e01cc8c8a8d04c",
+      "frames": [
+        {
+          "alphaBBox": [
+            27,
+            30,
+            230,
+            224
+          ],
+          "fullyTransparentPixels": 52050,
+          "semiTransparentPixels": 13437
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/laser-crocodile/frames/v3-hurt/03.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "8c83f787bb567f960cb830621648a63f05bc0da1c78d47c503b9c22ddc3efc11",
+      "frames": [
+        {
+          "alphaBBox": [
+            41,
+            30,
+            214,
+            224
+          ],
+          "fullyTransparentPixels": 50559,
+          "semiTransparentPixels": 14928
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/laser-crocodile/frames/v3-idle/00.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "761eda18dee23caf95658f4f1700f2223c4d7c1a2d9622d2588fccbad0eae0af",
+      "frames": [
+        {
+          "alphaBBox": [
+            22,
+            35,
+            234,
+            224
+          ],
+          "fullyTransparentPixels": 51775,
+          "semiTransparentPixels": 13669
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/laser-crocodile/frames/v3-idle/01.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "288f5feb5d02d0e2f758bebcd44549dac942e8716208131854065062e7eb7eae",
+      "frames": [
+        {
+          "alphaBBox": [
+            36,
+            38,
+            221,
+            224
+          ],
+          "fullyTransparentPixels": 50240,
+          "semiTransparentPixels": 15229
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/laser-crocodile/frames/v3-idle/02.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "a00244bf7ee71dce2ce6428fd81cc4b66825fbc8239eff2e75666155994f0ddd",
+      "frames": [
+        {
+          "alphaBBox": [
+            28,
+            40,
+            228,
+            224
+          ],
+          "fullyTransparentPixels": 51047,
+          "semiTransparentPixels": 14394
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/laser-crocodile/frames/v3-idle/03.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "ae3ba5095e2ac339862bf6f1e108b94a7f121fdd89603e54db58f150c958b812",
+      "frames": [
+        {
+          "alphaBBox": [
+            41,
+            53,
+            215,
+            224
+          ],
+          "fullyTransparentPixels": 51924,
+          "semiTransparentPixels": 13552
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/laser-crocodile/frames/v3-walk/00.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "6ec46f67e7dbfcbcecd98efbba003f04bbf28d0e5ccf425bb215d293aea7ac71",
+      "frames": [
+        {
+          "alphaBBox": [
+            22,
+            32,
+            234,
+            224
+          ],
+          "fullyTransparentPixels": 50204,
+          "semiTransparentPixels": 15264
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/laser-crocodile/frames/v3-walk/01.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "838a3abf4d6c9a5c4bbb983b6959dc9c76e2a4153eef75cd1d22bc6e809038f0",
+      "frames": [
+        {
+          "alphaBBox": [
+            34,
+            32,
+            223,
+            224
+          ],
+          "fullyTransparentPixels": 49288,
+          "semiTransparentPixels": 16189
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/laser-crocodile/frames/v3-walk/02.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "ffce847611ac19b5cddbc891b0be0da4e1cac1ea6e91c0c54a34651074be8737",
+      "frames": [
+        {
+          "alphaBBox": [
+            36,
+            32,
+            219,
+            224
+          ],
+          "fullyTransparentPixels": 50530,
+          "semiTransparentPixels": 14945
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/laser-crocodile/frames/v3-walk/03.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "62401abe4410261cac59d622e81a6288fec490a2300fb6f5b4643aa6fe140acc",
+      "frames": [
+        {
+          "alphaBBox": [
+            36,
+            32,
+            219,
+            224
+          ],
+          "fullyTransparentPixels": 51164,
+          "semiTransparentPixels": 14316
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/laser-crocodile/v1-attack.png",
+      "size": [
+        1024,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "92cfa525184f04037c4a5ae3f8b8367aff36899acf0566928d472cbcf40c00ee",
+      "frames": [
+        {
+          "alphaBBox": [
+            22,
+            35,
+            234,
+            224
+          ],
+          "fullyTransparentPixels": 54784,
+          "semiTransparentPixels": 10660
+        },
+        {
+          "alphaBBox": [
+            39,
+            36,
+            217,
+            224
+          ],
+          "fullyTransparentPixels": 53414,
+          "semiTransparentPixels": 12052
+        },
+        {
+          "alphaBBox": [
+            33,
+            36,
+            222,
+            224
+          ],
+          "fullyTransparentPixels": 52768,
+          "semiTransparentPixels": 12679
+        },
+        {
+          "alphaBBox": [
+            44,
+            35,
+            213,
+            224
+          ],
+          "fullyTransparentPixels": 54795,
+          "semiTransparentPixels": 10636
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/laser-crocodile/v1-hurt.png",
+      "size": [
+        1024,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "d8dcb7bbb63114b474723019ffa385c603ebaacb537a5aa6eb0ee652fb4ccdad",
+      "frames": [
+        {
+          "alphaBBox": [
+            22,
+            27,
+            234,
+            224
+          ],
+          "fullyTransparentPixels": 52792,
+          "semiTransparentPixels": 12667
+        },
+        {
+          "alphaBBox": [
+            45,
+            27,
+            212,
+            224
+          ],
+          "fullyTransparentPixels": 53612,
+          "semiTransparentPixels": 11849
+        },
+        {
+          "alphaBBox": [
+            27,
+            27,
+            230,
+            224
+          ],
+          "fullyTransparentPixels": 54677,
+          "semiTransparentPixels": 10752
+        },
+        {
+          "alphaBBox": [
+            30,
+            27,
+            224,
+            224
+          ],
+          "fullyTransparentPixels": 53922,
+          "semiTransparentPixels": 11530
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/laser-crocodile/v1-idle.png",
+      "size": [
+        1024,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "39b9b6d99b3e5eda9b4651b48cdd29cdddc3546c37c907763462a3d5d84b285c",
+      "frames": [
+        {
+          "alphaBBox": [
+            22,
+            39,
+            234,
+            224
+          ],
+          "fullyTransparentPixels": 54595,
+          "semiTransparentPixels": 10870
+        },
+        {
+          "alphaBBox": [
+            37,
+            32,
+            219,
+            224
+          ],
+          "fullyTransparentPixels": 54511,
+          "semiTransparentPixels": 10949
+        },
+        {
+          "alphaBBox": [
+            30,
+            38,
+            226,
+            224
+          ],
+          "fullyTransparentPixels": 55106,
+          "semiTransparentPixels": 10359
+        },
+        {
+          "alphaBBox": [
+            33,
+            35,
+            224,
+            224
+          ],
+          "fullyTransparentPixels": 54603,
+          "semiTransparentPixels": 10845
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/laser-crocodile/v1-walk.png",
+      "size": [
+        1024,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "43b32a829bf5e6e70bb59e4243ba9d377b3f4f25db6c406b0b89223e871fa4b2",
+      "frames": [
+        {
+          "alphaBBox": [
+            34,
+            36,
+            221,
+            224
+          ],
+          "fullyTransparentPixels": 54451,
+          "semiTransparentPixels": 10990
+        },
+        {
+          "alphaBBox": [
+            38,
+            36,
+            220,
+            224
+          ],
+          "fullyTransparentPixels": 54213,
+          "semiTransparentPixels": 11199
+        },
+        {
+          "alphaBBox": [
+            22,
+            36,
+            234,
+            224
+          ],
+          "fullyTransparentPixels": 53835,
+          "semiTransparentPixels": 11607
+        },
+        {
+          "alphaBBox": [
+            45,
+            36,
+            206,
+            224
+          ],
+          "fullyTransparentPixels": 55189,
+          "semiTransparentPixels": 10236
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/laser-crocodile/v1.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "f6d4f1ef15655a6fa53a507d21445af28be51e05cf391752df4f0bfa2010ec78",
+      "frames": [
+        {
+          "alphaBBox": [
+            22,
+            39,
+            234,
+            224
+          ],
+          "fullyTransparentPixels": 54595,
+          "semiTransparentPixels": 10870
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/laser-crocodile/v2-attack.png",
+      "size": [
+        1024,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "374ddda52d823265ae3ff0859494c57ab707831ad6df330818908b7e5e062afe",
+      "frames": [
+        {
+          "alphaBBox": [
+            22,
+            31,
+            234,
+            223
+          ],
+          "fullyTransparentPixels": 51606,
+          "semiTransparentPixels": 13829
+        },
+        {
+          "alphaBBox": [
+            33,
+            27,
+            223,
+            224
+          ],
+          "fullyTransparentPixels": 50670,
+          "semiTransparentPixels": 14773
+        },
+        {
+          "alphaBBox": [
+            31,
+            26,
+            225,
+            224
+          ],
+          "fullyTransparentPixels": 49864,
+          "semiTransparentPixels": 15564
+        },
+        {
+          "alphaBBox": [
+            34,
+            27,
+            222,
+            224
+          ],
+          "fullyTransparentPixels": 52013,
+          "semiTransparentPixels": 13445
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/laser-crocodile/v2-hurt.png",
+      "size": [
+        1024,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "2709736d2aa7d5a560c9d981d76fc128005978cb1b588a5a3bddeca178e2c6ff",
+      "frames": [
+        {
+          "alphaBBox": [
+            24,
+            23,
+            231,
+            224
+          ],
+          "fullyTransparentPixels": 50057,
+          "semiTransparentPixels": 15343
+        },
+        {
+          "alphaBBox": [
+            31,
+            48,
+            225,
+            224
+          ],
+          "fullyTransparentPixels": 49258,
+          "semiTransparentPixels": 16144
+        },
+        {
+          "alphaBBox": [
+            29,
+            46,
+            226,
+            223
+          ],
+          "fullyTransparentPixels": 52290,
+          "semiTransparentPixels": 13120
+        },
+        {
+          "alphaBBox": [
+            32,
+            37,
+            225,
+            224
+          ],
+          "fullyTransparentPixels": 50431,
+          "semiTransparentPixels": 14982
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/laser-crocodile/v2-idle.png",
+      "size": [
+        1024,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "51929bacfcbc2ffad842bcaf0e519b6f22190f761eb9d02ca2ee8aaba9a82136",
+      "frames": [
+        {
+          "alphaBBox": [
+            22,
+            48,
+            234,
+            224
+          ],
+          "fullyTransparentPixels": 51118,
+          "semiTransparentPixels": 14325
+        },
+        {
+          "alphaBBox": [
+            33,
+            43,
+            222,
+            224
+          ],
+          "fullyTransparentPixels": 50433,
+          "semiTransparentPixels": 14977
+        },
+        {
+          "alphaBBox": [
+            31,
+            37,
+            226,
+            224
+          ],
+          "fullyTransparentPixels": 51416,
+          "semiTransparentPixels": 14016
+        },
+        {
+          "alphaBBox": [
+            40,
+            67,
+            222,
+            222
+          ],
+          "fullyTransparentPixels": 51671,
+          "semiTransparentPixels": 13734
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/laser-crocodile/v2-walk.png",
+      "size": [
+        1024,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "be1777d46d16da56b988246aaf36f62ba8d40388746ba1ad844144f24d3bba16",
+      "frames": [
+        {
+          "alphaBBox": [
+            30,
+            26,
+            227,
+            224
+          ],
+          "fullyTransparentPixels": 49377,
+          "semiTransparentPixels": 16057
+        },
+        {
+          "alphaBBox": [
+            29,
+            22,
+            227,
+            224
+          ],
+          "fullyTransparentPixels": 49159,
+          "semiTransparentPixels": 16242
+        },
+        {
+          "alphaBBox": [
+            26,
+            25,
+            229,
+            224
+          ],
+          "fullyTransparentPixels": 49838,
+          "semiTransparentPixels": 15570
+        },
+        {
+          "alphaBBox": [
+            30,
+            22,
+            227,
+            224
+          ],
+          "fullyTransparentPixels": 49931,
+          "semiTransparentPixels": 15501
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/laser-crocodile/v2.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "594f8b798fd8ecc51cdc8ca80f23a738dfe0b31c1c336c01179ea889dc98e559",
+      "frames": [
+        {
+          "alphaBBox": [
+            22,
+            48,
+            234,
+            224
+          ],
+          "fullyTransparentPixels": 51118,
+          "semiTransparentPixels": 14325
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/laser-crocodile/v3-attack.png",
+      "size": [
+        1024,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "c3fda6e2721648cae0e93a7280cbc106f36cc2b83e15388f6693e73aa8bc5c24",
+      "frames": [
+        {
+          "alphaBBox": [
+            37,
+            34,
+            223,
+            224
+          ],
+          "fullyTransparentPixels": 53634,
+          "semiTransparentPixels": 11543
+        },
+        {
+          "alphaBBox": [
+            35,
+            42,
+            225,
+            222
+          ],
+          "fullyTransparentPixels": 52284,
+          "semiTransparentPixels": 12931
+        },
+        {
+          "alphaBBox": [
+            28,
+            26,
+            233,
+            216
+          ],
+          "fullyTransparentPixels": 52310,
+          "semiTransparentPixels": 12903
+        },
+        {
+          "alphaBBox": [
+            39,
+            35,
+            220,
+            214
+          ],
+          "fullyTransparentPixels": 53957,
+          "semiTransparentPixels": 11302
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/laser-crocodile/v3-hurt.png",
+      "size": [
+        1024,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "b134d9f1f1afb650b02ccbd1e535978c4f0772f70237c3e3e712653d6d671325",
+      "frames": [
+        {
+          "alphaBBox": [
+            22,
+            30,
+            234,
+            224
+          ],
+          "fullyTransparentPixels": 49874,
+          "semiTransparentPixels": 15606
+        },
+        {
+          "alphaBBox": [
+            39,
+            30,
+            217,
+            224
+          ],
+          "fullyTransparentPixels": 50034,
+          "semiTransparentPixels": 15427
+        },
+        {
+          "alphaBBox": [
+            27,
+            30,
+            230,
+            224
+          ],
+          "fullyTransparentPixels": 52050,
+          "semiTransparentPixels": 13437
+        },
+        {
+          "alphaBBox": [
+            41,
+            30,
+            214,
+            224
+          ],
+          "fullyTransparentPixels": 50559,
+          "semiTransparentPixels": 14928
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/laser-crocodile/v3-idle.png",
+      "size": [
+        1024,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "c7b2a65330dab1ef11f44dc5fc9aeba57ef016946a6b0c2bcc5b4eba1a1b6217",
+      "frames": [
+        {
+          "alphaBBox": [
+            22,
+            35,
+            234,
+            224
+          ],
+          "fullyTransparentPixels": 51775,
+          "semiTransparentPixels": 13669
+        },
+        {
+          "alphaBBox": [
+            36,
+            38,
+            221,
+            224
+          ],
+          "fullyTransparentPixels": 50240,
+          "semiTransparentPixels": 15229
+        },
+        {
+          "alphaBBox": [
+            28,
+            40,
+            228,
+            224
+          ],
+          "fullyTransparentPixels": 51047,
+          "semiTransparentPixels": 14394
+        },
+        {
+          "alphaBBox": [
+            41,
+            53,
+            215,
+            224
+          ],
+          "fullyTransparentPixels": 51924,
+          "semiTransparentPixels": 13552
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/laser-crocodile/v3-walk.png",
+      "size": [
+        1024,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "690b9e42f8313960e7c4551273376110b63ae6c2cc37f5fd4fd1a0dcca088f3c",
+      "frames": [
+        {
+          "alphaBBox": [
+            22,
+            32,
+            234,
+            224
+          ],
+          "fullyTransparentPixels": 50204,
+          "semiTransparentPixels": 15264
+        },
+        {
+          "alphaBBox": [
+            34,
+            32,
+            223,
+            224
+          ],
+          "fullyTransparentPixels": 49288,
+          "semiTransparentPixels": 16189
+        },
+        {
+          "alphaBBox": [
+            36,
+            32,
+            219,
+            224
+          ],
+          "fullyTransparentPixels": 50530,
+          "semiTransparentPixels": 14945
+        },
+        {
+          "alphaBBox": [
+            36,
+            32,
+            219,
+            224
+          ],
+          "fullyTransparentPixels": 51164,
+          "semiTransparentPixels": 14316
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/laser-crocodile/v3.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "761eda18dee23caf95658f4f1700f2223c4d7c1a2d9622d2588fccbad0eae0af",
+      "frames": [
+        {
+          "alphaBBox": [
+            22,
+            35,
+            234,
+            224
+          ],
+          "fullyTransparentPixels": 51775,
+          "semiTransparentPixels": 13669
+        }
+      ]
+    }
+  ],
+  "limits": "Pixel checks do not prove rigged anatomical continuity. Generated 4-frame animation; visual review required at intended display size. Phaser integration sample supplied, no project checkout modified."
+}

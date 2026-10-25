@@ -1,0 +1,6 @@
+BRAINROT DEFENSE HUD ICONS
+
+Extract the ZIP at the Brainrot Defense project root (the folder containing package.json). Runtime URLs begin /assets/ui/brainrot-defense/ (public/ is omitted).
+16 individually cropped 256x256 RGBA icons are in icons/. The 1024x1024 atlas and frame rectangles are in hud-atlas.png and manifest.json.
+Icons: coin, life-heart, enemy-wave, armor-shield, battle-speed, pause, resume, victory-trophy, crystal, upgrade, merge, boss-crown, timer, defeat-heart, settings, home-base.
+Visual resources only. Do not change screen layout, control behavior, game economy, values, accessibility labels, or responsive behavior. Keep readable text labels and semantic accessible names.

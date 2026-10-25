@@ -1,0 +1,177 @@
+{
+  "version": 1,
+  "id": "brainrot-defense-hud-icons",
+  "style": "dark-basalt-bronze-cyan-emerald",
+  "tileSize": [
+    256,
+    256
+  ],
+  "atlas": {
+    "url": "/assets/ui/brainrot-defense/hud-atlas.png",
+    "columns": 4,
+    "rows": 4
+  },
+  "icons": {
+    "coin": {
+      "url": "/assets/ui/brainrot-defense/icons/coin.png",
+      "frame": 0,
+      "frameRect": [
+        0,
+        0,
+        256,
+        256
+      ]
+    },
+    "life-heart": {
+      "url": "/assets/ui/brainrot-defense/icons/life-heart.png",
+      "frame": 1,
+      "frameRect": [
+        256,
+        0,
+        256,
+        256
+      ]
+    },
+    "enemy-wave": {
+      "url": "/assets/ui/brainrot-defense/icons/enemy-wave.png",
+      "frame": 2,
+      "frameRect": [
+        512,
+        0,
+        256,
+        256
+      ]
+    },
+    "armor-shield": {
+      "url": "/assets/ui/brainrot-defense/icons/armor-shield.png",
+      "frame": 3,
+      "frameRect": [
+        768,
+        0,
+        256,
+        256
+      ]
+    },
+    "battle-speed": {
+      "url": "/assets/ui/brainrot-defense/icons/battle-speed.png",
+      "frame": 4,
+      "frameRect": [
+        0,
+        256,
+        256,
+        256
+      ]
+    },
+    "pause": {
+      "url": "/assets/ui/brainrot-defense/icons/pause.png",
+      "frame": 5,
+      "frameRect": [
+        256,
+        256,
+        256,
+        256
+      ]
+    },
+    "resume": {
+      "url": "/assets/ui/brainrot-defense/icons/resume.png",
+      "frame": 6,
+      "frameRect": [
+        512,
+        256,
+        256,
+        256
+      ]
+    },
+    "victory-trophy": {
+      "url": "/assets/ui/brainrot-defense/icons/victory-trophy.png",
+      "frame": 7,
+      "frameRect": [
+        768,
+        256,
+        256,
+        256
+      ]
+    },
+    "crystal": {
+      "url": "/assets/ui/brainrot-defense/icons/crystal.png",
+      "frame": 8,
+      "frameRect": [
+        0,
+        512,
+        256,
+        256
+      ]
+    },
+    "upgrade": {
+      "url": "/assets/ui/brainrot-defense/icons/upgrade.png",
+      "frame": 9,
+      "frameRect": [
+        256,
+        512,
+        256,
+        256
+      ]
+    },
+    "merge": {
+      "url": "/assets/ui/brainrot-defense/icons/merge.png",
+      "frame": 10,
+      "frameRect": [
+        512,
+        512,
+        256,
+        256
+      ]
+    },
+    "boss-crown": {
+      "url": "/assets/ui/brainrot-defense/icons/boss-crown.png",
+      "frame": 11,
+      "frameRect": [
+        768,
+        512,
+        256,
+        256
+      ]
+    },
+    "timer": {
+      "url": "/assets/ui/brainrot-defense/icons/timer.png",
+      "frame": 12,
+      "frameRect": [
+        0,
+        768,
+        256,
+        256
+      ]
+    },
+    "defeat-heart": {
+      "url": "/assets/ui/brainrot-defense/icons/defeat-heart.png",
+      "frame": 13,
+      "frameRect": [
+        256,
+        768,
+        256,
+        256
+      ]
+    },
+    "settings": {
+      "url": "/assets/ui/brainrot-defense/icons/settings.png",
+      "frame": 14,
+      "frameRect": [
+        512,
+        768,
+        256,
+        256
+      ]
+    },
+    "home-base": {
+      "url": "/assets/ui/brainrot-defense/icons/home-base.png",
+      "frame": 15,
+      "frameRect": [
+        768,
+        768,
+        256,
+        256
+      ]
+    }
+  },
+  "note": "Use only for existing matching game concepts/actions; keep text labels and accessibility names."
+}

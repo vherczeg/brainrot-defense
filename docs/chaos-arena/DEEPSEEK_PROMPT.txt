@@ -1,0 +1,28 @@
+Integrate the Chaos Arena terrain graphics into the current Brainrot Defense game as a visual-only battlefield art layer.
+
+First inspect the current Git status, Phaser battlefield renderer, existing board dimensions, grid cell shape, current floor/grid drawing, and the terrain manifest. Preserve the existing player/enemy graphics and all staged, unstaged, and untracked user changes. Do not reset, restore, overwrite, rename, or re-stage existing work. Do not commit, push, or deploy.
+
+## Assets
+
+- Terrain atlas: `public/assets/terrain/chaos-arena/floor-tiles.png`
+- Decoration atlas: `public/assets/terrain/chaos-arena/decorations.png`
+- Individual floor tiles and props: `public/assets/terrain/chaos-arena/tiles/` and `props/`
+- Manifest and guide: `public/assets/terrain/chaos-arena/manifest.json`, `docs/chaos-arena/ASSET_GUIDE.txt`
+
+There are 16 square floor tiles and 16 separate decorative props. Individual cells are 256×256 RGBA; the atlases are 1024×1024 with 4×4 cells. Use the manifest for keys, paths, and atlas frame rectangles. Use Vite's existing `BASE_URL` asset resolver.
+
+## Integration requirements
+
+1. Keep the existing 6×5 board, cell coordinates, enemy/player zones, unit movement, hit areas, click/drag interactions, merge interaction, accessibility, health indicators, and combat behavior unchanged.
+2. Add the terrain as a background layer behind existing units and UI. Use the floor tile art only if its square shape matches the actual cell layout. If the battlefield uses another cell geometry, crop/scale carefully or use the tiles as a low-contrast underlay; do not reshape or reposition gameplay cells to fit the art.
+3. Use the 16 floor variants to add visual texture without producing confusing seams. Keep tile scale consistent and preserve a clear distinction between enemy and player areas where the current design has one.
+4. Decorative props are optional static scenery. Place them only where they cannot cover units, target cells, click/drag areas, health bars, or accessibility affordances. Prefer board margins or empty scenery regions if the existing battlefield layout supports them. Do not place props randomly over occupied cells.
+5. Load assets in the existing Phaser lifecycle. Avoid reloading the atlas for each tile. Ensure textures are below units, selection highlights, projectiles, health UI, and all interaction layers.
+6. Keep all changes visual-only. Do not change grid size, combat logic, enemy waves, balance, profiles, or save schema.
+7. Update asset-path checks, production build and service-worker/precache coverage, and focused browser tests following existing conventions. Verify every new URL in the production build and under the configured Vite base path. Preserve all character integrations.
+
+## Verification and report
+
+Run the relevant formatter, lint, typecheck, tests, production build, and asset verification. Fix regressions caused by the art layer. Report only checks that actually ran and passed; explain any check that could not run.
+
+In your final report list changed files and describe how the art sits behind units and UI. Include any remaining visual checks for mobile readability, grid seams, and interaction areas. Do not stage, commit, push, or deploy.

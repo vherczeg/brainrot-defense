@@ -1,0 +1,10 @@
+MEGA BRAINROT GORILLA BOSS ASSETS
+
+Extract into the Brainrot Defense project root (the folder containing package.json).
+Unit files: public/assets/units/mega-brainrot-gorilla/
+Effects: public/assets/effects/mega-brainrot-gorilla/
+Portrait icon: public/assets/icons/mega-brainrot-gorilla.png
+Confirm the game's actual boss enemy ID in source; manifest proposes mega-brainrot-gorilla. Do not alter wave 10, stats, combat rules, or save data.
+All sheets are RGBA 1024x256 with four horizontal 256x256 frames. Idle/walk loop. Attack/hurt and the four boss FX play once. Separate frames are in frames/<state>/.
+Enemy art faces left. Unit origin (0.5,0.88), recommended display width 184px; adapt to the existing boss UI and battlefield. Effects use centered origin (0.5,0.5).
+The assets are visual only. Verify layering, readability, and existing boss UI on mobile.

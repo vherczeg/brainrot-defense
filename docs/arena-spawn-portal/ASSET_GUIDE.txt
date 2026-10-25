@@ -1,0 +1,6 @@
+ARENA SPAWN PORTAL ASSET PACK
+
+Extract at the Brainrot Defense project root, the folder containing package.json.
+Runtime URLs begin /assets/effects/arena-spawn-portal/ (public/ is omitted).
+Four 4-frame animations are included: idle, opening, active, closing. Individual 256x256 RGBA frames are in frames/<action>/00.png through 03.png; each action also has a 1024x256 strip. manifest.json records URLs and loop behavior.
+The gate is decorative. Anchor it in an existing empty spawn/scenery region if one exists. Keep it below enemy sprites and above terrain; never cover gameplay cells, hit areas, UI, health, or accessibility affordances.

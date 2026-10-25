@@ -36,7 +36,7 @@ export function ShopPanel({ profile }: { profile: PlayerProfile }) {
           return (
             <article className="shop-card" key={typeId}>
               <div className="shop-card__art">
-                <CreatureAvatar kind={typeId} size={58} title={definition.nameHu} />
+                <CreatureAvatar kind={typeId} size={58} title={definition.nameHu} mergeRank={1} />
               </div>
               <div className="shop-card__body">
                 <div className="shop-card__title-row">
@@ -50,12 +50,11 @@ export function ShopPanel({ profile }: { profile: PlayerProfile }) {
                     <Icon name="skull" size={14} /> {stats.attack}
                   </span>
                   <span>
-                    <span className="heart-icon" aria-hidden="true">
-                      ♥
-                    </span>{' '}
-                    {stats.maxHp}
+                    <Icon name="life-heart" size={14} className="heart-icon" /> {stats.maxHp}
                   </span>
-                  <span>⏱ {stats.attackIntervalSec}s</span>
+                  <span>
+                    <Icon name="timer" size={14} /> {stats.attackIntervalSec}s
+                  </span>
                 </div>
               </div>
               <button

@@ -54,7 +54,11 @@ export function AccessiblePlacement({
                   aria-pressed={selectedId === character.id}
                   data-testid={`accessible-unit-${character.id}`}
                 >
-                  <CreatureAvatar kind={character.typeId} size={28} />
+                  <CreatureAvatar
+                    kind={character.typeId}
+                    size={28}
+                    mergeRank={character.mergeRank}
+                  />
                   <span className="accessible-unit__name">{definition.shortNameHu}</span>
                   <span className="accessible-unit__level">
                     {t('rankWithNumber', { rank: character.mergeRank })} ·{' '}
@@ -112,7 +116,11 @@ export function AccessiblePlacement({
                   <span className="accessible-cell__content">
                     {occupant ? (
                       <>
-                        <CreatureAvatar kind={occupant.typeId} size={22} />
+                        <CreatureAvatar
+                          kind={occupant.typeId}
+                          size={22}
+                          mergeRank={occupant.mergeRank}
+                        />
                         <span>{occupant.mergeRank}</span>
                       </>
                     ) : isMerge ? (

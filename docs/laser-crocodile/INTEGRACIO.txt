@@ -1,0 +1,47 @@
+PHASER 3 / VITE – INTEGRÁCIÓS ÚTMUTATÓ
+
+1. A PNG-k a public/assets mappába kerülnek. Böngészőbeli URL-jükből a public
+   szó kimarad: /assets/units/laser-crocodile/v1-idle.png
+
+2. A mellékelt phaser-integration.js fájlt másold a projekted renderelő moduljai
+   mellé, vagy ültesd át TypeScriptre a meglévő kódstílus szerint. Ez példa,
+   nincs automatikusan importálva a projektbe.
+
+3. BattleScene.preload():
+   preloadLaserCrocodile(this, import.meta.env.BASE_URL);
+
+4. BattleScene.create(), a betöltés befejezése után:
+   registerLaserCrocodileAnimations(this);
+
+5. Új egység sprite létrehozásakor:
+   const tier = laserCrocodileTier(mergeRank);
+   const sprite = this.add.sprite(0, 0, `lc-${tier}-idle`, 0)
+     .setOrigin(0.5, 0.875)
+     .setDisplaySize(112, 112);
+   sprite.play(`lc-${tier}-idle`);
+   container.add(sprite);
+
+6. Állapotváltáskor a megfelelő animáció induljon:
+   sprite.play(`lc-${tier}-walk`, true);
+   sprite.play(`lc-${tier}-attack`, true);
+   sprite.play(`lc-${tier}-hurt`, true);
+   Egyszeri animáció befejezésekor visszatérés idle vagy walk állapotba.
+   Ne indítsd újra minden renderciklusban a támadást: az esemény határán indítsd.
+   A mintában a playLaserCrocodileAction ezt kezeli, beleértve a korábbi
+   egyszeri animáció befejezési figyelőjének eltávolítását.
+
+7. Tartsd meg a meglévő egységkonténert, hit area-t, húzást, egészségcsíkot,
+   rangjelvényt és kiválasztási állapotot; csak a helyőrző rajzot cseréld sprite-ra.
+   A simulation/domain és a mentési séma ne változzon.
+
+8. A lézerlövedék külön sprite. A laser-bolt jobbra repülésre rajzolt;
+   a célpont irányába forgatható. muzzle-flash/impact/upgrade egyszer játszódik,
+   animationcomplete után az effektsprite megsemmisíthető.
+   Az egység támadóképén már van kis torkolattűz; a külön effekt opcionális.
+
+9. Ellenőrizd a forgatást/tükrözést, a játék közbeni méretet, a húzást,
+   egyesítést, animációk megszakítását, 1x/2x sebességet és mobilos olvashatóságot.
+   A meglévő build/precache ellenőrzésbe kerüljenek be az új PNG-k.
+
+Az assetcsomag technikailag ellenőrzött; a teljes játék működésére vonatkozó
+tesztek itt nem futottak, mert csak a csatolt kódmásolat állt rendelkezésre.

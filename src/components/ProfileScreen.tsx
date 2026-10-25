@@ -46,7 +46,7 @@ function ProfileCard({
           <Icon name="coin" size={16} /> {profile.coins}
         </span>
         <span>
-          <Icon name="trophy" size={16} /> {profile.currentWave}/10
+          <Icon name="enemy-wave" size={16} /> {profile.currentWave}/10
         </span>
       </div>
       <div className="profile-card__actions">

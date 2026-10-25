@@ -35,7 +35,7 @@ export function WavePreview({ profile }: { profile: PlayerProfile }) {
         </div>
         {wave.isBossWave ? (
           <span className="boss-chip">
-            <Icon name="skull" size={15} />
+            <Icon name="boss-crown" size={15} />
             {t('bossLabel')}
           </span>
         ) : null}

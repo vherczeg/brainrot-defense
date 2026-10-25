@@ -1,0 +1,1 @@
+Generated a 4x4 transparent-background atlas of 16 matching HUD icon concepts: economy, lives, waves, battle controls, upgrade/merge, results, and navigation. Individual RGBA PNG icons and a matching atlas are included.

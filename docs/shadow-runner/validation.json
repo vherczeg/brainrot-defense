@@ -1,0 +1,661 @@
+{
+  "result": "PASS",
+  "pngCount": 22,
+  "animations": 4,
+  "frames": 16,
+  "checks": [
+    "RGBA decode",
+    "actual alpha channel and anti-aliasing",
+    "grid cuts have zero alpha>160 pixels",
+    "all frames contain pixels",
+    "four unique frames per spritesheet",
+    "minimum two-pixel outer alpha margin"
+  ],
+  "sourceGridCuts": [
+    {
+      "row": 0,
+      "cut": 314,
+      "opaquePixels": 0
+    },
+    {
+      "row": 0,
+      "cut": 637,
+      "opaquePixels": 0
+    },
+    {
+      "row": 0,
+      "cut": 959,
+      "opaquePixels": 0
+    },
+    {
+      "row": 1,
+      "cut": 328,
+      "opaquePixels": 0
+    },
+    {
+      "row": 1,
+      "cut": 633,
+      "opaquePixels": 0
+    },
+    {
+      "row": 1,
+      "cut": 938,
+      "opaquePixels": 0
+    },
+    {
+      "row": 2,
+      "cut": 324,
+      "opaquePixels": 0
+    },
+    {
+      "row": 2,
+      "cut": 625,
+      "opaquePixels": 0
+    },
+    {
+      "row": 2,
+      "cut": 940,
+      "opaquePixels": 0
+    },
+    {
+      "row": 3,
+      "cut": 332,
+      "opaquePixels": 0
+    },
+    {
+      "row": 3,
+      "cut": 629,
+      "opaquePixels": 0
+    },
+    {
+      "row": 3,
+      "cut": 937,
+      "opaquePixels": 0
+    }
+  ],
+  "files": [
+    {
+      "file": "public/assets/icons/shadow-runner.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "c75eca5665933fd843ac2bce2940f0aed91f5fed26100d563073a53f48e8a170",
+      "frames": [
+        {
+          "alphaBBox": [
+            25,
+            46,
+            229,
+            228
+          ],
+          "transparentPixels": 40667,
+          "semiTransparentPixels": 24763
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/shadow-runner/attack.png",
+      "size": [
+        1024,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "ed40aa622ee8e6000ab8c1a0b2588fd437c0cc20ad1e51dbdcf9ba4d2f1c6b32",
+      "frames": [
+        {
+          "alphaBBox": [
+            36,
+            68,
+            220,
+            227
+          ],
+          "transparentPixels": 45768,
+          "semiTransparentPixels": 19650
+        },
+        {
+          "alphaBBox": [
+            32,
+            46,
+            223,
+            227
+          ],
+          "transparentPixels": 44887,
+          "semiTransparentPixels": 20560
+        },
+        {
+          "alphaBBox": [
+            26,
+            41,
+            231,
+            227
+          ],
+          "transparentPixels": 42324,
+          "semiTransparentPixels": 23099
+        },
+        {
+          "alphaBBox": [
+            30,
+            79,
+            224,
+            227
+          ],
+          "transparentPixels": 45798,
+          "semiTransparentPixels": 19605
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/shadow-runner/frames/attack/00.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "5f3b09be5c2e1d25530431d5738277ecc0ad715c88665d206d5e824c4914a740",
+      "frames": [
+        {
+          "alphaBBox": [
+            36,
+            68,
+            220,
+            227
+          ],
+          "transparentPixels": 45768,
+          "semiTransparentPixels": 19650
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/shadow-runner/frames/attack/01.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "a6fd11fcf90e100c72bf26f338eed2989957f2a1f731ff3fe762076884a2c291",
+      "frames": [
+        {
+          "alphaBBox": [
+            32,
+            46,
+            223,
+            227
+          ],
+          "transparentPixels": 44887,
+          "semiTransparentPixels": 20560
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/shadow-runner/frames/attack/02.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "d58d783cbcf566ecafc5fe91f3cb80db29db9482d97a1e9bc785cc41d188356e",
+      "frames": [
+        {
+          "alphaBBox": [
+            26,
+            41,
+            231,
+            227
+          ],
+          "transparentPixels": 42324,
+          "semiTransparentPixels": 23099
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/shadow-runner/frames/attack/03.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "d652dc35b5b1ad53af434eb3356fd314c338d32e84c69ecd5bd0923a7d9ffc41",
+      "frames": [
+        {
+          "alphaBBox": [
+            30,
+            79,
+            224,
+            227
+          ],
+          "transparentPixels": 45798,
+          "semiTransparentPixels": 19605
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/shadow-runner/frames/hurt/00.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "863748776a6047824eeef4eab6640ee3509ed47a3d129a95241b9262db265477",
+      "frames": [
+        {
+          "alphaBBox": [
+            26,
+            51,
+            230,
+            228
+          ],
+          "transparentPixels": 41102,
+          "semiTransparentPixels": 24343
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/shadow-runner/frames/hurt/01.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "5a8ca77b3b2dc931d38b9b18c41a09c2b52664919ed229f2ec98f25465e4a660",
+      "frames": [
+        {
+          "alphaBBox": [
+            25,
+            72,
+            230,
+            227
+          ],
+          "transparentPixels": 42464,
+          "semiTransparentPixels": 22970
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/shadow-runner/frames/hurt/02.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "b8f758ac5bd7297a85463127a10995fe08b1c95dbb63e333b3d3c2b93da72683",
+      "frames": [
+        {
+          "alphaBBox": [
+            28,
+            77,
+            227,
+            228
+          ],
+          "transparentPixels": 44077,
+          "semiTransparentPixels": 21368
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/shadow-runner/frames/hurt/03.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "dd32d05bd1116500fbbaeb50c972be6f121837482fd28356f83d643c3add41fd",
+      "frames": [
+        {
+          "alphaBBox": [
+            28,
+            55,
+            229,
+            228
+          ],
+          "transparentPixels": 40882,
+          "semiTransparentPixels": 24531
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/shadow-runner/frames/idle/00.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "c75eca5665933fd843ac2bce2940f0aed91f5fed26100d563073a53f48e8a170",
+      "frames": [
+        {
+          "alphaBBox": [
+            25,
+            46,
+            229,
+            228
+          ],
+          "transparentPixels": 40667,
+          "semiTransparentPixels": 24763
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/shadow-runner/frames/idle/01.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "619ebc658980d86e932858f126cf6e27ba29056a61bd6ac04921e3d5cc265789",
+      "frames": [
+        {
+          "alphaBBox": [
+            26,
+            34,
+            231,
+            228
+          ],
+          "transparentPixels": 39112,
+          "semiTransparentPixels": 26286
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/shadow-runner/frames/idle/02.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "7f518bbdbe26501a4796631f666e50684275eef3a37301813719d1113c36eb33",
+      "frames": [
+        {
+          "alphaBBox": [
+            27,
+            54,
+            231,
+            228
+          ],
+          "transparentPixels": 40665,
+          "semiTransparentPixels": 24741
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/shadow-runner/frames/idle/03.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "b24d20aa983caa801e6fa430df9d899596219c66baef52390eae58f6a776afe1",
+      "frames": [
+        {
+          "alphaBBox": [
+            29,
+            56,
+            229,
+            228
+          ],
+          "transparentPixels": 41274,
+          "semiTransparentPixels": 24144
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/shadow-runner/frames/walk/00.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "9e1713c9cd088ccb10d2cb9b5ed2f11e96e6a316af30f6fc1203a674ccd772d8",
+      "frames": [
+        {
+          "alphaBBox": [
+            26,
+            72,
+            231,
+            227
+          ],
+          "transparentPixels": 43057,
+          "semiTransparentPixels": 22329
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/shadow-runner/frames/walk/01.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "a288569dd89959defaad422f72efa628c9f2558196c4a8edffcf5535c3ac6334",
+      "frames": [
+        {
+          "alphaBBox": [
+            26,
+            65,
+            231,
+            227
+          ],
+          "transparentPixels": 43180,
+          "semiTransparentPixels": 22284
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/shadow-runner/frames/walk/02.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "4e5da83c5b5923db35d0b3d84198a4f645d476a03a41bcbd59671f0c1996968c",
+      "frames": [
+        {
+          "alphaBBox": [
+            27,
+            77,
+            230,
+            228
+          ],
+          "transparentPixels": 44494,
+          "semiTransparentPixels": 20920
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/shadow-runner/frames/walk/03.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "cf6059d8a489a5d5022ef2d2426a9983606d30c8ee5b1853ce8da0a6585c6c2e",
+      "frames": [
+        {
+          "alphaBBox": [
+            30,
+            69,
+            225,
+            228
+          ],
+          "transparentPixels": 43163,
+          "semiTransparentPixels": 22231
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/shadow-runner/hurt.png",
+      "size": [
+        1024,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "de2c3ddb2eddea6bffa066d92af9170cc86f4ac914c02fffceac79c89d44ded0",
+      "frames": [
+        {
+          "alphaBBox": [
+            26,
+            51,
+            230,
+            228
+          ],
+          "transparentPixels": 41102,
+          "semiTransparentPixels": 24343
+        },
+        {
+          "alphaBBox": [
+            25,
+            72,
+            230,
+            227
+          ],
+          "transparentPixels": 42464,
+          "semiTransparentPixels": 22970
+        },
+        {
+          "alphaBBox": [
+            28,
+            77,
+            227,
+            228
+          ],
+          "transparentPixels": 44077,
+          "semiTransparentPixels": 21368
+        },
+        {
+          "alphaBBox": [
+            28,
+            55,
+            229,
+            228
+          ],
+          "transparentPixels": 40882,
+          "semiTransparentPixels": 24531
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/shadow-runner/idle.png",
+      "size": [
+        1024,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "ce23fd3e9e30d16afe2203ae3a096dc33818b076b9cd0b4e2c6b4a407a32fbcc",
+      "frames": [
+        {
+          "alphaBBox": [
+            25,
+            46,
+            229,
+            228
+          ],
+          "transparentPixels": 40667,
+          "semiTransparentPixels": 24763
+        },
+        {
+          "alphaBBox": [
+            26,
+            34,
+            231,
+            228
+          ],
+          "transparentPixels": 39112,
+          "semiTransparentPixels": 26286
+        },
+        {
+          "alphaBBox": [
+            27,
+            54,
+            231,
+            228
+          ],
+          "transparentPixels": 40665,
+          "semiTransparentPixels": 24741
+        },
+        {
+          "alphaBBox": [
+            29,
+            56,
+            229,
+            228
+          ],
+          "transparentPixels": 41274,
+          "semiTransparentPixels": 24144
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/shadow-runner/shadow-runner.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "c75eca5665933fd843ac2bce2940f0aed91f5fed26100d563073a53f48e8a170",
+      "frames": [
+        {
+          "alphaBBox": [
+            25,
+            46,
+            229,
+            228
+          ],
+          "transparentPixels": 40667,
+          "semiTransparentPixels": 24763
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/shadow-runner/walk.png",
+      "size": [
+        1024,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "17228500e6c8ac237ce37edf8571d7525e9bb68dc6757f73b38134681c70938b",
+      "frames": [
+        {
+          "alphaBBox": [
+            26,
+            72,
+            231,
+            227
+          ],
+          "transparentPixels": 43057,
+          "semiTransparentPixels": 22329
+        },
+        {
+          "alphaBBox": [
+            26,
+            65,
+            231,
+            227
+          ],
+          "transparentPixels": 43180,
+          "semiTransparentPixels": 22284
+        },
+        {
+          "alphaBBox": [
+            27,
+            77,
+            230,
+            228
+          ],
+          "transparentPixels": 44494,
+          "semiTransparentPixels": 20920
+        },
+        {
+          "alphaBBox": [
+            30,
+            69,
+            225,
+            228
+          ],
+          "transparentPixels": 43163,
+          "semiTransparentPixels": 22231
+        }
+      ]
+    }
+  ],
+  "note": "Newly generated 4-frame action-game sprites. In-game timing and enemy direction should be visually reviewed during integration."
+}

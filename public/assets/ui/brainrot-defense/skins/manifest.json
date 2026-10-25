@@ -1,0 +1,401 @@
+{
+  "version": 1,
+  "id": "brainrot-defense-hud-skins",
+  "theme": "dark-basalt-bronze-cyan",
+  "atlasSize": [
+    1536,
+    1024
+  ],
+  "grid": [
+    4,
+    4
+  ],
+  "atlasSource": "hud-skins-atlas.png",
+  "items": [
+    {
+      "key": "card-panel",
+      "url": "/assets/ui/brainrot-defense/skins/card-panel.png",
+      "frame": 0,
+      "frameRect": [
+        0,
+        0,
+        318,
+        334
+      ],
+      "size": [
+        318,
+        334
+      ],
+      "alpha_bbox": [
+        0,
+        17,
+        318,
+        334
+      ],
+      "transparent_pixels": 49862,
+      "semi_transparent_pixels": 56350,
+      "sha256": "b297ce090be7c542939ab9f4e19d845b4032a2e950eb2ff4178a3c6bb6aa93c2"
+    },
+    {
+      "key": "wide-panel",
+      "url": "/assets/ui/brainrot-defense/skins/wide-panel.png",
+      "frame": 1,
+      "frameRect": [
+        318,
+        0,
+        424,
+        334
+      ],
+      "size": [
+        424,
+        334
+      ],
+      "alpha_bbox": [
+        1,
+        13,
+        424,
+        334
+      ],
+      "transparent_pixels": 75173,
+      "semi_transparent_pixels": 66443,
+      "sha256": "fc661a1e484bd8b9255de70aeeb9019848ffc3e817ba0788cb8083b29a98166a"
+    },
+    {
+      "key": "modal-frame",
+      "url": "/assets/ui/brainrot-defense/skins/modal-frame.png",
+      "frame": 2,
+      "frameRect": [
+        742,
+        0,
+        428,
+        334
+      ],
+      "size": [
+        428,
+        334
+      ],
+      "alpha_bbox": [
+        3,
+        21,
+        424,
+        334
+      ],
+      "transparent_pixels": 54832,
+      "semi_transparent_pixels": 88120,
+      "sha256": "e2d2b9bfdd4b13f536dbdc7092d782c7f522bda9d1a988521dd343ed01164f90"
+    },
+    {
+      "key": "tooltip-panel",
+      "url": "/assets/ui/brainrot-defense/skins/tooltip-panel.png",
+      "frame": 3,
+      "frameRect": [
+        1170,
+        0,
+        366,
+        334
+      ],
+      "size": [
+        366,
+        334
+      ],
+      "alpha_bbox": [
+        9,
+        39,
+        336,
+        332
+      ],
+      "transparent_pixels": 73625,
+      "semi_transparent_pixels": 48619,
+      "sha256": "af5e9f5d206bad665e840aa6a4087e51c765f1ea108d8c90edb6bba4d72fcfda"
+    },
+    {
+      "key": "button-default",
+      "url": "/assets/ui/brainrot-defense/skins/button-default.png",
+      "frame": 4,
+      "frameRect": [
+        0,
+        334,
+        365,
+        266
+      ],
+      "size": [
+        365,
+        266
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        365,
+        266
+      ],
+      "transparent_pixels": 51744,
+      "semi_transparent_pixels": 45346,
+      "sha256": "f186e116d920c101da8a06a1983372b164720903e01cca5bc4b1942f0a88b682"
+    },
+    {
+      "key": "button-pressed",
+      "url": "/assets/ui/brainrot-defense/skins/button-pressed.png",
+      "frame": 5,
+      "frameRect": [
+        365,
+        334,
+        389,
+        266
+      ],
+      "size": [
+        389,
+        266
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        389,
+        266
+      ],
+      "transparent_pixels": 53818,
+      "semi_transparent_pixels": 49656,
+      "sha256": "000da84fc9f9985a9bfb4b586dfd13f13e41b4be9cf6625d6aa083ab06ffa3cc"
+    },
+    {
+      "key": "button-disabled",
+      "url": "/assets/ui/brainrot-defense/skins/button-disabled.png",
+      "frame": 6,
+      "frameRect": [
+        754,
+        334,
+        386,
+        266
+      ],
+      "size": [
+        386,
+        266
+      ],
+      "alpha_bbox": [
+        1,
+        0,
+        384,
+        266
+      ],
+      "transparent_pixels": 54800,
+      "semi_transparent_pixels": 47876,
+      "sha256": "d18454ed90cba912d797936db362a81663afdbcf181573077b64c4daa7fa7b9e"
+    },
+    {
+      "key": "button-selected",
+      "url": "/assets/ui/brainrot-defense/skins/button-selected.png",
+      "frame": 7,
+      "frameRect": [
+        1140,
+        334,
+        396,
+        266
+      ],
+      "size": [
+        396,
+        266
+      ],
+      "alpha_bbox": [
+        1,
+        1,
+        382,
+        266
+      ],
+      "transparent_pixels": 47034,
+      "semi_transparent_pixels": 58302,
+      "sha256": "5c7e2f0929833a5b22d2e6a242f6fe765edb5c1d48c2930b42cbdb9b60af6c07"
+    },
+    {
+      "key": "progress-track",
+      "url": "/assets/ui/brainrot-defense/skins/progress-track.png",
+      "frame": 8,
+      "frameRect": [
+        0,
+        600,
+        425,
+        160
+      ],
+      "size": [
+        425,
+        160
+      ],
+      "alpha_bbox": [
+        21,
+        0,
+        417,
+        138
+      ],
+      "transparent_pixels": 41457,
+      "semi_transparent_pixels": 26543,
+      "sha256": "e85b822e7e5e7010f23171e3c4787e23cc53bbaf5d945d12a15a93686c1a3678"
+    },
+    {
+      "key": "progress-cyan",
+      "url": "/assets/ui/brainrot-defense/skins/progress-cyan.png",
+      "frame": 9,
+      "frameRect": [
+        425,
+        600,
+        369,
+        160
+      ],
+      "size": [
+        369,
+        160
+      ],
+      "alpha_bbox": [
+        14,
+        0,
+        369,
+        160
+      ],
+      "transparent_pixels": 36908,
+      "semi_transparent_pixels": 22132,
+      "sha256": "728a14941101d8a4a3816033917407387a3621661ad75a77dbeda573a522c36a"
+    },
+    {
+      "key": "progress-emerald",
+      "url": "/assets/ui/brainrot-defense/skins/progress-emerald.png",
+      "frame": 10,
+      "frameRect": [
+        794,
+        600,
+        370,
+        160
+      ],
+      "size": [
+        370,
+        160
+      ],
+      "alpha_bbox": [
+        1,
+        0,
+        362,
+        160
+      ],
+      "transparent_pixels": 38204,
+      "semi_transparent_pixels": 20996,
+      "sha256": "7fb5ff9fa377f1d93a2ea71f128cb581562c38e9d5c7b8084fbfe1f94428bbc3"
+    },
+    {
+      "key": "progress-gold",
+      "url": "/assets/ui/brainrot-defense/skins/progress-gold.png",
+      "frame": 11,
+      "frameRect": [
+        1164,
+        600,
+        372,
+        160
+      ],
+      "size": [
+        372,
+        160
+      ],
+      "alpha_bbox": [
+        1,
+        9,
+        342,
+        108
+      ],
+      "transparent_pixels": 38651,
+      "semi_transparent_pixels": 20869,
+      "sha256": "b0db9d439ccfb8a02beaa7d34ea2598e2e445e36b7259959ed68dbab954a0b84"
+    },
+    {
+      "key": "title-ribbon",
+      "url": "/assets/ui/brainrot-defense/skins/title-ribbon.png",
+      "frame": 12,
+      "frameRect": [
+        0,
+        760,
+        438,
+        264
+      ],
+      "size": [
+        438,
+        264
+      ],
+      "alpha_bbox": [
+        17,
+        1,
+        426,
+        240
+      ],
+      "transparent_pixels": 74460,
+      "semi_transparent_pixels": 41172,
+      "sha256": "392015b54a1c13b5d074d1c8eb1f81db3f0cada0540adaafc7fc942a2aa31af8"
+    },
+    {
+      "key": "section-divider",
+      "url": "/assets/ui/brainrot-defense/skins/section-divider.png",
+      "frame": 13,
+      "frameRect": [
+        438,
+        760,
+        336,
+        264
+      ],
+      "size": [
+        336,
+        264
+      ],
+      "alpha_bbox": [
+        1,
+        16,
+        336,
+        248
+      ],
+      "transparent_pixels": 80489,
+      "semi_transparent_pixels": 8215,
+      "sha256": "e5edbc95c84fc69675bfecbbbe52d852fd2df95722b38549f06dcfb25a312f37"
+    },
+    {
+      "key": "warning-banner",
+      "url": "/assets/ui/brainrot-defense/skins/warning-banner.png",
+      "frame": 14,
+      "frameRect": [
+        774,
+        760,
+        386,
+        264
+      ],
+      "size": [
+        386,
+        264
+      ],
+      "alpha_bbox": [
+        1,
+        3,
+        386,
+        264
+      ],
+      "transparent_pixels": 59305,
+      "semi_transparent_pixels": 42599,
+      "sha256": "73f5f3acc7f418388ca3861f40991fa80320f9045d0aedab540d33aedb02cab1"
+    },
+    {
+      "key": "segmented-tabs",
+      "url": "/assets/ui/brainrot-defense/skins/segmented-tabs.png",
+      "frame": 15,
+      "frameRect": [
+        1160,
+        760,
+        376,
+        264
+      ],
+      "size": [
+        376,
+        264
+      ],
+      "alpha_bbox": [
+        0,
+        7,
+        363,
+        264
+      ],
+      "transparent_pixels": 66465,
+      "semi_transparent_pixels": 32799,
+      "sha256": "8a492a7cc8e0a6c1d9520a3482d86477e59ea938915e8517021a2b8f3a49dfed"
+    }
+  ],
+  "usageNote": "Decorative skins only. Preserve UI layout and use only with matching existing components. Maintain readable text, accessible names, touch targets, contrast, and responsive sizing."
+}

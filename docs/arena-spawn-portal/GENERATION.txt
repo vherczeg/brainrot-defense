@@ -1,0 +1,1 @@
+Generated a 4x4 transparent-background atlas of one stationary basalt-and-cyan-rune portal gate with a 16-frame energy cycle. Sliced into four 4-frame animation groups: idle, opening, active, closing. Intended as visual decoration only; no gameplay timing changes.

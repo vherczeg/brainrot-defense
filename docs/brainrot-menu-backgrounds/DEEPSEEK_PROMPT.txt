@@ -1,0 +1,25 @@
+Add the Brainrot Defense main-menu background artwork to the existing menu screen only if the current UI has an appropriate background slot. This is a visual-only enhancement.
+
+Before editing, inspect the current Git status, app entry routes, existing main-menu/GameScreen layout and background styling, responsive/mobile breakpoints, accessibility/contrast behavior, and the background manifest. Preserve all staged, unstaged, and untracked user work, including the in-progress HUD skin integration. Do not reset, restore, overwrite, rename, or re-stage existing work. Do not commit, push, or deploy.
+
+## Assets
+
+- Manifest: `public/assets/ui/brainrot-defense/backgrounds/manifest.json`
+- Landscape backdrop (1536×1024): `public/assets/ui/brainrot-defense/backgrounds/main-menu-landscape.png`
+- Portrait backdrop (1024×1536): `public/assets/ui/brainrot-defense/backgrounds/main-menu-portrait.png`
+- Guide and validation: `docs/brainrot-menu-backgrounds/ASSET_GUIDE.txt`, `docs/brainrot-menu-backgrounds/validation.json`
+
+Use the existing Vite `BASE_URL` path convention. The landscape image leaves the left and center dark for menu content; the portrait image reserves a dark central column.
+
+## Integration requirements
+
+1. Use the art only behind the existing main-menu screen if that screen and an appropriate background slot already exist. If the app has no separate main menu or the backgrounds do not fit, leave the files unused and report why. Do not create a new screen or alter navigation to consume them.
+2. Keep all existing title text, buttons, content, controls, routes, interactions, gameplay, profiles, and save behavior unchanged. Keep all text live and accessible; never bake UI text into the image.
+3. Choose the landscape or portrait image based on existing responsive breakpoints. Preserve the important portal/ruin focal areas, avoid awkward crops, and place UI in the dark negative-space region when that matches the current layout.
+4. Maintain text contrast on every breakpoint, using the smallest possible overlay/gradient if needed. Keep the foreground accessible and retain keyboard focus, touch targets, reduced-motion behavior, and existing theme handling.
+5. Keep the HUD icons, HUD skins, character/enemy assets, Arena terrain, Arena portal, and Armored Snail effects intact. Do not duplicate a portal already present in the actual menu background; inspect the rendered result.
+6. Update asset verification and service-worker/precache coverage only if the project requires explicit registration for these paths.
+
+## Verification and report
+
+Run relevant formatting, lint, typecheck, tests, production build, and asset verification. Report only checks that actually ran and passed; explain any check that could not run. List the changed files and whether each orientation was used or left unused. Include remaining checks for responsive cropping and text contrast. Do not stage, commit, push, or deploy.

@@ -70,7 +70,12 @@ export function UnitInspector({ profile }: { profile: PlayerProfile }) {
         <div
           className={`inspector-avatar level-glow level-glow--${Math.min(selected.mergeRank, 6)}`}
         >
-          <CreatureAvatar kind={selected.typeId} size={92} title={definition.nameHu} />
+          <CreatureAvatar
+            kind={selected.typeId}
+            size={92}
+            title={definition.nameHu}
+            mergeRank={selected.mergeRank}
+          />
           <span className="inspector-level-badge">{selected.mergeRank}</span>
         </div>
         <div className="inspector-role">
@@ -112,10 +117,7 @@ export function UnitInspector({ profile }: { profile: PlayerProfile }) {
       <dl className="stat-grid">
         <div>
           <dt>
-            <span className="heart-icon" aria-hidden="true">
-              ♥
-            </span>{' '}
-            {t('statHp')}
+            <Icon name="life-heart" size={14} className="heart-icon" /> {t('statHp')}
           </dt>
           <dd>{formatNumber(stats.maxHp)}</dd>
         </div>
@@ -126,7 +128,9 @@ export function UnitInspector({ profile }: { profile: PlayerProfile }) {
           <dd>{formatNumber(stats.attack)}</dd>
         </div>
         <div>
-          <dt>⏱ {t('statInterval')}</dt>
+          <dt>
+            <Icon name="timer" size={15} /> {t('statInterval')}
+          </dt>
           <dd>{stats.attackIntervalSec}s</dd>
         </div>
         <div>

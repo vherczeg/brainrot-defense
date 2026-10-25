@@ -1,0 +1,661 @@
+{
+  "result": "PASS",
+  "pngCount": 22,
+  "animations": 4,
+  "frames": 16,
+  "checks": [
+    "RGBA decode",
+    "actual alpha channel and anti-aliasing",
+    "grid cuts have zero alpha>160 pixels",
+    "all frames contain pixels",
+    "four unique frames per spritesheet",
+    "minimum two-pixel outer alpha margin"
+  ],
+  "sourceGridCuts": [
+    {
+      "row": 0,
+      "cut": 309,
+      "opaquePixels": 0
+    },
+    {
+      "row": 0,
+      "cut": 621,
+      "opaquePixels": 0
+    },
+    {
+      "row": 0,
+      "cut": 953,
+      "opaquePixels": 0
+    },
+    {
+      "row": 1,
+      "cut": 336,
+      "opaquePixels": 0
+    },
+    {
+      "row": 1,
+      "cut": 651,
+      "opaquePixels": 0
+    },
+    {
+      "row": 1,
+      "cut": 943,
+      "opaquePixels": 0
+    },
+    {
+      "row": 2,
+      "cut": 311,
+      "opaquePixels": 0
+    },
+    {
+      "row": 2,
+      "cut": 621,
+      "opaquePixels": 0
+    },
+    {
+      "row": 2,
+      "cut": 957,
+      "opaquePixels": 0
+    },
+    {
+      "row": 3,
+      "cut": 316,
+      "opaquePixels": 0
+    },
+    {
+      "row": 3,
+      "cut": 629,
+      "opaquePixels": 0
+    },
+    {
+      "row": 3,
+      "cut": 971,
+      "opaquePixels": 0
+    }
+  ],
+  "files": [
+    {
+      "file": "public/assets/icons/mini-brainrot.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "ff8ccf07d0edd130057c23307efd73b3d09760e2c6b435ed570f5a12ba25c389",
+      "frames": [
+        {
+          "alphaBBox": [
+            29,
+            43,
+            228,
+            227
+          ],
+          "transparentPixels": 38766,
+          "semiTransparentPixels": 26603
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/mini-brainrot/attack.png",
+      "size": [
+        1024,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "c6037538dd248807ff168f779c9d83c09f7db21d9801b803ef06c67058fef3f3",
+      "frames": [
+        {
+          "alphaBBox": [
+            37,
+            66,
+            219,
+            227
+          ],
+          "transparentPixels": 45321,
+          "semiTransparentPixels": 20014
+        },
+        {
+          "alphaBBox": [
+            35,
+            70,
+            222,
+            227
+          ],
+          "transparentPixels": 44587,
+          "semiTransparentPixels": 20775
+        },
+        {
+          "alphaBBox": [
+            26,
+            70,
+            231,
+            227
+          ],
+          "transparentPixels": 42249,
+          "semiTransparentPixels": 23204
+        },
+        {
+          "alphaBBox": [
+            42,
+            67,
+            214,
+            227
+          ],
+          "transparentPixels": 45629,
+          "semiTransparentPixels": 19764
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/mini-brainrot/frames/attack/00.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "277912c0c1fae44acf19df6f4ab98198d4a05bf7a7b4c322f4072848c9bd279e",
+      "frames": [
+        {
+          "alphaBBox": [
+            37,
+            66,
+            219,
+            227
+          ],
+          "transparentPixels": 45321,
+          "semiTransparentPixels": 20014
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/mini-brainrot/frames/attack/01.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "c3a8dea1461fc4394d47d2694d794043a91c9f6c7b4a8091f18ac2498c3ddbfb",
+      "frames": [
+        {
+          "alphaBBox": [
+            35,
+            70,
+            222,
+            227
+          ],
+          "transparentPixels": 44587,
+          "semiTransparentPixels": 20775
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/mini-brainrot/frames/attack/02.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "65697b89ae4d23cb33fdcc9b85a23c9c5e68709b9c32aa6519a140e772977b1c",
+      "frames": [
+        {
+          "alphaBBox": [
+            26,
+            70,
+            231,
+            227
+          ],
+          "transparentPixels": 42249,
+          "semiTransparentPixels": 23204
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/mini-brainrot/frames/attack/03.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "f59f6990f688497d17b82e6eff89ccac3cea0f4115be34bbce2b5a2e3e980def",
+      "frames": [
+        {
+          "alphaBBox": [
+            42,
+            67,
+            214,
+            227
+          ],
+          "transparentPixels": 45629,
+          "semiTransparentPixels": 19764
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/mini-brainrot/frames/hurt/00.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "898fc8d3fa91ebb6aa8ea9fd569776a5f98ff04c79037b9f77df5d63c26ad978",
+      "frames": [
+        {
+          "alphaBBox": [
+            27,
+            49,
+            228,
+            227
+          ],
+          "transparentPixels": 39709,
+          "semiTransparentPixels": 25660
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/mini-brainrot/frames/hurt/01.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "19519ce7fab720ef055633bf6b71ed3c81406e933d38a4a26b744e31a9e62f94",
+      "frames": [
+        {
+          "alphaBBox": [
+            28,
+            48,
+            227,
+            226
+          ],
+          "transparentPixels": 39975,
+          "semiTransparentPixels": 25406
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/mini-brainrot/frames/hurt/02.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "0fd00d615a46862e82df61fd3663764db738698dfb452840dbcb9f9352665113",
+      "frames": [
+        {
+          "alphaBBox": [
+            25,
+            53,
+            230,
+            228
+          ],
+          "transparentPixels": 40238,
+          "semiTransparentPixels": 25168
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/mini-brainrot/frames/hurt/03.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "1ec5592804ca4061b91c37f3175cce617b62ff38532ec6a75b074a9fdc234163",
+      "frames": [
+        {
+          "alphaBBox": [
+            30,
+            48,
+            225,
+            226
+          ],
+          "transparentPixels": 40869,
+          "semiTransparentPixels": 24490
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/mini-brainrot/frames/idle/00.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "ff8ccf07d0edd130057c23307efd73b3d09760e2c6b435ed570f5a12ba25c389",
+      "frames": [
+        {
+          "alphaBBox": [
+            29,
+            43,
+            228,
+            227
+          ],
+          "transparentPixels": 38766,
+          "semiTransparentPixels": 26603
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/mini-brainrot/frames/idle/01.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "af54130c9faa8d6760031b1ed10ef04d60e5b54cce07117611e76ef3c9e4a412",
+      "frames": [
+        {
+          "alphaBBox": [
+            28,
+            43,
+            229,
+            228
+          ],
+          "transparentPixels": 38615,
+          "semiTransparentPixels": 26779
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/mini-brainrot/frames/idle/02.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "95f18f7914abcf847d1f93895a592ad64756cc84fd2853acd10ec3a7e61af670",
+      "frames": [
+        {
+          "alphaBBox": [
+            25,
+            44,
+            231,
+            228
+          ],
+          "transparentPixels": 37944,
+          "semiTransparentPixels": 27470
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/mini-brainrot/frames/idle/03.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "a7adfaa3f42a7ef347ffc463a83798c92caf22f2c4f121d5f15f9d349586e24a",
+      "frames": [
+        {
+          "alphaBBox": [
+            27,
+            43,
+            226,
+            227
+          ],
+          "transparentPixels": 39350,
+          "semiTransparentPixels": 26043
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/mini-brainrot/frames/walk/00.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "72c72af7d0b1b3b76edf5392e239f8bf0632828fd4e31b9fe50222bae9444620",
+      "frames": [
+        {
+          "alphaBBox": [
+            26,
+            49,
+            229,
+            227
+          ],
+          "transparentPixels": 40226,
+          "semiTransparentPixels": 25110
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/mini-brainrot/frames/walk/01.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "76627dfffd15948d9041408cc106c66a82452c70caa6ef8bcbf0ea776b2529b4",
+      "frames": [
+        {
+          "alphaBBox": [
+            25,
+            48,
+            230,
+            228
+          ],
+          "transparentPixels": 40727,
+          "semiTransparentPixels": 24651
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/mini-brainrot/frames/walk/02.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "d69be9fbc49596b520120bd9e41ad8fd9448e6d00468eab6b65b1a2b2fe42d34",
+      "frames": [
+        {
+          "alphaBBox": [
+            27,
+            52,
+            231,
+            228
+          ],
+          "transparentPixels": 40461,
+          "semiTransparentPixels": 24898
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/mini-brainrot/frames/walk/03.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "da8b6bb6da9e04db1b39d3cb0e259d7ab2de01db1317dedab842470ffb99e3c0",
+      "frames": [
+        {
+          "alphaBBox": [
+            30,
+            49,
+            227,
+            227
+          ],
+          "transparentPixels": 41491,
+          "semiTransparentPixels": 23847
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/mini-brainrot/hurt.png",
+      "size": [
+        1024,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "ec1588d71e7ee2c0ffcaec0be166311c81e6972cb3de9343d3dca7c0dbe8a4ff",
+      "frames": [
+        {
+          "alphaBBox": [
+            27,
+            49,
+            228,
+            227
+          ],
+          "transparentPixels": 39709,
+          "semiTransparentPixels": 25660
+        },
+        {
+          "alphaBBox": [
+            28,
+            48,
+            227,
+            226
+          ],
+          "transparentPixels": 39975,
+          "semiTransparentPixels": 25406
+        },
+        {
+          "alphaBBox": [
+            25,
+            53,
+            230,
+            228
+          ],
+          "transparentPixels": 40238,
+          "semiTransparentPixels": 25168
+        },
+        {
+          "alphaBBox": [
+            30,
+            48,
+            225,
+            226
+          ],
+          "transparentPixels": 40869,
+          "semiTransparentPixels": 24490
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/mini-brainrot/idle.png",
+      "size": [
+        1024,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "ea43e953280d274fb10db4c14e567b1ada0fdb223d5ec3dff82aeb5b121e1f47",
+      "frames": [
+        {
+          "alphaBBox": [
+            29,
+            43,
+            228,
+            227
+          ],
+          "transparentPixels": 38766,
+          "semiTransparentPixels": 26603
+        },
+        {
+          "alphaBBox": [
+            28,
+            43,
+            229,
+            228
+          ],
+          "transparentPixels": 38615,
+          "semiTransparentPixels": 26779
+        },
+        {
+          "alphaBBox": [
+            25,
+            44,
+            231,
+            228
+          ],
+          "transparentPixels": 37944,
+          "semiTransparentPixels": 27470
+        },
+        {
+          "alphaBBox": [
+            27,
+            43,
+            226,
+            227
+          ],
+          "transparentPixels": 39350,
+          "semiTransparentPixels": 26043
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/mini-brainrot/mini-brainrot.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "ff8ccf07d0edd130057c23307efd73b3d09760e2c6b435ed570f5a12ba25c389",
+      "frames": [
+        {
+          "alphaBBox": [
+            29,
+            43,
+            228,
+            227
+          ],
+          "transparentPixels": 38766,
+          "semiTransparentPixels": 26603
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/mini-brainrot/walk.png",
+      "size": [
+        1024,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "70cae7003a56d5a88d365050fb2ee94f15d6fcebfe51b450b31f9ee0a1b5c857",
+      "frames": [
+        {
+          "alphaBBox": [
+            26,
+            49,
+            229,
+            227
+          ],
+          "transparentPixels": 40226,
+          "semiTransparentPixels": 25110
+        },
+        {
+          "alphaBBox": [
+            25,
+            48,
+            230,
+            228
+          ],
+          "transparentPixels": 40727,
+          "semiTransparentPixels": 24651
+        },
+        {
+          "alphaBBox": [
+            27,
+            52,
+            231,
+            228
+          ],
+          "transparentPixels": 40461,
+          "semiTransparentPixels": 24898
+        },
+        {
+          "alphaBBox": [
+            30,
+            49,
+            227,
+            227
+          ],
+          "transparentPixels": 41491,
+          "semiTransparentPixels": 23847
+        }
+      ]
+    }
+  ],
+  "note": "Newly generated 4-frame action-game sprites. In-game timing and enemy direction should be visually reviewed during integration."
+}

@@ -1,0 +1,5 @@
+BRAINROT DEFENSE MAIN MENU BACKGROUNDS
+
+Extract at the project root (folder containing package.json). Runtime URLs begin /assets/ui/brainrot-defense/backgrounds/ (public/ is omitted).
+Two full-quality PNG backdrops are included: main-menu-landscape.png (1536x1024) and main-menu-portrait.png (1024x1536). Use the orientation appropriate to the existing screen. The left/center of landscape and center column of portrait are intentionally quiet for live title/menu content.
+No text, logo, buttons, or gameplay assets are baked in. Add a subtle overlay if needed for contrast. Do not introduce a new screen or alter navigation/layout just to use these backgrounds.

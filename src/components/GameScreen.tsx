@@ -70,7 +70,7 @@ export function GameScreen({ snapshot }: { snapshot: AppSnapshot }) {
           disabled={phase === 'battle'}
           data-testid="game-menu"
         >
-          <Icon name="arrow-left" size={18} />
+          <Icon name="home-base" size={18} />
           {t('menu')}
         </button>
 
@@ -251,7 +251,7 @@ export function GameScreen({ snapshot }: { snapshot: AppSnapshot }) {
                       className="button button--soft button--compact"
                       onClick={() => controller.togglePause()}
                     >
-                      <Icon name={battle.paused ? 'play' : 'pause'} size={16} />
+                      <Icon name={battle.paused ? 'resume' : 'pause'} size={16} />
                       {battle.paused ? t('battleResume') : t('battlePause')}
                     </button>
                   ) : null}

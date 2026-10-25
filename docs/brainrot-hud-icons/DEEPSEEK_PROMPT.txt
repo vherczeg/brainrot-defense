@@ -1,0 +1,24 @@
+Integrate the Brainrot Defense HUD icon pack into the current game UI where it fits existing controls and status indicators. Treat this as a visual-only asset integration.
+
+Before editing, inspect the current Git status, existing HUD components and styles, all responsive/mobile layouts, current icon usage, accessibility labels, and this asset manifest. Preserve staged, unstaged, and untracked user work. Do not reset, restore, overwrite, rename, or re-stage existing work. Do not commit, push, or deploy.
+
+## Assets
+
+- Manifest: `public/assets/ui/brainrot-defense/manifest.json`
+- 4×4 atlas: `public/assets/ui/brainrot-defense/hud-atlas.png`
+- Individual 256×256 RGBA PNGs: `public/assets/ui/brainrot-defense/icons/`
+- Guide and validation: `docs/brainrot-hud-icons/ASSET_GUIDE.txt`, `docs/brainrot-hud-icons/validation.json`
+
+Available concepts: coin, life-heart, enemy-wave, armor-shield, battle-speed, pause, resume, victory-trophy, crystal, upgrade, merge, boss-crown, timer, defeat-heart, settings, and home-base. Use manifest frame rectangles or individual files and the existing Vite `BASE_URL` asset resolver.
+
+## Integration requirements
+
+1. First map icons to controls/statuses that already exist. Integrate only clear matches; leave unused icons untouched and report them. Do not invent new buttons, resources, screens, rewards, or mechanics just to use every icon.
+2. Preserve all gameplay behavior, economy values, health/life counts, wave and timer logic, pause/speed behavior, merge/upgrade behavior, navigation, save data, and route flow.
+3. Preserve existing UI layout and visual hierarchy. Fit icons into existing affordances; keep labels, button hit targets, focus rings, touch targets, and responsive/mobile breakpoints intact. Avoid replacing readable text or accessible names with images.
+4. Ensure icons stay legible at actual HUD sizes and maintain sufficient contrast. Use CSS/object-fit or the project’s existing image component without stretching the artwork. Respect reduced-motion and theme behavior.
+5. Keep all existing character portraits, enemy/boss graphics, Arena terrain, Arena portal, and Armored Snail effects intact. Update production asset verification and service-worker/precache coverage following current project conventions.
+
+## Verification and report
+
+Run relevant formatting, lint, typecheck, tests, production build, and asset verification. Report only checks that actually ran and passed; explain anything that could not run. List the changed files, the icons mapped to existing UI, and the ones left unused. Include remaining checks for mobile legibility, contrast, and interaction/accessibility. Do not stage, commit, push, or deploy.

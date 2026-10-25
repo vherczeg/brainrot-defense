@@ -1,0 +1,8 @@
+SHADOW RUNNER ASSETS
+
+Unzip into the Brainrot Defense project root (the folder containing package.json).
+The images are under public/assets/units/shadow-runner and public/assets/icons.
+Manifest type ID is shadow-runner; verify it against the source game's actual enemy ID before integrating. The runner artwork faces left and suggests speed; preserve existing enemy movement stats and behavior.
+Four horizontal 1024x256 RGBA animation sheets, 4 x 256x256 frames each: idle and walk loop; attack and hurt play once. Separate frames are in frames/<state>/.
+A static 256px idle image is included. Enemy art faces left. Suggested origin (0.5,0.875), displayed width 112px adjusted to the battlefield cell.
+No game code is included. Integrate through the project's current Phaser loader; keep gameplay and simulation unchanged.

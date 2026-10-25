@@ -1,0 +1,49 @@
+Képkészítés: beépített image_gen eszközzel. A referencia az előző beszélgetés elfogadott D stílusú Lézerkrokodil koncepciója.
+Utófeldolgozás: képkockák kivágása, közös szekvenciaskála, 256px RGBA cellákba igazítás; az alfa megőrzésével.
+
+
+v1promptfinal
+
+Use case: stylized-concept. Production game animation sprite sheet, NOT a concept poster. Reference image: the approved Laser Crocodile concept sheet. Create ONLY the V1 SCOUT character (left character): bright green chibi crocodile, huge expressive eye, yellow jaw and claws, light angular dark emerald back armor with small gold spikes, neon green cylindrical laser cannon snout. Mini fantasy action polished painted 3D mobile-game style, three-quarter view slightly from above, facing RIGHT. Transparent RGBA background, no ground, no shadows on ground, no text, labels, grid lines, UI or frames.
+EXACT regular 4 columns by 4 rows square sprite atlas. Sixteen distinct full body poses. Every cell exactly one quarter of canvas width and height. Each character entirely within its cell with at least 12% transparent padding; same scale, same fixed foot baseline and center in every cell. No objects crossing cells. 
+Row1 IDLE: relaxed, inhale raised chest, exhale, return; slight tail motion.
+Row2 WALK: four clear alternating foot positions in a walk cycle, body stays aligned, no translation.
+Row3 ATTACK: anticipation crouch, cannon charging, firing with SMALL green muzzle flash contained inside cell, recovery recoil.
+Row4 HURT: neutral, flinch backwards, crouched reaction, recovery. No gore.
+Keep identical character design, armor and number of limbs in all 16 cells. Real production sprites, clean silhouette, no duplicated static poses. Canvas ideally 2048x2048. True transparent empty space.
+CRITICAL OVERRIDE: previous sheets had crowded touching characters and were unusable. Each figure must be TINY inside its cell: maximum width 60% of each cell, maximum height 60%. There must be enormous CLEAR TRANSPARENT GUTTERS between all characters. Treat canvas as sixteen 256x256 tiles on a 1024 square. Each sprite fits inside the central 154x154 box of its tile. No glow outside this box. Wide empty space is REQUIRED, this is technical asset output, do not fill the canvas. Full tail and full cannon visible, exact 4 rows 4 columns.
+
+
+v2promptfinal
+
+Use case: stylized-concept. Production game animation sprite sheet, NOT a concept poster. Reference image: the approved Laser Crocodile concept sheet. Create ONLY the V2 ARMORED character (middle character): bright green chibi crocodile, huge expressive eye, yellow jaw and claws, heavy layered angular dark emerald back armor, gray metal shoulder straps, larger gold spikes, chunky armored legs and gold claws, neon green cylindrical laser cannon snout. Mini fantasy action polished painted 3D mobile-game style, three-quarter view slightly from above, facing RIGHT. Transparent RGBA background, no ground, no shadows on ground, no text, labels, grid lines, UI or frames.
+EXACT regular 4 columns by 4 rows square sprite atlas. Sixteen distinct full body poses. Every cell exactly one quarter of canvas width and height. Each character entirely within its cell with at least 12% transparent padding; same scale, same fixed foot baseline and center in every cell. No objects crossing cells. 
+Row1 IDLE: relaxed, inhale raised chest, exhale, return; slight tail motion.
+Row2 WALK: four clear alternating foot positions in a walk cycle, body stays aligned, no translation.
+Row3 ATTACK: anticipation crouch, cannon charging, firing with SMALL green muzzle flash contained inside cell, recovery recoil.
+Row4 HURT: neutral, flinch backwards, crouched reaction, recovery. No gore.
+Keep identical character design, armor and number of limbs in all 16 cells. Real production sprites, clean silhouette, no duplicated static poses. Canvas ideally 2048x2048. True transparent empty space.
+CRITICAL OVERRIDE: previous sheets had crowded touching characters and were unusable. Each figure must be TINY inside its cell: maximum width 60% of each cell, maximum height 60%. There must be enormous CLEAR TRANSPARENT GUTTERS between all characters. Treat canvas as sixteen 256x256 tiles on a 1024 square. Each sprite fits inside the central 154x154 box of its tile. No glow outside this box. Wide empty space is REQUIRED, this is technical asset output, do not fill the canvas. Full tail and full cannon visible, exact 4 rows 4 columns.
+
+
+v3promptfinal
+
+Use case: stylized-concept. Production game animation sprite sheet, NOT a concept poster. Reference image: the approved Laser Crocodile concept sheet. Create ONLY the V3 ELITE character (right character): bright green chibi crocodile, huge expressive eye, yellow jaw and claws, elite massive angular dark emerald armor with prominent tall gold crystal crown spikes, gold edged shoulder shield, large blade shaped back fins, neon green energy crystals, chunky armored legs and gold claws, neon green cylindrical laser cannon snout. Mini fantasy action polished painted 3D mobile-game style, three-quarter view slightly from above, facing RIGHT. Transparent RGBA background, no ground, no shadows on ground, no text, labels, grid lines, UI or frames.
+EXACT regular 4 columns by 4 rows square sprite atlas. Sixteen distinct full body poses. Every cell exactly one quarter of canvas width and height. Each character entirely within its cell with at least 12% transparent padding; same scale, same fixed foot baseline and center in every cell. No objects crossing cells. 
+Row1 IDLE: relaxed, inhale raised chest, exhale, return; slight tail motion.
+Row2 WALK: four clear alternating foot positions in a walk cycle, body stays aligned, no translation.
+Row3 ATTACK: anticipation crouch, cannon charging, firing with SMALL green muzzle flash contained inside cell, recovery recoil.
+Row4 HURT: neutral, flinch backwards, crouched reaction, recovery. No gore.
+Keep identical character design, armor and number of limbs in all 16 cells. Real production sprites, clean silhouette, no duplicated static poses. Canvas ideally 2048x2048. True transparent empty space.
+CRITICAL OVERRIDE: previous sheets had crowded touching characters and were unusable. Each figure must be TINY inside its cell: maximum width 60% of each cell, maximum height 60%. There must be enormous CLEAR TRANSPARENT GUTTERS between all characters. Treat canvas as sixteen 256x256 tiles on a 1024 square. Each sprite fits inside the central 154x154 box of its tile. No glow outside this box. Wide empty space is REQUIRED, this is technical asset output, do not fill the canvas. Full tail and full cannon visible, exact 4 rows 4 columns.
+
+
+v3attackprompt
+
+Use case: identity-preserve. Production animation sprite sheet of V3 elite laser crocodile. Input image1 approved original concept reference (rightmost V3); image2 identity and rendering reference for generated elite character. Create exactly FOUR full body ATTACK frames in a precise TWO BY TWO square grid, transparent background. Character faces right, elevated three quarter view, polished fantasy mobile game look. Dark emerald armored green crocodile, huge white expressive eye, gold crystal crown and gold edged armor, dark back fins green energy, gold claws. Most important: the SAME SOLID CYLINDRICAL GREEN LASER CANNON ON THE SNOUT MUST REMAIN VISIBLE IN ALL FOUR FRAMES. Mouth stays CLOSED. Top left crouched anticipation, top right charged bright muzzle, bottom left firing small starburst OUTSIDE the end of the intact cannon (do not replace the cannon with open mouth), bottom right recoil recovery. Consistent size, foot baseline. Each character must fit inside the CENTRAL 60 percent of its half-width half-height cell; enormous transparent gutters, no glow crossing cells. No text, no frames, no floor, no scene, no UI.
+
+
+effectpromptfinal
+
+Use case: stylized-concept. Production VFX sprite atlas for a green laser crocodile fantasy mobile game. True transparent RGBA background. Exact 4x4 square grid of 16 isolated effects, each effect centered safely inside its equal sized cell with 18 percent transparent padding. No text, grid lines, character, scenery, ground, UI. Row1 four frames of horizontal rightward laser bolt flying: luminous white core emerald neon green aura, slim pointed capsule silhouette, varying energy pulse. Row2 four frames muzzle flash: small initial spark, expanding rightward starburst, peak green white burst, dissipating sparks. Row3 four frames impact: initial small green energy spark, expanding round green white starburst, broken energy ring, faint fading spark fragments. Row4 four frames upgrade magic: small green gold ring, expanding emerald gold crystal sparks ring, peak radiant burst, fading gold green sparks. Keep every effect completely separate, nothing crossing cell boundaries. Clean bright polished hand painted 3D fantasy VFX consistent with supplied reference.
+OVERRIDE: extremely small isolated effects each fits inside middle 50 percent of its cell. Huge completely empty transparent gutters, no overlapping glow. Strict square 4 by 4 layout. Keep all energy and wisps inside each cell.

@@ -1,0 +1,55 @@
+{
+  "version": 1,
+  "id": "arena-spawn-portal",
+  "theme": "chaos-arena-basalt-ruins",
+  "tileSize": [
+    256,
+    256
+  ],
+  "fps": 8,
+  "loop": {
+    "idle": true,
+    "opening": false,
+    "active": true,
+    "closing": false
+  },
+  "files": {
+    "idle": {
+      "url": "/assets/effects/arena-spawn-portal/idle.png",
+      "frames": [
+        "/assets/effects/arena-spawn-portal/frames/idle/00.png",
+        "/assets/effects/arena-spawn-portal/frames/idle/01.png",
+        "/assets/effects/arena-spawn-portal/frames/idle/02.png",
+        "/assets/effects/arena-spawn-portal/frames/idle/03.png"
+      ]
+    },
+    "opening": {
+      "url": "/assets/effects/arena-spawn-portal/opening.png",
+      "frames": [
+        "/assets/effects/arena-spawn-portal/frames/opening/00.png",
+        "/assets/effects/arena-spawn-portal/frames/opening/01.png",
+        "/assets/effects/arena-spawn-portal/frames/opening/02.png",
+        "/assets/effects/arena-spawn-portal/frames/opening/03.png"
+      ]
+    },
+    "active": {
+      "url": "/assets/effects/arena-spawn-portal/active.png",
+      "frames": [
+        "/assets/effects/arena-spawn-portal/frames/active/00.png",
+        "/assets/effects/arena-spawn-portal/frames/active/01.png",
+        "/assets/effects/arena-spawn-portal/frames/active/02.png",
+        "/assets/effects/arena-spawn-portal/frames/active/03.png"
+      ]
+    },
+    "closing": {
+      "url": "/assets/effects/arena-spawn-portal/closing.png",
+      "frames": [
+        "/assets/effects/arena-spawn-portal/frames/closing/00.png",
+        "/assets/effects/arena-spawn-portal/frames/closing/01.png",
+        "/assets/effects/arena-spawn-portal/frames/closing/02.png",
+        "/assets/effects/arena-spawn-portal/frames/closing/03.png"
+      ]
+    }
+  },
+  "integrationNotes": "Decorative visual only. Keep its position outside gameplay hit areas where possible. Do not change spawn timing, waves, movement, combat, or board geometry."
+}

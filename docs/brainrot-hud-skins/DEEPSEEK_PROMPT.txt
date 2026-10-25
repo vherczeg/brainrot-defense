@@ -1,0 +1,25 @@
+Integrate the Brainrot Defense HUD skin pack into suitable existing UI components, alongside the HUD icon pack where appropriate. This is a visual-only styling task.
+
+Before editing, inspect the current Git status, existing HUD components and CSS, responsive/mobile layouts, accessibility/focus behavior, the already-integrated HUD icons, and this skin manifest. Preserve staged, unstaged, and untracked user work. Do not reset, restore, overwrite, rename, or re-stage existing work. Do not commit, push, or deploy.
+
+## Assets
+
+- Manifest: `public/assets/ui/brainrot-defense/skins/manifest.json`
+- 4×4 atlas: `public/assets/ui/brainrot-defense/skins/hud-skins-atlas.png`
+- Separate cropped RGBA PNGs: `public/assets/ui/brainrot-defense/skins/` (component dimensions and atlas frame rectangles are listed in the manifest)
+- Guide and validation: `docs/brainrot-hud-skins/ASSET_GUIDE.txt`, `docs/brainrot-hud-skins/validation.json`
+
+Components include card/wide/modal/tooltip panels, default/pressed/disabled/selected buttons, progress track plus cyan/emerald/gold fills, title ribbon, divider, warning banner, and segmented tabs. Use the project's current Vite `BASE_URL` resolver or the appropriate CSS asset URL convention.
+
+## Integration requirements
+
+1. Map each skin to a matching existing component before changing anything. Apply only where the aspect ratio and visual hierarchy fit. Leave unmatched skins unused and report them; do not create new screens or controls to consume the pack.
+2. Preserve layout, component dimensions where possible, responsive breakpoints, all gameplay and navigation behavior, text content, values, and save data.
+3. Keep text as live HTML. Do not bake labels into images, replace accessible names, remove focus rings, reduce touch targets, or weaken keyboard and screen-reader behavior.
+4. Preserve readable contrast. Inspect panels behind long/localized text and at narrow mobile sizes. Avoid stretching ornate borders; use `border-image`/nine-slice or CSS background sizing only when the asset supports it, and fall back to the current styling when a skin would distort or reduce readability.
+5. Coordinate with the newly integrated HUD icons without duplicating decorative borders or making controls visually noisy. Respect the existing theme and reduced-motion behavior.
+6. Preserve all character/enemy graphics, effects, Chaos Arena terrain and portal, and existing HUD icon work. Update production asset verification and service-worker/precache coverage following project conventions.
+
+## Verification and report
+
+Run relevant formatting, lint, typecheck, tests, production build, and asset verification. Report only checks that actually ran and passed; explain any that could not run. List the changed files, UI components skinned, assets left unused, and any remaining mobile/readability/accessibility checks. Do not stage, commit, push, or deploy.
