@@ -5,7 +5,7 @@ import { resolvePublicAssetUrl } from './publicAssets';
 export { resolvePublicAssetUrl } from './publicAssets';
 
 export type LaserCrocodileTier = keyof typeof manifest.visualTierByMergeRank;
-export type LaserCrocodileAnimationState = 'idle' | 'walk' | 'attack' | 'hurt';
+export type LaserCrocodileAnimationState = 'idle' | 'walk' | 'attack' | 'hurt' | 'death';
 export type LaserCrocodileLocomotion = 'idle' | 'walk';
 export type LaserCrocodileAction = 'attack' | 'hurt';
 
@@ -26,6 +26,10 @@ export const LASER_CROCODILE_ANIMATIONS =
 export const LASER_CROCODILE_ORIGIN = {
   x: manifest.unitOrigin[0] ?? 0.5,
   y: manifest.unitOrigin[1] ?? 0.875,
+};
+export const LASER_CROCODILE_MUZZLE_OFFSET = {
+  x: manifest.muzzleOffset[0] ?? 80,
+  y: manifest.muzzleOffset[1] ?? -58,
 };
 export const LASER_CROCODILE_DISPLAY_WIDTH = manifest.recommendedDisplayWidth;
 export const LASER_CROCODILE_EFFECTS = {

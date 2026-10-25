@@ -1,0 +1,362 @@
+[
+  {
+    "file": "public/assets/units/laser-crocodile/v1-idle.png",
+    "size": [1024, 256],
+    "mode": "RGBA",
+    "frames": [
+      {
+        "bbox": [40, 120, 225, 224],
+        "hash": "2ca7fe9b15fe77d2dbb9b62620204a9ef2c95fcdf42f9a4e84ea76aa38514b9b"
+      },
+      {
+        "bbox": [42, 106, 215, 224],
+        "hash": "f8774d8c9f8267ba5e51adfa4aa62065a39fd4125ea28d4ca36be5547c6c8aeb"
+      },
+      {
+        "bbox": [39, 122, 213, 224],
+        "hash": "8ff4b3a0f5f6064aefd71e9ee9f9eb186c73e381c67e3e4b155b771a02caebf0"
+      },
+      {
+        "bbox": [40, 120, 218, 224],
+        "hash": "6bc8ec8b999d70fee28e67a02eb7151305e61e8ab29c99d57fac8f2cd9661794"
+      }
+    ],
+    "sha256": "391f0eef137ee9bfd534daccb5a4ca7ebda96fee150bc6c73788c3b5290de67a"
+  },
+  {
+    "file": "public/assets/units/laser-crocodile/v1-walk.png",
+    "size": [1024, 256],
+    "mode": "RGBA",
+    "frames": [
+      {
+        "bbox": [39, 120, 221, 225],
+        "hash": "242418065da9796427355b9cc0310327bddc3eba294eb1787783a18f09c3f0a8"
+      },
+      {
+        "bbox": [48, 114, 228, 223],
+        "hash": "ba6b4257d7fb68e464992d199be76ab672673307fadbb2658cc222b8ae27840e"
+      },
+      {
+        "bbox": [49, 117, 234, 225],
+        "hash": "658fac1d160735e64bd808f611cde047592de01474162caaf94e8da9af011ab3"
+      },
+      {
+        "bbox": [41, 115, 225, 223],
+        "hash": "2cbe2641d7375c4f398170b0de61b38daf50fd34b81298bb30b69d69aceaab2d"
+      }
+    ],
+    "sha256": "b5048a187e5b0c00eb1f2397c38a0e1e4d5141a20088c4fdfea2e2ec8954155f"
+  },
+  {
+    "file": "public/assets/units/laser-crocodile/v1-attack.png",
+    "size": [1024, 256],
+    "mode": "RGBA",
+    "frames": [
+      {
+        "bbox": [38, 115, 229, 223],
+        "hash": "b067949f9dfc02d3eb948343b6eb6eb8fef6f677a25bc31c6fd5e470dab9971c"
+      },
+      {
+        "bbox": [40, 115, 235, 222],
+        "hash": "60119ef183f1f78ea14438b282398b7c305d29296ca9edadc1a15a4f67dd9575"
+      },
+      {
+        "bbox": [29, 117, 244, 224],
+        "hash": "475450e92d4ee10de00d63ae2b44974c1722fbbabe28807ccac8129a088b4bf7"
+      },
+      {
+        "bbox": [33, 115, 216, 223],
+        "hash": "94079e91f9b009a9332ef4b67ad29055ad2910e19aa30ca4afdab87693c75b8f"
+      }
+    ],
+    "sha256": "a2a2034fa0b9ddcd086b0cc9723c88c34ca9b825e372f978c6c8887373167c82"
+  },
+  {
+    "file": "public/assets/units/laser-crocodile/v1-hurt.png",
+    "size": [1024, 256],
+    "mode": "RGBA",
+    "frames": [
+      {
+        "bbox": [41, 115, 234, 225],
+        "hash": "b75a99341a529b38a53c17e919218356f1198b5feb65ebf854c7b2815ece02cc"
+      },
+      {
+        "bbox": [51, 116, 240, 224],
+        "hash": "6a39feab4de5abea55c645aad564bdb398cfd43fd896431fab98ba19174af909"
+      },
+      {
+        "bbox": [47, 125, 234, 225],
+        "hash": "2ff33691ef7c65f206c919918de7feb24b0b07aea7310e3856a5fe3a3a525f9e"
+      },
+      {
+        "bbox": [40, 113, 225, 224],
+        "hash": "06967c7dfbd52e3514632b7b09bcf36fedc43cebce17a692aa326adb42c2d46a"
+      }
+    ],
+    "sha256": "19d432e784a1cfdd9ad2722ebe52774ce90b6b71ab729c1588854cf26e526c2f"
+  },
+  {
+    "file": "public/assets/units/laser-crocodile/v1-death.png",
+    "size": [1024, 256],
+    "mode": "RGBA",
+    "frames": [
+      {
+        "bbox": [42, 116, 234, 224],
+        "hash": "df8bb3faac9b3c20db92db2a60c6654ea345bda888c3f396abaf7a16a25cb809"
+      },
+      {
+        "bbox": [42, 127, 234, 224],
+        "hash": "577c4e50f66c39e9035cf9710e0f287912003b24c6c2e8ff7d831bebeb8a5cf7"
+      },
+      {
+        "bbox": [33, 114, 234, 224],
+        "hash": "fd5731eb772bf7a9f244d4785313fa12e92e9cbec68ca9bfbafbd87b9b35a7c7"
+      },
+      {
+        "bbox": [40, 130, 229, 225],
+        "hash": "05d77e4cbcbb575220235fffbef33e4e5cf0d6e490f49a7afcb022be9cdbfb95"
+      }
+    ],
+    "sha256": "007c889633976d5cfbe3972b711c9af522970f7c472dc30c695f180f1e51cdf9"
+  },
+  {
+    "file": "public/assets/units/laser-crocodile/v2-idle.png",
+    "size": [1024, 256],
+    "mode": "RGBA",
+    "frames": [
+      {
+        "bbox": [48, 112, 222, 224],
+        "hash": "35c99bc49752883f532b0dbace2989f0a2b3353f6006d04e9a806bed0f4913d3"
+      },
+      {
+        "bbox": [41, 111, 223, 224],
+        "hash": "fae951ead50d5bbd480b1b0455cf510593617bd43bcefd397dca97a33992c831"
+      },
+      {
+        "bbox": [41, 111, 216, 224],
+        "hash": "c6f4cfe720f1102c506a23a39cf86fcf11783a3318801179654bd07d063119a7"
+      },
+      {
+        "bbox": [38, 110, 217, 224],
+        "hash": "e288bd558a8b7970be4e6ebe6ca9a70f2c9864460f2c66939eb7aee81eaf40d9"
+      }
+    ],
+    "sha256": "9469b3b3e63afb54e2439a4b3fae561828d5650a0dcf58b2faad33b83af15e9a"
+  },
+  {
+    "file": "public/assets/units/laser-crocodile/v2-walk.png",
+    "size": [1024, 256],
+    "mode": "RGBA",
+    "frames": [
+      {
+        "bbox": [39, 110, 222, 225],
+        "hash": "cf06e2a91620fad59e5bf8affd83df22cc0e4c3ec8490d408480e951858c531b"
+      },
+      {
+        "bbox": [44, 110, 222, 225],
+        "hash": "3ff4f9f6897d0de00430d51234b90c90a90c789710ccdd5c6c6620e8b4436aad"
+      },
+      {
+        "bbox": [43, 107, 223, 223],
+        "hash": "8a9cb63932df8c44a0d2783c29a15fd38ceb1118ebb4676666ede463d279ec88"
+      },
+      {
+        "bbox": [42, 106, 220, 224],
+        "hash": "8397b4d4dd83891b2d4340d2e7e467138817f42de02fe0cec0d06be0f781b609"
+      }
+    ],
+    "sha256": "c0fff2c64d9bb78584a4e7d1a16f2b32853db2558de8207fedb041d3f74790b9"
+  },
+  {
+    "file": "public/assets/units/laser-crocodile/v2-attack.png",
+    "size": [1024, 256],
+    "mode": "RGBA",
+    "frames": [
+      {
+        "bbox": [46, 128, 231, 224],
+        "hash": "eb201e5967c014d39b0003ff011a01d84e88a12189bdbc494638eb6bccf9449d"
+      },
+      {
+        "bbox": [34, 107, 221, 224],
+        "hash": "90c499572d0ce499f0648d3389eb2aafaa520aeed9f4bd656e0f7f25bc592aff"
+      },
+      {
+        "bbox": [20, 110, 236, 224],
+        "hash": "186f79bdf422071a94a2456ecbb3a2efbbc9e14df7c3652674401f6462fb259d"
+      },
+      {
+        "bbox": [32, 108, 212, 224],
+        "hash": "eae988d41cb5148df8bacaed768413da2ab9a85d3c0581160767b30f412bd3db"
+      }
+    ],
+    "sha256": "c0a70e29ccfb07937b8035575431abddb5c9dd4e0ae12642c6bf5608d8246163"
+  },
+  {
+    "file": "public/assets/units/laser-crocodile/v2-hurt.png",
+    "size": [1024, 256],
+    "mode": "RGBA",
+    "frames": [
+      {
+        "bbox": [38, 106, 219, 224],
+        "hash": "5b1897d57ea29c6bf4e760b400b4491e33a6b643d1ac67e5a986af00b8932cc5"
+      },
+      {
+        "bbox": [44, 115, 206, 224],
+        "hash": "7136e247db6915335199e963e056b550526aa66332cc0bcb6fb23888b303ffcb"
+      },
+      {
+        "bbox": [41, 125, 219, 224],
+        "hash": "74cfafb0ddec132d2ab0e73e2d8800f788f69a0314fbb0bd1f47df6e6f8c69d1"
+      },
+      {
+        "bbox": [37, 104, 217, 224],
+        "hash": "31e34fe1f86a2653b9c0c474f9fb73378f59be55e503dfb13cd805a2de157b0e"
+      }
+    ],
+    "sha256": "af803c09889218e21440988cdda458fe84a0997404a3282e69d47394f9ca061a"
+  },
+  {
+    "file": "public/assets/units/laser-crocodile/v2-death.png",
+    "size": [1024, 256],
+    "mode": "RGBA",
+    "frames": [
+      {
+        "bbox": [36, 110, 219, 224],
+        "hash": "b4ce6498415ae394e3cadba8d8a23e2f51b46834aa514a2e008dbcb57de9a849"
+      },
+      {
+        "bbox": [47, 125, 219, 224],
+        "hash": "6e6fb661b08ff24fae27a70bfe033ed2ea3ca5b1e417d8003cbc253fe926e13a"
+      },
+      {
+        "bbox": [28, 131, 225, 223],
+        "hash": "0c7bd2fb31c409953e1c216d65ed0c1d060907ef7a4bdf4a22931e79e14612c3"
+      },
+      {
+        "bbox": [36, 115, 219, 223],
+        "hash": "334cdb8840b961c245554461e9ac084a1c16e653d5e0c8ba8abb64e73066fb6d"
+      }
+    ],
+    "sha256": "440ef5c2f26a7c4ad33b14097ffa60491aa87af523fadc991cc6c181d62e0948"
+  },
+  {
+    "file": "public/assets/units/laser-crocodile/v3-idle.png",
+    "size": [1024, 256],
+    "mode": "RGBA",
+    "frames": [
+      {
+        "bbox": [38, 93, 225, 224],
+        "hash": "39934bc2fe00d66a5fdb88158b3327826d7541bbf0ff68a405e4732666bea27d"
+      },
+      {
+        "bbox": [40, 89, 221, 224],
+        "hash": "0c48d966bbd7c3dacf74131b5b21ace0aa2853c4332f0b00f0ce9bf665d01d79"
+      },
+      {
+        "bbox": [36, 99, 219, 225],
+        "hash": "8b12db3fc4523d5b20122eb057d057cb69c54dbb389172c192b53cd7196910f7"
+      },
+      {
+        "bbox": [31, 93, 214, 224],
+        "hash": "4ae031e3132731e1283b46d827657f467b8095f1dfa905bf88c5b5bc2b8a2189"
+      }
+    ],
+    "sha256": "69d359c1d6e64068609fb48c86796963891a984f805313cd9a60a709e23be9c3"
+  },
+  {
+    "file": "public/assets/units/laser-crocodile/v3-walk.png",
+    "size": [1024, 256],
+    "mode": "RGBA",
+    "frames": [
+      {
+        "bbox": [43, 89, 230, 224],
+        "hash": "1c1b008758ff530a048b92abd95fd019bfe2f38740817ce0921ef32b88529bf9"
+      },
+      {
+        "bbox": [40, 86, 227, 223],
+        "hash": "ead92fdbe53a0f3e883a2886db5298b9fd1eb0d27445a2f679c4e7ab70d38916"
+      },
+      {
+        "bbox": [25, 85, 211, 224],
+        "hash": "77d276bfd4b0c71a142272423796f8bf38b6742fee4b71304cbc71c1ace27878"
+      },
+      {
+        "bbox": [31, 90, 218, 224],
+        "hash": "9b89c3da065ccae211acce28860d4043bdace9a1ea6941214c746071b1846893"
+      }
+    ],
+    "sha256": "884e3d390c4e76a39a8fb3dbc357c27ac4c93ba6f1f2f7baea45dd26817aae18"
+  },
+  {
+    "file": "public/assets/units/laser-crocodile/v3-attack.png",
+    "size": [1024, 256],
+    "mode": "RGBA",
+    "frames": [
+      {
+        "bbox": [41, 102, 220, 224],
+        "hash": "f054706257ab05549675b946a1578f6fe70182abc652bca52cab5e078354b5af"
+      },
+      {
+        "bbox": [34, 89, 229, 224],
+        "hash": "ab4491e760b3f350abef6e43a12b7e353b0dcce1de558da913c8504a305af2cb"
+      },
+      {
+        "bbox": [21, 94, 238, 223],
+        "hash": "6c5f66d6d1a85df95f08c0d4f9cbe6ca202fdf89f9e26862dcff11c729691d20"
+      },
+      {
+        "bbox": [37, 88, 212, 223],
+        "hash": "35d2b76fb50735006391ff6011bea6134ab51984342f9114fd39f4d8fc925308"
+      }
+    ],
+    "sha256": "5a51243ffba7fc2d8e1853615144b19fc168b5602579288449d69c6c77ed42cf"
+  },
+  {
+    "file": "public/assets/units/laser-crocodile/v3-hurt.png",
+    "size": [1024, 256],
+    "mode": "RGBA",
+    "frames": [
+      {
+        "bbox": [41, 88, 229, 224],
+        "hash": "9509153e0f14e363971b73e3c875c5cc5395021973a02ed3e6ba6c0f597273be"
+      },
+      {
+        "bbox": [43, 102, 223, 225],
+        "hash": "74a928115f14a6d9938b3ab327902f54642578f2d6482ed54d3751dc42fdaddd"
+      },
+      {
+        "bbox": [36, 111, 209, 224],
+        "hash": "0b83c82753eb55bf912c98fea0535a00c7c866e634a0620e924a9cc9cf362fda"
+      },
+      {
+        "bbox": [31, 89, 215, 224],
+        "hash": "bbbd5ae75b4a61121127f4cf4cbf8f46c37e72a5e0e3e7f82fec8b4bfedb32a7"
+      }
+    ],
+    "sha256": "5589e19d963ec722fc2951d76299e3132b14c38a9102f2b2b8106ef8aa5c698a"
+  },
+  {
+    "file": "public/assets/units/laser-crocodile/v3-death.png",
+    "size": [1024, 256],
+    "mode": "RGBA",
+    "frames": [
+      {
+        "bbox": [42, 89, 236, 224],
+        "hash": "ca991ff66d5dd98e4aef2903d898bae9d9c865e965501b705dc3ad62291a3b9a"
+      },
+      {
+        "bbox": [43, 107, 224, 223],
+        "hash": "dcff8892d077d4eda5fcfeb7a3519b1d01ec01b770bcc21109f470ada0ba31af"
+      },
+      {
+        "bbox": [33, 122, 221, 224],
+        "hash": "d862555b4980d802366e5512576637350986ceda68eeb4bc036ccbcbe4638f75"
+      },
+      {
+        "bbox": [31, 99, 217, 224],
+        "hash": "123125cfaa3841481b6ae2c62ac2b3c56a1dc91ed9db11ce8526d20d3c1151a8"
+      }
+    ],
+    "sha256": "d584e3386d9d3996237c27ed0df9fec162cc23e5187d827847bcae5315cae276"
+  }
+]
