@@ -6,8 +6,10 @@ import {
   moveCharacter,
   purchaseCharacter,
   resolveBattleRewards,
+  undoMerge,
   updateSettings,
   type BattleLevelUp,
+  type MergeUndo,
 } from '../game/commands/profileCommands';
 import { CHARACTER_DEFINITIONS } from '../game/domain/characters';
 import { MAX_CHARACTER_XP } from '../game/domain/progression';
@@ -42,6 +44,8 @@ import type { ProfileRepository, ProfileSummary } from '../persistence/indexeddb
 import { ProfileWriteQueue } from './profileWriteQueue';
 import { WebLocksProfileSessionGuard, type ProfileSessionGuard } from './profileSessionGuard';
 import { MAX_NAME_LENGTH } from '../persistence/schemas/saveSchema';
+
+export const MAX_UNDO_MERGES = 10;
 
 export type SaveStatus = 'idle' | 'saving' | 'saved' | 'error' | 'unavailable';
 export type ToastTone = 'info' | 'success' | 'error' | 'reward';
@@ -122,6 +126,7 @@ export interface AppSnapshot {
   readonly fatalError: FatalErrorView | null;
   readonly pendingImportName: string | null;
   readonly creatingProfile: boolean;
+  readonly undoCount: number;
 }
 
 interface ControllerOptions {
@@ -248,6 +253,7 @@ export class GameController {
   private visualEvents: VisualEvent[] = [];
   private visualEventCounter = 0;
   private readonly writes = new ProfileWriteQueue();
+  private undoStack: MergeUndo[] = [];
 
   private session: BattleSession | null = null;
   private rafId: number | null = null;
@@ -309,6 +315,7 @@ export class GameController {
       fatalError: this.fatalError,
       pendingImportName: this.pendingImportName,
       creatingProfile: this.creatingProfile,
+      undoCount: this.undoStack.length,
     };
   }
 
@@ -566,6 +573,7 @@ export class GameController {
     }
 
     this.creatingProfile = false;
+    this.undoStack = [];
     this.profile = profile;
     this.profiles = this.upsertSummary(profile);
     this.saveStatus = this.storageAvailable ? 'saved' : 'unavailable';
@@ -638,6 +646,7 @@ export class GameController {
       return;
     }
     await this.sessionGuard.releaseOthers(profileId);
+    this.undoStack = [];
     this.profile = loaded.value;
     this.profiles = this.upsertSummary(loaded.value);
     this.screen = 'menu';
@@ -670,6 +679,7 @@ export class GameController {
     if (wasActive) {
       await this.sessionGuard.release(profileId);
       this.profile = null;
+      this.undoStack = [];
     }
     this.screen = 'profiles';
     this.showToastKey('profileDeleted', {}, 'info');
@@ -732,27 +742,9 @@ export class GameController {
       this.showToastKey('errorNotFound', {}, 'error');
       return;
     }
-    if (!this.selectedId) {
-      this.selectCharacter(characterId);
-      return;
-    }
     if (this.selectedId === characterId) {
       this.sound.play('click');
       this.selectCharacterInternal(null);
-      return;
-    }
-    const selected = this.profile.characters.find((character) => character.id === this.selectedId);
-    if (!selected) {
-      this.selectCharacter(characterId);
-      return;
-    }
-    if (selected.typeId === tapped.typeId && selected.mergeRank === tapped.mergeRank) {
-      if (selected.mergeRank >= MAX_MERGE_RANK) {
-        this.showToastKey('errorMaxRank', {}, 'error');
-        this.sound.play('error');
-        return;
-      }
-      this.performMerge(selected.id, tapped.id);
       return;
     }
     this.selectCharacter(characterId);
@@ -764,6 +756,20 @@ export class GameController {
       this.profile.characters.find((character) => character.col === col && character.row === row) ??
       null;
     if (occupant) {
+      if (this.selectedId && this.selectedId !== occupant.id) {
+        const selected = this.profile.characters.find(
+          (character) => character.id === this.selectedId,
+        );
+        if (
+          selected &&
+          selected.typeId === occupant.typeId &&
+          selected.mergeRank === occupant.mergeRank &&
+          selected.mergeRank < MAX_MERGE_RANK
+        ) {
+          this.performMerge(selected.id, occupant.id);
+          return;
+        }
+      }
       this.handleUnitTap(occupant.id);
       return;
     }
@@ -781,7 +787,15 @@ export class GameController {
         this.selectCharacter(characterId);
         return;
       }
-      this.performMerge(characterId, target.id);
+      const source = this.profile.characters.find((character) => character.id === characterId);
+      if (
+        source &&
+        source.typeId === target.typeId &&
+        source.mergeRank === target.mergeRank &&
+        source.mergeRank < MAX_MERGE_RANK
+      ) {
+        this.performMerge(characterId, target.id);
+      }
       return;
     }
     this.performMove(characterId, col, row);
@@ -789,11 +803,17 @@ export class GameController {
 
   private performMerge(sourceId: string, targetId: string): void {
     if (!this.profile) return;
+    const source = this.profile.characters.find((character) => character.id === sourceId) ?? null;
+    const target = this.profile.characters.find((character) => character.id === targetId) ?? null;
     const outcome = mergeCharacters(this.profile, sourceId, targetId, this.now());
     if (!outcome.ok) {
       this.showToastKey(errorKey(outcome.error), {}, 'error');
       this.sound.play('error');
       return;
+    }
+    if (source && target) {
+      this.undoStack.push({ source, target, mergedId: outcome.value.merged.id });
+      if (this.undoStack.length > MAX_UNDO_MERGES) this.undoStack.shift();
     }
     const definition = CHARACTER_DEFINITIONS[outcome.value.merged.typeId];
     this.selectedId = outcome.value.merged.id;
@@ -805,6 +825,29 @@ export class GameController {
       'success',
     );
     this.commitProfile(outcome.value.profile);
+  }
+
+  undo(): void {
+    if (this.phase !== 'preparation' || !this.profile) return;
+    const entry = this.undoStack[this.undoStack.length - 1];
+    if (!entry) {
+      this.sound.play('error');
+      this.showToastKey('toastUndoNothing', {}, 'info');
+      return;
+    }
+    const outcome = undoMerge(this.profile, entry, this.now());
+    if (!outcome.ok) {
+      this.undoStack.pop();
+      this.showToastKey(errorKey(outcome.error), {}, 'error');
+      this.sound.play('error');
+      return;
+    }
+    this.undoStack.pop();
+    this.selectedId = null;
+    this.pushVisualEvent('move', entry.source.col, entry.source.row);
+    this.sound.play('click');
+    this.showToastKey('toastUndo', {}, 'success');
+    this.commitProfile(outcome.value);
   }
 
   private performMove(characterId: string, col: number, row: number): void {
@@ -861,6 +904,7 @@ export class GameController {
       return;
     }
     this.battleAttempt += 1;
+    this.undoStack = [];
     const seed = hashSeed(
       `${this.profile.profileId}:${wave.id}:${this.battleAttempt}:${this.profile.coins}`,
     );
@@ -1289,6 +1333,7 @@ export class GameController {
     } else {
       this.writes.invalidate(imported.profileId);
     }
+    this.undoStack = [];
     this.profile = imported;
     this.profiles = this.upsertSummary(imported);
     this.pendingImport = null;
