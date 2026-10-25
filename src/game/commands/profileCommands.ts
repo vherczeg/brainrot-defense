@@ -28,6 +28,12 @@ export interface MergeOutcome {
   readonly merged: CharacterInstance;
 }
 
+export interface MergeUndo {
+  readonly source: CharacterInstance;
+  readonly target: CharacterInstance;
+  readonly mergedId: string;
+}
+
 export interface PurchaseOutcome {
   readonly profile: PlayerProfile;
   readonly purchased: CharacterInstance;
@@ -131,6 +137,24 @@ export function mergeCharacters(
     now,
   );
   return ok({ profile: nextProfile, merged });
+}
+
+export function undoMerge(
+  profile: PlayerProfile,
+  undo: MergeUndo,
+  now = Date.now(),
+): Result<PlayerProfile> {
+  const merged = profile.characters.find((character) => character.id === undo.mergedId);
+  if (!merged) return fail('not-found', undo.mergedId);
+  const survivors = profile.characters.filter((character) => character.id !== undo.mergedId);
+  const occupies = (col: number, row: number): boolean =>
+    survivors.some((character) => character.col === col && character.row === row);
+  if (occupies(undo.source.col, undo.source.row)) return fail('cell-occupied', 'undo.source');
+  if (occupies(undo.target.col, undo.target.row)) return fail('cell-occupied', 'undo.target');
+  const characters = [...survivors, { ...undo.source }, { ...undo.target }].sort((a, b) =>
+    a.id.localeCompare(b.id, 'en'),
+  );
+  return ok(updated({ ...profile, characters }, now));
 }
 
 export function purchaseCharacter(

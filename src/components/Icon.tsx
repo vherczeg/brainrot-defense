@@ -17,6 +17,7 @@ export type IconName =
   | 'arrow-left'
   | 'close'
   | 'merge'
+  | 'undo'
   | 'tutorial'
   | 'check'
   | 'warning'
@@ -63,6 +64,7 @@ const PATHS: Readonly<Record<IconName, string>> = {
   'arrow-left': 'M20 12H5m0 0 5-5m-5 5 5 5',
   close: 'M6 6l12 12M18 6 6 18',
   merge: 'M7 4h6l-2 6h5l-9 10 2-8H4l3-8Z',
+  undo: 'M9 14 4 9l5-5M4 9h11a6 6 0 0 1 0 12h-2',
   tutorial:
     'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18Zm0 13.5v.5M9.5 9a2.5 2.5 0 1 1 3.6 2.2c-.7.4-1.1 1-1.1 1.8',
   check: 'M4 12.5 9 17.5 20 6.5',

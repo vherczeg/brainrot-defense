@@ -250,7 +250,6 @@ export class BattleScene extends Phaser.Scene {
   private dragMarker: Phaser.GameObjects.Container | null = null;
   private draggingId: string | null = null;
   private dragOrigin: Cell | null = null;
-  private pendingMergeTargetId: string | null = null;
   private pendingCellTap: Cell | null = null;
   private pointerDownAt: { x: number; y: number } | null = null;
   private isDragging = false;
@@ -1310,18 +1309,6 @@ export class BattleScene extends Phaser.Scene {
       ) ?? null;
 
     if (occupant) {
-      const selected = view.characters.find((character) => character.id === view.selectedId);
-      const isMergeTarget =
-        selected !== undefined &&
-        selected.id !== occupant.id &&
-        selected.typeId === occupant.typeId &&
-        selected.mergeRank === occupant.mergeRank &&
-        selected.mergeRank < MAX_MERGE_RANK;
-      if (isMergeTarget) {
-        this.pendingMergeTargetId = occupant.id;
-        this.draggingId = null;
-        return;
-      }
       this.selectedWasSet = view.selectedId === occupant.id;
       if (!this.selectedWasSet) {
         this.controller.selectCharacter(occupant.id);
@@ -1369,22 +1356,6 @@ export class BattleScene extends Phaser.Scene {
     }
     const cell = this.pointerToCell(pointer);
 
-    if (this.pendingMergeTargetId) {
-      const target = this.pendingMergeTargetId;
-      this.pendingMergeTargetId = null;
-      if (cell) {
-        const targetCharacter = this.controller
-          .getPrepView()
-          .characters.find(
-            (character) =>
-              character.col === cell.col && character.row === cell.row && character.id === target,
-          );
-        if (targetCharacter) this.controller.handleUnitTap(target);
-      }
-      this.clearDrag();
-      return;
-    }
-
     if (this.draggingId) {
       const draggedId = this.draggingId;
       const origin = this.dragOrigin;
@@ -1414,7 +1385,6 @@ export class BattleScene extends Phaser.Scene {
   private clearDrag(): void {
     this.draggingId = null;
     this.dragOrigin = null;
-    this.pendingMergeTargetId = null;
     this.pendingCellTap = null;
     this.pointerDownAt = null;
     this.isDragging = false;

@@ -60,6 +60,27 @@ test('can purchase a character and merge two matching characters', async ({ page
   await expect(inspector).toContainText('1. oszlop, 4. sor');
 });
 
+test('undoes the most recent merge and restores both units', async ({ page }) => {
+  await startGame(page);
+  await expect(page.getByTestId('tutorial-modal')).toHaveCount(0);
+
+  await page.getByTestId('shop-buy-laser-crocodile').click();
+  await expect.poll(() => unitCount(page)).toBe(4);
+
+  const undoButton = page.getByTestId('undo-button');
+  await expect(undoButton).toBeDisabled();
+
+  await openAccessiblePlacement(page);
+  await page.getByTestId('accessible-unit-unit-2').click();
+  await page.getByTestId('accessible-cell-2-4').click();
+  await expect.poll(() => unitCount(page)).toBe(3);
+  await expect(undoButton).toBeEnabled();
+
+  await undoButton.click();
+  await expect.poll(() => unitCount(page)).toBe(4);
+  await expect(undoButton).toBeDisabled();
+});
+
 test('fights a real battle, rewards the player, and persists progress after reload', async ({
   page,
 }) => {

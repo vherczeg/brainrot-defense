@@ -167,16 +167,30 @@ export function GameScreen({ snapshot }: { snapshot: AppSnapshot }) {
                     })}
                   </span>
                 </div>
-                <button
-                  type="button"
-                  className="button button--battle"
-                  onClick={() => controller.startBattle()}
-                  disabled={profile.characters.length === 0}
-                  data-testid="battle-button"
-                >
-                  <Icon name="bolt" size={28} />
-                  {t('battleButton')}
-                </button>
+                <div className="battle-launch__actions">
+                  <button
+                    type="button"
+                    className="button button--soft undo-button"
+                    onClick={() => controller.undo()}
+                    disabled={snapshot.undoCount === 0}
+                    title={t('undoHint')}
+                    data-testid="undo-button"
+                  >
+                    <Icon name="undo" size={18} />
+                    {t('undo')}
+                    {snapshot.undoCount > 0 ? ` (${snapshot.undoCount})` : ''}
+                  </button>
+                  <button
+                    type="button"
+                    className="button button--battle"
+                    onClick={() => controller.startBattle()}
+                    disabled={profile.characters.length === 0}
+                    data-testid="battle-button"
+                  >
+                    <Icon name="bolt" size={28} />
+                    {t('battleButton')}
+                  </button>
+                </div>
               </div>
               <AccessiblePlacement prep={prep} selectedId={snapshot.selectedCharacterId} />
             </>

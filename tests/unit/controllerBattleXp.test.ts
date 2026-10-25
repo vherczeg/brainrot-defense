@@ -196,7 +196,7 @@ describe('controller battle XP integration', () => {
     await controller.initialize();
     controller.enterGame();
     controller.selectCharacter('unit-1');
-    controller.handleUnitTap('unit-2');
+    controller.dragUnitToCell('unit-1', 1, 3);
     await repository.settle();
 
     const merged = controller.getSnapshot().activeProfile?.characters[0];
