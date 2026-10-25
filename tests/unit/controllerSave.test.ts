@@ -272,7 +272,7 @@ describe('WRITE COORDINATION: switching and overlapping gameplay saves', () => {
       controller.purchase('laser-crocodile');
     }
     controller.selectCharacter('unit-100');
-    controller.handleUnitTap('unit-101');
+    controller.dragUnitToCell('unit-100', 2, 3);
     await repository.settle();
 
     const saved = repository.getProfile('gameplay-coalesce');

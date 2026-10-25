@@ -92,6 +92,9 @@ export const hu = {
   mergeHint: 'Azonos típus és rang egyesíthető!',
   mergeHintActive: 'Egyesíthető ezzel: {name}',
   mergeMaxRank: 'Ez a harcos már a legmagasabb rangon van.',
+  mergeHintDrag: 'Húzd az egyik harcost a társára az egyesítéshez.',
+  undo: 'Visszavonás',
+  undoHint: 'Az utolsó egyesítést visszavonhatod.',
   levelMax: 'MAX. SZINT',
   battleButton: 'HARCOLJ!',
   battleNoArmy: 'Előbb helyezz harcost a pályára!',
@@ -99,7 +102,7 @@ export const hu = {
   battleReadyHint: 'A harc automatikus. Utána begyűjtheted a jutalmat.',
   accessibilityPanel: 'Elhelyezés billentyűzettel',
   accessibilityHint:
-    'Válassz harcost, majd koppints egy zöld mezőre. Az azonos harcosra koppintva egyesíthetsz.',
+    'Válassz harcost, majd koppints egy zöld mezőre a mozgatáshoz, vagy egy lila (egyesíthető) mezőre az egyesítéshez.',
   cellAria: '{col}. oszlop, {row}. sor',
   positionLabel: '{col}. oszlop, {row}. sor',
   emptyCell: 'üres',
@@ -146,7 +149,7 @@ export const hu = {
   battleSideHint:
     'A harc magától zajlik. Figyeld a sereged, és szükség esetén lassíts vagy állítsd meg!',
   battleLiveHint: 'A csata folyamatban van. A szünet gombbal megállíthatod.',
-  prepHintDrag: 'Húzd vagy koppints a harcosokra az elhelyezéshez. Azonosakat egyesíthetsz!',
+  prepHintDrag: 'Húzd vagy koppints a harcosokra az elhelyezéshez. Azonos harcost a társára húzva egyesíthetsz!',
 
   resultVictory: 'GYŐZELEM!',
   resultDefeat: 'VERESÉG',
@@ -154,6 +157,7 @@ export const hu = {
   resultDefeatHint: 'A sereged kimerült, de nem tűnik el. Erősítsd meg, és próbáld újra!',
   resultReward: 'Jutalom',
   resultComfort: 'Vigasztaló érmék',
+  resultFirstCompletionBonus: 'Első teljesítés bónusza',
   resultNextWave: 'Következő hullám',
   resultRetry: 'Újrapróbálkozás',
   resultBackToMenu: 'Főmenü',
@@ -250,6 +254,8 @@ export const hu = {
 
   toastPurchased: '{name} megvásárolva!',
   toastMerged: 'RANG NÖVEKEDETT! {name} {rank}. rangon!',
+  toastUndo: 'Egyesítés visszavonva.',
+  toastUndoNothing: 'Nincs mit visszavonni.',
   toastMoved: 'Harcos áthelyezve.',
   toastWaveReward: '+{coins} érme jutalom!',
   toastComfort: '+{coins} vigasztaló érme. Próbáld újra!',

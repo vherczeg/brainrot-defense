@@ -1,0 +1,16 @@
+LÉZERKROKODIL ANIMÁCIÓ – GYÁRTÁSI LEÍRÁS
+
+Eszköz: beépített ImageGen, átlátszó háttérrel; három korábbi v1.png/v2.png/v3.png stílusreferenciával. Nem DeepSeek rajzolta a PNG-ket. OpenCode/DeepSeek a TypeScript-integrációt készíti, Codex ellenőrzi és javítja.
+
+Végleges promptkészlet (tartalmi gyártási specifikáció):
+Mindhárom forma: production transparent RGBA game sprite atlas; exactly four columns, five rows; same character identity, D mini fantasy action polished 3D mobile game style; right-facing three-quarter camera; same torso scale and foot baseline; full tail and cannon inside every cell; no text, labels, grid, ground, cast shadows or gore. Row1 idle neutral/inhaling/exhaling/neutral. Row2 four clearly different alternating leg walk poses, torso dimensions stable. Row3 crouched anticipation/charge cannon/recoil firing small contained flash/recovery. Row4 neutral/flinch eyes shut/crouch/recover. Row5 legs buckle/body lowers/lie down eyes closed/resting defeated with tiny green sparkles. Every cell one full body; generous transparent gutters.
+V1: green chibi crocodile, gold claws, dark emerald light armor, large expressive eye, cylindrical neon-green laser snout. A végleges V1 lap külön padding-javító szerkesztést kapott: az eredeti húsz póz és a karakter megőrzése, 65%-os méret a csempén belül, közös talppont, nagy átlátszó térközök.
+V2: bright green crocodile, heavy dark emerald armor, gold spikes, gray shoulder strap, neon green cannon snout, gold claws. Central 60% cell width requested.
+V3: green crocodile, massive angular dark emerald armor, tall gold crystal crown spikes, gold edged shoulder shield, large blade-shaped back fins, green crystals, neon green cannon snout, gold claws. Central 60% cell width requested.
+
+Technikai feldolgozás:
+A generált lapok tényleges mérete 1122×1402 volt. Az átlátszó oszlopközök alapján meghatározott vágóvonalak; formánként egy közös méretarány; 256×256-as cellák, közös y=224 talppont. ImageMagick vágás, egyenletes átméretezés és RGBA csomagolás. Nem alkalmaztunk képkockánként eltérő nyújtást vagy automatikus karakter-újrarajzolást.
+15 vízszintes, 1024×256-os, négyképkockás, 8 bites RGBA PNG-sor és 60 külön képkocka. A korábbi három portré és négy effekt megmarad.
+
+Korlát:
+Generált, négy kulcspózos animáció; nem csontvázas, kézzel végigrajzolt 12–24 fps animáció. A formák apró részletei képkockánként kissé változhatnak. A pixelvalidáció az anatómiát és a művészi minőséget nem bizonyítja; ezért külön előnézet és játékbeli ellenőrzés is szükséges.

@@ -1,0 +1,96 @@
+{
+  "result": {
+    "traces": [
+      {
+        "frame": 2,
+        "index": 3,
+        "from": {
+          "px": 183,
+          "py": 560.625
+        },
+        "to": {
+          "px": 110,
+          "py": 340
+        },
+        "flip": true
+      },
+      {
+        "frame": 2,
+        "index": 3,
+        "from": {
+          "px": 287.8499994277954,
+          "py": 561.0412617921829
+        },
+        "to": {
+          "px": 218,
+          "py": 340
+        },
+        "flip": true
+      },
+      {
+        "frame": 2,
+        "index": 3,
+        "from": {
+          "px": 391.64999866485596,
+          "py": 561.5962368249893
+        },
+        "to": {
+          "px": 326,
+          "py": 340
+        },
+        "flip": true
+      }
+    ],
+    "views": [
+      {
+        "id": "qa-0",
+        "key": "lc-v1-idle",
+        "visible": true
+      },
+      {
+        "id": "qa-1",
+        "key": "lc-v2-idle",
+        "visible": true
+      },
+      {
+        "id": "qa-2",
+        "key": "lc-v3-idle",
+        "visible": true
+      }
+    ],
+    "animations": 19
+  },
+  "hurtPriority": {
+    "queued": true,
+    "shots": [
+      {
+        "frame": 2,
+        "flip": false,
+        "origin": {
+          "px": 253,
+          "py": 560.625
+        },
+        "baseX": 218
+      }
+    ],
+    "hurt": ["lc-v1-hurt"]
+  },
+  "immediatePause": [0, 0, 0],
+  "paused": true,
+  "lifecycle": {
+    "scales": [2, 2, 2],
+    "deaths": ["lc-v1-death", "lc-v2-death", "lc-v3-death"],
+    "started": ["lc-v1-death", "lc-v2-death", "lc-v3-death"],
+    "afterHurt": ["lc-v1-death", "lc-v2-death", "lc-v3-death"],
+    "deathFrames": {
+      "qa-0": [1, 2, 3],
+      "qa-1": [1, 2, 3],
+      "qa-2": [1, 2, 3]
+    },
+    "hidden": true,
+    "reducedHidden": true
+  },
+  "overflow": false,
+  "errors": [],
+  "failed": []
+}

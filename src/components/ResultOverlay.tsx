@@ -61,6 +61,11 @@ export function ResultOverlay({ result }: { result: BattleResultView }) {
                   ? `+${formatNumber(result.rewardCoins)}`
                   : t('resultNoReward')}
               </p>
+              {result.firstCompletionBonus > 0 ? (
+                <p className="reward-bonus" data-testid="result-first-bonus">
+                  {t('resultFirstCompletionBonus')}: +{formatNumber(result.firstCompletionBonus)}
+                </p>
+              ) : null}
             </div>
             {result.rewardCoins > 0 ? (
               <div className="coin-rain" aria-hidden="true">

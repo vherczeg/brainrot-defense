@@ -28,16 +28,35 @@ describe('laser crocodile asset mapping', () => {
     ]);
     expect(laserCrocodileAnimationKey('v2', 'attack')).toBe('lc-v2-attack');
     expect(laserCrocodileAnimationKey('v3', 'hurt')).toBe('lc-v3-hurt');
+    expect(laserCrocodileAnimationKey('v1', 'death')).toBe('lc-v1-death');
   });
 
   it('describes four-frame 1024x256 spritesheets for all unit and effect animations', () => {
-    expect(LASER_CROCODILE_ANIMATIONS).toHaveLength(16);
+    expect(LASER_CROCODILE_ANIMATIONS).toHaveLength(19);
     for (const animation of LASER_CROCODILE_ANIMATIONS) {
       expect(animation.url).toMatch(/^\/assets\/(units|effects)\/laser-crocodile\//);
       expect(animation.frameWidth).toBe(256);
       expect(animation.frameHeight).toBe(256);
       expect(animation.frames).toBe(4);
       expect(animation.origin).toEqual([0.5, animation.key.startsWith('lc-fx-') ? 0.5 : 0.875]);
+    }
+  });
+
+  it('describes one four-frame 8fps death animation per visual tier', () => {
+    const deaths = LASER_CROCODILE_ANIMATIONS.filter((animation) =>
+      animation.key.endsWith('-death'),
+    );
+    expect(deaths.map((animation) => animation.key)).toEqual([
+      'lc-v1-death',
+      'lc-v2-death',
+      'lc-v3-death',
+    ]);
+    for (const death of deaths) {
+      expect(death.url).toMatch(/^\/assets\/units\/laser-crocodile\/v[123]-death\.png$/);
+      expect(death.frames).toBe(4);
+      expect(death.fps).toBe(8);
+      expect(death.repeat).toBe(0);
+      expect(death.origin).toEqual([0.5, 0.875]);
     }
   });
 

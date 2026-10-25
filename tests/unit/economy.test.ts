@@ -78,13 +78,14 @@ describe('purchase economy', () => {
 });
 
 describe('wave rewards and retry policy', () => {
-  it('claims a wave reward exactly once', () => {
+  it('claims the full reward once, then a reduced reward on replay', () => {
     const profile = profileWith([], { coins: 0 });
     const first = claimWaveReward(profile, 1, NOW + 10);
     expect(first.ok).toBe(true);
     if (!first.ok) return;
     expect(first.value.firstCompletion).toBe(true);
     expect(first.value.rewardCoins).toBe(120);
+    expect(first.value.firstCompletionBonus).toBe(60);
     expect(first.value.profile.coins).toBe(120);
     expect(first.value.profile.completedWaves).toEqual([1]);
     expect(first.value.profile.currentWave).toBe(2);
@@ -94,9 +95,11 @@ describe('wave rewards and retry policy', () => {
     expect(second.ok).toBe(true);
     if (!second.ok) return;
     expect(second.value.firstCompletion).toBe(false);
-    expect(second.value.rewardCoins).toBe(0);
-    expect(second.value.profile.coins).toBe(120);
+    expect(second.value.rewardCoins).toBe(60);
+    expect(second.value.firstCompletionBonus).toBe(0);
+    expect(second.value.profile.coins).toBe(180);
     expect(second.value.profile.completedWaves).toEqual([1]);
+    expect(second.value.profile.currentWave).toBe(2);
   });
 
   it('never advances beyond the final wave', () => {
@@ -112,6 +115,40 @@ describe('wave rewards and retry policy', () => {
     expect(result.value.profile.currentWave).toBe(10);
     expect(result.value.profile.unlockedWave).toBe(10);
     expect(result.value.profile.completedWaves).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+  });
+
+  it('gives the full boss reward once and a half reward on replay', () => {
+    const base = profileWith([], {
+      coins: 0,
+      completedWaves: [1, 2, 3, 4, 5, 6, 7, 8, 9],
+      currentWave: 10,
+      unlockedWave: 10,
+    });
+    const first = claimWaveReward(base, 10);
+    expect(first.ok).toBe(true);
+    if (!first.ok) return;
+    expect(first.value.rewardCoins).toBe(600);
+    expect(first.value.firstCompletionBonus).toBe(300);
+    expect(first.value.profile.coins).toBe(600);
+
+    const replay = claimWaveReward(first.value.profile, 10);
+    expect(replay.ok).toBe(true);
+    if (!replay.ok) return;
+    expect(replay.value.firstCompletion).toBe(false);
+    expect(replay.value.rewardCoins).toBe(300);
+    expect(replay.value.firstCompletionBonus).toBe(0);
+    expect(replay.value.profile.coins).toBe(900);
+  });
+
+  it('keeps wave rewards independent across profiles', () => {
+    const a = profileWith([], { profileId: 'profile-a', coins: 0 });
+    const b = profileWith([], { profileId: 'profile-b', coins: 0 });
+    const claimA = claimWaveReward(a, 1);
+    const claimB = claimWaveReward(b, 1);
+    expect(claimA.ok && claimA.value.firstCompletion).toBe(true);
+    expect(claimB.ok && claimB.value.firstCompletion).toBe(true);
+    expect(claimA.ok && claimA.value.profile.coins).toBe(120);
+    expect(claimB.ok && claimB.value.profile.coins).toBe(120);
   });
 
   it('gives a small comfort reward after defeat so progression cannot deadlock', () => {

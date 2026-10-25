@@ -49,15 +49,16 @@ describe('battle XP distribution', () => {
     expect(result.value.profile.characters.find((c) => c.id === 'unit-3')?.totalXp).toBe(500);
   });
 
-  it('uses reduced XP for a replay of an already completed wave', () => {
+  it('uses reduced XP and a reduced coin reward for a replay of an already completed wave', () => {
     const profile = profileWithRoster({ completedWaves: [1], currentWave: 2, unlockedWave: 2 });
     const result = resolveBattleRewards(profile, 1, ['unit-1', 'unit-2'], NOW);
     if (!result.ok) throw new Error('expected success');
     expect(result.value.firstCompletion).toBe(false);
     expect(result.value.xpPerUnit).toBe(18);
-    expect(result.value.rewardCoins).toBe(0);
+    expect(result.value.rewardCoins).toBe(60);
+    expect(result.value.firstCompletionBonus).toBe(0);
     expect(result.value.profile.characters.find((c) => c.id === 'unit-1')?.totalXp).toBe(3043);
-    expect(result.value.profile.coins).toBe(0);
+    expect(result.value.profile.coins).toBe(60);
   });
 
   it('reports level-ups and never awards XP twice for the same resolution', () => {
@@ -121,14 +122,16 @@ describe('battle XP distribution', () => {
     expect(result.value.profile.characters.find((c) => c.id === 'unit-1')?.totalXp).toBe(3100);
   });
 
-  it('keeps the coin claim one-time even while replay XP is reduced', () => {
+  it('keeps the one-time bonus separate from the reduced replay reward', () => {
     const profile = profileWithRoster();
     const first = resolveBattleRewards(profile, 1, ['unit-1'], NOW);
     if (!first.ok) throw new Error('expected success');
     const second = resolveBattleRewards(first.value.profile, 1, ['unit-1'], NOW + 1);
     if (!second.ok) throw new Error('expected success');
     expect(first.value.rewardCoins).toBe(120);
-    expect(second.value.rewardCoins).toBe(0);
+    expect(first.value.firstCompletionBonus).toBe(60);
+    expect(second.value.rewardCoins).toBe(60);
+    expect(second.value.firstCompletionBonus).toBe(0);
     expect(second.value.xpPerUnit).toBe(18);
   });
 });

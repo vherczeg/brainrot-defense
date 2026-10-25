@@ -144,6 +144,14 @@ export function getWave(waveId: number): WaveDefinition | null {
   return WAVE_DEFINITIONS.find((wave) => wave.id === waveId) ?? null;
 }
 
+export function waveReplayRewardCoins(wave: WaveDefinition): number {
+  return Math.floor(wave.rewardCoins / 2);
+}
+
+export function waveFirstCompletionBonus(wave: WaveDefinition): number {
+  return wave.rewardCoins - waveReplayRewardCoins(wave);
+}
+
 export const FIRST_WAVE_ID = 1;
 export const LAST_WAVE_ID = 10;
 

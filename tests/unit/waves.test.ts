@@ -7,6 +7,8 @@ import {
   WAVE_DEFINITIONS,
   getWave,
   isValidEnemyPosition,
+  waveFirstCompletionBonus,
+  waveReplayRewardCoins,
 } from '../../src/game/domain/waves';
 
 describe('wave definitions', () => {
@@ -55,5 +57,15 @@ describe('wave definitions', () => {
 
   it('does not include a boss before wave ten', () => {
     expect(WAVE_DEFINITIONS.slice(0, 9).some((wave) => wave.isBossWave)).toBe(false);
+  });
+
+  it('splits every reward into a replay half and a one-time first bonus half', () => {
+    for (const wave of WAVE_DEFINITIONS) {
+      const replay = waveReplayRewardCoins(wave);
+      const bonus = waveFirstCompletionBonus(wave);
+      expect(replay + bonus).toBe(wave.rewardCoins);
+      expect(replay).toBeGreaterThan(0);
+      expect(bonus).toBeGreaterThan(0);
+    }
   });
 });
