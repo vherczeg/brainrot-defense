@@ -732,7 +732,7 @@ const CHARACTER_ASSETS = [
   {
     name: 'Laser Crocodile',
     slug: 'laser-crocodile',
-    animationCount: 16,
+    animationCount: 19,
     staticPaths: [
       '/assets/units/laser-crocodile/v1.png',
       '/assets/units/laser-crocodile/v2.png',

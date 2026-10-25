@@ -17,11 +17,15 @@ import {
   LASER_CROCODILE_DISPLAY_WIDTH,
   LASER_CROCODILE_EFFECTS,
   LASER_CROCODILE_ORIGIN,
+  LASER_CROCODILE_MUZZLE_OFFSET,
   laserCrocodileAnimationKey,
   laserCrocodileTier,
   preloadLaserCrocodile,
   registerLaserCrocodileAnimations,
 } from '../laserCrocodile';
+import { LaserAttackRelease } from '../laserAttackRelease';
+import { playLaserCrocodileDeathOnce } from '../laserCrocodileDeath';
+import { LaserCrocodileLocomotion } from '../laserCrocodileLocomotion';
 import {
   LIGHTNING_SCORPION_ANIMATIONS,
   LIGHTNING_SCORPION_DISPLAY_WIDTH,
@@ -123,6 +127,7 @@ interface AnimatedCharacterVisual {
   readonly origin: { readonly x: number; readonly y: number };
   readonly displayWidth: number;
   readonly effects?: AnimatedCharacterEffects;
+  readonly deathKey?: string;
 }
 
 interface Cell {
@@ -148,6 +153,10 @@ interface UnitView {
   locomotion: UnitLocomotion;
   action: UnitAction | null;
   actionHandler: UnitActionHandler | null;
+  laserRelease: LaserAttackRelease | null;
+  deathCleanup: (() => void) | null;
+  locomotionTween: LaserCrocodileLocomotion | null;
+  pendingHurt: boolean;
   lastX: number;
   lastY: number;
   nextTrailAt: number;
@@ -169,6 +178,7 @@ function animatedCharacterVisual(
       origin: LASER_CROCODILE_ORIGIN,
       displayWidth: LASER_CROCODILE_DISPLAY_WIDTH,
       effects: LASER_CROCODILE_EFFECTS,
+      deathKey: laserCrocodileAnimationKey(tier, 'death'),
     };
   }
   if (typeId === 'lightning-scorpion') {
@@ -320,15 +330,25 @@ export class BattleScene extends Phaser.Scene {
       })
       .setOrigin(0.5, 0);
 
+    // Apply pause/speed before Phaser advances its next animation frame.
+    const unsubscribeClock = this.controller.subscribe(() => this.syncAnimationClock());
     this.input.on('pointerdown', this.handlePointerDown, this);
     this.input.on('pointermove', this.handlePointerMove, this);
     this.input.on('pointerup', this.handlePointerUp, this);
     this.input.on('gameout', this.clearPointerState, this);
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
+      unsubscribeClock();
       this.input.off('pointerdown', this.handlePointerDown, this);
       this.input.off('pointermove', this.handlePointerMove, this);
       this.input.off('pointerup', this.handlePointerUp, this);
       this.input.off('gameout', this.clearPointerState, this);
+      for (const view of this.unitViews.values()) {
+        view.deathCleanup?.();
+        view.deathCleanup = null;
+        view.laserRelease?.cancel();
+        view.laserRelease = null;
+        view.locomotionTween?.stop();
+      }
     });
   }
 
@@ -345,11 +365,25 @@ export class BattleScene extends Phaser.Scene {
       }
     }
 
+    this.syncAnimationClock();
+
     if (this.mode === 'prep') {
       this.updatePrep(time);
     } else {
       this.updateBattle();
     }
+  }
+
+  private syncAnimationClock(): void {
+    const snapshot = this.controller.getSnapshot();
+    const battle = snapshot.battle;
+    const running = snapshot.phase === 'battle' && battle?.status === 'running';
+    const paused = running && (battle?.paused ?? false);
+    const speed = running ? (battle?.speed ?? 1) : 1;
+    const scale = paused ? 0 : speed;
+    this.anims.globalTimeScale = scale;
+    this.tweens.timeScale = scale;
+    this.time.timeScale = scale;
   }
 
   private drawTerrain(): void {
@@ -428,6 +462,11 @@ export class BattleScene extends Phaser.Scene {
       if (view.sprite && view.actionHandler) {
         view.sprite.off(view.actionHandler.event, view.actionHandler.handler);
       }
+      view.deathCleanup?.();
+      view.deathCleanup = null;
+      view.laserRelease?.cancel();
+      view.laserRelease = null;
+      view.locomotionTween?.stop();
       view.container.destroy(true);
     }
     this.unitViews.clear();
@@ -516,6 +555,8 @@ export class BattleScene extends Phaser.Scene {
         Phaser.GameObjects.Sprite | undefined;
       const visual = container.getData('animatedCharacterVisual') as
         AnimatedCharacterVisual | undefined;
+      const locomotionTween = container.getData('locomotionTween') as
+        LaserCrocodileLocomotion | undefined;
       const viewEntry: UnitView = {
         container,
         health: health ?? this.add.graphics(),
@@ -529,6 +570,10 @@ export class BattleScene extends Phaser.Scene {
         locomotion: 'idle',
         action: null,
         actionHandler: null,
+        laserRelease: null,
+        deathCleanup: null,
+        locomotionTween: locomotionTween ?? null,
+        pendingHurt: false,
         lastX: character.col + 0.5,
         lastY: character.row + 0.5,
         nextTrailAt: 0,
@@ -602,6 +647,11 @@ export class BattleScene extends Phaser.Scene {
       container.add(sprite);
       container.setData('animatedCharacterSprite', sprite);
       container.setData('animatedCharacterVisual', animated);
+      if (spec.typeId === 'laser-crocodile') {
+        const locomotion = new LaserCrocodileLocomotion({ sprite, tweens: this.tweens });
+        if (!this.prefersReducedMotion()) locomotion.play('idle');
+        container.setData('locomotionTween', locomotion);
+      }
     }
 
     const badge = this.add.graphics();
@@ -873,6 +923,8 @@ export class BattleScene extends Phaser.Scene {
           Phaser.GameObjects.Sprite | undefined;
         const visual = container.getData('animatedCharacterVisual') as
           AnimatedCharacterVisual | undefined;
+        const locomotionTween = container.getData('locomotionTween') as
+          LaserCrocodileLocomotion | undefined;
         view = {
           container,
           health,
@@ -886,6 +938,10 @@ export class BattleScene extends Phaser.Scene {
           locomotion: 'idle',
           action: null,
           actionHandler: null,
+          laserRelease: null,
+          deathCleanup: null,
+          locomotionTween: locomotionTween ?? null,
+          pendingHurt: false,
           lastX: unit.x,
           lastY: unit.y,
           nextTrailAt: 0,
@@ -911,14 +967,18 @@ export class BattleScene extends Phaser.Scene {
         if (view.alive) {
           view.alive = false;
           view.health.setVisible(false);
-          this.tweens.add({
-            targets: view.container,
-            alpha: 0,
-            scaleX: view.container.scaleX * 0.7,
-            scaleY: view.container.scaleY * 0.7,
-            duration: 260,
-            onComplete: () => view?.container.setVisible(false),
-          });
+          if (view.visual?.deathKey) {
+            this.startUnitDeath(view);
+          } else {
+            this.tweens.add({
+              targets: view.container,
+              alpha: 0,
+              scaleX: view.container.scaleX * 0.7,
+              scaleY: view.container.scaleY * 0.7,
+              duration: 260,
+              onComplete: () => view?.container.setVisible(false),
+            });
+          }
         }
         continue;
       }
@@ -968,18 +1028,28 @@ export class BattleScene extends Phaser.Scene {
         view.nextTrailAt = now + 360;
       }
     }
-    if (!view.sprite || !view.visual || view.action) return;
+    if (!view.sprite || !view.visual || view.action) {
+      view.locomotionTween?.stop();
+      return;
+    }
     const key = view.visual.animationKey(view.locomotion);
-    if (view.sprite.anims.isPlaying && view.sprite.anims.currentAnim?.key === key) return;
-    view.sprite.play(key);
+    if (!(view.sprite.anims.isPlaying && view.sprite.anims.currentAnim?.key === key)) {
+      view.sprite.play(key);
+    }
+    if (this.prefersReducedMotion()) {
+      view.locomotionTween?.stop();
+    } else {
+      view.locomotionTween?.play(view.locomotion);
+    }
   }
 
   private playAnimatedCharacterAction(unitId: string, action: UnitAction): void {
     const view = this.unitViews.get(unitId);
-    if (!view || !view.sprite || !view.visual) return;
+    if (!view || !view.sprite || !view.visual || !view.alive) return;
     const sprite = view.sprite;
     const visual = view.visual;
     const key = visual.animationKey(action);
+    if (!this.anims.exists(key)) return;
     if (view.action === action && sprite.anims.isPlaying && sprite.anims.currentAnim?.key === key) {
       return;
     }
@@ -987,11 +1057,17 @@ export class BattleScene extends Phaser.Scene {
       sprite.off(view.actionHandler.event, view.actionHandler.handler);
       view.actionHandler = null;
     }
+    view.locomotionTween?.stop();
     const event = `animationcomplete-${key}`;
     const handler = () => {
       if (view.actionHandler?.handler !== handler) return;
       view.actionHandler = null;
       view.action = null;
+      if (view.pendingHurt && view.alive) {
+        view.pendingHurt = false;
+        this.playAnimatedCharacterAction(unitId, 'hurt');
+        return;
+      }
       const locomotionKey = visual.animationKey(view.locomotion);
       if (!(sprite.anims.isPlaying && sprite.anims.currentAnim?.key === locomotionKey)) {
         sprite.play(locomotionKey);
@@ -1003,6 +1079,70 @@ export class BattleScene extends Phaser.Scene {
     if (!(sprite.anims.isPlaying && sprite.anims.currentAnim?.key === key)) sprite.play(key);
   }
 
+  private scheduleLaserShot(
+    view: UnitView | undefined,
+    fallbackFrom: { px: number; py: number },
+    to: { px: number; py: number },
+  ): void {
+    if (view && !view.alive) return;
+    const sprite = view?.sprite;
+    const attackKey = view?.visual?.animationKey('attack');
+    if (!sprite || !attackKey || !this.anims.exists(attackKey)) {
+      this.spawnProjectileAttack(fallbackFrom, to, LASER_CROCODILE_EFFECTS);
+      return;
+    }
+    view.deathCleanup?.();
+    view.deathCleanup = null;
+    view.laserRelease?.cancel();
+    const from = { px: view.container.x + sprite.x, py: view.container.y + sprite.y };
+    view.laserRelease = new LaserAttackRelease({
+      sprite,
+      from,
+      to,
+      animationKey: attackKey,
+      getOrigin: () => {
+        const point = sprite
+          .getWorldTransformMatrix()
+          .transformPoint(
+            LASER_CROCODILE_MUZZLE_OFFSET.x * (sprite.flipX ? -1 : 1),
+            LASER_CROCODILE_MUZZLE_OFFSET.y,
+          );
+        return { px: point.x, py: point.y };
+      },
+      fire: (fireFrom, fireTo) => {
+        view.laserRelease = null;
+        this.spawnProjectileAttack(fireFrom, fireTo, LASER_CROCODILE_EFFECTS);
+      },
+    });
+  }
+
+  private startUnitDeath(view: UnitView): void {
+    view.deathCleanup?.();
+    view.deathCleanup = null;
+    view.laserRelease?.cancel();
+    view.laserRelease = null;
+    view.locomotionTween?.stop();
+    if (view.sprite && view.actionHandler) {
+      view.sprite.off(view.actionHandler.event, view.actionHandler.handler);
+      view.actionHandler = null;
+    }
+    view.action = null;
+    view.pendingHurt = false;
+    const deathKey = view.visual?.deathKey;
+    if (deathKey && view.sprite && !this.prefersReducedMotion()) {
+      view.deathCleanup = playLaserCrocodileDeathOnce(
+        view.sprite,
+        deathKey,
+        this.anims.exists(deathKey),
+        () => {
+          view.container.setVisible(false);
+        },
+      );
+    } else {
+      view.container.setVisible(false);
+    }
+  }
+
   private playBattleEvent(event: BattleEvent): void {
     const reduced = this.prefersReducedMotion();
     switch (event.type) {
@@ -1010,7 +1150,9 @@ export class BattleScene extends Phaser.Scene {
         const from = gridToPixel(event.from.x, event.from.y);
         const to = gridToPixel(event.to.x, event.to.y);
         if (event.kind === 'laser') {
-          if (!reduced) this.spawnProjectileAttack(from, to, LASER_CROCODILE_EFFECTS);
+          if (!reduced) {
+            this.scheduleLaserShot(this.unitViews.get(event.attackerId), from, to);
+          }
           this.controller.playSound('laser');
         } else if (event.kind === 'lightning') {
           if (!reduced) this.spawnProjectileAttack(from, to, LIGHTNING_SCORPION_EFFECTS);
@@ -1055,7 +1197,12 @@ export class BattleScene extends Phaser.Scene {
         if (!reduced && view?.typeId === ARMORED_SNAIL_ENEMY_ID) {
           this.spawnUnitOneShotEffect(view, ARMORED_SNAIL_EFFECTS.shellHit, 64, 0.85);
         }
-        this.playAnimatedCharacterAction(event.unitId, 'hurt');
+        if (view?.typeId === 'laser-crocodile' && view.alive && view.action === 'attack') {
+          // Finish the committed firing pose before playing the hurt reaction.
+          view.pendingHurt = true;
+        } else {
+          this.playAnimatedCharacterAction(event.unitId, 'hurt');
+        }
         break;
       }
       case 'death': {

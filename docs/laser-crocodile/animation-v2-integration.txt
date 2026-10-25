@@ -1,0 +1,28 @@
+LÉZERKROKODIL V2 ANIMÁCIÓS INTEGRÁCIÓ
+
+Alap: a59fe9c – Integrate game graphics and UI assets (#3).
+Cél: kizárólag a Lézerkrokodil V1/V2/V3 animációinak és megjelenítésének fejlesztése.
+
+Assetek:
+Formánként idle, walk, attack, hurt, death: összesen 15 vízszintes PNG-sor, soronként négy darab 256×256 képkocka. PNG-méret 1024×256, 8 bites RGBA, valódi alfaátlátszóság. Origin (0.5,0.875), talppont y224. A lépték formánként közös, nincs képkockánként eltérő nyújtás.
+A három meglévő portré, a három statikus kép és a négy effekt megmarad.
+
+Rang és forma:
+1–3: V1; 4–7: V2; 8–10: V3. A karakterszint ezt nem módosítja.
+
+Bekötés:
+A manifest 2-es verziója a három death animációt is tartalmazza. Az idle és walk ismétlődik, az attack/hurt/death egyszer fut. Támadáskor a karakter a cél felé fordul. A muzzle/projectile indítása a harmadik képkockához kapcsolódik (textureFrame=2, Phaser AnimationFrame.index=3). A lövedék a sprite világtranszformációjával számított, tükrözött csővégről indul. A csővég eltolása a manifestben állítható, a sprite originjéhez viszonyított képpontokban.
+A sérülés a már elkezdett támadás befejezése után játszódik le. Az elesés megszakítja a függő lövést, nem szakítható meg hurt/attack animációval, befejezéskor elrejti az egységet. Eseménykezelők törlése egységnézet-cserénél és jelenetleállításnál.
+Az animációk, tweenek és időzített vizuális effektek követik a harci szünetet és sebességet.
+
+Mentések és játékmenet:
+A persistence, domain, simulation, controller és waves fájljai nem változtak. Nincs új mentésséma, szabály, hullám, profilkezelés vagy függőség. A tesztek külön böngészőprofilban, tesztadatokkal futnak.
+
+Megtekintés:
+animation-v2-preview.html: önálló, offline működő képkocka-demó; az egyszeri mozdulatokat is ismétli a szemrevételezéshez.
+A tényleges Phaser-jelenet reprodukálható ellenőrzése: a fejlesztői szervert a 5174-es porton indítva futtatható a node scripts/qa-laser-animation.mjs parancs. LASER_QA_URL változóval más fejlesztői URL is megadható. A teszt friss böngészőprofilt használ; a kódba csak a tesztböngészőben injektál megfigyelési pontokat. Kimenet: test-results/laser-animation/.
+
+Korlátok:
+Négy generált kulcspóz állapotonként, nem folyamatos csontvázas animáció. A harci szimuláció továbbra is az eredeti időzítéssel számolja a sebzést: a lebegő sebzésszámok és az életcsíkok teljes lövedék-becsapódási szinkronja külön későbbi harci-visszajelzési feladat. Safari/iOS vizsgálat nem történt. Az ismert, korábbi általános formázási eltérések külön maradtak; csak a módosított szövegfájlok formázása lett javítva.
+
+Forráslapok: animation-v2-sources/v1.png, v2.png, v3.png. Újracsomagolás ImageMagickkel: node scripts/build-laser-sprites.mjs. Ez csak a meglévő rajzokat vágja és csomagolja, nem indít képgenerálást vagy külső szolgáltatást.
