@@ -1,0 +1,1176 @@
+{
+  "result": "PASS",
+  "pngCount": 34,
+  "floorVariants": 16,
+  "environmentProps": 16,
+  "checks": [
+    "RGBA PNG decode",
+    "separate nonempty atlas cells",
+    "alpha/transparency retained",
+    "no opaque pixels on source atlas cuts",
+    "files decoded from ZIP and hashes match"
+  ],
+  "sourceCuts": [
+    {
+      "source": "tiles",
+      "row": 0,
+      "cut": 320,
+      "opaquePixels": 0
+    },
+    {
+      "source": "tiles",
+      "row": 0,
+      "cut": 627,
+      "opaquePixels": 0
+    },
+    {
+      "source": "tiles",
+      "row": 0,
+      "cut": 935,
+      "opaquePixels": 0
+    },
+    {
+      "source": "tiles",
+      "row": 1,
+      "cut": 319,
+      "opaquePixels": 0
+    },
+    {
+      "source": "tiles",
+      "row": 1,
+      "cut": 627,
+      "opaquePixels": 0
+    },
+    {
+      "source": "tiles",
+      "row": 1,
+      "cut": 935,
+      "opaquePixels": 0
+    },
+    {
+      "source": "tiles",
+      "row": 2,
+      "cut": 320,
+      "opaquePixels": 0
+    },
+    {
+      "source": "tiles",
+      "row": 2,
+      "cut": 627,
+      "opaquePixels": 0
+    },
+    {
+      "source": "tiles",
+      "row": 2,
+      "cut": 934,
+      "opaquePixels": 0
+    },
+    {
+      "source": "tiles",
+      "row": 3,
+      "cut": 320,
+      "opaquePixels": 0
+    },
+    {
+      "source": "tiles",
+      "row": 3,
+      "cut": 627,
+      "opaquePixels": 0
+    },
+    {
+      "source": "tiles",
+      "row": 3,
+      "cut": 940,
+      "opaquePixels": 0
+    },
+    {
+      "source": "props",
+      "row": 0,
+      "cut": 314,
+      "opaquePixels": 0
+    },
+    {
+      "source": "props",
+      "row": 0,
+      "cut": 627,
+      "opaquePixels": 0
+    },
+    {
+      "source": "props",
+      "row": 0,
+      "cut": 941,
+      "opaquePixels": 0
+    },
+    {
+      "source": "props",
+      "row": 1,
+      "cut": 313,
+      "opaquePixels": 0
+    },
+    {
+      "source": "props",
+      "row": 1,
+      "cut": 627,
+      "opaquePixels": 0
+    },
+    {
+      "source": "props",
+      "row": 1,
+      "cut": 938,
+      "opaquePixels": 0
+    },
+    {
+      "source": "props",
+      "row": 2,
+      "cut": 314,
+      "opaquePixels": 0
+    },
+    {
+      "source": "props",
+      "row": 2,
+      "cut": 627,
+      "opaquePixels": 0
+    },
+    {
+      "source": "props",
+      "row": 2,
+      "cut": 940,
+      "opaquePixels": 0
+    },
+    {
+      "source": "props",
+      "row": 3,
+      "cut": 311,
+      "opaquePixels": 0
+    },
+    {
+      "source": "props",
+      "row": 3,
+      "cut": 627,
+      "opaquePixels": 0
+    },
+    {
+      "source": "props",
+      "row": 3,
+      "cut": 940,
+      "opaquePixels": 0
+    }
+  ],
+  "files": [
+    {
+      "file": "public/assets/terrain/chaos-arena/decorations.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "mode": "RGBA",
+      "sha256": "ab8ce24b2a5a1ed5fd1d0fd4f39ab4e6bf040eb57a5bc38b0a402732ce427156",
+      "frames": [
+        {
+          "alphaBBox": [
+            26,
+            35,
+            240,
+            244
+          ],
+          "fullyTransparent": 43480,
+          "semiTransparent": 21917
+        },
+        {
+          "alphaBBox": [
+            15,
+            48,
+            243,
+            244
+          ],
+          "fullyTransparent": 46264,
+          "semiTransparent": 19093
+        },
+        {
+          "alphaBBox": [
+            20,
+            33,
+            244,
+            244
+          ],
+          "fullyTransparent": 48403,
+          "semiTransparent": 17018
+        },
+        {
+          "alphaBBox": [
+            24,
+            39,
+            234,
+            244
+          ],
+          "fullyTransparent": 45920,
+          "semiTransparent": 19510
+        },
+        {
+          "alphaBBox": [
+            39,
+            12,
+            244,
+            244
+          ],
+          "fullyTransparent": 47398,
+          "semiTransparent": 18024
+        },
+        {
+          "alphaBBox": [
+            13,
+            12,
+            244,
+            242
+          ],
+          "fullyTransparent": 44527,
+          "semiTransparent": 20953
+        },
+        {
+          "alphaBBox": [
+            13,
+            12,
+            236,
+            244
+          ],
+          "fullyTransparent": 46465,
+          "semiTransparent": 18952
+        },
+        {
+          "alphaBBox": [
+            13,
+            13,
+            222,
+            243
+          ],
+          "fullyTransparent": 40858,
+          "semiTransparent": 24533
+        },
+        {
+          "alphaBBox": [
+            42,
+            12,
+            243,
+            243
+          ],
+          "fullyTransparent": 48108,
+          "semiTransparent": 17334
+        },
+        {
+          "alphaBBox": [
+            16,
+            13,
+            233,
+            242
+          ],
+          "fullyTransparent": 44066,
+          "semiTransparent": 21323
+        },
+        {
+          "alphaBBox": [
+            13,
+            12,
+            237,
+            244
+          ],
+          "fullyTransparent": 49277,
+          "semiTransparent": 16190
+        },
+        {
+          "alphaBBox": [
+            23,
+            13,
+            226,
+            243
+          ],
+          "fullyTransparent": 40411,
+          "semiTransparent": 24985
+        },
+        {
+          "alphaBBox": [
+            31,
+            12,
+            243,
+            215
+          ],
+          "fullyTransparent": 46287,
+          "semiTransparent": 19131
+        },
+        {
+          "alphaBBox": [
+            13,
+            12,
+            244,
+            243
+          ],
+          "fullyTransparent": 47501,
+          "semiTransparent": 17898
+        },
+        {
+          "alphaBBox": [
+            20,
+            12,
+            239,
+            244
+          ],
+          "fullyTransparent": 36768,
+          "semiTransparent": 28649
+        },
+        {
+          "alphaBBox": [
+            14,
+            12,
+            216,
+            232
+          ],
+          "fullyTransparent": 51199,
+          "semiTransparent": 14186
+        }
+      ]
+    },
+    {
+      "file": "public/assets/terrain/chaos-arena/floor-tiles.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "mode": "RGBA",
+      "sha256": "f8aadc48b229a40b96b3218a761c95e7358bfefd4138960ca0709bdae67ded5a",
+      "frames": [
+        {
+          "alphaBBox": [
+            45,
+            56,
+            244,
+            242
+          ],
+          "fullyTransparent": 31219,
+          "semiTransparent": 34084
+        },
+        {
+          "alphaBBox": [
+            28,
+            26,
+            238,
+            244
+          ],
+          "fullyTransparent": 29460,
+          "semiTransparent": 35888
+        },
+        {
+          "alphaBBox": [
+            24,
+            32,
+            228,
+            244
+          ],
+          "fullyTransparent": 29395,
+          "semiTransparent": 35924
+        },
+        {
+          "alphaBBox": [
+            13,
+            54,
+            224,
+            242
+          ],
+          "fullyTransparent": 30775,
+          "semiTransparent": 34537
+        },
+        {
+          "alphaBBox": [
+            12,
+            14,
+            244,
+            242
+          ],
+          "fullyTransparent": 28989,
+          "semiTransparent": 36350
+        },
+        {
+          "alphaBBox": [
+            32,
+            12,
+            232,
+            244
+          ],
+          "fullyTransparent": 27911,
+          "semiTransparent": 37442
+        },
+        {
+          "alphaBBox": [
+            24,
+            12,
+            229,
+            244
+          ],
+          "fullyTransparent": 27789,
+          "semiTransparent": 37595
+        },
+        {
+          "alphaBBox": [
+            13,
+            14,
+            230,
+            242
+          ],
+          "fullyTransparent": 29001,
+          "semiTransparent": 36305
+        },
+        {
+          "alphaBBox": [
+            44,
+            14,
+            244,
+            241
+          ],
+          "fullyTransparent": 27004,
+          "semiTransparent": 38301
+        },
+        {
+          "alphaBBox": [
+            28,
+            12,
+            232,
+            244
+          ],
+          "fullyTransparent": 24785,
+          "semiTransparent": 40531
+        },
+        {
+          "alphaBBox": [
+            24,
+            12,
+            229,
+            244
+          ],
+          "fullyTransparent": 24625,
+          "semiTransparent": 40649
+        },
+        {
+          "alphaBBox": [
+            13,
+            14,
+            212,
+            241
+          ],
+          "fullyTransparent": 27295,
+          "semiTransparent": 37984
+        },
+        {
+          "alphaBBox": [
+            44,
+            14,
+            244,
+            242
+          ],
+          "fullyTransparent": 31584,
+          "semiTransparent": 33778
+        },
+        {
+          "alphaBBox": [
+            15,
+            12,
+            231,
+            244
+          ],
+          "fullyTransparent": 30683,
+          "semiTransparent": 34744
+        },
+        {
+          "alphaBBox": [
+            22,
+            12,
+            227,
+            244
+          ],
+          "fullyTransparent": 30163,
+          "semiTransparent": 35209
+        },
+        {
+          "alphaBBox": [
+            14,
+            12,
+            219,
+            231
+          ],
+          "fullyTransparent": 31169,
+          "semiTransparent": 34025
+        }
+      ]
+    },
+    {
+      "file": "public/assets/terrain/chaos-arena/props/blue-crystal-cluster.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "663abd135f60d56872d1bc4aa1c3a0eaa841238826e1be16fe96d299251a7ac0",
+      "frames": [
+        {
+          "alphaBBox": [
+            20,
+            33,
+            244,
+            244
+          ],
+          "fullyTransparent": 48403,
+          "semiTransparent": 17018
+        }
+      ]
+    },
+    {
+      "file": "public/assets/terrain/chaos-arena/props/brazier.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "de7375a1ddea6f0a55f6f8aa2f0ddc6b2f36b594ec028ef87a016ec8b2415707",
+      "frames": [
+        {
+          "alphaBBox": [
+            24,
+            39,
+            234,
+            244
+          ],
+          "fullyTransparent": 45920,
+          "semiTransparent": 19510
+        }
+      ]
+    },
+    {
+      "file": "public/assets/terrain/chaos-arena/props/broken-pillar-base.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "5c71374cf14708716e66242796dd2245c07212c4ebea525d98f63a5af249c93e",
+      "frames": [
+        {
+          "alphaBBox": [
+            26,
+            35,
+            240,
+            244
+          ],
+          "fullyTransparent": 43480,
+          "semiTransparent": 21917
+        }
+      ]
+    },
+    {
+      "file": "public/assets/terrain/chaos-arena/props/cracked-obelisk.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "31102e48c8080dbce44ea9ee16fdf12013b969e44f5ebc279ddb30f25062ec2d",
+      "frames": [
+        {
+          "alphaBBox": [
+            31,
+            12,
+            243,
+            215
+          ],
+          "fullyTransparent": 46287,
+          "semiTransparent": 19131
+        }
+      ]
+    },
+    {
+      "file": "public/assets/terrain/chaos-arena/props/crystal-obelisk.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "4f588e589b388fda1595f29dff9b9ce6a1ad06bca63e8304632ba543950b64d4",
+      "frames": [
+        {
+          "alphaBBox": [
+            42,
+            12,
+            243,
+            243
+          ],
+          "fullyTransparent": 48108,
+          "semiTransparent": 17334
+        }
+      ]
+    },
+    {
+      "file": "public/assets/terrain/chaos-arena/props/crystal-shards.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "927246039941059043a818b4113ed85ea25721e7a9cbb5d3b1c7f016160e3d74",
+      "frames": [
+        {
+          "alphaBBox": [
+            13,
+            12,
+            244,
+            243
+          ],
+          "fullyTransparent": 47501,
+          "semiTransparent": 17898
+        }
+      ]
+    },
+    {
+      "file": "public/assets/terrain/chaos-arena/props/fallen-column.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "faca69ea763b7ad44fed19332c5822755c7c2a981baf564ed6e59538916ce88f",
+      "frames": [
+        {
+          "alphaBBox": [
+            16,
+            13,
+            233,
+            242
+          ],
+          "fullyTransparent": 44066,
+          "semiTransparent": 21323
+        }
+      ]
+    },
+    {
+      "file": "public/assets/terrain/chaos-arena/props/gold-stone-emblem.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "0125dccee18071faf2a0d80dbc96a757b0eefc0e1b5a4211799126e663ab8c37",
+      "frames": [
+        {
+          "alphaBBox": [
+            23,
+            13,
+            226,
+            243
+          ],
+          "fullyTransparent": 40411,
+          "semiTransparent": 24985
+        }
+      ]
+    },
+    {
+      "file": "public/assets/terrain/chaos-arena/props/moss-fern-patch.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "7fbd78a45c5bde3d42d3ad007fbc316d8e1957aaa0ffcc7648e01c9502f0a4aa",
+      "frames": [
+        {
+          "alphaBBox": [
+            13,
+            12,
+            244,
+            242
+          ],
+          "fullyTransparent": 44527,
+          "semiTransparent": 20953
+        }
+      ]
+    },
+    {
+      "file": "public/assets/terrain/chaos-arena/props/mossy-arch.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "6adbc5d93645c057a3ef58bc422f5aa6c18054f3d2e1519a0dddb7fd01aee3e3",
+      "frames": [
+        {
+          "alphaBBox": [
+            20,
+            12,
+            239,
+            244
+          ],
+          "fullyTransparent": 36768,
+          "semiTransparent": 28649
+        }
+      ]
+    },
+    {
+      "file": "public/assets/terrain/chaos-arena/props/rubble-pile.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "c5bdb4e3baacca892b295bb01a1de9d6d2bee4246a6ba3d36f03be93f8f2af22",
+      "frames": [
+        {
+          "alphaBBox": [
+            39,
+            12,
+            244,
+            244
+          ],
+          "fullyTransparent": 47398,
+          "semiTransparent": 18024
+        }
+      ]
+    },
+    {
+      "file": "public/assets/terrain/chaos-arena/props/rune-tablet.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "2bc41f37a22fe01be4ec4d23558601da34b39113e7312ccd4e6784f4a811269c",
+      "frames": [
+        {
+          "alphaBBox": [
+            13,
+            13,
+            222,
+            243
+          ],
+          "fullyTransparent": 40858,
+          "semiTransparent": 24533
+        }
+      ]
+    },
+    {
+      "file": "public/assets/terrain/chaos-arena/props/short-pillar.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "5754c6f8eb45be705e9a8ef61fe6904b3db849781998100c181b361d2fd104be",
+      "frames": [
+        {
+          "alphaBBox": [
+            15,
+            48,
+            243,
+            244
+          ],
+          "fullyTransparent": 46264,
+          "semiTransparent": 19093
+        }
+      ]
+    },
+    {
+      "file": "public/assets/terrain/chaos-arena/props/skull-bones.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "42bef29f304dd27cd816289c8b07354421f820d2c1f07a2d5bc0b707b3400ed6",
+      "frames": [
+        {
+          "alphaBBox": [
+            13,
+            12,
+            236,
+            244
+          ],
+          "fullyTransparent": 46465,
+          "semiTransparent": 18952
+        }
+      ]
+    },
+    {
+      "file": "public/assets/terrain/chaos-arena/props/stone-debris.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "ef11ac687fff1b567531f1c735b88291af74f624e4194cc86d2cfd3d5f916184",
+      "frames": [
+        {
+          "alphaBBox": [
+            14,
+            12,
+            216,
+            232
+          ],
+          "fullyTransparent": 51199,
+          "semiTransparent": 14186
+        }
+      ]
+    },
+    {
+      "file": "public/assets/terrain/chaos-arena/props/torch-brazier.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "46fab26f581d53b2163bcf4943615f980e69641148e4a5319f772e75f62f217c",
+      "frames": [
+        {
+          "alphaBBox": [
+            13,
+            12,
+            237,
+            244
+          ],
+          "fullyTransparent": 49277,
+          "semiTransparent": 16190
+        }
+      ]
+    },
+    {
+      "file": "public/assets/terrain/chaos-arena/tiles/basalt-01.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "a0163614c162e8ff5c1b10a05a081375ad118963854ec29f34b3072a3e6a4ff1",
+      "frames": [
+        {
+          "alphaBBox": [
+            45,
+            56,
+            244,
+            242
+          ],
+          "fullyTransparent": 31219,
+          "semiTransparent": 34084
+        }
+      ]
+    },
+    {
+      "file": "public/assets/terrain/chaos-arena/tiles/basalt-02.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "2ab7213b949fe62fd4489203faa4af20d47783789f40a40a7da7ad6088068b30",
+      "frames": [
+        {
+          "alphaBBox": [
+            28,
+            26,
+            238,
+            244
+          ],
+          "fullyTransparent": 29460,
+          "semiTransparent": 35888
+        }
+      ]
+    },
+    {
+      "file": "public/assets/terrain/chaos-arena/tiles/basalt-03.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "72d969bbdf21472991c9cf01fa04f02e5bf790053614a5110cecd6ee5edefc78",
+      "frames": [
+        {
+          "alphaBBox": [
+            24,
+            32,
+            228,
+            244
+          ],
+          "fullyTransparent": 29395,
+          "semiTransparent": 35924
+        }
+      ]
+    },
+    {
+      "file": "public/assets/terrain/chaos-arena/tiles/basalt-04.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "e917c9a616be0c2ef1e4be01981e3c781cac63c93075438db37ffc0d4cde6a3a",
+      "frames": [
+        {
+          "alphaBBox": [
+            13,
+            54,
+            224,
+            242
+          ],
+          "fullyTransparent": 30775,
+          "semiTransparent": 34537
+        }
+      ]
+    },
+    {
+      "file": "public/assets/terrain/chaos-arena/tiles/moss-01.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "345ab8b99d1843b0d482f37b316f5da79d053d899d13f2f67a481ac692c6fbca",
+      "frames": [
+        {
+          "alphaBBox": [
+            12,
+            14,
+            244,
+            242
+          ],
+          "fullyTransparent": 28989,
+          "semiTransparent": 36350
+        }
+      ]
+    },
+    {
+      "file": "public/assets/terrain/chaos-arena/tiles/moss-02.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "10dfdd2f8502fd4e3a240089744d5fa1aea72f27a12dba5d7f983d4ed9059b69",
+      "frames": [
+        {
+          "alphaBBox": [
+            32,
+            12,
+            232,
+            244
+          ],
+          "fullyTransparent": 27911,
+          "semiTransparent": 37442
+        }
+      ]
+    },
+    {
+      "file": "public/assets/terrain/chaos-arena/tiles/moss-03.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "d7ef7bd3db92c6525d672074226ad99392bfa0073ad0ce9578bf2639d2b2bbfe",
+      "frames": [
+        {
+          "alphaBBox": [
+            24,
+            12,
+            229,
+            244
+          ],
+          "fullyTransparent": 27789,
+          "semiTransparent": 37595
+        }
+      ]
+    },
+    {
+      "file": "public/assets/terrain/chaos-arena/tiles/moss-04.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "e0e2dbb76436298de2fe8ef7c24126cc62797cc78be334c79648dfc109be3736",
+      "frames": [
+        {
+          "alphaBBox": [
+            13,
+            14,
+            230,
+            242
+          ],
+          "fullyTransparent": 29001,
+          "semiTransparent": 36305
+        }
+      ]
+    },
+    {
+      "file": "public/assets/terrain/chaos-arena/tiles/rune-01.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "0ff84717a0e84150ec99697f0a01a9fe21d8bf53b63a155ab8cbd82e762e0373",
+      "frames": [
+        {
+          "alphaBBox": [
+            44,
+            14,
+            244,
+            241
+          ],
+          "fullyTransparent": 27004,
+          "semiTransparent": 38301
+        }
+      ]
+    },
+    {
+      "file": "public/assets/terrain/chaos-arena/tiles/rune-02.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "d92c41a0e54a16ee5723d1b1a52322d293ad8730aee97e0f0cc8c7db3174bfdd",
+      "frames": [
+        {
+          "alphaBBox": [
+            28,
+            12,
+            232,
+            244
+          ],
+          "fullyTransparent": 24785,
+          "semiTransparent": 40531
+        }
+      ]
+    },
+    {
+      "file": "public/assets/terrain/chaos-arena/tiles/rune-03.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "d7745da8271c8ff8ca6ddad6e117d3faefdc11e04cdd88778a246b2b8e573f8b",
+      "frames": [
+        {
+          "alphaBBox": [
+            24,
+            12,
+            229,
+            244
+          ],
+          "fullyTransparent": 24625,
+          "semiTransparent": 40649
+        }
+      ]
+    },
+    {
+      "file": "public/assets/terrain/chaos-arena/tiles/rune-04.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "60b04325a313509c377817f8fbc51dee11fe61c1d9d586b5bc1fc7050d61166a",
+      "frames": [
+        {
+          "alphaBBox": [
+            13,
+            14,
+            212,
+            241
+          ],
+          "fullyTransparent": 27295,
+          "semiTransparent": 37984
+        }
+      ]
+    },
+    {
+      "file": "public/assets/terrain/chaos-arena/tiles/zone-01.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "468e96dfe81d25f28ed5348b22610333ac9000a1474549047f45ad81b733a571",
+      "frames": [
+        {
+          "alphaBBox": [
+            44,
+            14,
+            244,
+            242
+          ],
+          "fullyTransparent": 31584,
+          "semiTransparent": 33778
+        }
+      ]
+    },
+    {
+      "file": "public/assets/terrain/chaos-arena/tiles/zone-02.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "2cb8891f1412023547ae9ccebf815801a6ddeb71667588a33263c711e848c5c6",
+      "frames": [
+        {
+          "alphaBBox": [
+            15,
+            12,
+            231,
+            244
+          ],
+          "fullyTransparent": 30683,
+          "semiTransparent": 34744
+        }
+      ]
+    },
+    {
+      "file": "public/assets/terrain/chaos-arena/tiles/zone-03.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "7972c5e7107743708deb45b96f7068522b8ad1dd33e2cc574d5068904ee37b60",
+      "frames": [
+        {
+          "alphaBBox": [
+            22,
+            12,
+            227,
+            244
+          ],
+          "fullyTransparent": 30163,
+          "semiTransparent": 35209
+        }
+      ]
+    },
+    {
+      "file": "public/assets/terrain/chaos-arena/tiles/zone-04.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "12419b8053f5cbe9fe908d270add409bd282c3d2bc28d3ef7757edb59b616dbc",
+      "frames": [
+        {
+          "alphaBBox": [
+            14,
+            12,
+            219,
+            231
+          ],
+          "fullyTransparent": 31169,
+          "semiTransparent": 34025
+        }
+      ]
+    }
+  ],
+  "note": "Terrain art is a visual resource package only. Check real in-game cell scale, readability, and layering before integrating."
+}

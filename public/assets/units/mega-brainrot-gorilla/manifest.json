@@ -1,0 +1,123 @@
+{
+  "version": 1,
+  "characterTypeId": "mega-brainrot-gorilla",
+  "role": "wave-10-boss",
+  "format": "horizontal-spritesheet",
+  "frameSize": [
+    256,
+    256
+  ],
+  "frameOrder": "left-to-right",
+  "unitOrigin": [
+    0.5,
+    0.88
+  ],
+  "facing": "left",
+  "recommendedDisplayWidth": 184,
+  "animations": [
+    {
+      "key": "mbg-idle",
+      "url": "/assets/units/mega-brainrot-gorilla/idle.png",
+      "frameWidth": 256,
+      "frameHeight": 256,
+      "frames": 4,
+      "fps": 5,
+      "repeat": -1,
+      "origin": [
+        0.5,
+        0.88
+      ]
+    },
+    {
+      "key": "mbg-walk",
+      "url": "/assets/units/mega-brainrot-gorilla/walk.png",
+      "frameWidth": 256,
+      "frameHeight": 256,
+      "frames": 4,
+      "fps": 8,
+      "repeat": -1,
+      "origin": [
+        0.5,
+        0.88
+      ]
+    },
+    {
+      "key": "mbg-attack",
+      "url": "/assets/units/mega-brainrot-gorilla/attack.png",
+      "frameWidth": 256,
+      "frameHeight": 256,
+      "frames": 4,
+      "fps": 10,
+      "repeat": 0,
+      "origin": [
+        0.5,
+        0.88
+      ]
+    },
+    {
+      "key": "mbg-hurt",
+      "url": "/assets/units/mega-brainrot-gorilla/hurt.png",
+      "frameWidth": 256,
+      "frameHeight": 256,
+      "frames": 4,
+      "fps": 10,
+      "repeat": 0,
+      "origin": [
+        0.5,
+        0.88
+      ]
+    },
+    {
+      "key": "mbg-fx-charge",
+      "url": "/assets/effects/mega-brainrot-gorilla/charge.png",
+      "frameWidth": 256,
+      "frameHeight": 256,
+      "frames": 4,
+      "fps": 10,
+      "repeat": 0,
+      "origin": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "key": "mbg-fx-ground-slam",
+      "url": "/assets/effects/mega-brainrot-gorilla/ground-slam.png",
+      "frameWidth": 256,
+      "frameHeight": 256,
+      "frames": 4,
+      "fps": 14,
+      "repeat": 0,
+      "origin": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "key": "mbg-fx-roar",
+      "url": "/assets/effects/mega-brainrot-gorilla/roar.png",
+      "frameWidth": 256,
+      "frameHeight": 256,
+      "frames": 4,
+      "fps": 12,
+      "repeat": 0,
+      "origin": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "key": "mbg-fx-defeat",
+      "url": "/assets/effects/mega-brainrot-gorilla/defeat.png",
+      "frameWidth": 256,
+      "frameHeight": 256,
+      "frames": 4,
+      "fps": 8,
+      "repeat": 0,
+      "origin": [
+        0.5,
+        0.5
+      ]
+    }
+  ]
+}

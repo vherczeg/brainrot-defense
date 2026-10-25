@@ -1,0 +1,1 @@
+PASS: 16 loader URLs resolve, 16 animation definitions, tier boundaries, interrupted action callback cleanup, return to idle. Mocked Phaser API; full game runtime not tested.

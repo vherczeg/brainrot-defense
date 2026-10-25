@@ -1,0 +1,295 @@
+{
+  "result": "PASS",
+  "sourceSize": [
+    1536,
+    1024
+  ],
+  "actions": [
+    "shell-hit",
+    "armor-glint",
+    "slime-trail",
+    "slime-splash"
+  ],
+  "frameCount": 16,
+  "checks": [
+    "16 frames cropped into individual 256x256 RGBA PNGs",
+    "PNG decoding successful",
+    "all frames contain visible content and real transparent pixels",
+    "four 1024x256 RGBA animation strips created",
+    "SHA256 recorded per frame"
+  ],
+  "files": [
+    {
+      "file": "public/assets/effects/armored-snail/frames/shell-hit/00.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        6,
+        65,
+        250,
+        221
+      ],
+      "transparent_pixels": 49799,
+      "semi_transparent_pixels": 15650,
+      "sha256": "a708b0cc606f5975868476cb8499df9353aeeed9fe1e51f9bf0ac6e13654dcb3"
+    },
+    {
+      "file": "public/assets/effects/armored-snail/frames/shell-hit/01.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        7,
+        68,
+        250,
+        221
+      ],
+      "transparent_pixels": 49950,
+      "semi_transparent_pixels": 15501,
+      "sha256": "9f33a5cefbfd0d44bfe637a5cfed9a79b4c49679609386568373e0572c2d64ad"
+    },
+    {
+      "file": "public/assets/effects/armored-snail/frames/shell-hit/02.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        6,
+        70,
+        250,
+        221
+      ],
+      "transparent_pixels": 53669,
+      "semi_transparent_pixels": 11801,
+      "sha256": "de75e2d6f8ccc130bd76d25bcc62169d164c4d95b8df531f4504fcdd765e3e0d"
+    },
+    {
+      "file": "public/assets/effects/armored-snail/frames/shell-hit/03.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        7,
+        58,
+        250,
+        220
+      ],
+      "transparent_pixels": 51148,
+      "semi_transparent_pixels": 14316,
+      "sha256": "f970e8cb7275bd2d9425daea9daabe078131929bffe81e531a0fdba8a0f258d4"
+    },
+    {
+      "file": "public/assets/effects/armored-snail/frames/armor-glint/00.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        6,
+        62,
+        250,
+        221
+      ],
+      "transparent_pixels": 54539,
+      "semi_transparent_pixels": 10907,
+      "sha256": "c163c9715fef72c587edbcce58d653e6730ee0f0600f6dcce46ce34fed504f3d"
+    },
+    {
+      "file": "public/assets/effects/armored-snail/frames/armor-glint/01.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        6,
+        58,
+        250,
+        221
+      ],
+      "transparent_pixels": 54081,
+      "semi_transparent_pixels": 11356,
+      "sha256": "1d9aed8a3235b1e4346448dee5d790b62555e723e68d3debe560a1b464aa7044"
+    },
+    {
+      "file": "public/assets/effects/armored-snail/frames/armor-glint/02.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        6,
+        59,
+        249,
+        221
+      ],
+      "transparent_pixels": 55048,
+      "semi_transparent_pixels": 10387,
+      "sha256": "67e7d706ee69544df3ad57c6afea4531421cebdc21042fc692336b1be0716268"
+    },
+    {
+      "file": "public/assets/effects/armored-snail/frames/armor-glint/03.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        17,
+        65,
+        240,
+        221
+      ],
+      "transparent_pixels": 54503,
+      "semi_transparent_pixels": 10971,
+      "sha256": "7d70c7f313c0844e9733ef6d147c265bacc3ec405c7203b34eb214619a9b62ad"
+    },
+    {
+      "file": "public/assets/effects/armored-snail/frames/slime-trail/00.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        6,
+        58,
+        250,
+        221
+      ],
+      "transparent_pixels": 55115,
+      "semi_transparent_pixels": 10387,
+      "sha256": "cde31c982640b2faed7566992894dfe01e32114576da53b56a87c5cde11f1d97"
+    },
+    {
+      "file": "public/assets/effects/armored-snail/frames/slime-trail/01.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        6,
+        58,
+        250,
+        221
+      ],
+      "transparent_pixels": 55908,
+      "semi_transparent_pixels": 9623,
+      "sha256": "289da4ce8bee8a6cef784b339fdcf39a4dbc8efac68a0ee771a13dde7dac4531"
+    },
+    {
+      "file": "public/assets/effects/armored-snail/frames/slime-trail/02.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        6,
+        58,
+        250,
+        221
+      ],
+      "transparent_pixels": 57193,
+      "semi_transparent_pixels": 8343,
+      "sha256": "6cfe4eb55da266090d2d8e46ff3a5076058fd50f51426fc2c70257fa576a1a13"
+    },
+    {
+      "file": "public/assets/effects/armored-snail/frames/slime-trail/03.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        6,
+        58,
+        241,
+        221
+      ],
+      "transparent_pixels": 60660,
+      "semi_transparent_pixels": 4876,
+      "sha256": "20a6d5de36be217d17539b149b3e736f43af4b01f0d714e7897ddfd3ea40648f"
+    },
+    {
+      "file": "public/assets/effects/armored-snail/frames/slime-splash/00.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        27,
+        58,
+        250,
+        221
+      ],
+      "transparent_pixels": 52710,
+      "semi_transparent_pixels": 12778,
+      "sha256": "0f2883545b735332ea36fb74e1e088c41dce10f450c70787c5c21aa56ce52153"
+    },
+    {
+      "file": "public/assets/effects/armored-snail/frames/slime-splash/01.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        6,
+        58,
+        250,
+        221
+      ],
+      "transparent_pixels": 54634,
+      "semi_transparent_pixels": 10847,
+      "sha256": "7569f9307fb89c2faf592570bc9b1c061a9679f227649d2a68a57b82a87f0036"
+    },
+    {
+      "file": "public/assets/effects/armored-snail/frames/slime-splash/02.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        6,
+        58,
+        250,
+        221
+      ],
+      "transparent_pixels": 56912,
+      "semi_transparent_pixels": 8604,
+      "sha256": "d308e8b427b3b5b7e84b3dd5a06ce6e3d2a250cbad67a35de0b691201420b7ac"
+    },
+    {
+      "file": "public/assets/effects/armored-snail/frames/slime-splash/03.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        6,
+        58,
+        250,
+        221
+      ],
+      "transparent_pixels": 59601,
+      "semi_transparent_pixels": 5894,
+      "sha256": "52ca1c13a2c4844cd69ebc134385361a828f37e4cef92cd9cebd0e29d395b99b"
+    }
+  ]
+}

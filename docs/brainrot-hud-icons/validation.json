@@ -1,0 +1,305 @@
+{
+  "result": "PASS",
+  "sourceSize": [
+    1295,
+    1214
+  ],
+  "iconCount": 16,
+  "checks": [
+    "16 cells cropped independently from transparent source atlas",
+    "each icon decodes as RGBA 256x256 PNG",
+    "each icon retains real transparent pixels and visible artwork",
+    "1024x1024 atlas assembled from the same individual icon PNGs",
+    "SHA256 recorded per icon"
+  ],
+  "sourceCuts": {
+    "x": [
+      0,
+      324,
+      639,
+      971,
+      1295
+    ],
+    "y": [
+      0,
+      306,
+      599,
+      878,
+      1214
+    ]
+  },
+  "files": [
+    {
+      "file": "public/assets/ui/brainrot-defense/icons/coin.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        37,
+        34,
+        244,
+        237
+      ],
+      "transparent_pixels": 36881,
+      "semi_transparent_pixels": 28493,
+      "sha256": "3916b28fc6bea9b5f4c0832287f4c5fdc8ca98a3af1df957ec60bd66c5061e1a"
+    },
+    {
+      "file": "public/assets/ui/brainrot-defense/icons/life-heart.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        13,
+        43,
+        240,
+        236
+      ],
+      "transparent_pixels": 39437,
+      "semi_transparent_pixels": 25985,
+      "sha256": "39d8e3e14f2443be39c94ad65144e3d96693835acd3ec8427bb78c67ff97680f"
+    },
+    {
+      "file": "public/assets/ui/brainrot-defense/icons/enemy-wave.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        29,
+        30,
+        241,
+        235
+      ],
+      "transparent_pixels": 39953,
+      "semi_transparent_pixels": 25444,
+      "sha256": "ffb842d3a3f11a1e3a689bb38204c154e507e5a2337e126f0e4292612b693987"
+    },
+    {
+      "file": "public/assets/ui/brainrot-defense/icons/armor-shield.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        38,
+        34,
+        228,
+        229
+      ],
+      "transparent_pixels": 41481,
+      "semi_transparent_pixels": 23925,
+      "sha256": "7eea26794b392ae74837da4ec6a6ecee8444af78d063e8b4caf4712758f9cf47"
+    },
+    {
+      "file": "public/assets/ui/brainrot-defense/icons/battle-speed.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        12,
+        23,
+        208,
+        233
+      ],
+      "transparent_pixels": 49357,
+      "semi_transparent_pixels": 16075,
+      "sha256": "4d00148557d68a935f9a6b044992a969f65615009c5d52e6884121a4109c4677"
+    },
+    {
+      "file": "public/assets/ui/brainrot-defense/icons/pause.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        30,
+        23,
+        237,
+        225
+      ],
+      "transparent_pixels": 37849,
+      "semi_transparent_pixels": 27544,
+      "sha256": "8bb379448cc72cfe7b0042de9565f245cb2fb82113ee9dffa15f2b650ff3e29d"
+    },
+    {
+      "file": "public/assets/ui/brainrot-defense/icons/resume.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        44,
+        25,
+        224,
+        220
+      ],
+      "transparent_pixels": 40889,
+      "semi_transparent_pixels": 24528,
+      "sha256": "622effefe9c7dce3ffeda9df85e061bd64458b411cfad18481907ca6d96553cb"
+    },
+    {
+      "file": "public/assets/ui/brainrot-defense/icons/victory-trophy.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        13,
+        26,
+        227,
+        233
+      ],
+      "transparent_pixels": 39577,
+      "semi_transparent_pixels": 25629,
+      "sha256": "eb0e562000a5a4a9e80ab95c2c9b5d34f01f322f9ee9957de07013ac288a24ff"
+    },
+    {
+      "file": "public/assets/ui/brainrot-defense/icons/crystal.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        46,
+        28,
+        231,
+        228
+      ],
+      "transparent_pixels": 40082,
+      "semi_transparent_pixels": 25291,
+      "sha256": "1202fc2273ebc5da849b716a2e0f16897f2f07ddfe240eecdeb171344921d4bc"
+    },
+    {
+      "file": "public/assets/ui/brainrot-defense/icons/upgrade.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        20,
+        33,
+        244,
+        230
+      ],
+      "transparent_pixels": 38997,
+      "semi_transparent_pixels": 26388,
+      "sha256": "f570f84b7371759ea335a5630c51634a9d770802fd2f814226d9934997177e2b"
+    },
+    {
+      "file": "public/assets/ui/brainrot-defense/icons/merge.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        13,
+        41,
+        231,
+        225
+      ],
+      "transparent_pixels": 45710,
+      "semi_transparent_pixels": 19659,
+      "sha256": "11bbc365a228de3988c8aa4244b81906d31228e4a0b0425affa433d19f279a6a"
+    },
+    {
+      "file": "public/assets/ui/brainrot-defense/icons/boss-crown.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        17,
+        28,
+        234,
+        228
+      ],
+      "transparent_pixels": 36674,
+      "semi_transparent_pixels": 28683,
+      "sha256": "4d16c21a1b9a7f7a0ea5b857442899df1b4555f9b05294089a3599424dc8bc0b"
+    },
+    {
+      "file": "public/assets/ui/brainrot-defense/icons/timer.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        55,
+        18,
+        209,
+        221
+      ],
+      "transparent_pixels": 40032,
+      "semi_transparent_pixels": 25252,
+      "sha256": "9055e2241b3498ac17e7f7b5b7a4cb77df86f37296836a4e3961b77809ee4ecd"
+    },
+    {
+      "file": "public/assets/ui/brainrot-defense/icons/defeat-heart.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        40,
+        12,
+        236,
+        222
+      ],
+      "transparent_pixels": 40741,
+      "semi_transparent_pixels": 24605,
+      "sha256": "277ad4e8cc54cf6226bb8b86f04ac4c800f434d6fa1f49c5e589422f0ee66b0a"
+    },
+    {
+      "file": "public/assets/ui/brainrot-defense/icons/settings.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        13,
+        12,
+        228,
+        221
+      ],
+      "transparent_pixels": 35375,
+      "semi_transparent_pixels": 29957,
+      "sha256": "53981652eb6d770ba96f646a92b3b8637976a223b38af0585d88ceb22149f015"
+    },
+    {
+      "file": "public/assets/ui/brainrot-defense/icons/home-base.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        33,
+        20,
+        222,
+        214
+      ],
+      "transparent_pixels": 37826,
+      "semi_transparent_pixels": 27583,
+      "sha256": "fe6a11a325106fc20911f3b90437cb4638b5d9398417b20b1f725b23a9564af9"
+    }
+  ]
+}

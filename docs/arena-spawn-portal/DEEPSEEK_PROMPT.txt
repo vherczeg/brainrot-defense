@@ -1,0 +1,25 @@
+Integrate the Chaos Arena Spawn Portal assets into the current Brainrot Defense game as a visual-only battlefield prop.
+
+Start by inspecting the current Git status, battlefield renderer, existing enemy spawn coordinates/events, the Chaos Arena terrain integration, and this asset manifest. Preserve all staged, unstaged, and untracked user work. Do not reset, restore, overwrite, rename, or re-stage existing work. Do not commit, push, or deploy.
+
+## Assets
+
+- Manifest: `public/assets/effects/arena-spawn-portal/manifest.json`
+- Animation strips: `public/assets/effects/arena-spawn-portal/idle.png`, `opening.png`, `active.png`, and `closing.png`
+- Individual RGBA frames: `public/assets/effects/arena-spawn-portal/frames/<animation>/00.png` through `03.png`
+- Guide and validation: `docs/arena-spawn-portal/ASSET_GUIDE.txt`, `docs/arena-spawn-portal/validation.json`
+
+There are four 4-frame animations. Individual frames are 256×256 RGBA PNGs; each strip is 1024×256. Use the manifest and the project's existing Vite `BASE_URL` asset resolver.
+
+## Integration requirements
+
+1. Keep all gameplay behavior unchanged: enemy spawn time and coordinates, wave flow, board dimensions, movement, targeting, combat, damage, hit areas, save data, and user interactions.
+2. Place the gate at the current enemy entrance only if the existing scene has a clearly defined, non-interactive empty scenery area. If the entrance overlaps a grid cell or gameplay hit area, keep the portal outside that area or report that the current layout has no safe placement. Do not move the entrance or alter the board to accommodate the art.
+3. Treat `idle` as the looping default. Use `opening` and `closing` only if existing visual events accurately represent those transitions; otherwise keep the gate in its subtle idle/active state. Do not invent or delay gameplay events to show animations.
+4. Keep the portal behind enemy sprites and foreground UI, but above terrain. Never cover units, selection states, health bars, click/drag areas, or accessibility affordances. Keep the cyan glow restrained so the spawn lane and enemies remain readable on mobile.
+5. Load the assets through the established Phaser lifecycle. Avoid redundant loads and clean up any one-shot animation listeners/sprites.
+6. Preserve every existing character, enemy, boss, and Chaos Arena terrain integration. Update production asset verification and service-worker/precache coverage following the existing conventions.
+
+## Verification and report
+
+Run the relevant formatter, lint, typecheck, tests, production build, and asset verification. Report only checks that actually ran and passed; explain any check that could not run. List changed files and describe portal placement and animation triggers. Include remaining visual checks for mobile readability and overlap with the spawn lane. Do not stage, commit, push, or deploy.

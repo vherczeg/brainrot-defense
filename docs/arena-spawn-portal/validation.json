@@ -1,0 +1,311 @@
+{
+  "result": "PASS",
+  "frameCount": 16,
+  "actions": [
+    "idle",
+    "opening",
+    "active",
+    "closing"
+  ],
+  "sourceSize": [
+    1299,
+    1211
+  ],
+  "alphaCutCoordinates": {
+    "x": [
+      0,
+      325,
+      649,
+      974,
+      1299
+    ],
+    "y": [
+      0,
+      311,
+      610,
+      902,
+      1211
+    ]
+  },
+  "checks": [
+    "all 16 source cells cropped independently",
+    "RGBA PNGs decode",
+    "all frames retain real transparency and visible artwork",
+    "1024x256 action strips created",
+    "frame SHA256 recorded"
+  ],
+  "files": [
+    {
+      "file": "public/assets/effects/arena-spawn-portal/frames/idle/00.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        35,
+        24,
+        250,
+        244
+      ],
+      "fully_transparent_pixels": 37179,
+      "semi_transparent_pixels": 28057,
+      "sha256": "8cc973813917c13a4b8ec3db81bf3482d0ba729f94082e538942191ece6daba2"
+    },
+    {
+      "file": "public/assets/effects/arena-spawn-portal/frames/idle/01.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        10,
+        27,
+        234,
+        245
+      ],
+      "fully_transparent_pixels": 36161,
+      "semi_transparent_pixels": 29184,
+      "sha256": "8a48f4a6f7b0183e1bf9517b27dc2435fba6e7a47b5473f82cbaa2b80eab22a2"
+    },
+    {
+      "file": "public/assets/effects/arena-spawn-portal/frames/idle/02.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        8,
+        24,
+        244,
+        244
+      ],
+      "fully_transparent_pixels": 36292,
+      "semi_transparent_pixels": 29013,
+      "sha256": "964bc78e4a9aef172f98dfd57b1901057c86be2f2b931d543af54ba8190e4710"
+    },
+    {
+      "file": "public/assets/effects/arena-spawn-portal/frames/idle/03.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        17,
+        25,
+        235,
+        244
+      ],
+      "fully_transparent_pixels": 36354,
+      "semi_transparent_pixels": 28980,
+      "sha256": "08e0f1a7886969c1af05a20e07d8352bee3be3aed0131351c303734093ebb07d"
+    },
+    {
+      "file": "public/assets/effects/arena-spawn-portal/frames/opening/00.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        43,
+        16,
+        250,
+        237
+      ],
+      "fully_transparent_pixels": 35614,
+      "semi_transparent_pixels": 29708,
+      "sha256": "ae43facc6600fb590e209b99a183ab4ef4e638350c8d2874bd40035066e62730"
+    },
+    {
+      "file": "public/assets/effects/arena-spawn-portal/frames/opening/01.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        10,
+        15,
+        234,
+        240
+      ],
+      "fully_transparent_pixels": 35267,
+      "semi_transparent_pixels": 30098,
+      "sha256": "63b46968777c9f08ffb0a1815ab543f12d2d90fef074ae5db86ac3c189feeedd"
+    },
+    {
+      "file": "public/assets/effects/arena-spawn-portal/frames/opening/02.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        7,
+        16,
+        241,
+        240
+      ],
+      "fully_transparent_pixels": 35500,
+      "semi_transparent_pixels": 29906,
+      "sha256": "75e5339e0b900d17ca86a673689f893b5f2e6bb4e4581caf2d60e97ab987183b"
+    },
+    {
+      "file": "public/assets/effects/arena-spawn-portal/frames/opening/03.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        17,
+        16,
+        236,
+        240
+      ],
+      "fully_transparent_pixels": 35843,
+      "semi_transparent_pixels": 29519,
+      "sha256": "7f243a7227692982b9952e689240e1c3a889752ede68435555775a990d4545ed"
+    },
+    {
+      "file": "public/assets/effects/arena-spawn-portal/frames/active/00.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        6,
+        18,
+        243,
+        237
+      ],
+      "fully_transparent_pixels": 35639,
+      "semi_transparent_pixels": 29689,
+      "sha256": "e6afa68bffd4bce94eb680d1bfc5ce7b78fa12251b2249c66d99a9f9fc5f480c"
+    },
+    {
+      "file": "public/assets/effects/arena-spawn-portal/frames/active/01.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        16,
+        18,
+        246,
+        238
+      ],
+      "fully_transparent_pixels": 35392,
+      "semi_transparent_pixels": 30007,
+      "sha256": "1bab30e0784ea349733be1a36696c834e3ee7fc85005d7b94a3a8f97771b44f1"
+    },
+    {
+      "file": "public/assets/effects/arena-spawn-portal/frames/active/02.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        11,
+        18,
+        249,
+        237
+      ],
+      "fully_transparent_pixels": 35088,
+      "semi_transparent_pixels": 30274,
+      "sha256": "d6335165770d981844b4d5a868d9ea691f3a65b3c372770758bcc62d55491bc4"
+    },
+    {
+      "file": "public/assets/effects/arena-spawn-portal/frames/active/03.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        17,
+        19,
+        231,
+        237
+      ],
+      "fully_transparent_pixels": 36313,
+      "semi_transparent_pixels": 29085,
+      "sha256": "c367d72727298ddf1d400bf23bc81e2a8cd423ef0e1699f1ab66a275071cffab"
+    },
+    {
+      "file": "public/assets/effects/arena-spawn-portal/frames/closing/00.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        6,
+        12,
+        250,
+        233
+      ],
+      "fully_transparent_pixels": 35387,
+      "semi_transparent_pixels": 29887,
+      "sha256": "a922baaed12fc78c5d0a9cf495ac1ec0a57046dc621b37003147ecf2ac76c1e8"
+    },
+    {
+      "file": "public/assets/effects/arena-spawn-portal/frames/closing/01.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        11,
+        11,
+        248,
+        233
+      ],
+      "fully_transparent_pixels": 35119,
+      "semi_transparent_pixels": 30221,
+      "sha256": "7dd7c9de9cbce4a2d6d3788fee99f8ca36f175948b4c90cf9c681684fa1ffd41"
+    },
+    {
+      "file": "public/assets/effects/arena-spawn-portal/frames/closing/02.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        20,
+        12,
+        232,
+        234
+      ],
+      "fully_transparent_pixels": 35747,
+      "semi_transparent_pixels": 29609,
+      "sha256": "8ed2f3f5bb3562dce6b658eb143413edcea5440dfb4f8c1423c4e792ae8df828"
+    },
+    {
+      "file": "public/assets/effects/arena-spawn-portal/frames/closing/03.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        14,
+        12,
+        235,
+        234
+      ],
+      "fully_transparent_pixels": 37500,
+      "semi_transparent_pixels": 27803,
+      "sha256": "d6f92c6feef0a68e925659ba890b1c7fe18d59284d69cd6a9027fcb6738c05b7"
+    }
+  ]
+}

@@ -48,7 +48,7 @@ export function SaveManagerModal({ snapshot }: { snapshot: AppSnapshot }) {
               <Icon name="coin" size={15} /> {formatNumber(profile.coins)}
             </span>
             <span>
-              <Icon name="trophy" size={15} /> {t('waveLabel', { wave: profile.currentWave })}
+              <Icon name="enemy-wave" size={15} /> {t('waveLabel', { wave: profile.currentWave })}
             </span>
           </div>
         </div>

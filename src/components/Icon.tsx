@@ -1,9 +1,12 @@
+import { hudIconUrl, type HudIconName } from '../game/rendering/hudIcons';
+
 export type IconName =
   | 'coin'
   | 'settings'
   | 'sound'
   | 'muted'
   | 'pause'
+  | 'resume'
   | 'play'
   | 'bolt'
   | 'trophy'
@@ -17,7 +20,30 @@ export type IconName =
   | 'tutorial'
   | 'check'
   | 'warning'
-  | 'skull';
+  | 'skull'
+  | 'life-heart'
+  | 'enemy-wave'
+  | 'battle-speed'
+  | 'boss-crown'
+  | 'timer'
+  | 'defeat-heart'
+  | 'home-base';
+
+const HUD_ICON_MAP: Partial<Record<IconName, HudIconName>> = {
+  coin: 'coin',
+  settings: 'settings',
+  pause: 'pause',
+  resume: 'resume',
+  trophy: 'victory-trophy',
+  merge: 'merge',
+  'life-heart': 'life-heart',
+  'enemy-wave': 'enemy-wave',
+  'battle-speed': 'battle-speed',
+  'boss-crown': 'boss-crown',
+  timer: 'timer',
+  'defeat-heart': 'defeat-heart',
+  'home-base': 'home-base',
+};
 
 const PATHS: Readonly<Record<IconName, string>> = {
   coin: 'M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm0 3a7 7 0 1 1 0 14 7 7 0 0 1 0-14Zm0 2.5v9M9.5 8h4a2 2 0 0 1 0 4h-3.5',
@@ -43,6 +69,15 @@ const PATHS: Readonly<Record<IconName, string>> = {
   warning: 'M12 3 2 21h20L12 3Zm0 5v7m0 3v.5',
   skull:
     'M12 2a8 8 0 0 0-8 8c0 2.7 1.3 4.7 3 6v3a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-3c1.7-1.3 3-3.3 3-6a8 8 0 0 0-8-8Zm-3 8.5a1.8 1.8 0 1 1 0 3.6 1.8 1.8 0 0 1 0-3.6Zm6 0a1.8 1.8 0 1 1 0 3.6 1.8 1.8 0 0 1 0-3.6ZM10 17h4v3h-4z',
+  'life-heart': 'M12 21S4 15.5 4 9.5A4.5 4.5 0 0 1 12 6a4.5 4.5 0 0 1 8 3.5C20 15.5 12 21 12 21Z',
+  'enemy-wave': 'M5 20V4m0 0 11 2-2 4 2 4-11 2',
+  'battle-speed': 'M13 2 4 14h6l-1 8 9-12h-6l1-8Z',
+  resume: 'M8 5v14l11-7Z',
+  'boss-crown': 'M4 18h16l-1-11-5 4-2-7-2 7-5-4-1 11Z',
+  timer: 'M12 7v5l3 2M9 2h6M12 4a8 8 0 1 0 0 16 8 8 0 0 0 0-16Z',
+  'defeat-heart':
+    'M12 21S4 15.5 4 9.5A4.5 4.5 0 0 1 12 6a4.5 4.5 0 0 1 8 3.5C20 15.5 12 21 12 21Zm-4-9 8-5',
+  'home-base': 'M3 11 12 3l9 8v10h-6v-6H9v6H3V11Z',
 };
 
 export function Icon({
@@ -54,6 +89,21 @@ export function Icon({
   size?: number;
   className?: string;
 }) {
+  const hudIcon = HUD_ICON_MAP[name];
+  if (hudIcon) {
+    return (
+      <img
+        src={hudIconUrl(hudIcon)}
+        width={size}
+        height={size}
+        className={className}
+        alt=""
+        aria-hidden="true"
+        draggable={false}
+        style={{ display: 'block', flexShrink: 0, objectFit: 'contain' }}
+      />
+    );
+  }
   return (
     <svg
       viewBox="0 0 24 24"

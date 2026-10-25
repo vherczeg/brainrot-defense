@@ -1,0 +1,38 @@
+Integrate the Lightning Scorpion art assets into the existing Brainrot Defense game.
+
+The project already has an in-progress Laser Crocodile integration. Preserve that work, its staged asset files, all unrelated user changes, and the current feature branch. First inspect the actual repository state, code, tests, and both asset manifests before editing. Do not guess file locations or overwrite the Crocodile implementation.
+
+## New asset locations
+
+- Unit spritesheets and static art: `public/assets/units/lightning-scorpion/`
+- Portrait icons: `public/assets/icons/lightning-scorpion-v1.png`, `lightning-scorpion-v2.png`, `lightning-scorpion-v3.png`
+- Effects: `public/assets/effects/lightning-scorpion/`
+- Manifest: `public/assets/units/lightning-scorpion/manifest.json`
+- Asset details and image validation: `docs/lightning-scorpion/ASSET_GUIDE.txt`, `docs/lightning-scorpion/validation.json`
+
+The spritesheets are horizontal RGBA PNGs, each 1024×256, with four 256×256 frames. Idle and walk loop; attack and hurt play once. Separate frame PNGs are also included under `frames/`. Unit origin is `(0.5, 0.875)`, effect origin `(0.5, 0.5)`. Use Vite's `BASE_URL` for public asset paths.
+
+## Integration requirements
+
+1. Find the existing `lightning-scorpion` domain ID and all current rendering paths for it. Do not change domain IDs, character stats, combat behavior, merge rules, save format, or game balance.
+
+2. Load and register the scorpion spritesheets in the existing Phaser lifecycle. Follow the established Laser Crocodile integration pattern where appropriate, while keeping the two character types' assets, animation state, and event handling separate.
+
+3. Select the scorpion's visual evolution from `mergeRank`, not XP level:
+   - Ranks 1–3: V1
+   - Ranks 4–7: V2
+   - Ranks 8–10: V3
+
+4. Replace the scorpion's procedural placeholder art with its animated sprite in the existing battle unit container. Preserve hit areas, selection, drag/move, merge interaction, health bars, rank badges, and layering. Use its V1/V2/V3 portrait icon anywhere a static character portrait is shown. Avoid accidentally using the Laser Crocodile portraits for this character.
+
+5. Use idle by default, walk while the unit is moving, attack on its existing attack event, and hurt on damage. Return from one-shot animations to the current idle/walk state. Avoid restarting an animation every render frame, and clean up completion listeners when an animation is interrupted. Animation must remain visual-only and must not affect combat simulation or timing.
+
+6. If compatible with the existing scorpion attack event flow, show the chain-bolt projectile and muzzle/impact effects; aim bolts toward their targets, and destroy one-shot effect sprites on completion. Use the upgrade effect only if there is an appropriate existing event. Do not add gameplay events or alter combat rules just to display an effect.
+
+7. Keep code changes scoped to scorpion integration. Extend asset verification, service-worker/precache coverage, and relevant unit/browser tests using current project conventions. Include checks for the production `BASE_URL`, tier mapping, resolved asset URLs, animation state transitions, and preservation of existing interactions.
+
+## Verification and reporting
+
+Run the repository's relevant formatter, lint, typecheck, tests, production build, and build asset verification. Run relevant browser tests. Fix integration regressions. If an expected check cannot run, state why and do not claim it passed.
+
+Do not commit, push, deploy, or stage/re-stage files. In the final report list changed files, explain the rank-to-art mapping and event-to-animation behavior, report actual check results, and mention any manual visual checks still needed on mobile or at 1×/2× battle speed.

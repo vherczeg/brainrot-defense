@@ -1,0 +1,30 @@
+Integrate the Shadow Runner graphics into the existing Brainrot Defense game.
+
+The Laser Crocodile, Lightning Scorpion, Mini Brainrot, and Armored Snail integrations are already implemented. The Armored Snail asset manifest ID maps explicitly to the existing `armored-slug` enemy ID. Preserve these integrations and their tests. First inspect the actual source and Git status before editing. The Shadow Runner ZIP must already be extracted into the repository; verify that its files exist before adding code.
+
+Preserve all staged, unstaged, and untracked changes. Do not reset, restore, overwrite, rename, unstage, or re-stage existing files. Do not commit, push, or deploy.
+
+## Shadow Runner assets
+
+- Unit sheets and static image: `public/assets/units/shadow-runner/`
+- Portrait icon: `public/assets/icons/shadow-runner.png`
+- Manifest: `public/assets/units/shadow-runner/manifest.json`
+- Guide and validation: `docs/shadow-runner/ASSET_GUIDE.txt`, `docs/shadow-runner/validation.json`
+
+The four horizontal RGBA sheets are 1024×256 px with four 256×256 frames each: idle, walk, attack, and hurt. Idle and walk loop; attack and hurt play once. Individual frames are in `frames/`. The character art faces left. Use the manifest for animation keys, frame rates, origins, and paths; resolve URLs through the existing shared Vite `BASE_URL` helper.
+
+## Integration
+
+1. Confirm the Shadow Runner's actual enemy ID in the source. The manifest proposes `shadow-runner`; map the asset to the existing enemy ID if it differs. Do not change domain IDs, waves, stats, or save data.
+2. Find its enemy definition and placeholder rendering path. Integrate through the existing enemy renderer and lifecycle, following the already implemented Mini Brainrot and Armored Snail patterns where appropriate. Do not add the enemy to player character or merge-tier systems.
+3. Load/register the sheets in the existing Phaser lifecycle. Replace only the Shadow Runner placeholder art. Preserve enemy targeting, health, hit areas, existing interactions, layering, and battlefield layout. Use the icon only where enemy portraits are already displayed.
+4. Use idle by default and walk while the enemy is moving. Trigger attack and hurt from existing game events. Return one-shot animations to the latest idle/walk state, clean up interrupted completion handlers, and avoid restarting unchanged animations every render.
+5. Keep animation visual-only. Do not change movement speed, attack frequency, damage, health, targeting, wave definitions, simulation, save data, or game balance. The art suggests speed; the game's actual speed remains defined by existing gameplay code.
+6. The package contains no separate Shadow Runner effects. Reuse existing effects only where they fit existing events; do not create gameplay events for visuals.
+7. Extend asset verification, service-worker/precache coverage, and focused unit/browser tests using current conventions. Verify every manifest URL resolves in production output and preserve all four existing character integrations.
+
+## Verification and report
+
+Run the relevant formatter, lint, typecheck, unit tests, browser tests, production build, and asset verification. Fix regressions caused by the integration. Report only checks that actually ran and passed, and explain any check that could not run.
+
+In the final report, list changed files, confirm the enemy ID mapping, explain how existing movement/attack/damage events drive the animations, and identify remaining visual checks. Do not stage, commit, push, or deploy.

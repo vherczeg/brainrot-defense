@@ -43,7 +43,7 @@ export function BattlePauseOverlay({ battle }: { battle: BattleHudView }) {
           className="button button--primary"
           onClick={() => controller.togglePause()}
         >
-          <Icon name="play" size={18} />
+          <Icon name="resume" size={18} />
           {t('battleResume')}
         </button>
         <button

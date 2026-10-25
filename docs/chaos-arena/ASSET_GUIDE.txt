@@ -1,0 +1,9 @@
+CHAOS ARENA TERRAIN ASSETS
+
+Extract the ZIP into the Brainrot Defense project root (the folder with package.json).
+Public URLs begin /assets/terrain/chaos-arena/ (the public/ directory is omitted in URLs).
+16 floor tiles: tiles/basalt-01..04.png, moss-01..04.png, rune-01..04.png, zone-01..04.png.
+16 transparent decorations: broken pillar, crystal cluster, brazier, rubble, moss, skull, rune tablet, obelisk, column, arch and debris variants. Exact file list is in manifest.json.
+Individual cells are 256x256 RGBA. The two 1024x1024 atlases are floor-tiles.png and decorations.png; frame rectangles are provided in manifest.json.
+The floor tiles are square and mildly top-down, with a narrow transparent edge. Scale to each existing battlefield cell. Decorations are optional, static, and must not obscure units, click/drag areas, or health indicators.
+This is an asset package only. It does not replace game code or automatically repaint the battlefield. Preserve current grid behavior and board dimensions.

@@ -12,6 +12,77 @@ import {
   type EnemyTypeId,
 } from '../../../game/domain/types';
 import type { BattleEvent, BattleState, BattleUnit } from '../../../game/simulation/types';
+import {
+  LASER_CROCODILE_ANIMATIONS,
+  LASER_CROCODILE_DISPLAY_WIDTH,
+  LASER_CROCODILE_EFFECTS,
+  LASER_CROCODILE_ORIGIN,
+  laserCrocodileAnimationKey,
+  laserCrocodileTier,
+  preloadLaserCrocodile,
+  registerLaserCrocodileAnimations,
+} from '../laserCrocodile';
+import {
+  LIGHTNING_SCORPION_ANIMATIONS,
+  LIGHTNING_SCORPION_DISPLAY_WIDTH,
+  LIGHTNING_SCORPION_EFFECTS,
+  LIGHTNING_SCORPION_ORIGIN,
+  lightningScorpionAnimationKey,
+  lightningScorpionTier,
+  preloadLightningScorpion,
+  registerLightningScorpionAnimations,
+} from '../lightningScorpion';
+import {
+  ARMORED_SNAIL_ANIMATIONS,
+  ARMORED_SNAIL_DISPLAY_WIDTH,
+  ARMORED_SNAIL_EFFECT_ANIMATIONS,
+  ARMORED_SNAIL_EFFECTS,
+  ARMORED_SNAIL_ENEMY_ID,
+  ARMORED_SNAIL_ORIGIN,
+  armoredSnailAnimationKey,
+  preloadArmoredSnail,
+  preloadArmoredSnailEffects,
+  registerArmoredSnailAnimations,
+  registerArmoredSnailEffectsAnimations,
+} from '../armoredSnail';
+import {
+  MINI_BRAINROT_ANIMATIONS,
+  MINI_BRAINROT_DISPLAY_WIDTH,
+  MINI_BRAINROT_ORIGIN,
+  miniBrainrotAnimationKey,
+  preloadMiniBrainrot,
+  registerMiniBrainrotAnimations,
+} from '../miniBrainrot';
+import {
+  SHADOW_RUNNER_ANIMATIONS,
+  SHADOW_RUNNER_DISPLAY_WIDTH,
+  SHADOW_RUNNER_ENEMY_ID,
+  SHADOW_RUNNER_ORIGIN,
+  preloadShadowRunner,
+  registerShadowRunnerAnimations,
+  shadowRunnerAnimationKey,
+} from '../shadowRunner';
+import {
+  MEGA_BRAINROT_GORILLA_ANIMATIONS,
+  MEGA_BRAINROT_GORILLA_DISPLAY_WIDTH,
+  MEGA_BRAINROT_GORILLA_EFFECTS,
+  MEGA_BRAINROT_GORILLA_ENEMY_ID,
+  MEGA_BRAINROT_GORILLA_ORIGIN,
+  megaBrainrotGorillaAnimationKey,
+  preloadMegaBrainrotGorilla,
+  registerMegaBrainrotGorillaAnimations,
+} from '../megaBrainrotGorilla';
+import {
+  CHAOS_ARENA_FLOOR_TEXTURE_KEY,
+  chaosArenaFloorFrame,
+  preloadChaosArena,
+} from '../chaosArena';
+import {
+  ARENA_SPAWN_PORTAL_DISPLAY_SIZE,
+  arenaSpawnPortalAnimationKey,
+  preloadArenaSpawnPortal,
+  registerArenaSpawnPortalAnimations,
+} from '../arenaSpawnPortal';
 import { t } from '../../../localization';
 
 export const SCENE_WIDTH = 760;
@@ -22,25 +93,127 @@ const CELL = 108;
 const BOARD_WIDTH = BOARD_COLS * CELL;
 const BOARD_HEIGHT = BOARD_ROWS * CELL;
 const GAP = 4;
+const UNIT_FEET_Y = 30;
+const SPAWN_PORTAL_X = BOARD_X + BOARD_WIDTH + 32;
+const SPAWN_PORTAL_Y = BOARD_Y + CELL * 0.5;
+const ANIMATED_UNIT_ANIMATION_KEYS = new Set(
+  [
+    ...LASER_CROCODILE_ANIMATIONS,
+    ...LIGHTNING_SCORPION_ANIMATIONS,
+    ...MINI_BRAINROT_ANIMATIONS,
+    ...ARMORED_SNAIL_ANIMATIONS,
+    ...ARMORED_SNAIL_EFFECT_ANIMATIONS,
+    ...SHADOW_RUNNER_ANIMATIONS,
+    ...MEGA_BRAINROT_GORILLA_ANIMATIONS,
+  ].map((asset) => asset.key),
+);
+
+type UnitAnimationState = 'idle' | 'walk' | 'attack' | 'hurt';
+type UnitLocomotion = 'idle' | 'walk';
+type UnitAction = 'attack' | 'hurt';
+
+interface AnimatedCharacterEffects {
+  readonly projectile: string;
+  readonly muzzle: string;
+  readonly impact: string;
+}
+
+interface AnimatedCharacterVisual {
+  readonly animationKey: (state: UnitAnimationState) => string;
+  readonly origin: { readonly x: number; readonly y: number };
+  readonly displayWidth: number;
+  readonly effects?: AnimatedCharacterEffects;
+}
 
 interface Cell {
   readonly col: number;
   readonly row: number;
 }
 
+interface UnitActionHandler {
+  readonly event: string;
+  readonly handler: () => void;
+}
+
 interface UnitView {
   readonly container: Phaser.GameObjects.Container;
   readonly health: Phaser.GameObjects.Graphics;
   readonly team: 'ally' | 'enemy';
+  readonly typeId: CharacterTypeId | EnemyTypeId;
+  readonly sprite: Phaser.GameObjects.Sprite | null;
+  readonly visual: AnimatedCharacterVisual | null;
   readonly baseX: number;
   readonly baseY: number;
   readonly phaseOffset: number;
+  locomotion: UnitLocomotion;
+  action: UnitAction | null;
+  actionHandler: UnitActionHandler | null;
+  lastX: number;
+  lastY: number;
+  nextTrailAt: number;
   lastHp: number;
   maxHp: number;
   alive: boolean;
 }
 
 type Mode = 'prep' | 'battle' | 'none';
+
+function animatedCharacterVisual(
+  typeId: CharacterTypeId,
+  mergeRank: number,
+): AnimatedCharacterVisual | null {
+  if (typeId === 'laser-crocodile') {
+    const tier = laserCrocodileTier(mergeRank);
+    return {
+      animationKey: (state) => laserCrocodileAnimationKey(tier, state),
+      origin: LASER_CROCODILE_ORIGIN,
+      displayWidth: LASER_CROCODILE_DISPLAY_WIDTH,
+      effects: LASER_CROCODILE_EFFECTS,
+    };
+  }
+  if (typeId === 'lightning-scorpion') {
+    const tier = lightningScorpionTier(mergeRank);
+    return {
+      animationKey: (state) => lightningScorpionAnimationKey(tier, state),
+      origin: LIGHTNING_SCORPION_ORIGIN,
+      displayWidth: LIGHTNING_SCORPION_DISPLAY_WIDTH,
+      effects: LIGHTNING_SCORPION_EFFECTS,
+    };
+  }
+  return null;
+}
+
+function animatedEnemyVisual(typeId: EnemyTypeId): AnimatedCharacterVisual | null {
+  if (typeId === 'mini-brainrot') {
+    return {
+      animationKey: (state) => miniBrainrotAnimationKey(state),
+      origin: MINI_BRAINROT_ORIGIN,
+      displayWidth: MINI_BRAINROT_DISPLAY_WIDTH,
+    };
+  }
+  if (typeId === ARMORED_SNAIL_ENEMY_ID) {
+    return {
+      animationKey: (state) => armoredSnailAnimationKey(state),
+      origin: ARMORED_SNAIL_ORIGIN,
+      displayWidth: ARMORED_SNAIL_DISPLAY_WIDTH,
+    };
+  }
+  if (typeId === SHADOW_RUNNER_ENEMY_ID) {
+    return {
+      animationKey: (state) => shadowRunnerAnimationKey(state),
+      origin: SHADOW_RUNNER_ORIGIN,
+      displayWidth: SHADOW_RUNNER_DISPLAY_WIDTH,
+    };
+  }
+  if (typeId === MEGA_BRAINROT_GORILLA_ENEMY_ID) {
+    return {
+      animationKey: (state) => megaBrainrotGorillaAnimationKey(state),
+      origin: MEGA_BRAINROT_GORILLA_ORIGIN,
+      displayWidth: MEGA_BRAINROT_GORILLA_DISPLAY_WIDTH,
+    };
+  }
+  return null;
+}
 
 function cellCenterX(col: number): number {
   return BOARD_X + (col + 0.5) * CELL;
@@ -64,7 +237,10 @@ export class BattleScene extends Phaser.Scene {
   private lastPrepVersion = -1;
   private readonly unitViews = new Map<string, UnitView>();
   private previewViews: Phaser.GameObjects.Container[] = [];
+  private terrainLayer: Phaser.GameObjects.Container | null = null;
+  private portalLayer: Phaser.GameObjects.Container | null = null;
   private staticBoard: Phaser.GameObjects.Graphics | null = null;
+  private groundEffectsLayer: Phaser.GameObjects.Container | null = null;
   private highlightLayer: Phaser.GameObjects.Graphics | null = null;
   private hoverLayer: Phaser.GameObjects.Graphics | null = null;
   private unitsLayer: Phaser.GameObjects.Container | null = null;
@@ -85,10 +261,36 @@ export class BattleScene extends Phaser.Scene {
     this.controller = controller;
   }
 
+  preload(): void {
+    const baseUrl = import.meta.env.BASE_URL;
+    preloadLaserCrocodile(this, baseUrl);
+    preloadLightningScorpion(this, baseUrl);
+    preloadMiniBrainrot(this, baseUrl);
+    preloadArmoredSnail(this, baseUrl);
+    preloadArmoredSnailEffects(this, baseUrl);
+    preloadShadowRunner(this, baseUrl);
+    preloadMegaBrainrotGorilla(this, baseUrl);
+    preloadChaosArena(this, baseUrl);
+    preloadArenaSpawnPortal(this, baseUrl);
+  }
+
   create(): void {
+    registerLaserCrocodileAnimations(this);
+    registerLightningScorpionAnimations(this);
+    registerMiniBrainrotAnimations(this);
+    registerArmoredSnailAnimations(this);
+    registerArmoredSnailEffectsAnimations(this);
+    registerShadowRunnerAnimations(this);
+    registerMegaBrainrotGorillaAnimations(this);
+    registerArenaSpawnPortalAnimations(this);
     this.cameras.main.setBackgroundColor('rgba(0,0,0,0)');
+    this.terrainLayer = this.add.container(0, 0).setDepth(-10);
+    this.drawTerrain();
+    this.portalLayer = this.add.container(0, 0).setDepth(-5);
+    this.drawSpawnPortal();
     this.staticBoard = this.add.graphics();
     this.drawStaticBoard();
+    this.groundEffectsLayer = this.add.container(0, 0);
     this.highlightLayer = this.add.graphics();
     this.hoverLayer = this.add.graphics();
     this.previewLayer = this.add.container(0, 0);
@@ -151,11 +353,44 @@ export class BattleScene extends Phaser.Scene {
     }
   }
 
+  private drawTerrain(): void {
+    const layer = this.terrainLayer;
+    if (!layer) return;
+    layer.removeAll(true);
+    const size = CELL - GAP * 2;
+    for (let row = 0; row < BOARD_ROWS; row += 1) {
+      for (let col = 0; col < BOARD_COLS; col += 1) {
+        const image = this.add
+          .image(
+            cellCenterX(col),
+            cellCenterY(row),
+            CHAOS_ARENA_FLOOR_TEXTURE_KEY,
+            chaosArenaFloorFrame(col, row, ALLY_ROW_START),
+          )
+          .setDisplaySize(size, size);
+        layer.add(image);
+      }
+    }
+  }
+
+  private drawSpawnPortal(): void {
+    const layer = this.portalLayer;
+    if (!layer) return;
+    const idleKey = arenaSpawnPortalAnimationKey('idle');
+    const portal = this.add
+      .sprite(SPAWN_PORTAL_X, SPAWN_PORTAL_Y, idleKey, 0)
+      .setOrigin(0.5)
+      .setDisplaySize(ARENA_SPAWN_PORTAL_DISPLAY_SIZE, ARENA_SPAWN_PORTAL_DISPLAY_SIZE)
+      .setAlpha(0.9);
+    portal.play(idleKey);
+    layer.add(portal);
+  }
+
   private drawStaticBoard(): void {
     const g = this.staticBoard;
     if (!g) return;
     g.clear();
-    g.fillStyle(0x080d20, 0.6);
+    g.fillStyle(0x080d20, 0.45);
     g.fillRoundedRect(BOARD_X - 10, BOARD_Y - 10, BOARD_WIDTH + 20, BOARD_HEIGHT + 20, 26);
     g.lineStyle(2, 0x34447f, 0.9);
     g.strokeRoundedRect(BOARD_X - 10, BOARD_Y - 10, BOARD_WIDTH + 20, BOARD_HEIGHT + 20, 26);
@@ -166,7 +401,7 @@ export class BattleScene extends Phaser.Scene {
         const y = BOARD_Y + row * CELL + GAP;
         const size = CELL - GAP * 2;
         const isEnemy = row < ALLY_ROW_START;
-        g.fillStyle(isEnemy ? 0x431733 : 0x0d3b2c, isEnemy ? 0.55 : 0.62);
+        g.fillStyle(isEnemy ? 0x431733 : 0x0d3b2c, isEnemy ? 0.3 : 0.34);
         g.fillRoundedRect(x, y, size, size, 14);
         g.lineStyle(1.5, isEnemy ? 0x78254d : 0x1b6c50, 0.85);
         g.strokeRoundedRect(x, y, size, size, 14);
@@ -190,7 +425,12 @@ export class BattleScene extends Phaser.Scene {
   }
 
   private clearUnitViews(): void {
-    for (const view of this.unitViews.values()) view.container.destroy(true);
+    for (const view of this.unitViews.values()) {
+      if (view.sprite && view.actionHandler) {
+        view.sprite.off(view.actionHandler.event, view.actionHandler.handler);
+      }
+      view.container.destroy(true);
+    }
     this.unitViews.clear();
     for (const preview of this.previewViews) preview.destroy(true);
     this.previewViews = [];
@@ -273,13 +513,26 @@ export class BattleScene extends Phaser.Scene {
       this.unitsLayer?.add(container);
       const baseX = container.x;
       const baseY = container.y;
+      const sprite = container.getData('animatedCharacterSprite') as
+        Phaser.GameObjects.Sprite | undefined;
+      const visual = container.getData('animatedCharacterVisual') as
+        AnimatedCharacterVisual | undefined;
       const viewEntry: UnitView = {
         container,
         health: health ?? this.add.graphics(),
         team: 'ally',
+        typeId: character.typeId,
+        sprite: sprite ?? null,
+        visual: visual ?? null,
         baseX,
         baseY,
         phaseOffset: index * 0.9,
+        locomotion: 'idle',
+        action: null,
+        actionHandler: null,
+        lastX: character.col + 0.5,
+        lastY: character.row + 0.5,
+        nextTrailAt: 0,
         lastHp: 1,
         maxHp: 1,
         alive: true,
@@ -301,6 +554,10 @@ export class BattleScene extends Phaser.Scene {
     options: { ghost?: boolean; selected?: boolean } = {},
   ): Phaser.GameObjects.Container {
     const isBoss = spec.typeId === 'mega-brainrot-gorilla';
+    const animated =
+      spec.team === 'ally'
+        ? animatedCharacterVisual(spec.typeId as CharacterTypeId, spec.mergeRank)
+        : animatedEnemyVisual(spec.typeId as EnemyTypeId);
     const progressionLevel = spec.team === 'ally' ? spec.mergeRank : spec.level;
     const levelScale = 1 + Math.min(progressionLevel - 1, 9) * 0.03;
     const scale = (isBoss ? 1.32 : levelScale) * (options.ghost ? 0.82 : 1);
@@ -322,15 +579,31 @@ export class BattleScene extends Phaser.Scene {
     art.fillEllipse(0, 30, 62, 14);
 
     if (spec.team === 'ally') {
-      this.drawAllyArt(art, spec.typeId as CharacterTypeId, spec.mergeRank);
+      if (animated) {
+        this.drawAllyAura(art, spec.typeId as CharacterTypeId, spec.mergeRank);
+      } else {
+        this.drawAllyArt(art, spec.typeId as CharacterTypeId, spec.mergeRank);
+      }
     } else {
-      this.drawEnemyArt(art, spec.typeId as EnemyTypeId, spec.level, isBoss);
+      if (!animated) this.drawEnemyArt(art, spec.typeId as EnemyTypeId, spec.level, isBoss);
       if (!options.ghost) {
         art.lineStyle(2, 0xff5a7a, 0.35);
         art.strokeCircle(0, 2, 44);
       }
     }
     container.add(art);
+
+    if (animated) {
+      const idleKey = animated.animationKey('idle');
+      const sprite = this.add
+        .sprite(0, UNIT_FEET_Y, idleKey, 0)
+        .setOrigin(animated.origin.x, animated.origin.y)
+        .setDisplaySize(animated.displayWidth, animated.displayWidth);
+      sprite.play(idleKey);
+      container.add(sprite);
+      container.setData('animatedCharacterSprite', sprite);
+      container.setData('animatedCharacterVisual', animated);
+    }
 
     const badge = this.add.graphics();
     badge.fillStyle(0xffd447, 1);
@@ -381,74 +654,51 @@ export class BattleScene extends Phaser.Scene {
     return container;
   }
 
+  private drawAllyAura(
+    g: Phaser.GameObjects.Graphics,
+    typeId: CharacterTypeId,
+    mergeRank: number,
+  ): void {
+    if (mergeRank < 4) return;
+    const colors = CHARACTER_DEFINITIONS[typeId].colors;
+    g.lineStyle(3, colors.accent, 0.55);
+    g.strokeCircle(0, 2, 40 + Math.min(mergeRank, 10));
+  }
+
   private drawAllyArt(
     g: Phaser.GameObjects.Graphics,
     typeId: CharacterTypeId,
     mergeRank: number,
   ): void {
+    this.drawAllyAura(g, typeId, mergeRank);
     const colors = CHARACTER_DEFINITIONS[typeId].colors;
-    if (mergeRank >= 4) {
-      g.lineStyle(3, colors.accent, 0.55);
-      g.strokeCircle(0, 2, 40 + Math.min(mergeRank, 10));
-    }
-    if (typeId === 'laser-crocodile') {
-      g.fillStyle(colors.secondary, 1);
-      g.fillTriangle(-34, 14, -54, 24, -30, 28);
-      g.fillStyle(colors.primary, 1);
-      g.fillEllipse(-2, 4, 58, 40);
-      g.fillStyle(colors.secondary, 1);
-      g.fillTriangle(22, 0, 34, -18, 38, 2);
-      g.fillTriangle(10, 0, 18, -16, 24, 2);
-      g.fillStyle(colors.primary, 1);
-      g.fillEllipse(18, 10, 40, 28);
-      g.fillStyle(0xffffff, 1);
-      g.fillCircle(20, 6, 8);
-      g.fillStyle(0x0a2a22, 1);
-      g.fillCircle(22, 7, 4);
-      g.fillStyle(0xffffff, 1);
-      g.fillCircle(23, 5, 1.6);
-      g.fillStyle(colors.accent, 1);
-      g.fillTriangle(33, 12, 38, 18, 30, 18);
-      g.fillTriangle(24, 14, 29, 20, 21, 20);
-      g.lineStyle(4, 0x9bff5a, 0.9);
-      g.beginPath();
-      g.moveTo(34, 6);
-      g.lineTo(48, 6);
-      g.strokePath();
-      g.lineStyle(2, 0xffffff, 0.8);
-      g.beginPath();
-      g.moveTo(34, 2);
-      g.lineTo(44, 2);
-      g.strokePath();
-    } else {
-      g.fillStyle(colors.secondary, 1);
-      g.fillEllipse(-6, 6, 52, 34);
-      g.fillStyle(colors.primary, 1);
-      g.fillEllipse(1, 2, 48, 34);
-      g.fillStyle(colors.secondary, 1);
-      g.fillCircle(-24, -10, 10);
-      g.fillCircle(20, -10, 10);
-      g.fillStyle(colors.primary, 1);
-      g.fillCircle(-24, -10, 7);
-      g.fillCircle(20, -10, 7);
-      g.fillStyle(colors.primary, 1);
-      g.fillTriangle(24, 14, 38, 22, 20, 24);
-      g.fillTriangle(30, 4, 42, 0, 36, 14);
-      g.fillStyle(0xd8fbff, 1);
-      g.fillCircle(-4, 0, 6);
-      g.fillCircle(10, 0, 6);
-      g.fillStyle(0x1f1680, 1);
-      g.fillCircle(-4, 0, 2.6);
-      g.fillCircle(10, 0, 2.6);
-      g.lineStyle(3, colors.accent, 1);
-      g.beginPath();
-      g.moveTo(-30, 0);
-      g.lineTo(-38, -8);
-      g.lineTo(-30, -14);
-      g.strokePath();
-      g.fillStyle(colors.accent, 1);
-      g.fillTriangle(-42, -18, -34, -12, -40, -4);
-    }
+    g.fillStyle(colors.secondary, 1);
+    g.fillEllipse(-6, 6, 52, 34);
+    g.fillStyle(colors.primary, 1);
+    g.fillEllipse(1, 2, 48, 34);
+    g.fillStyle(colors.secondary, 1);
+    g.fillCircle(-24, -10, 10);
+    g.fillCircle(20, -10, 10);
+    g.fillStyle(colors.primary, 1);
+    g.fillCircle(-24, -10, 7);
+    g.fillCircle(20, -10, 7);
+    g.fillStyle(colors.primary, 1);
+    g.fillTriangle(24, 14, 38, 22, 20, 24);
+    g.fillTriangle(30, 4, 42, 0, 36, 14);
+    g.fillStyle(0xd8fbff, 1);
+    g.fillCircle(-4, 0, 6);
+    g.fillCircle(10, 0, 6);
+    g.fillStyle(0x1f1680, 1);
+    g.fillCircle(-4, 0, 2.6);
+    g.fillCircle(10, 0, 2.6);
+    g.lineStyle(3, colors.accent, 1);
+    g.beginPath();
+    g.moveTo(-30, 0);
+    g.lineTo(-38, -8);
+    g.lineTo(-30, -14);
+    g.strokePath();
+    g.fillStyle(colors.accent, 1);
+    g.fillTriangle(-42, -18, -34, -12, -40, -4);
   }
 
   private drawEnemyArt(
@@ -599,10 +849,10 @@ export class BattleScene extends Phaser.Scene {
 
   private updateBattle(): void {
     const events = this.controller.drainBattleEvents();
-    for (const event of events) this.playBattleEvent(event);
     const state = this.controller.getBattleState();
     if (!state) return;
     this.syncBattleState(state);
+    for (const event of events) this.playBattleEvent(event);
   }
 
   private syncBattleState(state: BattleState): void {
@@ -620,13 +870,26 @@ export class BattleScene extends Phaser.Scene {
         });
         this.unitsLayer?.add(container);
         const health = container.getData('health') as Phaser.GameObjects.Graphics;
+        const sprite = container.getData('animatedCharacterSprite') as
+          Phaser.GameObjects.Sprite | undefined;
+        const visual = container.getData('animatedCharacterVisual') as
+          AnimatedCharacterVisual | undefined;
         view = {
           container,
           health,
           team: unit.team,
+          typeId: unit.typeId as CharacterTypeId | EnemyTypeId,
+          sprite: sprite ?? null,
+          visual: visual ?? null,
           baseX: container.x,
           baseY: container.y,
           phaseOffset: 0,
+          locomotion: 'idle',
+          action: null,
+          actionHandler: null,
+          lastX: unit.x,
+          lastY: unit.y,
+          nextTrailAt: 0,
           lastHp: unit.hp,
           maxHp: unit.maxHp,
           alive: unit.alive,
@@ -637,6 +900,11 @@ export class BattleScene extends Phaser.Scene {
           health.setVisible(false);
         }
       }
+      const deltaX = unit.x - view.lastX;
+      const deltaY = unit.y - view.lastY;
+      const moved = Math.abs(deltaX) > 1e-6 || Math.abs(deltaY) > 1e-6;
+      view.lastX = unit.x;
+      view.lastY = unit.y;
       const position = gridToPixel(unit.x, unit.y);
       view.container.setPosition(position.px, position.py);
       view.container.setDepth(100 + position.py);
@@ -658,6 +926,7 @@ export class BattleScene extends Phaser.Scene {
       view.alive = true;
       view.lastHp = unit.hp;
       view.maxHp = unit.maxHp;
+      this.updateAnimatedCharacterLocomotion(view, moved, deltaX, deltaY);
       this.drawHealth(view, unit);
     }
   }
@@ -677,6 +946,64 @@ export class BattleScene extends Phaser.Scene {
     return this.controller.getSnapshot().activeProfile?.settings.reducedMotion ?? false;
   }
 
+  private updateAnimatedCharacterLocomotion(
+    view: UnitView,
+    moved: boolean,
+    deltaX = 0,
+    deltaY = 0,
+  ): void {
+    view.locomotion = moved ? 'walk' : 'idle';
+    if (moved && view.typeId === ARMORED_SNAIL_ENEMY_ID) {
+      const now = this.time.now;
+      if (!this.prefersReducedMotion() && now >= view.nextTrailAt) {
+        const distance = Math.max(1e-6, Math.sqrt(deltaX * deltaX + deltaY * deltaY));
+        this.spawnOneShotEffect(
+          {
+            px: view.container.x - (deltaX / distance) * 24,
+            py: view.container.y - (deltaY / distance) * 24,
+          },
+          ARMORED_SNAIL_EFFECTS.slimeTrail,
+          56,
+          { ground: true, alpha: 0.65 },
+        );
+        view.nextTrailAt = now + 360;
+      }
+    }
+    if (!view.sprite || !view.visual || view.action) return;
+    const key = view.visual.animationKey(view.locomotion);
+    if (view.sprite.anims.isPlaying && view.sprite.anims.currentAnim?.key === key) return;
+    view.sprite.play(key);
+  }
+
+  private playAnimatedCharacterAction(unitId: string, action: UnitAction): void {
+    const view = this.unitViews.get(unitId);
+    if (!view || !view.sprite || !view.visual) return;
+    const sprite = view.sprite;
+    const visual = view.visual;
+    const key = visual.animationKey(action);
+    if (view.action === action && sprite.anims.isPlaying && sprite.anims.currentAnim?.key === key) {
+      return;
+    }
+    if (view.actionHandler) {
+      sprite.off(view.actionHandler.event, view.actionHandler.handler);
+      view.actionHandler = null;
+    }
+    const event = `animationcomplete-${key}`;
+    const handler = () => {
+      if (view.actionHandler?.handler !== handler) return;
+      view.actionHandler = null;
+      view.action = null;
+      const locomotionKey = visual.animationKey(view.locomotion);
+      if (!(sprite.anims.isPlaying && sprite.anims.currentAnim?.key === locomotionKey)) {
+        sprite.play(locomotionKey);
+      }
+    };
+    view.action = action;
+    view.actionHandler = { event, handler };
+    sprite.once(event, handler);
+    if (!(sprite.anims.isPlaying && sprite.anims.currentAnim?.key === key)) sprite.play(key);
+  }
+
   private playBattleEvent(event: BattleEvent): void {
     const reduced = this.prefersReducedMotion();
     switch (event.type) {
@@ -684,33 +1011,61 @@ export class BattleScene extends Phaser.Scene {
         const from = gridToPixel(event.from.x, event.from.y);
         const to = gridToPixel(event.to.x, event.to.y);
         if (event.kind === 'laser') {
-          if (!reduced) this.spawnBeam(from, to, 0x9bff5a, 4, 220);
+          if (!reduced) this.spawnProjectileAttack(from, to, LASER_CROCODILE_EFFECTS);
           this.controller.playSound('laser');
         } else if (event.kind === 'lightning') {
-          if (!reduced) this.spawnLightning(from, to, 0x62e7ff);
+          if (!reduced) this.spawnProjectileAttack(from, to, LIGHTNING_SCORPION_EFFECTS);
           this.controller.playSound('lightning');
+        } else if (event.kind === 'boss-smash') {
+          if (!reduced) {
+            this.spawnOneShotEffect(from, MEGA_BRAINROT_GORILLA_EFFECTS.charge, 96);
+            this.spawnOneShotEffect(to, MEGA_BRAINROT_GORILLA_EFFECTS.groundSlam, 128);
+          }
+          this.controller.playSound('hit');
         } else {
-          if (!reduced) this.spawnImpact(to, 0xffa35a);
+          const attacker = this.unitViews.get(event.attackerId);
+          if (!reduced) {
+            this.spawnImpact(to, 0xffa35a);
+            if (attacker?.typeId === ARMORED_SNAIL_ENEMY_ID) {
+              this.spawnOneShotEffect(to, ARMORED_SNAIL_EFFECTS.slimeSplash, 76, {
+                ground: true,
+                alpha: 0.85,
+              });
+            }
+          }
           this.controller.playSound('hit');
         }
+        this.playAnimatedCharacterAction(event.attackerId, 'attack');
         break;
       }
       case 'chain': {
         if (!reduced) {
           const from = gridToPixel(event.from.x, event.from.y);
           const to = gridToPixel(event.to.x, event.to.y);
-          this.spawnLightning(from, to, 0xc98bff);
+          this.spawnProjectileAttack(from, to, LIGHTNING_SCORPION_EFFECTS, {
+            showMuzzle: false,
+            duration: 170,
+          });
         }
         break;
       }
       case 'damage': {
         const at = gridToPixel(event.at.x, event.at.y);
+        const view = this.unitViews.get(event.unitId);
         this.spawnDamageText(at, event.amount, reduced);
+        if (!reduced && view?.typeId === ARMORED_SNAIL_ENEMY_ID) {
+          this.spawnUnitOneShotEffect(view, ARMORED_SNAIL_EFFECTS.shellHit, 64, 0.85);
+        }
+        this.playAnimatedCharacterAction(event.unitId, 'hurt');
         break;
       }
       case 'death': {
         if (!reduced) {
           const at = gridToPixel(event.at.x, event.at.y);
+          const view = this.unitViews.get(event.unitId);
+          if (view?.typeId === MEGA_BRAINROT_GORILLA_ENEMY_ID) {
+            this.spawnOneShotEffect(at, MEGA_BRAINROT_GORILLA_EFFECTS.defeat, 128);
+          }
           this.spawnDeathBurst(at, event.team === 'ally' ? 0x6dffb0 : 0xff7a8e);
         }
         break;
@@ -741,73 +1096,69 @@ export class BattleScene extends Phaser.Scene {
     }
   }
 
-  private spawnBeam(
+  private spawnProjectileAttack(
     from: { px: number; py: number },
     to: { px: number; py: number },
-    color: number,
-    width: number,
-    duration: number,
+    effects: AnimatedCharacterEffects,
+    options: { showMuzzle?: boolean; duration?: number } = {},
   ): void {
-    const g = this.add.graphics();
-    g.lineStyle(width + 6, color, 0.18);
-    g.beginPath();
-    g.moveTo(from.px, from.py);
-    g.lineTo(to.px, to.py);
-    g.strokePath();
-    g.lineStyle(width, color, 0.95);
-    g.beginPath();
-    g.moveTo(from.px, from.py);
-    g.lineTo(to.px, to.py);
-    g.strokePath();
-    this.effectsLayer?.add(g);
+    if (options.showMuzzle !== false) this.spawnOneShotEffect(from, effects.muzzle, 56);
+    const bolt = this.add
+      .sprite(from.px, from.py, effects.projectile, 0)
+      .setOrigin(0.5)
+      .setDisplaySize(52, 52)
+      .setRotation(Math.atan2(to.py - from.py, to.px - from.px));
+    this.effectsLayer?.add(bolt);
+    bolt.play(effects.projectile);
     this.tweens.add({
-      targets: g,
-      alpha: 0,
-      duration,
-      ease: 'Quad.easeOut',
-      onComplete: () => g.destroy(),
+      targets: bolt,
+      x: to.px,
+      y: to.py,
+      duration: options.duration ?? 190,
+      ease: 'Linear',
+      onComplete: () => {
+        bolt.destroy();
+        this.spawnOneShotEffect(to, effects.impact, 72);
+      },
     });
   }
 
-  private spawnLightning(
-    from: { px: number; py: number },
-    to: { px: number; py: number },
-    color: number,
-  ): void {
-    const g = this.add.graphics();
-    const dx = to.px - from.px;
-    const dy = to.py - from.py;
-    const length = Math.max(1, Math.sqrt(dx * dx + dy * dy));
-    const nx = -dy / length;
-    const ny = dx / length;
-    const segments = 7;
-    g.lineStyle(8, color, 0.16);
-    g.beginPath();
-    g.moveTo(from.px, from.py);
-    for (let index = 1; index < segments; index += 1) {
-      const t = index / segments;
-      const offset = (index % 2 === 0 ? -1 : 1) * 9;
-      g.lineTo(from.px + dx * t + nx * offset, from.py + dy * t + ny * offset);
-    }
-    g.lineTo(to.px, to.py);
-    g.strokePath();
-    g.lineStyle(3, color, 1);
-    g.beginPath();
-    g.moveTo(from.px, from.py);
-    for (let index = 1; index < segments; index += 1) {
-      const t = index / segments;
-      const offset = (index % 2 === 0 ? -1 : 1) * 9;
-      g.lineTo(from.px + dx * t + nx * offset, from.py + dy * t + ny * offset);
-    }
-    g.lineTo(to.px, to.py);
-    g.strokePath();
-    this.effectsLayer?.add(g);
-    this.tweens.add({
-      targets: g,
-      alpha: 0,
-      duration: 260,
-      onComplete: () => g.destroy(),
-    });
+  private spawnUnitOneShotEffect(
+    view: UnitView,
+    key: string,
+    size: number,
+    alpha = 1,
+  ): Phaser.GameObjects.Sprite | null {
+    if (!view.sprite || !ANIMATED_UNIT_ANIMATION_KEYS.has(key)) return null;
+    const sprite = this.add
+      .sprite(0, 0, key, 0)
+      .setOrigin(0.5)
+      .setDisplaySize(size, size)
+      .setAlpha(alpha);
+    view.container.addAt(sprite, view.container.getIndex(view.sprite) + 1);
+    const destroy = () => sprite.destroy();
+    sprite.once(`animationcomplete-${key}`, destroy);
+    sprite.play(key);
+    return sprite;
+  }
+
+  private spawnOneShotEffect(
+    at: { px: number; py: number },
+    key: string,
+    size: number,
+    options: { ground?: boolean; alpha?: number } = {},
+  ): Phaser.GameObjects.Sprite | null {
+    if (!ANIMATED_UNIT_ANIMATION_KEYS.has(key)) return null;
+    const sprite = this.add
+      .sprite(at.px, at.py, key, 0)
+      .setOrigin(0.5)
+      .setDisplaySize(size, size)
+      .setAlpha(options.alpha ?? 1);
+    (options.ground ? this.groundEffectsLayer : this.effectsLayer)?.add(sprite);
+    const destroy = () => sprite.destroy();
+    sprite.once(`animationcomplete-${key}`, destroy);
+    sprite.play(key);
+    return sprite;
   }
 
   private spawnDamageText(at: { px: number; py: number }, amount: number, reduced = false): void {

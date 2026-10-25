@@ -1,0 +1,70 @@
+{
+  "version": 1,
+  "characterTypeId": "shadow-runner",
+  "format": "horizontal-spritesheet",
+  "frameSize": [
+    256,
+    256
+  ],
+  "frameOrder": "left-to-right",
+  "unitOrigin": [
+    0.5,
+    0.875
+  ],
+  "facing": "left",
+  "recommendedDisplayWidth": 112,
+  "animations": [
+    {
+      "key": "shadow-runner-idle",
+      "url": "/assets/units/shadow-runner/idle.png",
+      "frameWidth": 256,
+      "frameHeight": 256,
+      "frames": 4,
+      "fps": 5,
+      "repeat": -1,
+      "origin": [
+        0.5,
+        0.875
+      ]
+    },
+    {
+      "key": "shadow-runner-walk",
+      "url": "/assets/units/shadow-runner/walk.png",
+      "frameWidth": 256,
+      "frameHeight": 256,
+      "frames": 4,
+      "fps": 9,
+      "repeat": -1,
+      "origin": [
+        0.5,
+        0.875
+      ]
+    },
+    {
+      "key": "shadow-runner-attack",
+      "url": "/assets/units/shadow-runner/attack.png",
+      "frameWidth": 256,
+      "frameHeight": 256,
+      "frames": 4,
+      "fps": 10,
+      "repeat": 0,
+      "origin": [
+        0.5,
+        0.875
+      ]
+    },
+    {
+      "key": "shadow-runner-hurt",
+      "url": "/assets/units/shadow-runner/hurt.png",
+      "frameWidth": 256,
+      "frameHeight": 256,
+      "frames": 4,
+      "fps": 10,
+      "repeat": 0,
+      "origin": [
+        0.5,
+        0.875
+      ]
+    }
+  ]
+}

@@ -1,0 +1,240 @@
+{
+  "version": 1,
+  "characterTypeId": "laser-crocodile",
+  "format": "horizontal-spritesheet",
+  "frameSize": [
+    256,
+    256
+  ],
+  "frameOrder": "left-to-right",
+  "unitOrigin": [
+    0.5,
+    0.875
+  ],
+  "facing": "right",
+  "recommendedDisplayWidth": 112,
+  "visualTierByMergeRank": {
+    "v1": [
+      1,
+      3
+    ],
+    "v2": [
+      4,
+      7
+    ],
+    "v3": [
+      8,
+      10
+    ]
+  },
+  "animations": [
+    {
+      "key": "lc-v1-idle",
+      "url": "/assets/units/laser-crocodile/v1-idle.png",
+      "frameWidth": 256,
+      "frameHeight": 256,
+      "frames": 4,
+      "fps": 5,
+      "repeat": -1,
+      "origin": [
+        0.5,
+        0.875
+      ]
+    },
+    {
+      "key": "lc-v1-walk",
+      "url": "/assets/units/laser-crocodile/v1-walk.png",
+      "frameWidth": 256,
+      "frameHeight": 256,
+      "frames": 4,
+      "fps": 9,
+      "repeat": -1,
+      "origin": [
+        0.5,
+        0.875
+      ]
+    },
+    {
+      "key": "lc-v1-attack",
+      "url": "/assets/units/laser-crocodile/v1-attack.png",
+      "frameWidth": 256,
+      "frameHeight": 256,
+      "frames": 4,
+      "fps": 10,
+      "repeat": 0,
+      "origin": [
+        0.5,
+        0.875
+      ]
+    },
+    {
+      "key": "lc-v1-hurt",
+      "url": "/assets/units/laser-crocodile/v1-hurt.png",
+      "frameWidth": 256,
+      "frameHeight": 256,
+      "frames": 4,
+      "fps": 10,
+      "repeat": 0,
+      "origin": [
+        0.5,
+        0.875
+      ]
+    },
+    {
+      "key": "lc-v2-idle",
+      "url": "/assets/units/laser-crocodile/v2-idle.png",
+      "frameWidth": 256,
+      "frameHeight": 256,
+      "frames": 4,
+      "fps": 5,
+      "repeat": -1,
+      "origin": [
+        0.5,
+        0.875
+      ]
+    },
+    {
+      "key": "lc-v2-walk",
+      "url": "/assets/units/laser-crocodile/v2-walk.png",
+      "frameWidth": 256,
+      "frameHeight": 256,
+      "frames": 4,
+      "fps": 9,
+      "repeat": -1,
+      "origin": [
+        0.5,
+        0.875
+      ]
+    },
+    {
+      "key": "lc-v2-attack",
+      "url": "/assets/units/laser-crocodile/v2-attack.png",
+      "frameWidth": 256,
+      "frameHeight": 256,
+      "frames": 4,
+      "fps": 10,
+      "repeat": 0,
+      "origin": [
+        0.5,
+        0.875
+      ]
+    },
+    {
+      "key": "lc-v2-hurt",
+      "url": "/assets/units/laser-crocodile/v2-hurt.png",
+      "frameWidth": 256,
+      "frameHeight": 256,
+      "frames": 4,
+      "fps": 10,
+      "repeat": 0,
+      "origin": [
+        0.5,
+        0.875
+      ]
+    },
+    {
+      "key": "lc-v3-idle",
+      "url": "/assets/units/laser-crocodile/v3-idle.png",
+      "frameWidth": 256,
+      "frameHeight": 256,
+      "frames": 4,
+      "fps": 5,
+      "repeat": -1,
+      "origin": [
+        0.5,
+        0.875
+      ]
+    },
+    {
+      "key": "lc-v3-walk",
+      "url": "/assets/units/laser-crocodile/v3-walk.png",
+      "frameWidth": 256,
+      "frameHeight": 256,
+      "frames": 4,
+      "fps": 9,
+      "repeat": -1,
+      "origin": [
+        0.5,
+        0.875
+      ]
+    },
+    {
+      "key": "lc-v3-attack",
+      "url": "/assets/units/laser-crocodile/v3-attack.png",
+      "frameWidth": 256,
+      "frameHeight": 256,
+      "frames": 4,
+      "fps": 10,
+      "repeat": 0,
+      "origin": [
+        0.5,
+        0.875
+      ]
+    },
+    {
+      "key": "lc-v3-hurt",
+      "url": "/assets/units/laser-crocodile/v3-hurt.png",
+      "frameWidth": 256,
+      "frameHeight": 256,
+      "frames": 4,
+      "fps": 10,
+      "repeat": 0,
+      "origin": [
+        0.5,
+        0.875
+      ]
+    },
+    {
+      "key": "lc-fx-laser-bolt",
+      "url": "/assets/effects/laser-crocodile/laser-bolt.png",
+      "frameWidth": 256,
+      "frameHeight": 256,
+      "frames": 4,
+      "fps": 12,
+      "repeat": -1,
+      "origin": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "key": "lc-fx-muzzle-flash",
+      "url": "/assets/effects/laser-crocodile/muzzle-flash.png",
+      "frameWidth": 256,
+      "frameHeight": 256,
+      "frames": 4,
+      "fps": 16,
+      "repeat": 0,
+      "origin": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "key": "lc-fx-impact",
+      "url": "/assets/effects/laser-crocodile/impact.png",
+      "frameWidth": 256,
+      "frameHeight": 256,
+      "frames": 4,
+      "fps": 14,
+      "repeat": 0,
+      "origin": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "key": "lc-fx-upgrade",
+      "url": "/assets/effects/laser-crocodile/upgrade.png",
+      "frameWidth": 256,
+      "frameHeight": 256,
+      "frames": 4,
+      "fps": 10,
+      "repeat": 0,
+      "origin": [
+        0.5,
+        0.5
+      ]
+    }
+  ]
+}

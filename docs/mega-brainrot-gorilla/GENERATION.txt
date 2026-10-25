@@ -1,0 +1,1 @@
+Built-in image_gen. Style references: approved D-style Laser Crocodile concept art and the project's Armored Snail / Shadow Runner game sprites. Generated 4x4 isolated transparent animation sheets: Mega Brainrot Gorilla (idle, walk/stomp, attack, hurt), plus charge, ground slam, roar and defeat visual effects. The game balance and wave rules remain unchanged.

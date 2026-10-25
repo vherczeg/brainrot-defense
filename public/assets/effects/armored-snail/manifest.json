@@ -1,0 +1,54 @@
+{
+  "version": 1,
+  "id": "armored-snail-effects",
+  "theme": "dark-slate-bronze-jade",
+  "tileSize": [
+    256,
+    256
+  ],
+  "fps": 9,
+  "files": {
+    "shell-hit": {
+      "url": "/assets/effects/armored-snail/shell-hit.png",
+      "frames": [
+        "/assets/effects/armored-snail/frames/shell-hit/00.png",
+        "/assets/effects/armored-snail/frames/shell-hit/01.png",
+        "/assets/effects/armored-snail/frames/shell-hit/02.png",
+        "/assets/effects/armored-snail/frames/shell-hit/03.png"
+      ]
+    },
+    "armor-glint": {
+      "url": "/assets/effects/armored-snail/armor-glint.png",
+      "frames": [
+        "/assets/effects/armored-snail/frames/armor-glint/00.png",
+        "/assets/effects/armored-snail/frames/armor-glint/01.png",
+        "/assets/effects/armored-snail/frames/armor-glint/02.png",
+        "/assets/effects/armored-snail/frames/armor-glint/03.png"
+      ]
+    },
+    "slime-trail": {
+      "url": "/assets/effects/armored-snail/slime-trail.png",
+      "frames": [
+        "/assets/effects/armored-snail/frames/slime-trail/00.png",
+        "/assets/effects/armored-snail/frames/slime-trail/01.png",
+        "/assets/effects/armored-snail/frames/slime-trail/02.png",
+        "/assets/effects/armored-snail/frames/slime-trail/03.png"
+      ]
+    },
+    "slime-splash": {
+      "url": "/assets/effects/armored-snail/slime-splash.png",
+      "frames": [
+        "/assets/effects/armored-snail/frames/slime-splash/00.png",
+        "/assets/effects/armored-snail/frames/slime-splash/01.png",
+        "/assets/effects/armored-snail/frames/slime-splash/02.png",
+        "/assets/effects/armored-snail/frames/slime-splash/03.png"
+      ]
+    }
+  },
+  "usageNotes": {
+    "shell-hit": "Visual accent for existing hurt/damage event only; do not imply damage is blocked.",
+    "armor-glint": "Optional subtle idle detail if the renderer has a suitable cosmetic hook.",
+    "slime-trail": "Optional fading trail under the moving enemy only if it does not clutter the board.",
+    "slime-splash": "Optional accent for an existing attack event; do not add damage or slow effects."
+  }
+}

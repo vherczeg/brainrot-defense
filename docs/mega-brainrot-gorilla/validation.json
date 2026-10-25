@@ -1,0 +1,1284 @@
+{
+  "result": "PASS",
+  "pngCount": 42,
+  "animationStrips": 8,
+  "frames": 32,
+  "gridCuts": [
+    {
+      "source": "unit",
+      "row": 0,
+      "cut": 326,
+      "opaquePixels": 0
+    },
+    {
+      "source": "unit",
+      "row": 0,
+      "cut": 637,
+      "opaquePixels": 0
+    },
+    {
+      "source": "unit",
+      "row": 0,
+      "cut": 939,
+      "opaquePixels": 0
+    },
+    {
+      "source": "unit",
+      "row": 1,
+      "cut": 332,
+      "opaquePixels": 0
+    },
+    {
+      "source": "unit",
+      "row": 1,
+      "cut": 633,
+      "opaquePixels": 0
+    },
+    {
+      "source": "unit",
+      "row": 1,
+      "cut": 928,
+      "opaquePixels": 0
+    },
+    {
+      "source": "unit",
+      "row": 2,
+      "cut": 320,
+      "opaquePixels": 0
+    },
+    {
+      "source": "unit",
+      "row": 2,
+      "cut": 629,
+      "opaquePixels": 0
+    },
+    {
+      "source": "unit",
+      "row": 2,
+      "cut": 941,
+      "opaquePixels": 0
+    },
+    {
+      "source": "unit",
+      "row": 3,
+      "cut": 328,
+      "opaquePixels": 0
+    },
+    {
+      "source": "unit",
+      "row": 3,
+      "cut": 643,
+      "opaquePixels": 0
+    },
+    {
+      "source": "unit",
+      "row": 3,
+      "cut": 937,
+      "opaquePixels": 0
+    },
+    {
+      "source": "fx",
+      "row": 0,
+      "cut": 344,
+      "opaquePixels": 0
+    },
+    {
+      "source": "fx",
+      "row": 0,
+      "cut": 633,
+      "opaquePixels": 0
+    },
+    {
+      "source": "fx",
+      "row": 0,
+      "cut": 971,
+      "opaquePixels": 0
+    },
+    {
+      "source": "fx",
+      "row": 1,
+      "cut": 316,
+      "opaquePixels": 0
+    },
+    {
+      "source": "fx",
+      "row": 1,
+      "cut": 617,
+      "opaquePixels": 0
+    },
+    {
+      "source": "fx",
+      "row": 1,
+      "cut": 963,
+      "opaquePixels": 0
+    },
+    {
+      "source": "fx",
+      "row": 2,
+      "cut": 352,
+      "opaquePixels": 0
+    },
+    {
+      "source": "fx",
+      "row": 2,
+      "cut": 601,
+      "opaquePixels": 0
+    },
+    {
+      "source": "fx",
+      "row": 2,
+      "cut": 979,
+      "opaquePixels": 0
+    },
+    {
+      "source": "fx",
+      "row": 3,
+      "cut": 271,
+      "opaquePixels": 0
+    },
+    {
+      "source": "fx",
+      "row": 3,
+      "cut": 665,
+      "opaquePixels": 0
+    },
+    {
+      "source": "fx",
+      "row": 3,
+      "cut": 987,
+      "opaquePixels": 0
+    }
+  ],
+  "checks": [
+    "RGBA decode",
+    "alpha and antialiasing retained",
+    "no alpha>160 pixels on source grid cuts",
+    "frames nonempty and unique",
+    "at least 2px transparent outer margin"
+  ],
+  "files": [
+    {
+      "file": "public/assets/effects/mega-brainrot-gorilla/charge.png",
+      "size": [
+        1024,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "dbd1a9ccff0f0ded76f08e823d2d84a86ea20b761f9152741a8916295c2c7f82",
+      "frames": [
+        {
+          "alphaBBox": [
+            58,
+            58,
+            199,
+            198
+          ],
+          "transparentPixels": 47857,
+          "semiTransparentPixels": 17679
+        },
+        {
+          "alphaBBox": [
+            41,
+            41,
+            216,
+            216
+          ],
+          "transparentPixels": 36278,
+          "semiTransparentPixels": 29258
+        },
+        {
+          "alphaBBox": [
+            22,
+            31,
+            234,
+            225
+          ],
+          "transparentPixels": 27043,
+          "semiTransparentPixels": 38493
+        },
+        {
+          "alphaBBox": [
+            47,
+            42,
+            209,
+            215
+          ],
+          "transparentPixels": 41039,
+          "semiTransparentPixels": 24497
+        }
+      ]
+    },
+    {
+      "file": "public/assets/effects/mega-brainrot-gorilla/defeat.png",
+      "size": [
+        1024,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "dbe7b7327f70d61bf882b6abe87f63930bce9f754fb9c1fe6e23b23fa1d6ad73",
+      "frames": [
+        {
+          "alphaBBox": [
+            62,
+            44,
+            195,
+            212
+          ],
+          "transparentPixels": 43850,
+          "semiTransparentPixels": 21686
+        },
+        {
+          "alphaBBox": [
+            44,
+            31,
+            213,
+            225
+          ],
+          "transparentPixels": 34737,
+          "semiTransparentPixels": 30799
+        },
+        {
+          "alphaBBox": [
+            61,
+            47,
+            196,
+            209
+          ],
+          "transparentPixels": 44236,
+          "semiTransparentPixels": 21300
+        },
+        {
+          "alphaBBox": [
+            93,
+            75,
+            163,
+            182
+          ],
+          "transparentPixels": 58100,
+          "semiTransparentPixels": 7436
+        }
+      ]
+    },
+    {
+      "file": "public/assets/effects/mega-brainrot-gorilla/frames/charge/00.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "6d95f85ceaea23d81a237d1258e3ff6b1a2ee37c172eeb20a59b5adca090a54d",
+      "frames": [
+        {
+          "alphaBBox": [
+            58,
+            58,
+            199,
+            198
+          ],
+          "transparentPixels": 47857,
+          "semiTransparentPixels": 17679
+        }
+      ]
+    },
+    {
+      "file": "public/assets/effects/mega-brainrot-gorilla/frames/charge/01.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "ac78ba7ea2832d675b3e2eb4f6187fa33f0493ece64f862e564da2836c6866f0",
+      "frames": [
+        {
+          "alphaBBox": [
+            41,
+            41,
+            216,
+            216
+          ],
+          "transparentPixels": 36278,
+          "semiTransparentPixels": 29258
+        }
+      ]
+    },
+    {
+      "file": "public/assets/effects/mega-brainrot-gorilla/frames/charge/02.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "c35542430a397b6e9d092ed112f435c0c24b3acdd6d5861c697819cfa59e4cec",
+      "frames": [
+        {
+          "alphaBBox": [
+            22,
+            31,
+            234,
+            225
+          ],
+          "transparentPixels": 27043,
+          "semiTransparentPixels": 38493
+        }
+      ]
+    },
+    {
+      "file": "public/assets/effects/mega-brainrot-gorilla/frames/charge/03.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "7411a06304c9202d737bdd7b845f5b0513ad73d904cfb0feaf171aeddd5699e2",
+      "frames": [
+        {
+          "alphaBBox": [
+            47,
+            42,
+            209,
+            215
+          ],
+          "transparentPixels": 41039,
+          "semiTransparentPixels": 24497
+        }
+      ]
+    },
+    {
+      "file": "public/assets/effects/mega-brainrot-gorilla/frames/defeat/00.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "3e53b719f8e0e486e1b42bb49a33786aabb1f7d14c00e7580c770faccec07db3",
+      "frames": [
+        {
+          "alphaBBox": [
+            62,
+            44,
+            195,
+            212
+          ],
+          "transparentPixels": 43850,
+          "semiTransparentPixels": 21686
+        }
+      ]
+    },
+    {
+      "file": "public/assets/effects/mega-brainrot-gorilla/frames/defeat/01.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "693bd27a5788fedcc669bc96dab46945109c70a9ec51b889acf23a349638a8cd",
+      "frames": [
+        {
+          "alphaBBox": [
+            44,
+            31,
+            213,
+            225
+          ],
+          "transparentPixels": 34737,
+          "semiTransparentPixels": 30799
+        }
+      ]
+    },
+    {
+      "file": "public/assets/effects/mega-brainrot-gorilla/frames/defeat/02.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "ee309c314b9ae26e09341df016c9920b0dd807246e3c2382dd845562b2faec56",
+      "frames": [
+        {
+          "alphaBBox": [
+            61,
+            47,
+            196,
+            209
+          ],
+          "transparentPixels": 44236,
+          "semiTransparentPixels": 21300
+        }
+      ]
+    },
+    {
+      "file": "public/assets/effects/mega-brainrot-gorilla/frames/defeat/03.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "428b38e26660053791af5d89eaac976a0f306bdab15f8693fa10b2dc907e5ea7",
+      "frames": [
+        {
+          "alphaBBox": [
+            93,
+            75,
+            163,
+            182
+          ],
+          "transparentPixels": 58100,
+          "semiTransparentPixels": 7436
+        }
+      ]
+    },
+    {
+      "file": "public/assets/effects/mega-brainrot-gorilla/frames/ground-slam/00.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "e385a78637e918e2ceeddaf73c02da8673ae799ed4fc3ebc89dd38b6f57c206c",
+      "frames": [
+        {
+          "alphaBBox": [
+            56,
+            66,
+            201,
+            190
+          ],
+          "transparentPixels": 49544,
+          "semiTransparentPixels": 15992
+        }
+      ]
+    },
+    {
+      "file": "public/assets/effects/mega-brainrot-gorilla/frames/ground-slam/01.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "7584319b05cb2961ed0411bed68de405ffa11ecac8c217c57b2875e4a22655d0",
+      "frames": [
+        {
+          "alphaBBox": [
+            37,
+            61,
+            220,
+            195
+          ],
+          "transparentPixels": 43333,
+          "semiTransparentPixels": 22203
+        }
+      ]
+    },
+    {
+      "file": "public/assets/effects/mega-brainrot-gorilla/frames/ground-slam/02.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "0c68c7bbb7c985180806f0452a6032641c5b13bf6f8dbb09f3b3c8320f594a2b",
+      "frames": [
+        {
+          "alphaBBox": [
+            15,
+            49,
+            242,
+            207
+          ],
+          "transparentPixels": 31480,
+          "semiTransparentPixels": 34055
+        }
+      ]
+    },
+    {
+      "file": "public/assets/effects/mega-brainrot-gorilla/frames/ground-slam/03.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "70cf2be98fcf8a2839b2cee0947463a6edc78aee01d1e7b4f70d43cce7661aec",
+      "frames": [
+        {
+          "alphaBBox": [
+            37,
+            61,
+            219,
+            196
+          ],
+          "transparentPixels": 42924,
+          "semiTransparentPixels": 22611
+        }
+      ]
+    },
+    {
+      "file": "public/assets/effects/mega-brainrot-gorilla/frames/roar/00.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "0bdc665688c1959239a8156c28379626295f1e3f620d30965c234562a59b53be",
+      "frames": [
+        {
+          "alphaBBox": [
+            63,
+            76,
+            194,
+            180
+          ],
+          "transparentPixels": 53385,
+          "semiTransparentPixels": 12151
+        }
+      ]
+    },
+    {
+      "file": "public/assets/effects/mega-brainrot-gorilla/frames/roar/01.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "7075bdfe4a1e4aba6857e6b95034b6def7cba85884a5976a88d6354eae92f35c",
+      "frames": [
+        {
+          "alphaBBox": [
+            44,
+            40,
+            212,
+            216
+          ],
+          "transparentPixels": 38563,
+          "semiTransparentPixels": 26973
+        }
+      ]
+    },
+    {
+      "file": "public/assets/effects/mega-brainrot-gorilla/frames/roar/02.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "0410f0f20d9bd51b826035478158a65776251b213e4adc0d37d297e8480316eb",
+      "frames": [
+        {
+          "alphaBBox": [
+            14,
+            31,
+            242,
+            225
+          ],
+          "transparentPixels": 23660,
+          "semiTransparentPixels": 41876
+        }
+      ]
+    },
+    {
+      "file": "public/assets/effects/mega-brainrot-gorilla/frames/roar/03.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "a90d405809d4964bb689a8d7e06482f0b48e8b9eb4af70ac75d914899b3cd909",
+      "frames": [
+        {
+          "alphaBBox": [
+            47,
+            52,
+            209,
+            204
+          ],
+          "transparentPixels": 41916,
+          "semiTransparentPixels": 23620
+        }
+      ]
+    },
+    {
+      "file": "public/assets/effects/mega-brainrot-gorilla/ground-slam.png",
+      "size": [
+        1024,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "eb4d551ab3feb73f0d30193fda6bb2b36b52a1015ad8d3c7abb63fd5912aec29",
+      "frames": [
+        {
+          "alphaBBox": [
+            56,
+            66,
+            201,
+            190
+          ],
+          "transparentPixels": 49544,
+          "semiTransparentPixels": 15992
+        },
+        {
+          "alphaBBox": [
+            37,
+            61,
+            220,
+            195
+          ],
+          "transparentPixels": 43333,
+          "semiTransparentPixels": 22203
+        },
+        {
+          "alphaBBox": [
+            15,
+            49,
+            242,
+            207
+          ],
+          "transparentPixels": 31480,
+          "semiTransparentPixels": 34055
+        },
+        {
+          "alphaBBox": [
+            37,
+            61,
+            219,
+            196
+          ],
+          "transparentPixels": 42924,
+          "semiTransparentPixels": 22611
+        }
+      ]
+    },
+    {
+      "file": "public/assets/effects/mega-brainrot-gorilla/roar.png",
+      "size": [
+        1024,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "8d3fa5c3559c54bb6694f7e126b43dcdfbd8177ac8d48533ee117ba1310c8de7",
+      "frames": [
+        {
+          "alphaBBox": [
+            63,
+            76,
+            194,
+            180
+          ],
+          "transparentPixels": 53385,
+          "semiTransparentPixels": 12151
+        },
+        {
+          "alphaBBox": [
+            44,
+            40,
+            212,
+            216
+          ],
+          "transparentPixels": 38563,
+          "semiTransparentPixels": 26973
+        },
+        {
+          "alphaBBox": [
+            14,
+            31,
+            242,
+            225
+          ],
+          "transparentPixels": 23660,
+          "semiTransparentPixels": 41876
+        },
+        {
+          "alphaBBox": [
+            47,
+            52,
+            209,
+            204
+          ],
+          "transparentPixels": 41916,
+          "semiTransparentPixels": 23620
+        }
+      ]
+    },
+    {
+      "file": "public/assets/icons/mega-brainrot-gorilla.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "bdd4c19cd22d7be082957b43a8e9c875c12963c266c3325d1eee44e2fb34fe4a",
+      "frames": [
+        {
+          "alphaBBox": [
+            26,
+            22,
+            230,
+            227
+          ],
+          "transparentPixels": 33864,
+          "semiTransparentPixels": 31460
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/mega-brainrot-gorilla/attack.png",
+      "size": [
+        1024,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "df5b6fa61ebf54daf2b5768770d541bee291a2682b0d307c9eabf13b9efd56b4",
+      "frames": [
+        {
+          "alphaBBox": [
+            27,
+            39,
+            229,
+            227
+          ],
+          "transparentPixels": 39733,
+          "semiTransparentPixels": 25647
+        },
+        {
+          "alphaBBox": [
+            19,
+            22,
+            234,
+            226
+          ],
+          "transparentPixels": 36499,
+          "semiTransparentPixels": 28879
+        },
+        {
+          "alphaBBox": [
+            20,
+            35,
+            235,
+            228
+          ],
+          "transparentPixels": 34363,
+          "semiTransparentPixels": 31026
+        },
+        {
+          "alphaBBox": [
+            23,
+            46,
+            233,
+            227
+          ],
+          "transparentPixels": 36384,
+          "semiTransparentPixels": 29019
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/mega-brainrot-gorilla/frames/attack/00.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "185e76b07ff8a97970ac54654951f94d6644806787d9cbd7e3343cb9a84eb82a",
+      "frames": [
+        {
+          "alphaBBox": [
+            27,
+            39,
+            229,
+            227
+          ],
+          "transparentPixels": 39733,
+          "semiTransparentPixels": 25647
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/mega-brainrot-gorilla/frames/attack/01.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "7d1e48f594b947f036f7ccf598e9176a2385111c8d96c44eb5729e145d2e673b",
+      "frames": [
+        {
+          "alphaBBox": [
+            19,
+            22,
+            234,
+            226
+          ],
+          "transparentPixels": 36499,
+          "semiTransparentPixels": 28879
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/mega-brainrot-gorilla/frames/attack/02.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "442ba4d55f71dfdbc24ce811c9525cdecf6986222cb8830a2a3561cc24d5f286",
+      "frames": [
+        {
+          "alphaBBox": [
+            20,
+            35,
+            235,
+            228
+          ],
+          "transparentPixels": 34363,
+          "semiTransparentPixels": 31026
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/mega-brainrot-gorilla/frames/attack/03.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "29664d97eb13e4e651ba379392ee26caafc938570be2985a8a40684fe86e2a9a",
+      "frames": [
+        {
+          "alphaBBox": [
+            23,
+            46,
+            233,
+            227
+          ],
+          "transparentPixels": 36384,
+          "semiTransparentPixels": 29019
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/mega-brainrot-gorilla/frames/hurt/00.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "ca4c83b6b68bd031672466c742b95c7756b78dafa50b7c9f1a3b05b87ca1383b",
+      "frames": [
+        {
+          "alphaBBox": [
+            14,
+            29,
+            241,
+            226
+          ],
+          "transparentPixels": 32582,
+          "semiTransparentPixels": 32800
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/mega-brainrot-gorilla/frames/hurt/01.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "ef9c530e6d99b1ea92e7c9d663388e3afd0e0abe4aaeed4dc08b4cf8a273f768",
+      "frames": [
+        {
+          "alphaBBox": [
+            17,
+            34,
+            241,
+            228
+          ],
+          "transparentPixels": 34665,
+          "semiTransparentPixels": 30716
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/mega-brainrot-gorilla/frames/hurt/02.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "7e70fc462eca372a12b4eda821650a9351bc097b2b855c1aff9e1a6f43883cfd",
+      "frames": [
+        {
+          "alphaBBox": [
+            25,
+            26,
+            231,
+            226
+          ],
+          "transparentPixels": 35077,
+          "semiTransparentPixels": 30328
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/mega-brainrot-gorilla/frames/hurt/03.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "bdabd4c2b30e1fa4a895e666c5143326d368ad474e627445e26e08270e11dbc2",
+      "frames": [
+        {
+          "alphaBBox": [
+            18,
+            20,
+            237,
+            227
+          ],
+          "transparentPixels": 31330,
+          "semiTransparentPixels": 33981
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/mega-brainrot-gorilla/frames/idle/00.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "bdd4c19cd22d7be082957b43a8e9c875c12963c266c3325d1eee44e2fb34fe4a",
+      "frames": [
+        {
+          "alphaBBox": [
+            26,
+            22,
+            230,
+            227
+          ],
+          "transparentPixels": 33864,
+          "semiTransparentPixels": 31460
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/mega-brainrot-gorilla/frames/idle/01.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "d3a963d3a27c0ab9550ed1114de6136413746e3f4b398731e21de06ade420781",
+      "frames": [
+        {
+          "alphaBBox": [
+            26,
+            19,
+            231,
+            228
+          ],
+          "transparentPixels": 32757,
+          "semiTransparentPixels": 32577
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/mega-brainrot-gorilla/frames/idle/02.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "a443c7b4381c87dd21a076cedea01dd82393242e7a0c424bdb31b8bf3ebc8ba5",
+      "frames": [
+        {
+          "alphaBBox": [
+            23,
+            34,
+            229,
+            227
+          ],
+          "transparentPixels": 35529,
+          "semiTransparentPixels": 29787
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/mega-brainrot-gorilla/frames/idle/03.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "621b61c114291006b9bdfa60ab40a29105121a2ad24aa99d5c0a6bb6c8efdec4",
+      "frames": [
+        {
+          "alphaBBox": [
+            25,
+            31,
+            231,
+            227
+          ],
+          "transparentPixels": 36314,
+          "semiTransparentPixels": 29044
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/mega-brainrot-gorilla/frames/walk/00.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "7a04185b4de88c0c88ffa0f1da809de15dc50c2f53bb3e27c4b6340e63c45224",
+      "frames": [
+        {
+          "alphaBBox": [
+            21,
+            36,
+            235,
+            227
+          ],
+          "transparentPixels": 35569,
+          "semiTransparentPixels": 29721
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/mega-brainrot-gorilla/frames/walk/01.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "4601bbcb95bf50e5204fb7420f9377c13c5cca6f6f80327ad490c40b8aec9200",
+      "frames": [
+        {
+          "alphaBBox": [
+            26,
+            19,
+            231,
+            224
+          ],
+          "transparentPixels": 37641,
+          "semiTransparentPixels": 27699
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/mega-brainrot-gorilla/frames/walk/02.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "a72540b6b85b66ad165b0f71442668e9819e99528a5e5ad9d4f49e748881b338",
+      "frames": [
+        {
+          "alphaBBox": [
+            30,
+            43,
+            226,
+            227
+          ],
+          "transparentPixels": 40303,
+          "semiTransparentPixels": 25060
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/mega-brainrot-gorilla/frames/walk/03.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "2983035d9c1b0adab510776b6303cc60f394f02bcddb3b051892750d589e0adb",
+      "frames": [
+        {
+          "alphaBBox": [
+            20,
+            42,
+            234,
+            228
+          ],
+          "transparentPixels": 38757,
+          "semiTransparentPixels": 26600
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/mega-brainrot-gorilla/hurt.png",
+      "size": [
+        1024,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "78855bfba3e518752cfc638704835dc3e52f10ab749b6a3c6ab260b733e0b77f",
+      "frames": [
+        {
+          "alphaBBox": [
+            14,
+            29,
+            241,
+            226
+          ],
+          "transparentPixels": 32582,
+          "semiTransparentPixels": 32800
+        },
+        {
+          "alphaBBox": [
+            17,
+            34,
+            241,
+            228
+          ],
+          "transparentPixels": 34665,
+          "semiTransparentPixels": 30716
+        },
+        {
+          "alphaBBox": [
+            25,
+            26,
+            231,
+            226
+          ],
+          "transparentPixels": 35077,
+          "semiTransparentPixels": 30328
+        },
+        {
+          "alphaBBox": [
+            18,
+            20,
+            237,
+            227
+          ],
+          "transparentPixels": 31330,
+          "semiTransparentPixels": 33981
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/mega-brainrot-gorilla/idle.png",
+      "size": [
+        1024,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "dd67467a81b28e81b939de72e09b1ba0d7aabc1e446480258f1a62e4f15bfa51",
+      "frames": [
+        {
+          "alphaBBox": [
+            26,
+            22,
+            230,
+            227
+          ],
+          "transparentPixels": 33864,
+          "semiTransparentPixels": 31460
+        },
+        {
+          "alphaBBox": [
+            26,
+            19,
+            231,
+            228
+          ],
+          "transparentPixels": 32757,
+          "semiTransparentPixels": 32577
+        },
+        {
+          "alphaBBox": [
+            23,
+            34,
+            229,
+            227
+          ],
+          "transparentPixels": 35529,
+          "semiTransparentPixels": 29787
+        },
+        {
+          "alphaBBox": [
+            25,
+            31,
+            231,
+            227
+          ],
+          "transparentPixels": 36314,
+          "semiTransparentPixels": 29044
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/mega-brainrot-gorilla/mega-brainrot-gorilla.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "bdd4c19cd22d7be082957b43a8e9c875c12963c266c3325d1eee44e2fb34fe4a",
+      "frames": [
+        {
+          "alphaBBox": [
+            26,
+            22,
+            230,
+            227
+          ],
+          "transparentPixels": 33864,
+          "semiTransparentPixels": 31460
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/mega-brainrot-gorilla/walk.png",
+      "size": [
+        1024,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "36203732f4a17785af0b022db18f1f89e5f9fa28563d89697fcf8f9e8e231ae1",
+      "frames": [
+        {
+          "alphaBBox": [
+            21,
+            36,
+            235,
+            227
+          ],
+          "transparentPixels": 35569,
+          "semiTransparentPixels": 29721
+        },
+        {
+          "alphaBBox": [
+            26,
+            19,
+            231,
+            224
+          ],
+          "transparentPixels": 37641,
+          "semiTransparentPixels": 27699
+        },
+        {
+          "alphaBBox": [
+            30,
+            43,
+            226,
+            227
+          ],
+          "transparentPixels": 40303,
+          "semiTransparentPixels": 25060
+        },
+        {
+          "alphaBBox": [
+            20,
+            42,
+            234,
+            228
+          ],
+          "transparentPixels": 38757,
+          "semiTransparentPixels": 26600
+        }
+      ]
+    }
+  ],
+  "note": "Generated four-frame boss animations and effects; verify actual size and timing in the wave-10 battle UI."
+}

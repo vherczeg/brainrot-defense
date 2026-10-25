@@ -1,0 +1,26 @@
+Integrate the Armored Snail visual effect assets into the existing Brainrot Defense renderer. This is a visual-only polish task.
+
+First inspect the current Git status, the existing Armored Snail rendering module and enemy ID mapping (`armored-snail` assets map to the game's existing `armored-slug` ID), BattleScene animation/event flow, and the new asset manifest. Preserve all staged, unstaged, and untracked user changes. Do not reset, restore, overwrite, rename, or re-stage existing work. Do not commit, push, or deploy.
+
+## Assets
+
+- Manifest: `public/assets/effects/armored-snail/manifest.json`
+- Four-frame strips: `shell-hit.png`, `armor-glint.png`, `slime-trail.png`, `slime-splash.png`
+- Individual 256×256 RGBA frames: `frames/<effect>/00.png` through `03.png`
+- Guide and validation: `docs/armored-snail-effects/ASSET_GUIDE.txt`, `docs/armored-snail-effects/validation.json`
+
+Use the manifest for URLs and the project's shared Vite `BASE_URL` resolver. Load the strips through the existing Phaser lifecycle and avoid reloading them per enemy or render.
+
+## Integration requirements
+
+1. Preserve the existing enemy ID, waves, stats, armor, HP, attack, damage, movement speed, targeting, hit areas, layering, and save data. Do not implement new armor, shield, poison, or slow mechanics.
+2. Map `shell-hit` to the existing hurt/damage visual event for the Armored Snail (`armored-slug` in gameplay). This is a cosmetic hit accent; it must not suggest that damage was blocked.
+3. Use `slime-trail` only if the existing movement/render loop can display a short-lived trail beneath the moving enemy without changing movement or cluttering the battlefield. Otherwise leave it unused and report why.
+4. Use `slime-splash` only on an existing Armored Snail attack event if that event is available and the effect can be placed at its actual target without changing attack timing or hit behavior. Do not invent gameplay events.
+5. `armor-glint` is optional. Use only a subtle, low-frequency cosmetic hook that already exists; otherwise leave it unused. Do not loop a large glow that obscures nearby units.
+6. Keep effects below relevant health/UI layers and avoid covering units, selection states, click/drag/merge areas, accessibility affordances, or the Chaos Arena portal/terrain. Respect reduced-motion settings and clean up one-shot listeners/sprites.
+7. Preserve every existing character, enemy, boss, Arena terrain, and Arena portal integration. Update production asset verification and service-worker/precache coverage following project conventions.
+
+## Verification and report
+
+Run the relevant formatter, lint, typecheck, tests, production build, and asset verification. Report only checks that actually ran and passed; explain any check that could not run. List changed files, identify which of the four effects are wired or left unused, and call out any remaining mobile readability or layering checks. Do not stage, commit, push, or deploy.

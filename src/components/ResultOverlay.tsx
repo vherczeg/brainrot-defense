@@ -20,7 +20,7 @@ export function ResultOverlay({ result }: { result: BattleResultView }) {
     >
       <div className="result-hero">
         <div className={`result-emblem result-emblem--${result.outcome}`} aria-hidden="true">
-          {victory ? <Icon name="trophy" size={54} /> : <Icon name="skull" size={54} />}
+          {victory ? <Icon name="trophy" size={54} /> : <Icon name="defeat-heart" size={54} />}
         </div>
         <div className="result-copy">
           <p className="result-wave">
@@ -157,6 +157,7 @@ export function ResultOverlay({ result }: { result: BattleResultView }) {
           onClick={() => controller.goToMenu()}
           data-testid="result-menu"
         >
+          <Icon name="home-base" size={18} />
           {t('resultBackToMenu')}
         </button>
       </div>

@@ -1,10 +1,17 @@
+import type { CSSProperties } from 'react';
 import { useGameController } from '../app/ControllerContext';
 import type { AppSnapshot } from '../app/controller';
 import { TOTAL_WAVES } from '../game/domain/types';
 import { getWave } from '../game/domain/waves';
+import { menuBackgroundUrl } from '../game/rendering/mainMenuBackgrounds';
 import { formatNumber, t } from '../localization';
 import { CreatureAvatar } from './CreatureAvatar';
 import { Icon } from './Icon';
+
+const MENU_BACKGROUND_STYLE = {
+  '--menu-background-landscape': `url("${menuBackgroundUrl('landscape')}")`,
+  '--menu-background-portrait': `url("${menuBackgroundUrl('portrait')}")`,
+} as CSSProperties;
 
 export function MainMenu({ snapshot }: { snapshot: AppSnapshot }) {
   const controller = useGameController();
@@ -19,7 +26,7 @@ export function MainMenu({ snapshot }: { snapshot: AppSnapshot }) {
     : t('menuNewGame');
 
   return (
-    <main className="menu-screen">
+    <main className="menu-screen" style={MENU_BACKGROUND_STYLE}>
       <div className="menu-glow menu-glow--green" aria-hidden="true" />
       <div className="menu-glow menu-glow--purple" aria-hidden="true" />
       <div className="menu-grid" aria-hidden="true" />

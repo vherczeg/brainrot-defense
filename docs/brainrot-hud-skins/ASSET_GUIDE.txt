@@ -1,0 +1,5 @@
+BRAINROT DEFENSE HUD SKINS
+
+Extract at the project root (folder containing package.json). Runtime URLs begin /assets/ui/brainrot-defense/skins/ (public/ is omitted).
+16 separately cropped RGBA components: compact card, wide panel, modal frame, tooltip, four button states, progress track and three fills, title ribbon, divider, warning banner, segmented tabs. Component dimensions and atlas frame rectangles are listed in manifest.json.
+The combined 4x4 source atlas is hud-skins-atlas.png. Panel and button artwork includes its own dark fill and decorative edge. Use as a background only where aspect ratio and contrast fit; do not put text inside these PNGs. Keep labels/accessibility names, touch targets, focus styling, and existing responsive behavior.

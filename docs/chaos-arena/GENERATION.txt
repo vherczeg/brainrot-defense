@@ -1,0 +1,1 @@
+Generated with built-in image_gen. Style reference: approved Chaos Invasion D-style game characters. Two 4x4 atlases: 16 modular basalt floor tiles and 16 isolated ruin decorations, all sliced to 256px RGBA cells. Intended only for visual/environment use; no game code or gameplay balance changes.

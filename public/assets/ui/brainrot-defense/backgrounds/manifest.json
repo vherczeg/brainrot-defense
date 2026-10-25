@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "id": "brainrot-defense-main-menu-backgrounds",
+  "theme": "chaos-arena-basalt-cyan",
+  "backgrounds": [
+    {
+      "key": "landscape",
+      "url": "/assets/ui/brainrot-defense/backgrounds/main-menu-landscape.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGB",
+      "aspectRatio": 1.5,
+      "sha256": "8cd2bcfbe8849485f5cfbcaeb0327b923a9a898494085c0eb9ea8d18d91145f5",
+      "contentSafeZone": "landscape: left half and center kept dark for title/menu; portrait: central column kept dark for stacked mobile UI"
+    },
+    {
+      "key": "portrait",
+      "url": "/assets/ui/brainrot-defense/backgrounds/main-menu-portrait.png",
+      "size": [
+        1024,
+        1536
+      ],
+      "mode": "RGB",
+      "aspectRatio": 0.6667,
+      "sha256": "44735cdfb71a441873e62f08e927e54eeea8db93623bd0ae5bec16ae228e076f",
+      "contentSafeZone": "landscape: left half and center kept dark for title/menu; portrait: central column kept dark for stacked mobile UI"
+    }
+  ],
+  "usageNote": "Decorative background only. Use the orientation matching the current viewport/layout. Keep live UI foreground readable; preserve existing controls and layout."
+}

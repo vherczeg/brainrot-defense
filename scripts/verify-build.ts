@@ -1,5 +1,37 @@
 import { access, readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
+import {
+  LASER_CROCODILE_ANIMATIONS,
+  laserCrocodileIconPath,
+  laserCrocodileStaticPaths,
+} from '../src/game/rendering/laserCrocodile';
+import {
+  LIGHTNING_SCORPION_ANIMATIONS,
+  lightningScorpionIconPath,
+  lightningScorpionStaticPaths,
+} from '../src/game/rendering/lightningScorpion';
+import {
+  MINI_BRAINROT_ANIMATIONS,
+  miniBrainrotStaticPaths,
+} from '../src/game/rendering/miniBrainrot';
+import {
+  ARMORED_SNAIL_ANIMATIONS,
+  ARMORED_SNAIL_EFFECT_ASSET_PATHS,
+  armoredSnailStaticPaths,
+} from '../src/game/rendering/armoredSnail';
+import {
+  MEGA_BRAINROT_GORILLA_ANIMATIONS,
+  megaBrainrotGorillaStaticPaths,
+} from '../src/game/rendering/megaBrainrotGorilla';
+import {
+  SHADOW_RUNNER_ANIMATIONS,
+  shadowRunnerStaticPaths,
+} from '../src/game/rendering/shadowRunner';
+import { CHAOS_ARENA_ASSET_PATHS } from '../src/game/rendering/chaosArena';
+import { ARENA_SPAWN_PORTAL_ASSET_PATHS } from '../src/game/rendering/arenaSpawnPortal';
+import { HUD_ICON_ASSET_PATHS } from '../src/game/rendering/hudIcons';
+import { HUD_SKIN_ASSET_PATHS } from '../src/game/rendering/hudSkins';
+import { MENU_BACKGROUND_ASSET_PATHS } from '../src/game/rendering/mainMenuBackgrounds';
 
 function normalizeBase(base: string): string {
   if (!base) return './';
@@ -80,6 +112,98 @@ for (const reference of references) {
   }
 }
 
+const assetGroups = [
+  {
+    name: 'Laser Crocodile',
+    assets: [
+      'assets/units/laser-crocodile/manifest.json',
+      ...LASER_CROCODILE_ANIMATIONS.map((animation) => animation.url.replace(/^\/+/, '')),
+      ...laserCrocodileStaticPaths(),
+      ...[1, 4, 8].map(laserCrocodileIconPath),
+    ],
+  },
+  {
+    name: 'Lightning Scorpion',
+    assets: [
+      'assets/units/lightning-scorpion/manifest.json',
+      ...LIGHTNING_SCORPION_ANIMATIONS.map((animation) => animation.url.replace(/^\/+/, '')),
+      ...lightningScorpionStaticPaths(),
+      ...[1, 4, 8].map(lightningScorpionIconPath),
+    ],
+  },
+  {
+    name: 'Mini Brainrot',
+    assets: [
+      'assets/units/mini-brainrot/manifest.json',
+      ...MINI_BRAINROT_ANIMATIONS.map((animation) => animation.url.replace(/^\/+/, '')),
+      ...miniBrainrotStaticPaths(),
+    ],
+  },
+  {
+    name: 'Armored Snail',
+    assets: [
+      'assets/units/armored-snail/manifest.json',
+      'assets/effects/armored-snail/manifest.json',
+      ...ARMORED_SNAIL_ANIMATIONS.map((animation) => animation.url.replace(/^\/+/, '')),
+      ...armoredSnailStaticPaths(),
+      ...ARMORED_SNAIL_EFFECT_ASSET_PATHS,
+    ],
+  },
+  {
+    name: 'Shadow Runner',
+    assets: [
+      'assets/units/shadow-runner/manifest.json',
+      ...SHADOW_RUNNER_ANIMATIONS.map((animation) => animation.url.replace(/^\/+/, '')),
+      ...shadowRunnerStaticPaths(),
+    ],
+  },
+  {
+    name: 'Mega Brainrot Gorilla',
+    assets: [
+      'assets/units/mega-brainrot-gorilla/manifest.json',
+      ...MEGA_BRAINROT_GORILLA_ANIMATIONS.map((animation) => animation.url.replace(/^\/+/, '')),
+      ...megaBrainrotGorillaStaticPaths(),
+    ],
+  },
+  {
+    name: 'Chaos Arena Terrain',
+    assets: [...CHAOS_ARENA_ASSET_PATHS],
+  },
+  {
+    name: 'Arena Spawn Portal',
+    assets: ['assets/effects/arena-spawn-portal/manifest.json', ...ARENA_SPAWN_PORTAL_ASSET_PATHS],
+  },
+  {
+    name: 'HUD Icons',
+    assets: ['assets/ui/brainrot-defense/manifest.json', ...HUD_ICON_ASSET_PATHS],
+  },
+  {
+    name: 'HUD Skins',
+    assets: ['assets/ui/brainrot-defense/skins/manifest.json', ...HUD_SKIN_ASSET_PATHS],
+  },
+  {
+    name: 'Main Menu Backgrounds',
+    assets: [
+      'assets/ui/brainrot-defense/backgrounds/manifest.json',
+      ...MENU_BACKGROUND_ASSET_PATHS,
+    ],
+  },
+];
+let assetCount = 0;
+for (const group of assetGroups) {
+  assetCount += group.assets.length;
+  for (const asset of group.assets) {
+    const filePath = resolve(dist, asset);
+    if (!(await exists(filePath))) {
+      throw new Error(`${group.name} asset is missing from the build: ${asset}`);
+    }
+    const pathname = `${base}${asset}`;
+    if (!serviceWorker.includes(JSON.stringify(pathname))) {
+      throw new Error(`Service worker precache is missing ${pathname}`);
+    }
+  }
+}
+
 console.log(
-  `Build asset verification passed: ${assets.length} index assets, ${manifest.icons?.length ?? 0} manifest icons, versioned service worker.`,
+  `Build asset verification passed: ${assets.length} index assets, ${manifest.icons?.length ?? 0} manifest icons, ${assetCount} grouped assets, versioned service worker.`,
 );

@@ -1,0 +1,30 @@
+Integrate the Mega Brainrot Gorilla boss assets into the existing Brainrot Defense game.
+
+First inspect the current source, Git status, boss/enemy definitions, wave 10 configuration, renderer, and this asset manifest. Laser Crocodile, Lightning Scorpion, Mini Brainrot, and Armored Snail are already integrated; Shadow Runner may be in progress. Preserve all existing staged, unstaged, and untracked work and all character integrations. Do not reset, restore, overwrite, rename, or re-stage files. Do not commit, push, or deploy.
+
+## Assets
+
+- Boss spritesheets/static image: `public/assets/units/mega-brainrot-gorilla/`
+- Boss portrait: `public/assets/icons/mega-brainrot-gorilla.png`
+- Boss effects: `public/assets/effects/mega-brainrot-gorilla/`
+- Manifest: `public/assets/units/mega-brainrot-gorilla/manifest.json`
+- Guide and validation: `docs/mega-brainrot-gorilla/ASSET_GUIDE.txt`, `docs/mega-brainrot-gorilla/validation.json`
+
+Each horizontal RGBA spritesheet is 1024×256 px with four 256×256 frames. Boss animations: idle, walk, attack, hurt. The effect sheets are charge, ground-slam, roar, defeat. Use the manifest for keys, frame rates, origins, repeat settings, and URLs. Resolve public URLs through the existing shared Vite `BASE_URL` helper.
+
+The manifest proposes enemy ID `mega-brainrot-gorilla`. Verify the actual boss ID in the source and map the assets to it explicitly if different. Do not change the enemy ID, wave 10, boss stats, save data, combat rules, or game balance.
+
+## Integration requirements
+
+1. Add the boss sheets and effect sheets to the current Phaser preload and animation-registration flow. Follow existing enemy integration patterns and keep the boss in the enemy renderer/lifecycle.
+2. Replace only the boss placeholder art. Preserve the current boss UI, health display, hit area, targeting, layering, grid behavior, and wave lifecycle. The portrait may use the provided static icon where the existing UI displays the boss.
+3. Use idle by default, walk while moving, attack on the existing boss attack event, and hurt on damage. Return one-shot animations to the latest idle/walk state. Clean up interrupted animation listeners and avoid restarting unchanged animations every render.
+4. Connect charge, ground-slam, and roar effects only to existing boss events that semantically match. Play one-shots and clean up their sprites on completion. Use defeat only if the existing boss defeat lifecycle provides a safe visual hook. Do not create gameplay events or alter attack timing to show effects.
+5. Keep every animation visual-only. Do not change movement, damage, HP, armor, targeting, attack cadence, wave 10 rules, simulation, or save schema. Use the larger recommended display width only if it fits the existing battlefield and mobile boss UI; otherwise scale it to preserve layout and hit areas.
+6. Extend asset URL/build verification and service-worker/precache coverage, plus focused unit/browser tests, following current conventions. Confirm every manifest URL resolves at the configured Vite base path and production build.
+
+## Verification and final report
+
+Run the relevant formatter, lint, typecheck, unit tests, browser tests, production build, and asset verification. Fix regressions. Report only checks actually run and passed; explain any check that could not run.
+
+In the final report, list changed files, confirm enemy ID mapping, describe which existing boss events trigger each animation/effect, and identify remaining wave-10/mobile visual checks. Do not stage, commit, push, or deploy.

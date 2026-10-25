@@ -22,6 +22,7 @@ export function BattleHud({ battle }: { battle: BattleHudView }) {
       </div>
       <div className="battle-hud__right">
         <span className="battle-hud__timer">
+          <Icon name="timer" size={14} />
           {t('battleTime')} {formatSeconds(battle.elapsedSec)}s
         </span>
         <button
@@ -31,7 +32,7 @@ export function BattleHud({ battle }: { battle: BattleHudView }) {
           aria-label={t('battleSpeed')}
           data-testid="battle-speed"
         >
-          <Icon name="bolt" size={16} />
+          <Icon name="battle-speed" size={16} />
           {t('battleSpeedValue', { speed: battle.speed })}
         </button>
         <button
@@ -41,7 +42,7 @@ export function BattleHud({ battle }: { battle: BattleHudView }) {
           aria-label={battle.paused ? t('battleResume') : t('battlePause')}
           data-testid="battle-pause"
         >
-          <Icon name={battle.paused ? 'play' : 'pause'} size={16} />
+          <Icon name={battle.paused ? 'resume' : 'pause'} size={16} />
           {battle.paused ? t('battleResume') : t('battlePause')}
         </button>
       </div>

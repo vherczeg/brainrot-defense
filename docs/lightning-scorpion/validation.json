@@ -1,0 +1,2593 @@
+{
+  "result": "PASS",
+  "pngCount": 86,
+  "animationStrips": 16,
+  "animatedFrames": 64,
+  "criteria": [
+    "valid RGBA PNG",
+    "actual transparency and antialiased alpha",
+    "no high-opacity pixels on source grid cuts",
+    "all frames nonempty",
+    "unique frames per strip",
+    "at least 2px transparent outer margin"
+  ],
+  "gridCuts": [
+    {
+      "source": "v1",
+      "row": 0,
+      "cut": 340,
+      "opaquePixels": 0
+    },
+    {
+      "source": "v1",
+      "row": 0,
+      "cut": 657,
+      "opaquePixels": 0
+    },
+    {
+      "source": "v1",
+      "row": 0,
+      "cut": 967,
+      "opaquePixels": 0
+    },
+    {
+      "source": "v1",
+      "row": 1,
+      "cut": 328,
+      "opaquePixels": 0
+    },
+    {
+      "source": "v1",
+      "row": 1,
+      "cut": 649,
+      "opaquePixels": 0
+    },
+    {
+      "source": "v1",
+      "row": 1,
+      "cut": 967,
+      "opaquePixels": 0
+    },
+    {
+      "source": "v1",
+      "row": 2,
+      "cut": 326,
+      "opaquePixels": 0
+    },
+    {
+      "source": "v1",
+      "row": 2,
+      "cut": 641,
+      "opaquePixels": 0
+    },
+    {
+      "source": "v1",
+      "row": 2,
+      "cut": 987,
+      "opaquePixels": 0
+    },
+    {
+      "source": "v1",
+      "row": 3,
+      "cut": 336,
+      "opaquePixels": 0
+    },
+    {
+      "source": "v1",
+      "row": 3,
+      "cut": 653,
+      "opaquePixels": 0
+    },
+    {
+      "source": "v1",
+      "row": 3,
+      "cut": 963,
+      "opaquePixels": 0
+    },
+    {
+      "source": "v2",
+      "row": 0,
+      "cut": 328,
+      "opaquePixels": 0
+    },
+    {
+      "source": "v2",
+      "row": 0,
+      "cut": 649,
+      "opaquePixels": 0
+    },
+    {
+      "source": "v2",
+      "row": 0,
+      "cut": 961,
+      "opaquePixels": 0
+    },
+    {
+      "source": "v2",
+      "row": 1,
+      "cut": 344,
+      "opaquePixels": 0
+    },
+    {
+      "source": "v2",
+      "row": 1,
+      "cut": 663,
+      "opaquePixels": 0
+    },
+    {
+      "source": "v2",
+      "row": 1,
+      "cut": 971,
+      "opaquePixels": 0
+    },
+    {
+      "source": "v2",
+      "row": 2,
+      "cut": 328,
+      "opaquePixels": 0
+    },
+    {
+      "source": "v2",
+      "row": 2,
+      "cut": 631,
+      "opaquePixels": 0
+    },
+    {
+      "source": "v2",
+      "row": 2,
+      "cut": 981,
+      "opaquePixels": 51
+    },
+    {
+      "source": "v2",
+      "row": 3,
+      "cut": 338,
+      "opaquePixels": 0
+    },
+    {
+      "source": "v2",
+      "row": 3,
+      "cut": 637,
+      "opaquePixels": 0
+    },
+    {
+      "source": "v2",
+      "row": 3,
+      "cut": 971,
+      "opaquePixels": 0
+    },
+    {
+      "source": "v3",
+      "row": 0,
+      "cut": 328,
+      "opaquePixels": 0
+    },
+    {
+      "source": "v3",
+      "row": 0,
+      "cut": 633,
+      "opaquePixels": 0
+    },
+    {
+      "source": "v3",
+      "row": 0,
+      "cut": 953,
+      "opaquePixels": 0
+    },
+    {
+      "source": "v3",
+      "row": 1,
+      "cut": 338,
+      "opaquePixels": 0
+    },
+    {
+      "source": "v3",
+      "row": 1,
+      "cut": 661,
+      "opaquePixels": 0
+    },
+    {
+      "source": "v3",
+      "row": 1,
+      "cut": 969,
+      "opaquePixels": 0
+    },
+    {
+      "source": "v3",
+      "row": 2,
+      "cut": 324,
+      "opaquePixels": 0
+    },
+    {
+      "source": "v3",
+      "row": 2,
+      "cut": 633,
+      "opaquePixels": 0
+    },
+    {
+      "source": "v3",
+      "row": 2,
+      "cut": 973,
+      "opaquePixels": 66
+    },
+    {
+      "source": "v3",
+      "row": 3,
+      "cut": 322,
+      "opaquePixels": 0
+    },
+    {
+      "source": "v3",
+      "row": 3,
+      "cut": 641,
+      "opaquePixels": 0
+    },
+    {
+      "source": "v3",
+      "row": 3,
+      "cut": 951,
+      "opaquePixels": 0
+    },
+    {
+      "source": "effects",
+      "row": 0,
+      "cut": 336,
+      "opaquePixels": 0
+    },
+    {
+      "source": "effects",
+      "row": 0,
+      "cut": 617,
+      "opaquePixels": 0
+    },
+    {
+      "source": "effects",
+      "row": 0,
+      "cut": 914,
+      "opaquePixels": 0
+    },
+    {
+      "source": "effects",
+      "row": 1,
+      "cut": 303,
+      "opaquePixels": 0
+    },
+    {
+      "source": "effects",
+      "row": 1,
+      "cut": 601,
+      "opaquePixels": 0
+    },
+    {
+      "source": "effects",
+      "row": 1,
+      "cut": 987,
+      "opaquePixels": 0
+    },
+    {
+      "source": "effects",
+      "row": 2,
+      "cut": 279,
+      "opaquePixels": 0
+    },
+    {
+      "source": "effects",
+      "row": 2,
+      "cut": 609,
+      "opaquePixels": 0
+    },
+    {
+      "source": "effects",
+      "row": 2,
+      "cut": 987,
+      "opaquePixels": 0
+    },
+    {
+      "source": "effects",
+      "row": 3,
+      "cut": 344,
+      "opaquePixels": 0
+    },
+    {
+      "source": "effects",
+      "row": 3,
+      "cut": 609,
+      "opaquePixels": 0
+    },
+    {
+      "source": "effects",
+      "row": 3,
+      "cut": 971,
+      "opaquePixels": 0
+    }
+  ],
+  "files": [
+    {
+      "file": "public/assets/effects/lightning-scorpion/chain-bolt.png",
+      "size": [
+        1024,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "3a437c786d282c67085f518c507ef8da7f4252a70187f4b133070f653dd14947",
+      "frames": [
+        {
+          "alphaBBox": [
+            70,
+            104,
+            186,
+            152
+          ],
+          "transparentPixels": 60398,
+          "semiTransparentPixels": 5138
+        },
+        {
+          "alphaBBox": [
+            53,
+            90,
+            204,
+            166
+          ],
+          "transparentPixels": 55167,
+          "semiTransparentPixels": 10369
+        },
+        {
+          "alphaBBox": [
+            43,
+            78,
+            214,
+            178
+          ],
+          "transparentPixels": 49165,
+          "semiTransparentPixels": 16371
+        },
+        {
+          "alphaBBox": [
+            20,
+            63,
+            237,
+            193
+          ],
+          "transparentPixels": 39503,
+          "semiTransparentPixels": 26033
+        }
+      ]
+    },
+    {
+      "file": "public/assets/effects/lightning-scorpion/frames/chain-bolt/00.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "33961d07a4d140b72c4fb8f0542487bab95e968df131924bc62e29efe913d856",
+      "frames": [
+        {
+          "alphaBBox": [
+            70,
+            104,
+            186,
+            152
+          ],
+          "transparentPixels": 60398,
+          "semiTransparentPixels": 5138
+        }
+      ]
+    },
+    {
+      "file": "public/assets/effects/lightning-scorpion/frames/chain-bolt/01.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "2320794237fc1956119f3ae8bb12d64460b28f67df91ce628cc22c87f653af43",
+      "frames": [
+        {
+          "alphaBBox": [
+            53,
+            90,
+            204,
+            166
+          ],
+          "transparentPixels": 55167,
+          "semiTransparentPixels": 10369
+        }
+      ]
+    },
+    {
+      "file": "public/assets/effects/lightning-scorpion/frames/chain-bolt/02.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "ba31e03ea860e983b60390865fd96086bae7fd3199f93d1d864ba58c59d51e91",
+      "frames": [
+        {
+          "alphaBBox": [
+            43,
+            78,
+            214,
+            178
+          ],
+          "transparentPixels": 49165,
+          "semiTransparentPixels": 16371
+        }
+      ]
+    },
+    {
+      "file": "public/assets/effects/lightning-scorpion/frames/chain-bolt/03.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "c49fd872de850ae3e2bb879a302317842c1717fd771c96b0675fa47eab67dcff",
+      "frames": [
+        {
+          "alphaBBox": [
+            20,
+            63,
+            237,
+            193
+          ],
+          "transparentPixels": 39503,
+          "semiTransparentPixels": 26033
+        }
+      ]
+    },
+    {
+      "file": "public/assets/effects/lightning-scorpion/frames/impact/00.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "940745fbeb22c312789eee409c49c0c94803951f0fc6f0128c1f053b20a2b1a6",
+      "frames": [
+        {
+          "alphaBBox": [
+            76,
+            86,
+            181,
+            170
+          ],
+          "transparentPixels": 57314,
+          "semiTransparentPixels": 8222
+        }
+      ]
+    },
+    {
+      "file": "public/assets/effects/lightning-scorpion/frames/impact/01.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "c4316d03c76510a348fc49b6ea4603c8ef15443dcb7b66597d96d8bab9968a5a",
+      "frames": [
+        {
+          "alphaBBox": [
+            44,
+            70,
+            213,
+            187
+          ],
+          "transparentPixels": 46670,
+          "semiTransparentPixels": 18866
+        }
+      ]
+    },
+    {
+      "file": "public/assets/effects/lightning-scorpion/frames/impact/02.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "5c591aaca75cf324edbe6331c18aaf54ac69ac4db226dbd4932f163a0e5d2502",
+      "frames": [
+        {
+          "alphaBBox": [
+            20,
+            41,
+            237,
+            215
+          ],
+          "transparentPixels": 31628,
+          "semiTransparentPixels": 33908
+        }
+      ]
+    },
+    {
+      "file": "public/assets/effects/lightning-scorpion/frames/impact/03.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "fb7cb2bbce2ae8fab4684919a6ae8dd5750f5565c2ce835c8de861e00aa0d609",
+      "frames": [
+        {
+          "alphaBBox": [
+            50,
+            62,
+            206,
+            194
+          ],
+          "transparentPixels": 47649,
+          "semiTransparentPixels": 17887
+        }
+      ]
+    },
+    {
+      "file": "public/assets/effects/lightning-scorpion/frames/muzzle-flash/00.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "93cb8626cd48b3ab746aec23f8548ea6618f37aedeebfba8b1a7511ace727254",
+      "frames": [
+        {
+          "alphaBBox": [
+            73,
+            81,
+            183,
+            175
+          ],
+          "transparentPixels": 56061,
+          "semiTransparentPixels": 9475
+        }
+      ]
+    },
+    {
+      "file": "public/assets/effects/lightning-scorpion/frames/muzzle-flash/01.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "55fb5d098b4653d57dcdedfe7efe657ec39f2a80e81286448f1ba62f47b720af",
+      "frames": [
+        {
+          "alphaBBox": [
+            50,
+            62,
+            206,
+            194
+          ],
+          "transparentPixels": 46394,
+          "semiTransparentPixels": 19142
+        }
+      ]
+    },
+    {
+      "file": "public/assets/effects/lightning-scorpion/frames/muzzle-flash/02.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "72a620191fe7996d33d9a2f07de383d655a2f037137f6ae0f08318a78bc28116",
+      "frames": [
+        {
+          "alphaBBox": [
+            20,
+            39,
+            237,
+            217
+          ],
+          "transparentPixels": 27991,
+          "semiTransparentPixels": 37545
+        }
+      ]
+    },
+    {
+      "file": "public/assets/effects/lightning-scorpion/frames/muzzle-flash/03.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "b7c1667632f441c0eefb3e62eb0eb06f96e0a4cc7fd052f86e22a2a00a7a6053",
+      "frames": [
+        {
+          "alphaBBox": [
+            49,
+            70,
+            207,
+            187
+          ],
+          "transparentPixels": 49101,
+          "semiTransparentPixels": 16435
+        }
+      ]
+    },
+    {
+      "file": "public/assets/effects/lightning-scorpion/frames/upgrade/00.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "74a36c7bb56b36d3f71d78ceb6764e42446b48a24fa0fd286547f450c9e2598a",
+      "frames": [
+        {
+          "alphaBBox": [
+            64,
+            83,
+            193,
+            174
+          ],
+          "transparentPixels": 55225,
+          "semiTransparentPixels": 10311
+        }
+      ]
+    },
+    {
+      "file": "public/assets/effects/lightning-scorpion/frames/upgrade/01.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "813a6e2a9736180e703c003adc4b84b10449ff1a389e38745d2f03be55fc41f1",
+      "frames": [
+        {
+          "alphaBBox": [
+            42,
+            55,
+            214,
+            202
+          ],
+          "transparentPixels": 43214,
+          "semiTransparentPixels": 22320
+        }
+      ]
+    },
+    {
+      "file": "public/assets/effects/lightning-scorpion/frames/upgrade/02.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "0f03787b6693efefc2e8038a4c416850852f525343009d81ef8e56d63449bcd0",
+      "frames": [
+        {
+          "alphaBBox": [
+            20,
+            39,
+            237,
+            217
+          ],
+          "transparentPixels": 28969,
+          "semiTransparentPixels": 36567
+        }
+      ]
+    },
+    {
+      "file": "public/assets/effects/lightning-scorpion/frames/upgrade/03.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "b60f1f6b8c90fafe0a7fcf6e93d006fdb769ac7e688391376f727bcc665d4250",
+      "frames": [
+        {
+          "alphaBBox": [
+            39,
+            54,
+            217,
+            203
+          ],
+          "transparentPixels": 41661,
+          "semiTransparentPixels": 23873
+        }
+      ]
+    },
+    {
+      "file": "public/assets/effects/lightning-scorpion/impact.png",
+      "size": [
+        1024,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "3e1ae3993a756fa4bf196cf22cc17b23505fc1b6bc60dc76ad29b5094022a99c",
+      "frames": [
+        {
+          "alphaBBox": [
+            76,
+            86,
+            181,
+            170
+          ],
+          "transparentPixels": 57314,
+          "semiTransparentPixels": 8222
+        },
+        {
+          "alphaBBox": [
+            44,
+            70,
+            213,
+            187
+          ],
+          "transparentPixels": 46670,
+          "semiTransparentPixels": 18866
+        },
+        {
+          "alphaBBox": [
+            20,
+            41,
+            237,
+            215
+          ],
+          "transparentPixels": 31628,
+          "semiTransparentPixels": 33908
+        },
+        {
+          "alphaBBox": [
+            50,
+            62,
+            206,
+            194
+          ],
+          "transparentPixels": 47649,
+          "semiTransparentPixels": 17887
+        }
+      ]
+    },
+    {
+      "file": "public/assets/effects/lightning-scorpion/muzzle-flash.png",
+      "size": [
+        1024,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "811f6bdad0c52105ac9c9b64e11d95f49a22a67eae8c059d2b28e63a4993f05a",
+      "frames": [
+        {
+          "alphaBBox": [
+            73,
+            81,
+            183,
+            175
+          ],
+          "transparentPixels": 56061,
+          "semiTransparentPixels": 9475
+        },
+        {
+          "alphaBBox": [
+            50,
+            62,
+            206,
+            194
+          ],
+          "transparentPixels": 46394,
+          "semiTransparentPixels": 19142
+        },
+        {
+          "alphaBBox": [
+            20,
+            39,
+            237,
+            217
+          ],
+          "transparentPixels": 27991,
+          "semiTransparentPixels": 37545
+        },
+        {
+          "alphaBBox": [
+            49,
+            70,
+            207,
+            187
+          ],
+          "transparentPixels": 49101,
+          "semiTransparentPixels": 16435
+        }
+      ]
+    },
+    {
+      "file": "public/assets/effects/lightning-scorpion/upgrade.png",
+      "size": [
+        1024,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "1145b9456730e8191d1060c3ffdb523400d71969eaa498d6324658c41a5efb8f",
+      "frames": [
+        {
+          "alphaBBox": [
+            64,
+            83,
+            193,
+            174
+          ],
+          "transparentPixels": 55225,
+          "semiTransparentPixels": 10311
+        },
+        {
+          "alphaBBox": [
+            42,
+            55,
+            214,
+            202
+          ],
+          "transparentPixels": 43214,
+          "semiTransparentPixels": 22320
+        },
+        {
+          "alphaBBox": [
+            20,
+            39,
+            237,
+            217
+          ],
+          "transparentPixels": 28969,
+          "semiTransparentPixels": 36567
+        },
+        {
+          "alphaBBox": [
+            39,
+            54,
+            217,
+            203
+          ],
+          "transparentPixels": 41661,
+          "semiTransparentPixels": 23873
+        }
+      ]
+    },
+    {
+      "file": "public/assets/icons/lightning-scorpion-v1.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "75817600a1d4547c89d69871b90e029b1a133fde3bf71233f22b7e6c3c5848eb",
+      "frames": [
+        {
+          "alphaBBox": [
+            27,
+            44,
+            230,
+            228
+          ],
+          "transparentPixels": 39683,
+          "semiTransparentPixels": 25726
+        }
+      ]
+    },
+    {
+      "file": "public/assets/icons/lightning-scorpion-v2.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "a4f941c7e62a9010bc10c7ddb7a6005e810327a9e3cd6d99a3e78312a9cdf373",
+      "frames": [
+        {
+          "alphaBBox": [
+            26,
+            57,
+            231,
+            226
+          ],
+          "transparentPixels": 39946,
+          "semiTransparentPixels": 25461
+        }
+      ]
+    },
+    {
+      "file": "public/assets/icons/lightning-scorpion-v3.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "09f38791b84e913e886d96a38f3a9eef1551ad5bc261110ab75be9e0a25ca7ba",
+      "frames": [
+        {
+          "alphaBBox": [
+            26,
+            49,
+            231,
+            228
+          ],
+          "transparentPixels": 37877,
+          "semiTransparentPixels": 27590
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/lightning-scorpion/frames/v1-attack/00.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "dea8aa2bcfd0981757676ce3b5ce6ba456336ce75e60a0c49227bf1d432127e9",
+      "frames": [
+        {
+          "alphaBBox": [
+            47,
+            71,
+            209,
+            227
+          ],
+          "transparentPixels": 48817,
+          "semiTransparentPixels": 16529
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/lightning-scorpion/frames/v1-attack/01.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "9e43563e6693569ff079e0110b826c5ac5932a518b822b7cf710d38ce7fea00e",
+      "frames": [
+        {
+          "alphaBBox": [
+            50,
+            66,
+            206,
+            227
+          ],
+          "transparentPixels": 47266,
+          "semiTransparentPixels": 18138
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/lightning-scorpion/frames/v1-attack/02.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "2acaa744e94b0813cf231ede00e804599e01b163130a3ba5ad1ddf4fafcbf7ef",
+      "frames": [
+        {
+          "alphaBBox": [
+            26,
+            69,
+            227,
+            227
+          ],
+          "transparentPixels": 40969,
+          "semiTransparentPixels": 24435
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/lightning-scorpion/frames/v1-attack/03.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "56341ead53f1a90fc2fdfa90b425bbd504c5b5e385dbcaa41823686493b8790e",
+      "frames": [
+        {
+          "alphaBBox": [
+            52,
+            70,
+            206,
+            227
+          ],
+          "transparentPixels": 48814,
+          "semiTransparentPixels": 16550
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/lightning-scorpion/frames/v1-hurt/00.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "533b9efc3907b28a7edcb1cbf582d089237a44622871630c0f23e18473695595",
+      "frames": [
+        {
+          "alphaBBox": [
+            27,
+            57,
+            230,
+            227
+          ],
+          "transparentPixels": 39434,
+          "semiTransparentPixels": 25982
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/lightning-scorpion/frames/v1-hurt/01.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "d86ec9975d6dae9e4f4a78843a91f8d578b82cbbcb991ccbfe59589eaf247955",
+      "frames": [
+        {
+          "alphaBBox": [
+            31,
+            65,
+            226,
+            228
+          ],
+          "transparentPixels": 42370,
+          "semiTransparentPixels": 23057
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/lightning-scorpion/frames/v1-hurt/02.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "755abe9e7f2662f76ef791339640aa4b92a428486d53365f42c96d7a18fe6a9f",
+      "frames": [
+        {
+          "alphaBBox": [
+            25,
+            81,
+            231,
+            228
+          ],
+          "transparentPixels": 44611,
+          "semiTransparentPixels": 20835
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/lightning-scorpion/frames/v1-hurt/03.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "afb544dde8fc82ac3744b5265a807ddf30d329bcff2ecf87a74b07bf185779a4",
+      "frames": [
+        {
+          "alphaBBox": [
+            31,
+            51,
+            225,
+            228
+          ],
+          "transparentPixels": 41073,
+          "semiTransparentPixels": 24347
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/lightning-scorpion/frames/v1-idle/00.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "75817600a1d4547c89d69871b90e029b1a133fde3bf71233f22b7e6c3c5848eb",
+      "frames": [
+        {
+          "alphaBBox": [
+            27,
+            44,
+            230,
+            228
+          ],
+          "transparentPixels": 39683,
+          "semiTransparentPixels": 25726
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/lightning-scorpion/frames/v1-idle/01.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "f99352f4445e2c15f12318279c7b57e982a1e37be01a55a3bf67e10ddb9c32b2",
+      "frames": [
+        {
+          "alphaBBox": [
+            25,
+            44,
+            231,
+            228
+          ],
+          "transparentPixels": 38163,
+          "semiTransparentPixels": 27278
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/lightning-scorpion/frames/v1-idle/02.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "48d95e3d76fd7fc7379d813fac0e6feb1ff7ce3218192d44c2f03914c35af875",
+      "frames": [
+        {
+          "alphaBBox": [
+            26,
+            49,
+            230,
+            227
+          ],
+          "transparentPixels": 40599,
+          "semiTransparentPixels": 24834
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/lightning-scorpion/frames/v1-idle/03.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "1c2676f0d735c56fe975e7e5510bb422e25b05ad8be6e4266865a100f63640c3",
+      "frames": [
+        {
+          "alphaBBox": [
+            30,
+            44,
+            226,
+            228
+          ],
+          "transparentPixels": 39500,
+          "semiTransparentPixels": 25946
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/lightning-scorpion/frames/v1-walk/00.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "6fee8f19c5fa4263e1c40b3173f5c3a23d02559735ec971b632947d5fe20af10",
+      "frames": [
+        {
+          "alphaBBox": [
+            25,
+            54,
+            231,
+            228
+          ],
+          "transparentPixels": 41796,
+          "semiTransparentPixels": 23598
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/lightning-scorpion/frames/v1-walk/01.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "8efe2ac3453a1c329180cac7ff5501b3b591c4bc3502b2252daac11c2aaac9c9",
+      "frames": [
+        {
+          "alphaBBox": [
+            30,
+            58,
+            226,
+            228
+          ],
+          "transparentPixels": 41679,
+          "semiTransparentPixels": 23741
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/lightning-scorpion/frames/v1-walk/02.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "a780026ba8b6e5eedd24d9dd501933aae248e187df2da94ed9d3197b6529db3d",
+      "frames": [
+        {
+          "alphaBBox": [
+            27,
+            63,
+            228,
+            228
+          ],
+          "transparentPixels": 42722,
+          "semiTransparentPixels": 22690
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/lightning-scorpion/frames/v1-walk/03.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "8eab2ecf03cc22aa36c4a3d1cc3a307f2e1e483fecee04d5391f2b0615497432",
+      "frames": [
+        {
+          "alphaBBox": [
+            29,
+            58,
+            226,
+            227
+          ],
+          "transparentPixels": 42677,
+          "semiTransparentPixels": 22703
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/lightning-scorpion/frames/v2-attack/00.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "eed5f0f44550c915458414810fa84ff4c0e186c006a1d4e11c6fde684ecd8d54",
+      "frames": [
+        {
+          "alphaBBox": [
+            37,
+            57,
+            220,
+            227
+          ],
+          "transparentPixels": 41637,
+          "semiTransparentPixels": 23753
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/lightning-scorpion/frames/v2-attack/01.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "fa398c65aaede377eee692e59bd136da3ce5917fe1916b5c265aae14a8660d48",
+      "frames": [
+        {
+          "alphaBBox": [
+            41,
+            62,
+            215,
+            226
+          ],
+          "transparentPixels": 42689,
+          "semiTransparentPixels": 22709
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/lightning-scorpion/frames/v2-attack/02.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "052ed37d118c47a7f7b5993b51933d907cb33859e3f02787bbea496d6c54712a",
+      "frames": [
+        {
+          "alphaBBox": [
+            26,
+            64,
+            227,
+            227
+          ],
+          "transparentPixels": 36528,
+          "semiTransparentPixels": 28896
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/lightning-scorpion/frames/v2-attack/03.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "5d2ba8a0199ec9c26e64f4029ff538f259b56d2d4ffa23523ba89884cb7b0ca1",
+      "frames": [
+        {
+          "alphaBBox": [
+            49,
+            68,
+            207,
+            227
+          ],
+          "transparentPixels": 45111,
+          "semiTransparentPixels": 20317
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/lightning-scorpion/frames/v2-hurt/00.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "bd50b191fd59e3f01a8ac4142a8bc2de4788d64ebf4c638084bb40470568c7d4",
+      "frames": [
+        {
+          "alphaBBox": [
+            26,
+            64,
+            230,
+            227
+          ],
+          "transparentPixels": 39645,
+          "semiTransparentPixels": 25784
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/lightning-scorpion/frames/v2-hurt/01.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "7dfbbe0e2fd102dce52f85bd76aea7106076a0cd3d869e18c4a6e532169bad68",
+      "frames": [
+        {
+          "alphaBBox": [
+            38,
+            75,
+            218,
+            228
+          ],
+          "transparentPixels": 42507,
+          "semiTransparentPixels": 22929
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/lightning-scorpion/frames/v2-hurt/02.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "11598632831d95022450f1b3b8fa88e9f2a7f058ec8af9b54e1840d7b659037a",
+      "frames": [
+        {
+          "alphaBBox": [
+            32,
+            75,
+            224,
+            228
+          ],
+          "transparentPixels": 40716,
+          "semiTransparentPixels": 24724
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/lightning-scorpion/frames/v2-hurt/03.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "eec43c0a19b43a62847f7915738f8d6cf9e58648597b0074bbd1a7d1c569e9fa",
+      "frames": [
+        {
+          "alphaBBox": [
+            39,
+            67,
+            216,
+            227
+          ],
+          "transparentPixels": 42193,
+          "semiTransparentPixels": 23239
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/lightning-scorpion/frames/v2-idle/00.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "a4f941c7e62a9010bc10c7ddb7a6005e810327a9e3cd6d99a3e78312a9cdf373",
+      "frames": [
+        {
+          "alphaBBox": [
+            26,
+            57,
+            231,
+            226
+          ],
+          "transparentPixels": 39946,
+          "semiTransparentPixels": 25461
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/lightning-scorpion/frames/v2-idle/01.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "a8f0cf9fc1edc657d4f0c17a25f09e1b2c9ebbaa0b1af89e11a204261453a962",
+      "frames": [
+        {
+          "alphaBBox": [
+            30,
+            53,
+            227,
+            227
+          ],
+          "transparentPixels": 38898,
+          "semiTransparentPixels": 26537
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/lightning-scorpion/frames/v2-idle/02.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "6aca152a28b795409da9ea015227041d8df841bbf084f95776080e48ea915680",
+      "frames": [
+        {
+          "alphaBBox": [
+            30,
+            68,
+            226,
+            226
+          ],
+          "transparentPixels": 41244,
+          "semiTransparentPixels": 24139
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/lightning-scorpion/frames/v2-idle/03.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "50ebd679dbee9e76d1440d80741ca3f12aa99b1b1b57cc218866760af9a92ab0",
+      "frames": [
+        {
+          "alphaBBox": [
+            35,
+            55,
+            221,
+            226
+          ],
+          "transparentPixels": 41080,
+          "semiTransparentPixels": 24380
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/lightning-scorpion/frames/v2-walk/00.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "81b272011bff348eaef6c1c4e74cfc3a7951f3137eb74c99a61a1b3dfdeeffdb",
+      "frames": [
+        {
+          "alphaBBox": [
+            26,
+            64,
+            230,
+            227
+          ],
+          "transparentPixels": 40568,
+          "semiTransparentPixels": 24852
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/lightning-scorpion/frames/v2-walk/01.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "3e347acfb554042d2d4d84dd189af095329cef510f5bd8aaaa4d425039760f88",
+      "frames": [
+        {
+          "alphaBBox": [
+            31,
+            65,
+            225,
+            227
+          ],
+          "transparentPixels": 41660,
+          "semiTransparentPixels": 23784
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/lightning-scorpion/frames/v2-walk/02.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "df7cf2ac296ad3311f73ba0654c7516616495b8bf3416e538327868e9175e830",
+      "frames": [
+        {
+          "alphaBBox": [
+            33,
+            65,
+            223,
+            227
+          ],
+          "transparentPixels": 41417,
+          "semiTransparentPixels": 24021
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/lightning-scorpion/frames/v2-walk/03.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "4f1e2ecbb400df0f63a478d9dd44a6c86cf809aeb5f10dce584e05f991d46a42",
+      "frames": [
+        {
+          "alphaBBox": [
+            39,
+            63,
+            216,
+            228
+          ],
+          "transparentPixels": 42887,
+          "semiTransparentPixels": 22532
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/lightning-scorpion/frames/v3-attack/00.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "3d11c510c0974010047fd4da66f861c6970630f77ba68e8982b44bdcd8f106ed",
+      "frames": [
+        {
+          "alphaBBox": [
+            35,
+            47,
+            222,
+            227
+          ],
+          "transparentPixels": 39224,
+          "semiTransparentPixels": 26228
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/lightning-scorpion/frames/v3-attack/01.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "fea31f95b852df5dd1aa4c31054f6d24c9523121624f7809ebea4339f4f52a2d",
+      "frames": [
+        {
+          "alphaBBox": [
+            37,
+            48,
+            218,
+            227
+          ],
+          "transparentPixels": 37252,
+          "semiTransparentPixels": 28204
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/lightning-scorpion/frames/v3-attack/02.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "2057fed746ce829448f118183cc0bfca0c9329d5563de51e5b00f4038e2e1bd9",
+      "frames": [
+        {
+          "alphaBBox": [
+            26,
+            47,
+            227,
+            227
+          ],
+          "transparentPixels": 34190,
+          "semiTransparentPixels": 31260
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/lightning-scorpion/frames/v3-attack/03.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "5bfa9b1f299a356e6f580a8f43313fcfa23bfbbb8013325d1d77c078f5194a4d",
+      "frames": [
+        {
+          "alphaBBox": [
+            46,
+            56,
+            212,
+            227
+          ],
+          "transparentPixels": 41557,
+          "semiTransparentPixels": 23892
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/lightning-scorpion/frames/v3-hurt/00.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "031baab19b7bb434100673c933e20c2b686772b66efcddaced05fbc47aee39a7",
+      "frames": [
+        {
+          "alphaBBox": [
+            26,
+            60,
+            227,
+            227
+          ],
+          "transparentPixels": 36626,
+          "semiTransparentPixels": 28796
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/lightning-scorpion/frames/v3-hurt/01.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "a2326ece40dc093fa06d4d6c318cda54b7afc0fe04d8f2ac266eaee0870a737d",
+      "frames": [
+        {
+          "alphaBBox": [
+            30,
+            58,
+            226,
+            227
+          ],
+          "transparentPixels": 35786,
+          "semiTransparentPixels": 29664
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/lightning-scorpion/frames/v3-hurt/02.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "aa7e2981d8bbfeb5e94b05458309e381ba58bb77a4940fe282f4a2810c4f700f",
+      "frames": [
+        {
+          "alphaBBox": [
+            30,
+            62,
+            225,
+            227
+          ],
+          "transparentPixels": 38894,
+          "semiTransparentPixels": 26568
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/lightning-scorpion/frames/v3-hurt/03.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "6491319a2da7af9049e222ba8116c1941429eda451c91cfcf1204f5378f51ccd",
+      "frames": [
+        {
+          "alphaBBox": [
+            34,
+            57,
+            222,
+            227
+          ],
+          "transparentPixels": 39770,
+          "semiTransparentPixels": 25682
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/lightning-scorpion/frames/v3-idle/00.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "09f38791b84e913e886d96a38f3a9eef1551ad5bc261110ab75be9e0a25ca7ba",
+      "frames": [
+        {
+          "alphaBBox": [
+            26,
+            49,
+            231,
+            228
+          ],
+          "transparentPixels": 37877,
+          "semiTransparentPixels": 27590
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/lightning-scorpion/frames/v3-idle/01.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "7506fdc0ff28ecd1f66f641a4990851b4d813df1cd04b82ec9185861b196f114",
+      "frames": [
+        {
+          "alphaBBox": [
+            28,
+            49,
+            227,
+            227
+          ],
+          "transparentPixels": 37692,
+          "semiTransparentPixels": 27773
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/lightning-scorpion/frames/v3-idle/02.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "0d61f2a68fa1e3c01f83f8981aaea7677816c21007959cbb25a1fc8485facdf0",
+      "frames": [
+        {
+          "alphaBBox": [
+            29,
+            51,
+            228,
+            228
+          ],
+          "transparentPixels": 38472,
+          "semiTransparentPixels": 27017
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/lightning-scorpion/frames/v3-idle/03.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "c39dcba2b2f736f90494c1b26f5d540e4edefe8af784de5572d8ebdabb874add",
+      "frames": [
+        {
+          "alphaBBox": [
+            30,
+            42,
+            225,
+            227
+          ],
+          "transparentPixels": 38199,
+          "semiTransparentPixels": 27265
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/lightning-scorpion/frames/v3-walk/00.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "7aa3b84e7d71be6c5afbeaaf533f4f4831a7ea29025f560f4142c432624bc6ef",
+      "frames": [
+        {
+          "alphaBBox": [
+            26,
+            62,
+            230,
+            227
+          ],
+          "transparentPixels": 39581,
+          "semiTransparentPixels": 25859
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/lightning-scorpion/frames/v3-walk/01.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "447f7f3d96bdcb8040fac9f65048a309e27689bc4ff19d120e8f8e043c85cf79",
+      "frames": [
+        {
+          "alphaBBox": [
+            28,
+            51,
+            227,
+            224
+          ],
+          "transparentPixels": 38224,
+          "semiTransparentPixels": 27231
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/lightning-scorpion/frames/v3-walk/02.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "8a0560b2801ca1ccdeadcb6fb93b58d7ad430074e35bd894e9d0d4d20aa09304",
+      "frames": [
+        {
+          "alphaBBox": [
+            35,
+            58,
+            222,
+            227
+          ],
+          "transparentPixels": 39760,
+          "semiTransparentPixels": 25703
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/lightning-scorpion/frames/v3-walk/03.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "05ce0bab104f7077560db9237bce112b8732447dda824bd892ca72622cf9c9e1",
+      "frames": [
+        {
+          "alphaBBox": [
+            39,
+            63,
+            216,
+            227
+          ],
+          "transparentPixels": 42110,
+          "semiTransparentPixels": 23365
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/lightning-scorpion/v1-attack.png",
+      "size": [
+        1024,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "5255e18e841309157a30b42400d060af7fd658629dc240199f66068930a0bafd",
+      "frames": [
+        {
+          "alphaBBox": [
+            47,
+            71,
+            209,
+            227
+          ],
+          "transparentPixels": 48817,
+          "semiTransparentPixels": 16529
+        },
+        {
+          "alphaBBox": [
+            50,
+            66,
+            206,
+            227
+          ],
+          "transparentPixels": 47266,
+          "semiTransparentPixels": 18138
+        },
+        {
+          "alphaBBox": [
+            26,
+            69,
+            227,
+            227
+          ],
+          "transparentPixels": 40969,
+          "semiTransparentPixels": 24435
+        },
+        {
+          "alphaBBox": [
+            52,
+            70,
+            206,
+            227
+          ],
+          "transparentPixels": 48814,
+          "semiTransparentPixels": 16550
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/lightning-scorpion/v1-hurt.png",
+      "size": [
+        1024,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "7829f36dd592f5fdabe0c6ac10795dc74afe963a93ffe6a91db6915f10498382",
+      "frames": [
+        {
+          "alphaBBox": [
+            27,
+            57,
+            230,
+            227
+          ],
+          "transparentPixels": 39434,
+          "semiTransparentPixels": 25982
+        },
+        {
+          "alphaBBox": [
+            31,
+            65,
+            226,
+            228
+          ],
+          "transparentPixels": 42370,
+          "semiTransparentPixels": 23057
+        },
+        {
+          "alphaBBox": [
+            25,
+            81,
+            231,
+            228
+          ],
+          "transparentPixels": 44611,
+          "semiTransparentPixels": 20835
+        },
+        {
+          "alphaBBox": [
+            31,
+            51,
+            225,
+            228
+          ],
+          "transparentPixels": 41073,
+          "semiTransparentPixels": 24347
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/lightning-scorpion/v1-idle.png",
+      "size": [
+        1024,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "4fe02e6447716b774f70f7aa9ccdfae9260f08935a7138b77085e07bdba4966b",
+      "frames": [
+        {
+          "alphaBBox": [
+            27,
+            44,
+            230,
+            228
+          ],
+          "transparentPixels": 39683,
+          "semiTransparentPixels": 25726
+        },
+        {
+          "alphaBBox": [
+            25,
+            44,
+            231,
+            228
+          ],
+          "transparentPixels": 38163,
+          "semiTransparentPixels": 27278
+        },
+        {
+          "alphaBBox": [
+            26,
+            49,
+            230,
+            227
+          ],
+          "transparentPixels": 40599,
+          "semiTransparentPixels": 24834
+        },
+        {
+          "alphaBBox": [
+            30,
+            44,
+            226,
+            228
+          ],
+          "transparentPixels": 39500,
+          "semiTransparentPixels": 25946
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/lightning-scorpion/v1-walk.png",
+      "size": [
+        1024,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "702bd3f87b83ed78183d10b03f8c11c24cbe718c7ae01e838f25580942092891",
+      "frames": [
+        {
+          "alphaBBox": [
+            25,
+            54,
+            231,
+            228
+          ],
+          "transparentPixels": 41796,
+          "semiTransparentPixels": 23598
+        },
+        {
+          "alphaBBox": [
+            30,
+            58,
+            226,
+            228
+          ],
+          "transparentPixels": 41679,
+          "semiTransparentPixels": 23741
+        },
+        {
+          "alphaBBox": [
+            27,
+            63,
+            228,
+            228
+          ],
+          "transparentPixels": 42722,
+          "semiTransparentPixels": 22690
+        },
+        {
+          "alphaBBox": [
+            29,
+            58,
+            226,
+            227
+          ],
+          "transparentPixels": 42677,
+          "semiTransparentPixels": 22703
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/lightning-scorpion/v1.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "75817600a1d4547c89d69871b90e029b1a133fde3bf71233f22b7e6c3c5848eb",
+      "frames": [
+        {
+          "alphaBBox": [
+            27,
+            44,
+            230,
+            228
+          ],
+          "transparentPixels": 39683,
+          "semiTransparentPixels": 25726
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/lightning-scorpion/v2-attack.png",
+      "size": [
+        1024,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "6817ee77693eb6fbe0162c5541d36bc3730d736b5121481eb1c39d4aa4af0f5c",
+      "frames": [
+        {
+          "alphaBBox": [
+            37,
+            57,
+            220,
+            227
+          ],
+          "transparentPixels": 41637,
+          "semiTransparentPixels": 23753
+        },
+        {
+          "alphaBBox": [
+            41,
+            62,
+            215,
+            226
+          ],
+          "transparentPixels": 42689,
+          "semiTransparentPixels": 22709
+        },
+        {
+          "alphaBBox": [
+            26,
+            64,
+            227,
+            227
+          ],
+          "transparentPixels": 36528,
+          "semiTransparentPixels": 28896
+        },
+        {
+          "alphaBBox": [
+            49,
+            68,
+            207,
+            227
+          ],
+          "transparentPixels": 45111,
+          "semiTransparentPixels": 20317
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/lightning-scorpion/v2-hurt.png",
+      "size": [
+        1024,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "c6f6918300100ba5273e6e9822637217728da7f19d4c6bd7cb63e69b18a3a3f0",
+      "frames": [
+        {
+          "alphaBBox": [
+            26,
+            64,
+            230,
+            227
+          ],
+          "transparentPixels": 39645,
+          "semiTransparentPixels": 25784
+        },
+        {
+          "alphaBBox": [
+            38,
+            75,
+            218,
+            228
+          ],
+          "transparentPixels": 42507,
+          "semiTransparentPixels": 22929
+        },
+        {
+          "alphaBBox": [
+            32,
+            75,
+            224,
+            228
+          ],
+          "transparentPixels": 40716,
+          "semiTransparentPixels": 24724
+        },
+        {
+          "alphaBBox": [
+            39,
+            67,
+            216,
+            227
+          ],
+          "transparentPixels": 42193,
+          "semiTransparentPixels": 23239
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/lightning-scorpion/v2-idle.png",
+      "size": [
+        1024,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "b9a5638804cb42e8677a25a19b702e249edd2a576b853e0968eb78b494a96853",
+      "frames": [
+        {
+          "alphaBBox": [
+            26,
+            57,
+            231,
+            226
+          ],
+          "transparentPixels": 39946,
+          "semiTransparentPixels": 25461
+        },
+        {
+          "alphaBBox": [
+            30,
+            53,
+            227,
+            227
+          ],
+          "transparentPixels": 38898,
+          "semiTransparentPixels": 26537
+        },
+        {
+          "alphaBBox": [
+            30,
+            68,
+            226,
+            226
+          ],
+          "transparentPixels": 41244,
+          "semiTransparentPixels": 24139
+        },
+        {
+          "alphaBBox": [
+            35,
+            55,
+            221,
+            226
+          ],
+          "transparentPixels": 41080,
+          "semiTransparentPixels": 24380
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/lightning-scorpion/v2-walk.png",
+      "size": [
+        1024,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "e379edcbc0b4448c43aa82477575d6299be0583538b11178ab9e4b6c4a3fb956",
+      "frames": [
+        {
+          "alphaBBox": [
+            26,
+            64,
+            230,
+            227
+          ],
+          "transparentPixels": 40568,
+          "semiTransparentPixels": 24852
+        },
+        {
+          "alphaBBox": [
+            31,
+            65,
+            225,
+            227
+          ],
+          "transparentPixels": 41660,
+          "semiTransparentPixels": 23784
+        },
+        {
+          "alphaBBox": [
+            33,
+            65,
+            223,
+            227
+          ],
+          "transparentPixels": 41417,
+          "semiTransparentPixels": 24021
+        },
+        {
+          "alphaBBox": [
+            39,
+            63,
+            216,
+            228
+          ],
+          "transparentPixels": 42887,
+          "semiTransparentPixels": 22532
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/lightning-scorpion/v2.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "a4f941c7e62a9010bc10c7ddb7a6005e810327a9e3cd6d99a3e78312a9cdf373",
+      "frames": [
+        {
+          "alphaBBox": [
+            26,
+            57,
+            231,
+            226
+          ],
+          "transparentPixels": 39946,
+          "semiTransparentPixels": 25461
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/lightning-scorpion/v3-attack.png",
+      "size": [
+        1024,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "04f1198d11ef1d12f1cdb2790e2220699107b70da2baf8c4f78723b06f0dca75",
+      "frames": [
+        {
+          "alphaBBox": [
+            35,
+            47,
+            222,
+            227
+          ],
+          "transparentPixels": 39224,
+          "semiTransparentPixels": 26228
+        },
+        {
+          "alphaBBox": [
+            37,
+            48,
+            218,
+            227
+          ],
+          "transparentPixels": 37252,
+          "semiTransparentPixels": 28204
+        },
+        {
+          "alphaBBox": [
+            26,
+            47,
+            227,
+            227
+          ],
+          "transparentPixels": 34190,
+          "semiTransparentPixels": 31260
+        },
+        {
+          "alphaBBox": [
+            46,
+            56,
+            212,
+            227
+          ],
+          "transparentPixels": 41557,
+          "semiTransparentPixels": 23892
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/lightning-scorpion/v3-hurt.png",
+      "size": [
+        1024,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "0018a7333cc72513d7db1825b18de6431e8570087747530ecb1c47577bac7b78",
+      "frames": [
+        {
+          "alphaBBox": [
+            26,
+            60,
+            227,
+            227
+          ],
+          "transparentPixels": 36626,
+          "semiTransparentPixels": 28796
+        },
+        {
+          "alphaBBox": [
+            30,
+            58,
+            226,
+            227
+          ],
+          "transparentPixels": 35786,
+          "semiTransparentPixels": 29664
+        },
+        {
+          "alphaBBox": [
+            30,
+            62,
+            225,
+            227
+          ],
+          "transparentPixels": 38894,
+          "semiTransparentPixels": 26568
+        },
+        {
+          "alphaBBox": [
+            34,
+            57,
+            222,
+            227
+          ],
+          "transparentPixels": 39770,
+          "semiTransparentPixels": 25682
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/lightning-scorpion/v3-idle.png",
+      "size": [
+        1024,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "c35be1e9901a1a3c36c9770b60c24e763acd04ae68ed4e099a63ded7601409f9",
+      "frames": [
+        {
+          "alphaBBox": [
+            26,
+            49,
+            231,
+            228
+          ],
+          "transparentPixels": 37877,
+          "semiTransparentPixels": 27590
+        },
+        {
+          "alphaBBox": [
+            28,
+            49,
+            227,
+            227
+          ],
+          "transparentPixels": 37692,
+          "semiTransparentPixels": 27773
+        },
+        {
+          "alphaBBox": [
+            29,
+            51,
+            228,
+            228
+          ],
+          "transparentPixels": 38472,
+          "semiTransparentPixels": 27017
+        },
+        {
+          "alphaBBox": [
+            30,
+            42,
+            225,
+            227
+          ],
+          "transparentPixels": 38199,
+          "semiTransparentPixels": 27265
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/lightning-scorpion/v3-walk.png",
+      "size": [
+        1024,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "74820c8032cb5e26916774fe2cd77ea0d75fed8adb9cc0842847d33c1c261f1d",
+      "frames": [
+        {
+          "alphaBBox": [
+            26,
+            62,
+            230,
+            227
+          ],
+          "transparentPixels": 39581,
+          "semiTransparentPixels": 25859
+        },
+        {
+          "alphaBBox": [
+            28,
+            51,
+            227,
+            224
+          ],
+          "transparentPixels": 38224,
+          "semiTransparentPixels": 27231
+        },
+        {
+          "alphaBBox": [
+            35,
+            58,
+            222,
+            227
+          ],
+          "transparentPixels": 39760,
+          "semiTransparentPixels": 25703
+        },
+        {
+          "alphaBBox": [
+            39,
+            63,
+            216,
+            227
+          ],
+          "transparentPixels": 42110,
+          "semiTransparentPixels": 23365
+        }
+      ]
+    },
+    {
+      "file": "public/assets/units/lightning-scorpion/v3.png",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "09f38791b84e913e886d96a38f3a9eef1551ad5bc261110ab75be9e0a25ca7ba",
+      "frames": [
+        {
+          "alphaBBox": [
+            26,
+            49,
+            231,
+            228
+          ],
+          "transparentPixels": 37877,
+          "semiTransparentPixels": 27590
+        }
+      ]
+    }
+  ],
+  "note": "Generated four-frame game animation sprites. Visual QA for rigged anatomical continuity is still required during integration."
+}

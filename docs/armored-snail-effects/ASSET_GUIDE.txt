@@ -1,0 +1,5 @@
+ARMORED SNAIL VISUAL EFFECTS
+
+Extract at the Brainrot Defense project root (the folder with package.json). Runtime URLs begin /assets/effects/armored-snail/ (public/ is omitted).
+Four 4-frame animations: shell-hit, armor-glint, slime-trail, slime-splash. Individual frames are 256x256 RGBA; action strips are 1024x256. See manifest.json for URLs and event guidance.
+These are decorative visual effects only. Do not change armor values, damage, movement speed, slow effects, attacks, or any gameplay rules. Avoid covering units, health bars, interaction areas, or UI.

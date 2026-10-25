@@ -1,0 +1,30 @@
+Integrate the Armored Snail graphics into the existing Brainrot Defense game.
+
+First inspect the actual repository state, current Git status, enemy definitions, rendering architecture, and this asset package. Laser Crocodile, Lightning Scorpion, and Mini Brainrot already have graphics integrations. Reuse the established shared asset URL and Phaser animation patterns where appropriate. Preserve all existing staged, unstaged, and untracked user changes. Do not reset, restore, overwrite, rename, or re-stage existing files. Do not commit, push, or deploy.
+
+## Assets
+
+- Spritesheets and static art: `public/assets/units/armored-snail/`
+- Portrait icon: `public/assets/icons/armored-snail.png`
+- Manifest: `public/assets/units/armored-snail/manifest.json`
+- Asset guide and validation: `docs/armored-snail/ASSET_GUIDE.txt`, `docs/armored-snail/validation.json`
+
+The four horizontal RGBA sheets are 1024×256 px, with four 256×256 frames per sheet. Idle and walk loop; attack and hurt play once. Individual frames are included under `frames/`. The artwork faces left. Use manifest values for keys, frame rate, URLs, and origins. Use the existing shared Vite `BASE_URL` asset resolver, and verify that every manifest URL resolves.
+
+The manifest uses `armored-snail` as its character type ID. Confirm the exact existing enemy ID in source and reconcile it before integration.
+
+## Integration requirements
+
+1. Find the current Armored Snail placeholder and enemy rendering path. Integrate it as an enemy through the established Phaser scene and enemy lifecycle. Do not add it to player units, merge tiers, or player portrait behavior.
+2. Load the spritesheets during the existing preload lifecycle and register the animations consistently with the other integrated characters.
+3. Replace only the Armored Snail placeholder art with the sprite, preserving hit areas, selection and other existing interactions, health display, layering, and battlefield sizing. Use the left-facing art appropriately for enemy presentation.
+4. Use idle by default, walk while the snail is moving, attack from its existing attack event, and hurt from its existing damage event. Return one-shot animations to the latest idle/walk state; clean up listeners when actions are interrupted. Avoid restarting unchanged animations every render cycle.
+5. Keep the artwork visual-only. The snail’s slow movement, health, armor, damage, attack timing, targeting, wave configuration, simulation, save data, and game balance must remain unchanged.
+6. The package contains no separate VFX spritesheets. Keep existing enemy effects unless there is a clear compatible use for the snail animation itself; do not invent new gameplay events for visuals.
+7. Extend build asset verification and service-worker/precache coverage, plus focused unit and browser tests, following current project conventions. Preserve the existing Crocodile, Scorpion, and Mini Brainrot tests and behavior.
+
+## Verification and report
+
+Run the relevant formatter, lint, typecheck, unit tests, browser tests, production build, and asset verification. Fix regressions caused by the integration. Report only checks that actually ran and passed; explain any check that could not run.
+
+In your final report, list changed files, state the confirmed enemy ID, explain how movement and attack events drive the snail animation, and mention any remaining visual checks. Do not stage, commit, push, or deploy.
