@@ -78,6 +78,7 @@ export interface BattleResultView {
   readonly rewardCoins: number;
   readonly comfortCoins: number;
   readonly firstCompletion: boolean;
+  readonly firstCompletionBonus: number;
   readonly completedAllWaves: boolean;
   readonly nextWave: number;
   readonly xpPerUnit: number;
@@ -992,6 +993,7 @@ export class GameController {
           rewardCoins: 0,
           comfortCoins: 0,
           firstCompletion: false,
+          firstCompletionBonus: 0,
           completedAllWaves: false,
           nextWave: this.profile.currentWave,
           xpPerUnit: 0,
@@ -1018,6 +1020,7 @@ export class GameController {
         rewardCoins: resolved.value.rewardCoins,
         comfortCoins: 0,
         firstCompletion: resolved.value.firstCompletion,
+        firstCompletionBonus: resolved.value.firstCompletionBonus,
         completedAllWaves: nextCompletedAllWaves,
         nextWave: nextProfile.currentWave,
         xpPerUnit: resolved.value.xpPerUnit,
@@ -1073,6 +1076,7 @@ export class GameController {
       rewardCoins: 0,
       comfortCoins,
       firstCompletion: false,
+      firstCompletionBonus: 0,
       completedAllWaves: false,
       nextWave: nextProfile.currentWave,
       xpPerUnit: 0,
@@ -1126,6 +1130,7 @@ export class GameController {
       ...result,
       rewardCoins: 0,
       comfortCoins: 0,
+      firstCompletionBonus: 0,
       xpPerUnit: 0,
       totalXpAwarded: 0,
       levelUps: [],

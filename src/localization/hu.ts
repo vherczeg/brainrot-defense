@@ -157,6 +157,7 @@ export const hu = {
   resultDefeatHint: 'A sereged kimerült, de nem tűnik el. Erősítsd meg, és próbáld újra!',
   resultReward: 'Jutalom',
   resultComfort: 'Vigasztaló érmék',
+  resultFirstCompletionBonus: 'Első teljesítés bónusza',
   resultNextWave: 'Következő hullám',
   resultRetry: 'Újrapróbálkozás',
   resultBackToMenu: 'Főmenü',

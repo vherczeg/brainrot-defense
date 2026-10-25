@@ -21,7 +21,7 @@ import {
   type PlayerProfile,
   type Result,
 } from '../domain/types';
-import { getWave } from '../domain/waves';
+import { getWave, waveFirstCompletionBonus, waveReplayRewardCoins } from '../domain/waves';
 
 export interface MergeOutcome {
   readonly profile: PlayerProfile;
@@ -43,6 +43,7 @@ export interface WaveRewardOutcome {
   readonly profile: PlayerProfile;
   readonly rewardCoins: number;
   readonly firstCompletion: boolean;
+  readonly firstCompletionBonus: number;
 }
 
 export interface BattleLevelUp {
@@ -56,6 +57,7 @@ export interface BattleRewardOutcome {
   readonly profile: PlayerProfile;
   readonly rewardCoins: number;
   readonly firstCompletion: boolean;
+  readonly firstCompletionBonus: number;
   readonly xpPerUnit: number;
   readonly totalXpAwarded: number;
   readonly levelUps: readonly BattleLevelUp[];
@@ -196,23 +198,32 @@ export function claimWaveReward(
 ): Result<WaveRewardOutcome> {
   const wave = getWave(waveId);
   if (!wave) return fail('invalid-wave');
-  if (profile.completedWaves.includes(waveId)) {
-    return ok({ profile, rewardCoins: 0, firstCompletion: false });
-  }
-  if (profile.coins > MAX_COINS - wave.rewardCoins) return fail('coin-overflow');
-  const completedWaves = [...profile.completedWaves, waveId].sort((a, b) => a - b);
+  const firstCompletion = !profile.completedWaves.includes(waveId);
+  const rewardCoins = firstCompletion ? wave.rewardCoins : waveReplayRewardCoins(wave);
+  const firstCompletionBonus = firstCompletion ? waveFirstCompletionBonus(wave) : 0;
+  if (rewardCoins > 0 && profile.coins > MAX_COINS - rewardCoins) return fail('coin-overflow');
+  const completedWaves = firstCompletion
+    ? [...profile.completedWaves, waveId].sort((a, b) => a - b)
+    : profile.completedWaves;
   const nextWave = Math.min(waveId + 1, TOTAL_WAVES);
   const nextProfile = updated(
     {
       ...profile,
-      coins: profile.coins + wave.rewardCoins,
+      coins: profile.coins + rewardCoins,
       completedWaves,
-      unlockedWave: Math.max(profile.unlockedWave, nextWave),
-      currentWave: Math.max(profile.currentWave, nextWave),
+      unlockedWave: firstCompletion
+        ? Math.max(profile.unlockedWave, nextWave)
+        : profile.unlockedWave,
+      currentWave: firstCompletion ? Math.max(profile.currentWave, nextWave) : profile.currentWave,
     },
     now,
   );
-  return ok({ profile: nextProfile, rewardCoins: wave.rewardCoins, firstCompletion: true });
+  return ok({
+    profile: nextProfile,
+    rewardCoins,
+    firstCompletion,
+    firstCompletionBonus,
+  });
 }
 
 export function resolveBattleRewards(
@@ -254,6 +265,7 @@ export function resolveBattleRewards(
       profile: claimed.value.profile,
       rewardCoins: claimed.value.rewardCoins,
       firstCompletion: claimed.value.firstCompletion,
+      firstCompletionBonus: claimed.value.firstCompletionBonus,
       xpPerUnit,
       totalXpAwarded,
       levelUps,
@@ -277,6 +289,7 @@ export function resolveBattleRewards(
       ),
       rewardCoins: 0,
       firstCompletion,
+      firstCompletionBonus: 0,
       xpPerUnit,
       totalXpAwarded,
       levelUps,

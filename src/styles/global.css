@@ -2470,6 +2470,13 @@ ol {
   font-weight: 900;
 }
 
+.reward-bonus {
+  color: #a9f4ff;
+  font-size: 0.82rem;
+  font-weight: 700;
+  margin-top: 2px;
+}
+
 .reward-box--comfort .reward-amount {
   color: #a9f4ff;
 }

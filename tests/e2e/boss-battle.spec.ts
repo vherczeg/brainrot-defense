@@ -62,4 +62,14 @@ test('defeats the wave 10 boss and completes all waves', async ({ page }, testIn
   await board.screenshot({ path: '/tmp/opencode/boss_0.png' });
   await expect(page.getByTestId('result-overlay')).toBeVisible({ timeout: 60_000 });
   await expect(page.getByTestId('result-title')).toContainText('MINDEN HULLÁMOT TELJESÍTETTÉL');
+  await expect(page.getByTestId('result-overlay')).toContainText('+600');
+  await expect(page.getByTestId('result-first-bonus')).toContainText('+300');
+
+  await page.getByTestId('result-next').click();
+  await expect(page.getByTestId('battle-button')).toBeVisible();
+  await page.getByTestId('battle-button').click();
+  await expect(page.getByTestId('battle-hud')).toBeVisible();
+  await expect(page.getByTestId('result-overlay')).toBeVisible({ timeout: 60_000 });
+  await expect(page.getByTestId('result-overlay')).toContainText('+300');
+  await expect(page.getByTestId('result-first-bonus')).toHaveCount(0);
 });

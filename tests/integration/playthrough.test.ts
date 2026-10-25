@@ -126,7 +126,7 @@ describe('complete M0 playthrough', () => {
     );
   });
 
-  it('rewards each wave only once even after repeated battles', () => {
+  it('grants a reduced replay reward without re-advancing progress', () => {
     let profile = createInitialProfile({ profileId: 'double', name: 'Ábel', now: 1 });
     const first = claimWaveReward(profile, 1);
     if (!first.ok) throw new Error('claim failed');
@@ -137,7 +137,8 @@ describe('complete M0 playthrough', () => {
       if (!repeat.ok) throw new Error('claim failed');
       profile = repeat.value.profile;
     }
-    expect(profile.coins).toBe(coinsAfterFirst);
+    expect(profile.coins).toBe(coinsAfterFirst + 3 * 60);
     expect(profile.completedWaves).toEqual([1]);
+    expect(profile.currentWave).toBe(2);
   });
 });
