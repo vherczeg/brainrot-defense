@@ -1,14 +1,21 @@
-import { characterStats, CHARACTER_DEFINITIONS, isCharacterTypeId } from '../domain/characters';
+import {
+  characterStats,
+  CHARACTER_DEFINITIONS,
+  isCharacterTypeId,
+  sellRefund,
+} from '../domain/characters';
 import { firstEmptyAlliedCell, isAlliedCell, isPositionFree, sameCell } from '../domain/grid';
 import {
   awardXp,
   battleXpPerUnit,
   characterLevelFromXp,
+  defeatXpPerUnit,
   mergeCharacterXp,
 } from '../domain/progression';
 import { DEFEAT_COMFORT_COINS } from '../domain/state';
 import {
   MAX_COINS,
+  MAX_DEFEAT_XP_REWARDS,
   MAX_MERGE_RANK,
   MAX_NEXT_CHARACTER_ID,
   TOTAL_WAVES,
@@ -16,6 +23,7 @@ import {
   ok,
   type BattleSpeed,
   type CharacterInstance,
+  type Difficulty,
   type CharacterTypeId,
   type GameSettings,
   type PlayerProfile,
@@ -39,6 +47,12 @@ export interface PurchaseOutcome {
   readonly purchased: CharacterInstance;
 }
 
+export interface SellOutcome {
+  readonly profile: PlayerProfile;
+  readonly sold: CharacterInstance;
+  readonly refund: number;
+}
+
 export interface WaveRewardOutcome {
   readonly profile: PlayerProfile;
   readonly rewardCoins: number;
@@ -51,6 +65,17 @@ export interface BattleLevelUp {
   readonly typeId: CharacterTypeId;
   readonly fromLevel: number;
   readonly toLevel: number;
+}
+
+export interface DefeatRewardOutcome {
+  readonly profile: PlayerProfile;
+  readonly comfortCoins: number;
+  readonly xpPerUnit: number;
+  readonly totalXpAwarded: number;
+  readonly levelUps: readonly BattleLevelUp[];
+  readonly defeatXpCountBefore: number;
+  readonly defeatXpCountAfter: number;
+  readonly defeatXpEligible: boolean;
 }
 
 export interface BattleRewardOutcome {
@@ -191,6 +216,31 @@ export function purchaseCharacter(
   return ok({ profile: nextProfile, purchased });
 }
 
+export function sellCharacter(
+  profile: PlayerProfile,
+  characterId: string,
+  now = Date.now(),
+): Result<SellOutcome> {
+  const sold = profile.characters.find((character) => character.id === characterId);
+  if (!sold) return fail('not-found', characterId);
+  if (!isCharacterTypeId(sold.typeId)) return fail('invalid-character');
+  const refund = sellRefund(sold.typeId, sold.mergeRank);
+  if (refund > 0 && profile.coins > MAX_COINS - refund) return fail('coin-overflow');
+  const characters = profile.characters.filter((character) => character.id !== sold.id);
+  return ok({
+    profile: updated(
+      {
+        ...profile,
+        coins: profile.coins + refund,
+        characters,
+      },
+      now,
+    ),
+    sold,
+    refund,
+  });
+}
+
 export function claimWaveReward(
   profile: PlayerProfile,
   waveId: number,
@@ -223,6 +273,68 @@ export function claimWaveReward(
     rewardCoins,
     firstCompletion,
     firstCompletionBonus,
+  });
+}
+
+export function resolveDefeatRewards(
+  profile: PlayerProfile,
+  waveId: number,
+  participantIds: readonly string[],
+  now = Date.now(),
+): Result<DefeatRewardOutcome> {
+  const wave = getWave(waveId);
+  if (!wave) return fail('invalid-wave');
+  if (profile.coins > MAX_COINS - DEFEAT_COMFORT_COINS) return fail('coin-overflow');
+
+  const firstCompletion = !profile.completedWaves.includes(waveId);
+  const counterIndex = waveId - 1;
+  const countBefore = profile.defeatXpCounts[counterIndex] ?? 0;
+  const eligible = countBefore < MAX_DEFEAT_XP_REWARDS;
+  const xpPerUnit = eligible ? defeatXpPerUnit(waveId, firstCompletion) : 0;
+  const participants = new Set(participantIds);
+  const levelUps: BattleLevelUp[] = [];
+  let totalXpAwarded = 0;
+
+  const characters = profile.characters.map((character) => {
+    if (!participants.has(character.id) || xpPerUnit <= 0) return character;
+    const beforeLevel = characterLevelFromXp(character.totalXp);
+    const nextXp = awardXp(character.totalXp, xpPerUnit);
+    const afterLevel = characterLevelFromXp(nextXp);
+    totalXpAwarded += nextXp - character.totalXp;
+    if (afterLevel > beforeLevel) {
+      levelUps.push({
+        characterId: character.id,
+        typeId: character.typeId,
+        fromLevel: beforeLevel,
+        toLevel: afterLevel,
+      });
+    }
+    return { ...character, totalXp: nextXp };
+  });
+
+  const defeatXpCounts = Array.from(
+    { length: Math.max(TOTAL_WAVES, profile.defeatXpCounts.length) },
+    (_, index) => profile.defeatXpCounts[index] ?? 0,
+  );
+  if (eligible) defeatXpCounts[counterIndex] = countBefore + 1;
+
+  return ok({
+    profile: updated(
+      {
+        ...profile,
+        coins: profile.coins + DEFEAT_COMFORT_COINS,
+        characters,
+        defeatXpCounts,
+      },
+      now,
+    ),
+    comfortCoins: DEFEAT_COMFORT_COINS,
+    xpPerUnit,
+    totalXpAwarded,
+    levelUps,
+    defeatXpCountBefore: countBefore,
+    defeatXpCountAfter: eligible ? countBefore + 1 : countBefore,
+    defeatXpEligible: eligible,
   });
 }
 
@@ -322,6 +434,10 @@ export function updateSettings(
 ): PlayerProfile {
   const battleSpeed: BattleSpeed =
     settings.battleSpeed === 2 ? 2 : settings.battleSpeed === 1 ? 1 : profile.settings.battleSpeed;
+  const difficulty: Difficulty =
+    settings.difficulty === 'hard' || settings.difficulty === 'normal'
+      ? settings.difficulty
+      : profile.settings.difficulty;
   return updated(
     {
       ...profile,
@@ -329,6 +445,7 @@ export function updateSettings(
         soundEnabled: settings.soundEnabled ?? profile.settings.soundEnabled,
         reducedMotion: settings.reducedMotion ?? profile.settings.reducedMotion,
         battleSpeed,
+        difficulty,
       },
     },
     now,

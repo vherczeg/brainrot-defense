@@ -1,12 +1,13 @@
 import {
   STARTING_COINS,
+  TOTAL_WAVES,
   type CharacterInstance,
   type GameSettings,
   type PlayerProfile,
 } from './types';
 
 export const DEFAULT_PROFILE_NAME = 'Ábel';
-export const DEFEAT_COMFORT_COINS = 20;
+export const DEFEAT_COMFORT_COINS = 50;
 
 const STARTER_CHARACTERS: readonly CharacterInstance[] = [
   {
@@ -39,6 +40,7 @@ export const DEFAULT_SETTINGS: GameSettings = {
   soundEnabled: true,
   reducedMotion: false,
   battleSpeed: 1,
+  difficulty: 'normal',
 };
 
 export interface CreateProfileOptions {
@@ -59,6 +61,7 @@ export function createInitialProfile(options: CreateProfileOptions = {}): Player
     unlockedWave: 1,
     completedWaves: [],
     characters: STARTER_CHARACTERS.map((character) => ({ ...character })),
+    defeatXpCounts: Array.from({ length: TOTAL_WAVES }, () => 0),
     upgrades: {},
     settings: {
       ...DEFAULT_SETTINGS,

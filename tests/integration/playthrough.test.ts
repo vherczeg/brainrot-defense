@@ -62,7 +62,7 @@ beforeEach(() => {
 });
 
 describe('complete M0 playthrough', () => {
-  it('can complete all ten waves with an ordinary merge strategy', () => {
+  it('can complete all twenty waves with an ordinary merge strategy', () => {
     let profile = createInitialProfile({
       profileId: 'playthrough',
       name: 'Ábel',
@@ -82,9 +82,9 @@ describe('complete M0 playthrough', () => {
       profile = resolved.value.profile;
     }
 
-    expect(profile.completedWaves).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
-    expect(profile.currentWave).toBe(10);
-    expect(profile.unlockedWave).toBe(10);
+    expect(profile.completedWaves).toEqual(Array.from({ length: 20 }, (_, index) => index + 1));
+    expect(profile.currentWave).toBe(20);
+    expect(profile.unlockedWave).toBe(20);
     expect(profile.coins).toBeGreaterThan(0);
     profile.characters.forEach((character) => {
       expect(character.mergeRank).toBeGreaterThanOrEqual(1);
@@ -137,7 +137,7 @@ describe('complete M0 playthrough', () => {
       if (!repeat.ok) throw new Error('claim failed');
       profile = repeat.value.profile;
     }
-    expect(profile.coins).toBe(coinsAfterFirst + 3 * 60);
+    expect(profile.coins).toBe(coinsAfterFirst + 3 * 42);
     expect(profile.completedWaves).toEqual([1]);
     expect(profile.currentWave).toBe(2);
   });

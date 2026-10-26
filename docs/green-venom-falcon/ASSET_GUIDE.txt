@@ -1,0 +1,43 @@
+ZÖLD MÉREG SÓLYOM – M3.2 GENERÁLT KONCEPCIÓ / ASSET SPECIFIKÁCIÓ
+
+Állapot
+------
+A 20. hullám főellenségének mérgezés, forgó pajzs, távolsági pajzstörés és
+földrengés/fagyasztás mechanikái elkészültek és teszteltek.
+
+M3.2-ben elkészült egy GENERÁLT KONCEPCIÓ / IDEIGLENES PLACEHOLDER spritesheet:
+8 karakteranimáció + 7 effektanimáció, manifesttel és ikonnal. Ez NEM végleges
+karaktergrafika: Ábelnek jóvá kell hagynia. A pontos fájllista és specifikáció:
+docs/green-venom-falcon/ASSET_LIST.md. A generált állapot a manifestben
+"generated-concept-placeholder-pending-abel-approval".
+
+Véglegesítéshez még szükséges
+----------------------------
+1. Ábel vizuális jóváhagyása a generált irányra (barna tollazat, nagy szárnyak,
+   fekete karmok, zöld méreg, D – Mini fantasy akció stílus).
+2. Ha a generált irány nem megfelelő, végleges festett/AI spritesheet (4-8 frame):
+   - idle (barna sólyom, fekete karmok)
+   - walk / röpkép
+   - claw attack (közelharc)
+   - poison spit (zöld méreg köpés)
+   - spin shield (forgás, szárnypajzs)
+   - hurt
+   - death
+2. Külön effekt spritesheet / animáció:
+   - zöld méreg nyálkanyom és becsapódás
+   - forgó szárnypajzs aura
+   - pajzstörés szikra
+   - földrengés hullám és 2 másodperces fagyasztás jelzése
+3. Portré/ikon a hullám-előnézethez és a menühöz
+   (javasolt útvonal: public/assets/icons/green-venom-falcon.png).
+4. Manifest a meglévő rendszerhez:
+   public/assets/units/green-venom-falcon/manifest.json
+   (characterTypeId: "green-venom-falcon", unitOrigin, recommendedDisplayWidth,
+   animations: idle/walk/attack/hurt/death + effektek).
+
+Amíg Ábel nem hagyta jóvá
+-------------------------
+- A generált spritesheet és ikon ideiglenes. A BattleScene továbbra is képes
+  procedurális fallbackre, ha egy asset hiányzik.
+- A játékmenet-mechanikák nem függenek a grafikától: a csere kizárólag a
+  rendering layerben történhet, a domain/simulation/save kód változtatása nélkül.

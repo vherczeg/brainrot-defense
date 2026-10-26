@@ -80,7 +80,7 @@ xpRequiredForLevel(level) = 25 * (level - 1)^2
 
 ## Combat XP rewards
 
-XP is granted when a battle ends in victory, not on defeat or surrender.
+XP is granted after victory, and partial combat XP is granted for a limited number of genuine defeats. Surrender grants nothing.
 
 ```text
 baseWaveXp(wave) = 60 + 15 * wave
@@ -96,7 +96,7 @@ baseWaveXp(wave) = 60 + 15 * wave
 - Repeat victory of an already completed wave: each participant receives `floor(base * 0.25)`.
   Replay is not exposed in the current UI; this rule is implemented and tested for a later
   wave-selector milestone.
-- Defeat and surrender grant **0 XP**.
+- Defeat grants 20% of the wave's applicable victory XP to every battle participant for the first three XP-rewarded defeats of that wave. Further defeats grant gold only. Surrender grants **0 XP**.
 - The participating persistent character IDs are captured when the battle starts. XP is applied
   to that roster only, even if the temporary battle copy died or the persistent formation changes
   later.
@@ -147,10 +147,24 @@ M1.4 balance/playtesting item; M1.1 must not silently change the agreed progress
 | `mini-brainrot`         | Mini Brainrot         |   55 |   7 |    1.2 s |  1.05 |   1.0 |    0% |
 | `armored-slug`          | Páncélozott Csiga     |  150 |   9 |    1.6 s |   0.5 |   1.0 |   35% |
 | `shadow-runner`         | Árny Futó             |   80 |   9 |    0.9 s |   1.7 |   1.0 |    0% |
-| `mega-brainrot-gorilla` | Mega Brainrot Gorilla | 1400 |  34 |    1.4 s |  0.55 |   1.2 |   25% |
+| `mega-brainrot-gorilla` | Mega Brainrot Gorilla | 1800 |  36 |    1.4 s |  0.55 |   1.2 |   25% |
+| `green-venom-falcon`    | Zöld Méreg Sólyom     | 1700 |  36 |   1.15 s |   0.8 |   1.2 |   15% |
 
-Enemy stat scaling per level: HP × `1.35^(level-1)`, ATK × `1.28^(level-1)`. The boss is visually
-larger, has `isBoss`, and starts at wave-defined level (M1.1: level 3).
+Enemy stat scaling per level: HP × `1.35^(level-1)`, ATK × `1.28^(level-1)` for ordinary enemies.
+Bosses use their own growth values: Gorilla `1.35` HP / `1.28` ATK, Falcon `1.38` HP / `1.30` ATK.
+The bosses are visually larger, have `isBoss`, and use wave-defined levels: Gorilla L3 on wave 10,
+Falcon L6 on wave 20.
+
+### Boss encounters
+
+- **Wave 10 – Mega Brainrot Gorilla:** 3 281 HP, 59 ATK, 25% armor. It is a durable milestone
+  supported by two Mini Brainrots and an Armored Slug. A narrow four-unit army can be focused down;
+  a wider formation with several ranged attackers performs much better.
+- **Wave 20 – Zöld Méreg Sólyom:** 8 508 HP, 134 ATK, 15% armor, six supporting enemies. Ábel's
+  mechanics are unchanged: black-talon melee, poison over time, a spinning shield, spin aura
+  damage, ranged shield-breaking with a 50% spin slow, and a two-second earthquake freeze on
+  arrival. The battle is balanced around roughly 8–12 developed units with enough ranged damage to
+  break the shield and enough spacing to survive poison and spin pressure.
 
 ## Economy
 
@@ -158,29 +172,107 @@ larger, has `isBoss`, and starts at wave-defined level (M1.1: level 3).
 - Starting army: 2 × rank 1 Lézer Krokodil, 1 × rank 1 Villám Skorpió, all at 0 XP.
 - Purchases create rank 1, level 1 units in the first empty allied cell (row-major order).
 - Purchases validate funds and free space before any mutation.
-- A full board blocks purchasing; the player must merge to free a cell.
-- Wave coin rewards are claimable once per wave. Replaying a completed wave gives no new coins.
-- Defeat grants **20 comfort coins**. Units are never lost, and retries are free. This guarantees
-  that an unlucky ordinary playthrough cannot become permanently unplayable.
+- A full board blocks purchasing; the player can merge or sell a selected unit to free a cell.
+- Wave coin rewards are claimable once per wave. A replay gives **35%** of the listed first-clear reward, so farming remains useful but cannot replace advancing.
+- Defeat grants **50 vigaszdíj coins**. Units are never lost, and retries are free.
+- Each profile and wave has a persistent defeat-XP counter. The first three genuine defeats grant
+  20% of the applicable victory XP; the fourth and later defeats grant 50 coins and no XP. Normal
+  and Hard share the same counter, while each wave has its own counter.
+- Surrender, abandoning, refreshing during combat, and quitting to the menu grant no defeat reward.
 - Coins have a hard persistence bound of **1,000,000,000**. A reward or comfort grant that would
   exceed it is rejected with a visible error; the profile is left unchanged and remains saveable.
 
+### Selling units
+
+- Selling is available only in preparation, and only for the friendly unit the player selected.
+  The confirmation dialog always targets that exact unit; enemies and unselected units cannot be
+  sold.
+- Selling requires confirmation. The safe default is cancellation (`Mégse`); the destructive
+  `Eladás` action must be chosen explicitly. The dialog shows the unit name, merge rank, character
+  level, and the exact refund before confirmation.
+- The refund is based on the unit's **merge investment**, not its current stats or XP level:
+
+```text
+purchaseValueForRank(rank) = baseCost * 2^(rank - 1)
+sellRefund(rank)           = floor(purchaseValueForRank(rank) * 0.5)
+```
+
+| Rank | Laser Crocodile invested | Refund | Lightning Scorpion invested | Refund |
+| ---: | -----------------------: | -----: | --------------------------: | -----: |
+|    1 |                      100 |     50 |                         150 |     75 |
+|    2 |                      200 |    100 |                         300 |    150 |
+|    3 |                      400 |    200 |                         600 |    300 |
+|    4 |                      800 |    400 |                       1 200 |    600 |
+|   10 |                   51 200 | 25 600 |                      76 800 | 38 400 |
+
+- XP and character level add no gold value, so levelling a unit cannot be used to farm refunds.
+- Selling two rank-1 units gives the same refund as merging them and selling the rank-2 result
+  (`50 + 50 = 100` for Laser Crocodile). Buying and immediately selling always loses half the
+  purchase price, so buy/sell and merge/sell cycles cannot create gold.
+- A successful sale removes exactly one unit, adds the integer refund exactly once, frees its cell,
+  clears the selection, and is autosaved through the same profile write queue as other gameplay
+  actions.
+- Selling clears the merge UNDO stack. This conservative policy guarantees that a later UNDO can
+  never resurrect a sold unit, duplicate a character, or restore a stale board position. UNDO
+  becomes empty after a sale.
+- A persistence error is reported visibly and can be retried with the normal save path; the domain
+  transaction itself is still applied exactly once, so no duplicate unit or refund is produced.
+
 ### Waves
 
-| Wave | Name                  | Enemies                                | Reward |
-| ---: | --------------------- | -------------------------------------- | -----: |
-|    1 | Első kopogás          | 2 × Mini L1                            |    120 |
-|    2 | Több kis szörny       | 3 × Mini L1                            |    140 |
-|    3 | Páncélos vendég       | 2 × Mini L1, 1 × Csiga L1              |    170 |
-|    4 | Gyors lábak           | 2 × Mini L2, 2 × Futó L1               |    190 |
-|    5 | Vegyes had            | 2 × Mini L1, 1 × Csiga L1, 2 × Futó L2 |    220 |
-|    6 | Erősödő sereg         | 3 × Mini L3, 1 × Csiga L2              |    260 |
-|    7 | Acélfal               | 2 × Csiga L2, 2 × Mini L2              |    300 |
-|    8 | Árny roham            | 4 × Futó L2, 1 × Mini L2               |    340 |
-|    9 | Káosz kapuja          | 3 × Mini L3, 2 × Csiga L2, 1 × Futó L3 |    400 |
-|   10 | Mega Brainrot Gorilla | Boss L3, 2 × Mini L3, 1 × Csiga L2     |    600 |
+| Wave | Name                  | Enemies                                               | Reward |
+| ---: | --------------------- | ----------------------------------------------------- | -----: |
+|    1 | Első kopogás          | 2 × Mini L1                                           |    120 |
+|    2 | Több kis szörny       | 3 × Mini L1                                           |    145 |
+|    3 | Páncélos vendég       | 2 × Mini L1, 1 × Csiga L1                             |    170 |
+|    4 | Gyors lábak           | 2 × Mini L2, 2 × Futó L1                              |    195 |
+|    5 | Vegyes had            | 2 × Mini L1, 1 × Csiga L1, 2 × Futó L2                |    225 |
+|    6 | Erősödő sereg         | 3 × Mini L4, 1 × Csiga L3                             |    255 |
+|    7 | Acélfal               | 2 × Csiga L3, 2 × Mini L3                             |    285 |
+|    8 | Árny roham            | 4 × Futó L3, 1 × Mini L3                              |    315 |
+|    9 | Káosz kapuja          | 3 × Mini L4, 2 × Csiga L3, 1 × Futó L4                |    350 |
+|   10 | Mega Brainrot Gorilla | 1 × Gorilla L3, 2 × Mini L3, 1 × Csiga L2             |    500 |
+|   11 | Káosz utórezgés       | 3 × Mini L5, 1 × Csiga L4                             |    425 |
+|   12 | Árny vihar            | 4 × Futó L5, 1 × Mini L5                              |    475 |
+|   13 | Vastag fal            | 2 × Csiga L5, 3 × Mini L5, 1 × Futó L5                |    525 |
+|   14 | Kettős szorítás       | 2 × Mini L5, 2 × Csiga L5, 2 × Futó L6                |    575 |
+|   15 | Sűrű raj              | 3 × Mini L6, 2 × Csiga L5, 1 × Futó L5, 1 × Futó L6   |    625 |
+|   16 | Mérges hullám         | 4 × Mini L6, 2 × Csiga L6, 2 × Futó L6                |    675 |
+|   17 | Hétpróbás             | 4 × Mini L6, 2 × Csiga L6, 1 × Futó L6, 1 × Futó L7   |    725 |
+|   18 | Acél és árnyék        | 4 × Mini L6, 2 × Csiga L6, 1 × Futó L6, 2 × Futó L7   |    775 |
+|   19 | A sólyom árnyéka      | 4 × Mini L7, 2 × Csiga L6, 3 × Futó L6, 1 × Futó L7   |    825 |
+|   20 | Zöld Méreg Sólyom     | 1 × Sólyom L6, 2 × Mini L6, 2 × Csiga L6, 1 × Futó L6 |   1200 |
 
-Exact positions are data in `src/game/domain/waves.ts` and are validated by tests.
+Exact positions are data in `src/game/domain/waves.ts` and are validated by tests. First-clear
+rewards total **9 385**; replays use 35% of the listed value. The wave 10→11 transition drops back
+to the ordinary curve after the boss premium, preventing a permanent post-boss reward inflation.
+
+### Difficulty modes (M3.6)
+
+- **Normál** is the default for every profile, including migrated v1/v2/v3 saves.
+- **Nehéz** applies global enemy multipliers after normal level scaling:
+  - enemy HP ×1.40;
+  - enemy attack ×1.20.
+- Multipliers apply to every enemy, including both bosses.
+- Armor, speed, range, attack intervals, ability durations, cooldowns, and all Green Venom Falcon
+  mechanics remain unchanged. Poison and spin-aura damage scale only because they derive from the
+  scaled attack value.
+- Gold and XP rewards are identical in both modes. Completed-wave progress is shared per profile.
+- Difficulty can be selected only during preparation and is captured when a battle starts. It is
+  stored in `settings.difficulty` and persists across reloads and profile switches.
+
+### M3.4.2 approved early/mid curve
+
+- Wave 3 adds a level-2 Mini Brainrot and upgrades the Slug to L2.
+- Wave 4 upgrades both runners to L2, so an untouched starting army can no longer coast through it.
+- Wave 5 upgrades both minions and the Slug to L2.
+- Wave 7 gains a third Mini Brainrot L3, removing the DPS dip after wave 6.
+- Wave 11 gains a Mini Brainrot L4 and a Shadow Runner L4, so it is stronger than wave 9 again.
+- Wave 17 gains a fifth Mini Brainrot L6, smoothing the jump into wave 18.
+- All rewards, defender stats, prices, XP, saves, bosses, and Green Venom Falcon mechanics are
+  unchanged.
+- **M3.6 late-wave smoothing:** wave 18 removes one Shadow Runner L7; wave 19 removes one Shadow
+  Runner L7 and downgrades another to L6. Wave 20 is unchanged.
 
 ## Combat simulation
 
@@ -209,7 +301,7 @@ ordering. This is explicit and tested; future balance changes can adjust IDs/ord
 
 - Base damage is the attacker's current attack.
 - Armor mitigation: `max(1, round(rawDamage * (1 - armor)))`, with armor clamped to 0–90%.
-- Armored Slug: 35% mitigation. Boss: 25%.
+- Armored Slug: 35% mitigation. Mega Brainrot Gorilla: 25%. Green Venom Falcon: 15%.
 - Chain lightning: primary target takes full damage; exactly one additional enemy within 1.6 grid
   units of the primary takes `attack × 0.6` (after its armor). Ties resolved by distance then ID.
   The chain only jumps if the primary target survives the initial hit.
@@ -227,8 +319,8 @@ ordering. This is explicit and tested; future balance changes can adjust IDs/ord
 - Victory: no living enemies remain.
 - Defeat: no living allies remain, or the 90 s limit is reached.
 - On victory, each battle-start participant receives XP, the wave coin reward is granted **once**,
-  `completedWaves` is updated, and `currentWave` advances up to wave 10.
-- On defeat, no XP is granted, the persistent army is untouched, and 20 comfort coins are granted.
+  `completedWaves` is updated, and `currentWave` advances up to wave 20.
+- On defeat, the persistent army is untouched. A genuine defeat grants 50 coins and, for the first three XP-rewarded defeats of that wave, 20% of the applicable victory XP to participants. Later defeats grant coins only.
 - On surrender, no XP and no coins are granted; the army is untouched.
 - The result is stored only after the battle resolves. A mid-battle browser close restores the
   last preparation save and grants no XP.

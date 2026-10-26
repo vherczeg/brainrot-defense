@@ -7,17 +7,20 @@ import {
   MAX_ARMY_SIZE,
   MAX_COINS,
   MAX_NEXT_CHARACTER_ID,
+  PREVIOUS_TOTAL_WAVES,
   TOTAL_WAVES,
   fail,
   ok,
   type BattleSpeed,
   type CharacterInstance,
+  type Difficulty,
   type GameSettings,
   type PlayerProfile,
   type Result,
 } from '../../game/domain/types';
 
-export const CURRENT_SAVE_VERSION = 2;
+export const CURRENT_SAVE_VERSION = 4;
+export const MIN_MIGRATABLE_SAVE_VERSION = 2;
 export const LEGACY_SAVE_VERSION = 1;
 export const SAVE_APP_ID = 'brainrot-defense';
 export const SAVE_FORMAT = 'brainrot-defense-save';
@@ -99,10 +102,15 @@ function parseSettings(value: unknown): Result<GameSettings> {
   if (typeof value.reducedMotion !== 'boolean') {
     return fail('invalid-import', 'settings.reducedMotion');
   }
+  const rawDifficulty = value.difficulty;
+  if (rawDifficulty !== undefined && rawDifficulty !== 'normal' && rawDifficulty !== 'hard') {
+    return fail('invalid-import', 'settings.difficulty');
+  }
   return ok({
     soundEnabled: value.soundEnabled,
     reducedMotion: value.reducedMotion,
     battleSpeed: battleSpeed as BattleSpeed,
+    difficulty: (rawDifficulty ?? 'normal') as Difficulty,
   });
 }
 
@@ -126,7 +134,7 @@ function parseUpgrades(value: unknown): Result<Readonly<Record<string, number>>>
   return ok(upgrades);
 }
 
-function parseCompletedWaves(value: unknown, currentWave: number): Result<readonly number[]> {
+function parseCompletedWaves(value: unknown): Result<readonly number[]> {
   if (!Array.isArray(value)) return fail('invalid-import', 'completedWaves');
   const completedWaves: number[] = [];
   for (const wave of value) {
@@ -139,10 +147,6 @@ function parseCompletedWaves(value: unknown, currentWave: number): Result<readon
     if (completedWaves[index] !== index + 1) {
       return fail('invalid-import', 'completedWaves.prefix');
     }
-  }
-  const expectedCurrentWave = Math.min(completedWaves.length + 1, TOTAL_WAVES);
-  if (currentWave !== expectedCurrentWave) {
-    return fail('invalid-import', 'currentWave.order');
   }
   return ok(completedWaves);
 }
@@ -177,8 +181,19 @@ function parseBaseProfile(value: Record<string, unknown>): Result<{
   if (value.currentWave > value.unlockedWave) {
     return fail('invalid-import', 'wave-order');
   }
-  const completedWaves = parseCompletedWaves(value.completedWaves, value.currentWave);
+  const completedWaves = parseCompletedWaves(value.completedWaves);
   if (!completedWaves.ok) return completedWaves;
+  const expectedCurrentWave = Math.min(completedWaves.value.length + 1, TOTAL_WAVES);
+  const legacyMaxedWave =
+    completedWaves.value.length >= PREVIOUS_TOTAL_WAVES &&
+    value.currentWave === PREVIOUS_TOTAL_WAVES;
+  if (value.currentWave !== expectedCurrentWave && !legacyMaxedWave) {
+    return fail('invalid-import', 'currentWave.order');
+  }
+  // Saves made when the campaign ended at wave 10 stored currentWave/unlockedWave as 10.
+  // Opening wave 11 must not corrupt them: accept that legacy shape and advance it in memory.
+  const currentWave = legacyMaxedWave ? expectedCurrentWave : value.currentWave;
+  const unlockedWave = Math.max(value.unlockedWave, currentWave);
   const upgrades = parseUpgrades(value.upgrades);
   if (!upgrades.ok) return upgrades;
   const settings = parseSettings(value.settings);
@@ -199,8 +214,8 @@ function parseBaseProfile(value: Record<string, unknown>): Result<{
     profileId: value.profileId,
     name: value.name.trim(),
     coins: value.coins,
-    currentWave: value.currentWave,
-    unlockedWave: value.unlockedWave,
+    currentWave,
+    unlockedWave,
     completedWaves: completedWaves.value,
     upgrades: upgrades.value,
     settings: settings.value,
@@ -209,6 +224,19 @@ function parseBaseProfile(value: Record<string, unknown>): Result<{
     createdAt: value.createdAt,
     lastSavedAt: value.lastSavedAt,
   });
+}
+
+function parseDefeatXpCounts(value: unknown): Result<readonly number[]> {
+  if (value === undefined) return ok(Array.from({ length: TOTAL_WAVES }, () => 0));
+  if (!Array.isArray(value) || value.length !== TOTAL_WAVES) {
+    return fail('invalid-import', 'defeatXpCounts');
+  }
+  const counts: number[] = [];
+  for (const count of value) {
+    if (!isInt(count, 0, 3)) return fail('invalid-import', 'defeatXpCounts.item');
+    counts.push(count);
+  }
+  return ok(counts);
 }
 
 function parseCharacter(value: unknown): Result<CharacterInstance> {
@@ -295,6 +323,8 @@ export function validateProfile(value: unknown): Result<PlayerProfile> {
   if (!base.ok) return base;
   const characters = parseCharacterList(value.characters, parseCharacter, (character) => character);
   if (!characters.ok) return characters;
+  const defeatXpCounts = parseDefeatXpCounts(value.defeatXpCounts);
+  if (!defeatXpCounts.ok) return defeatXpCounts;
   return ok({
     profileId: base.value.profileId,
     name: base.value.name,
@@ -303,6 +333,7 @@ export function validateProfile(value: unknown): Result<PlayerProfile> {
     unlockedWave: base.value.unlockedWave,
     completedWaves: base.value.completedWaves,
     characters: characters.value,
+    defeatXpCounts: defeatXpCounts.value,
     upgrades: base.value.upgrades,
     settings: base.value.settings,
     tutorialSeen: base.value.tutorialSeen,

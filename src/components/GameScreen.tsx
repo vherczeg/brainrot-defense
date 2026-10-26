@@ -7,9 +7,11 @@ import { AccessiblePlacement } from './AccessiblePlacement';
 import { BattleHud } from './BattleHud';
 import { BattlePauseOverlay } from './BattlePauseOverlay';
 import { BattlefieldView } from './BattlefieldView';
+import { DifficultySelector } from './DifficultySelector';
 import { ImportConfirmModal } from './ImportConfirmModal';
 import { ResultOverlay } from './ResultOverlay';
 import { SaveManagerModal } from './SaveManagerModal';
+import { SellConfirmModal } from './SellConfirmModal';
 import { SettingsModal } from './SettingsModal';
 import { ShopPanel } from './ShopPanel';
 import { SurrenderModal } from './SurrenderModal';
@@ -153,6 +155,7 @@ export function GameScreen({ snapshot }: { snapshot: AppSnapshot }) {
 
           {phase === 'preparation' ? (
             <>
+              <DifficultySelector difficulty={profile.settings.difficulty} />
               <div className="battle-launch panel">
                 <div className="battle-launch__info">
                   <p className="battle-launch__hint">{t('battleReadyHint')}</p>
@@ -291,6 +294,9 @@ export function GameScreen({ snapshot }: { snapshot: AppSnapshot }) {
         <ImportConfirmModal fileName={snapshot.pendingImportName} />
       ) : null}
       {snapshot.modal === 'surrender' ? <SurrenderModal /> : null}
+      {snapshot.modal === 'sell-confirm' && snapshot.sellOffer ? (
+        <SellConfirmModal offer={snapshot.sellOffer} />
+      ) : null}
       {snapshot.modal === null && phase === 'battle' && battle?.paused ? (
         <BattlePauseOverlay battle={battle} />
       ) : null}

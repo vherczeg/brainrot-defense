@@ -2,28 +2,34 @@ import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import {
   applyDefeatComfort,
+  armyPower,
   mergeCharacters,
   purchaseCharacter,
   resolveBattleRewards,
 } from '../src/game/commands/profileCommands';
 import { characterStats } from '../src/game/domain/characters';
 import { emptyAlliedCells } from '../src/game/domain/grid';
+import { characterLevelFromXp } from '../src/game/domain/progression';
+import { createInitialProfile } from '../src/game/domain/state';
+import type { CharacterInstance, CharacterTypeId, PlayerProfile } from '../src/game/domain/types';
+import { LAST_WAVE_ID, getWave } from '../src/game/domain/waves';
+import { createBattleState, runBattleToCompletion } from '../src/game/simulation/battle';
+import { parseProfileFromImport } from '../src/persistence/import-export/saveCodec';
 import {
   MAX_CHARACTER_LEVEL,
   MAX_CHARACTER_XP,
   MAX_MERGE_RANK,
-  characterLevelFromXp,
   xpRequiredForLevel,
 } from '../src/game/domain/progression';
-import { createInitialProfile } from '../src/game/domain/state';
-import type { CharacterInstance, CharacterTypeId, PlayerProfile } from '../src/game/domain/types';
-import { getWave } from '../src/game/domain/waves';
-import { createBattleState, runBattleToCompletion } from '../src/game/simulation/battle';
-import { parseProfileFromImport } from '../src/persistence/import-export/saveCodec';
 
 type BuyPolicy = 'crocodile' | 'scorpion' | 'mixed';
 type MergePolicy = 'aggressive' | 'board-fill' | 'late';
 type StartPolicy = 'new' | 'weak' | 'legacy' | 'max-rank';
+
+interface ReplayFarm {
+  readonly waveId: number;
+  readonly times: number;
+}
 
 interface Strategy {
   readonly name: string;
@@ -31,13 +37,39 @@ interface Strategy {
   readonly merge: MergePolicy;
   readonly start: StartPolicy;
   readonly reserveCoins: number;
-  readonly logEveryWave?: boolean;
+  readonly minArmy?: number;
+  readonly replayFarm?: ReplayFarm;
 }
 
 interface WaveReport {
   readonly waveId: number;
   readonly attempts: number;
   readonly defeats: number;
+  readonly durationSec: number;
+  readonly survivors: number;
+  readonly remainingHpPct: number;
+  readonly coinsBefore: number;
+  readonly coinsAfter: number;
+  readonly earned: number;
+  readonly spent: number;
+  readonly armyPower: number;
+  readonly army: string;
+  readonly seed: number;
+}
+
+interface ReplayReport {
+  readonly waveId: number;
+  readonly times: number;
+  readonly wins: number;
+  readonly earned: number;
+}
+
+interface Checkpoint {
+  readonly waveId: number;
+  readonly coins: number;
+  readonly armyPower: number;
+  readonly ranks: string;
+  readonly army: string;
 }
 
 interface SimulationReport {
@@ -48,10 +80,15 @@ interface SimulationReport {
   readonly finalWave: number;
   readonly blocked: boolean;
   readonly defeats: number;
+  readonly startingCoins: number;
   readonly coins: number;
+  readonly earned: number;
+  readonly spent: number;
   readonly army: string;
   readonly totalXp: number;
   readonly waves: readonly WaveReport[];
+  readonly replays: readonly ReplayReport[];
+  readonly checkpoints: readonly Checkpoint[];
   readonly difficultyCliff: { readonly waveId: number; readonly defeats: number } | null;
   readonly signature: string;
 }
@@ -193,6 +230,7 @@ function prepareArmy(profile: PlayerProfile, strategy: Strategy): PlayerProfile 
     const preferred = chooseType(current, strategy.buy);
     const fallback: CharacterTypeId =
       preferred === 'laser-crocodile' ? 'lightning-scorpion' : 'laser-crocodile';
+    const minimumArmy = strategy.minArmy ?? 0;
 
     if (strategy.merge === 'aggressive') {
       const merged = mergeOnce(current);
@@ -224,7 +262,7 @@ function prepareArmy(profile: PlayerProfile, strategy: Strategy): PlayerProfile 
         current = fallbackPurchase;
         continue;
       }
-      const merged = mergeOnce(current);
+      const merged = current.characters.length > minimumArmy ? mergeOnce(current) : null;
       if (merged) {
         current = merged;
         continue;
@@ -232,7 +270,6 @@ function prepareArmy(profile: PlayerProfile, strategy: Strategy): PlayerProfile 
       break;
     }
 
-    // 'late': keep buying while there is space, merge only once the board is full.
     if (free > 0) {
       const purchased = buyIfAffordable(current, preferred, strategy.reserveCoins);
       if (purchased) {
@@ -246,7 +283,7 @@ function prepareArmy(profile: PlayerProfile, strategy: Strategy): PlayerProfile 
       }
       break;
     }
-    const merged = mergeOnce(current);
+    const merged = current.characters.length > minimumArmy ? mergeOnce(current) : null;
     if (merged) {
       current = merged;
       continue;
@@ -266,6 +303,17 @@ function armySummary(profile: PlayerProfile): string {
     .join(', ');
 }
 
+function rankSummary(profile: PlayerProfile): string {
+  const counts = new Map<number, number>();
+  for (const character of profile.characters) {
+    counts.set(character.mergeRank, (counts.get(character.mergeRank) ?? 0) + 1);
+  }
+  return [...counts.entries()]
+    .sort((a, b) => a[0] - b[0])
+    .map(([rank, count]) => `R${rank}x${count}`)
+    .join(' ');
+}
+
 function totalXp(profile: PlayerProfile): number {
   return profile.characters.reduce((sum, character) => sum + character.totalXp, 0);
 }
@@ -277,57 +325,151 @@ function signatureOf(profile: PlayerProfile, defeats: number): string {
     .join('|')}#${defeats}#${profile.coins}`;
 }
 
+function battleMetrics(battle: ReturnType<typeof runBattleToCompletion>): {
+  readonly durationSec: number;
+  readonly survivors: number;
+  readonly remainingHpPct: number;
+} {
+  const allies = battle.state.units.filter((unit) => unit.team === 'ally');
+  const maxHp = allies.reduce((sum, unit) => sum + unit.maxHp, 0);
+  const currentHp = allies.reduce((sum, unit) => sum + (unit.alive ? unit.hp : 0), 0);
+  return {
+    durationSec: battle.state.elapsedSec,
+    survivors: allies.filter((unit) => unit.alive).length,
+    remainingHpPct: maxHp > 0 ? currentHp / maxHp : 0,
+  };
+}
+
 function simulate(strategy: Strategy): SimulationReport {
   let profile = profileFor(strategy);
   let defeats = 0;
   let finalWave = 0;
   let blocked = false;
+  let earned = 0;
+  let spent = 0;
+  const startingCoins = profile.coins;
   const waves: WaveReport[] = [];
+  const replays: ReplayReport[] = [];
+  const checkpoints: Checkpoint[] = [];
 
   console.log(`\n=== ${strategy.name} ===`);
-  for (let waveId = 1; waveId <= 10; waveId += 1) {
+  for (let waveId = 1; waveId <= LAST_WAVE_ID; waveId += 1) {
     const wave = getWave(waveId);
     if (!wave) throw new Error(`missing wave ${waveId}`);
+    if ([1, 5, 10, 15, 20].includes(waveId)) {
+      checkpoints.push({
+        waveId,
+        coins: profile.coins,
+        armyPower: Math.round(armyPower(profile)),
+        ranks: rankSummary(profile),
+        army: armySummary(profile),
+      });
+    }
+
     let won = false;
     let attempts = 0;
+    let lastReport: WaveReport | null = null;
     const defeatsBeforeWave = defeats;
+    const coinsBeforePreparation = profile.coins;
+    let waveSpent = 0;
 
     while (!won && attempts < MAX_ATTEMPTS_PER_WAVE) {
       attempts += 1;
+      const coinsBeforeBuy = profile.coins;
       profile = prepareArmy(profile, strategy);
+      waveSpent += coinsBeforeBuy - profile.coins;
       const roster = profile.characters.map((character) => character.id);
-      const result = runBattleToCompletion(
-        createBattleState(profile.characters, wave, waveId * 1000 + attempts),
-      );
+      const seed = waveId * 10_000 + attempts;
+      const result = runBattleToCompletion(createBattleState(profile.characters, wave, seed));
+      const metrics = battleMetrics(result);
+
       if (result.state.status === 'victory') {
+        const beforeReward = profile.coins;
         const awarded = resolveBattleRewards(profile, waveId, roster, 2);
         if (!awarded.ok) throw new Error(`reward failed on wave ${waveId}`);
         profile = awarded.value.profile;
         won = true;
         finalWave = waveId;
-        if (strategy.logEveryWave) {
-          console.log(
-            `  Hullám ${waveId}: győzelem (${attempts}. próba), +${awarded.value.xpPerUnit} TP/harcos`,
-          );
-        }
+        const reward = profile.coins - beforeReward;
+        earned += reward;
+        lastReport = {
+          waveId,
+          attempts,
+          defeats: defeats - defeatsBeforeWave,
+          durationSec: metrics.durationSec,
+          survivors: metrics.survivors,
+          remainingHpPct: metrics.remainingHpPct,
+          coinsBefore: coinsBeforePreparation,
+          coinsAfter: profile.coins,
+          earned: reward,
+          spent: waveSpent,
+          armyPower: Math.round(armyPower(profile)),
+          army: armySummary(profile),
+          seed,
+        };
       } else {
         defeats += 1;
+        const beforeComfort = profile.coins;
         const comfort = applyDefeatComfort(profile, 2);
         if (!comfort.ok) throw new Error('comfort failed');
         profile = comfort.value;
+        const comfortCoins = profile.coins - beforeComfort;
+        earned += comfortCoins;
+        lastReport = {
+          waveId,
+          attempts,
+          defeats: defeats - defeatsBeforeWave,
+          durationSec: metrics.durationSec,
+          survivors: metrics.survivors,
+          remainingHpPct: metrics.remainingHpPct,
+          coinsBefore: coinsBeforePreparation,
+          coinsAfter: profile.coins,
+          earned: comfortCoins,
+          spent: waveSpent,
+          armyPower: Math.round(armyPower(profile)),
+          army: armySummary(profile),
+          seed,
+        };
       }
     }
 
-    const waveDefeats = defeats - defeatsBeforeWave;
-    waves.push({ waveId, attempts, defeats: waveDefeats });
+    spent += waveSpent;
+    if (lastReport) waves.push(lastReport);
     if (!won) {
       blocked = true;
       console.log(
-        `  Hullám ${waveId}: NEM TELJESÍTHETŐ ${MAX_ATTEMPTS_PER_WAVE} próbából (${waveDefeats} vereség)`,
+        `  Hullám ${waveId}: NEM TELJESÍTHETŐ ${MAX_ATTEMPTS_PER_WAVE} próbából (${defeats - defeatsBeforeWave} vereség)`,
       );
       break;
     }
-    if (!strategy.logEveryWave && attempts > 1) {
+
+    if (strategy.replayFarm && strategy.replayFarm.waveId === waveId) {
+      let replayWins = 0;
+      let replayEarned = 0;
+      for (let replayIndex = 0; replayIndex < strategy.replayFarm.times; replayIndex += 1) {
+        const roster = profile.characters.map((character) => character.id);
+        const replayBattle = runBattleToCompletion(
+          createBattleState(profile.characters, wave, waveId * 20_000 + replayIndex),
+        );
+        if (replayBattle.state.status !== 'victory') break;
+        const beforeReplay = profile.coins;
+        const replayReward = resolveBattleRewards(profile, waveId, roster, 2);
+        if (!replayReward.ok) throw new Error(`replay reward failed on wave ${waveId}`);
+        profile = replayReward.value.profile;
+        const reward = profile.coins - beforeReplay;
+        replayEarned += reward;
+        earned += reward;
+        replayWins += 1;
+      }
+      replays.push({
+        waveId,
+        times: strategy.replayFarm.times,
+        wins: replayWins,
+        earned: replayEarned,
+      });
+    }
+
+    if (attempts > 1) {
       console.log(`  Hullám ${waveId}: győzelem ${attempts}. próbára.`);
     }
   }
@@ -344,10 +486,15 @@ function simulate(strategy: Strategy): SimulationReport {
     finalWave,
     blocked,
     defeats,
+    startingCoins,
     coins: profile.coins,
+    earned,
+    spent,
     army: armySummary(profile),
     totalXp: totalXp(profile),
     waves,
+    replays,
+    checkpoints,
     difficultyCliff:
       difficultyCliff && difficultyCliff.defeats > 0
         ? { waveId: difficultyCliff.waveId, defeats: difficultyCliff.defeats }
@@ -355,10 +502,18 @@ function simulate(strategy: Strategy): SimulationReport {
     signature: signatureOf(profile, defeats),
   };
   console.log(
-    `  Végső hullám: ${report.finalWave}/10, vereségek: ${report.defeats}, érme: ${report.coins}`,
+    `  Végső hullám: ${report.finalWave}/${LAST_WAVE_ID}, vereségek: ${report.defeats}, érme: ${report.coins}`,
+  );
+  console.log(
+    `  Gazdaság: kezdő ${report.startingCoins}, bevétel ${report.earned}, költés ${report.spent}, maradék ${report.coins}`,
   );
   console.log(`  Sereg: ${report.army || 'üres'}`);
   console.log(`  Összes TP: ${report.totalXp}`);
+  for (const checkpoint of report.checkpoints) {
+    console.log(
+      `  Checkpoint ${checkpoint.waveId}. hullám: ${checkpoint.coins} érme, ${checkpoint.armyPower} erő, [${checkpoint.ranks}]`,
+    );
+  }
   if (report.difficultyCliff) {
     console.log(
       `  Nehézségi csúcs: ${report.difficultyCliff.waveId}. hullám (${report.difficultyCliff.defeats} vereség)`,
@@ -378,11 +533,9 @@ function runBoundaryReport(): BoundaryReport {
   if (xpRequiredForLevel(MAX_CHARACTER_LEVEL) !== MAX_CHARACTER_XP) {
     checks.push('xpRequiredForLevel(MAX_CHARACTER_LEVEL) != MAX_CHARACTER_XP');
   }
-  if (characterStats('laser-crocodile', MAX_MERGE_RANK + 1, MAX_CHARACTER_XP) !== undefined) {
-    const clamped = characterStats('laser-crocodile', MAX_MERGE_RANK + 1, MAX_CHARACTER_XP);
-    if (clamped.attack !== crocodile.attack || clamped.maxHp !== crocodile.maxHp) {
-      checks.push('rank clamping above MAX_MERGE_RANK failed');
-    }
+  const clamped = characterStats('laser-crocodile', MAX_MERGE_RANK + 1, MAX_CHARACTER_XP);
+  if (clamped.attack !== crocodile.attack || clamped.maxHp !== crocodile.maxHp) {
+    checks.push('rank clamping above MAX_MERGE_RANK failed');
   }
   if (
     crocodile.attack <= 0 ||
@@ -418,65 +571,64 @@ function runBoundaryReport(): BoundaryReport {
 
 const strategies: readonly Strategy[] = [
   {
-    name: '1. Új játék, teljes tábla',
+    name: '1. Kezdő játékos (széles sereg, kevés egyesítés)',
     buy: 'mixed',
-    merge: 'board-fill',
+    merge: 'late',
     start: 'new',
     reserveCoins: 0,
   },
   {
-    name: '2. Valódi M0.1 mentés (fixture)',
+    name: '2. Kazsuális gyerek (széles sereg, óvatos egyesítés)',
     buy: 'mixed',
-    merge: 'board-fill',
+    merge: 'late',
+    start: 'new',
+    reserveCoins: 0,
+    minArmy: 8,
+  },
+  {
+    name: '3. Tapasztalt játékos (krokodil-fókusz)',
+    buy: 'crocodile',
+    merge: 'late',
+    start: 'new',
+    reserveCoins: 0,
+    minArmy: 8,
+  },
+  {
+    name: '4. Optimalizált játékos (tartalék + széles elit)',
+    buy: 'crocodile',
+    merge: 'late',
+    start: 'new',
+    reserveCoins: 100,
+    minArmy: 10,
+  },
+  {
+    name: '5. Replay farmer (9. hullám x10)',
+    buy: 'mixed',
+    merge: 'late',
+    start: 'new',
+    reserveCoins: 0,
+    minArmy: 8,
+    replayFarm: { waveId: 9, times: 10 },
+  },
+  {
+    name: '6. Replay farmer (15. hullám x10)',
+    buy: 'mixed',
+    merge: 'late',
+    start: 'new',
+    reserveCoins: 0,
+    minArmy: 8,
+    replayFarm: { waveId: 15, times: 10 },
+  },
+  {
+    name: '7. Valódi M0.1 mentés (fixture)',
+    buy: 'mixed',
+    merge: 'late',
     start: 'legacy',
     reserveCoins: 0,
+    minArmy: 8,
   },
   {
-    name: '3. Agresszív egyesítő',
-    buy: 'mixed',
-    merge: 'aggressive',
-    start: 'new',
-    reserveCoins: 0,
-  },
-  { name: '4. Késleltetett egyesítés', buy: 'mixed', merge: 'late', start: 'new', reserveCoins: 0 },
-  {
-    name: '5. Krokodil hangsúly',
-    buy: 'crocodile',
-    merge: 'board-fill',
-    start: 'new',
-    reserveCoins: 0,
-  },
-  {
-    name: '6. Skorpió hangsúly',
-    buy: 'scorpion',
-    merge: 'board-fill',
-    start: 'new',
-    reserveCoins: 0,
-  },
-  {
-    name: '7. Takarékos formáció (300 érme tartalék)',
-    buy: 'mixed',
-    merge: 'board-fill',
-    start: 'new',
-    reserveCoins: 300,
-  },
-  {
-    name: '8. Gyenge kezdés utáni újrapróbálkozás',
-    buy: 'mixed',
-    merge: 'board-fill',
-    start: 'weak',
-    reserveCoins: 0,
-  },
-  {
-    name: '9. XP-haladás takarékos egyesítéssel',
-    buy: 'mixed',
-    merge: 'aggressive',
-    start: 'new',
-    reserveCoins: 150,
-    logEveryWave: true,
-  },
-  {
-    name: '10. Maximum rang és szint határ',
+    name: '8. Maximum rang és szint határ',
     buy: 'mixed',
     merge: 'board-fill',
     start: 'max-rank',
@@ -492,18 +644,22 @@ const balanceWarnings: string[] = [];
 
 for (const report of reports) {
   if (report.blocked) {
-    correctnessFailures.push(`${report.name}: blocked before completing wave 10`);
+    correctnessFailures.push(`${report.name}: blocked before completing wave ${LAST_WAVE_ID}`);
   }
   if (report.defeats >= BALANCE_DEFEAT_WARNING_THRESHOLD) {
-    balanceWarnings.push(
-      `${report.name}: ${report.defeats} defeats (known M1.4 balance issue, not a correctness failure)`,
+    balanceWarnings.push(`${report.name}: ${report.defeats} defeats`);
+  }
+  const expectedCoins = report.startingCoins + report.earned - report.spent;
+  if (report.coins !== expectedCoins) {
+    correctnessFailures.push(
+      `${report.name}: economy ledger mismatch (${report.coins} != ${expectedCoins})`,
     );
   }
 }
 for (const check of boundary.checks) {
   correctnessFailures.push(`boundary: ${check}`);
 }
-const legacyReport = reports.find((report) => report.name.startsWith('2.'));
+const legacyReport = reports.find((report) => report.start === 'legacy');
 if (legacyReport && legacyReport.finalWave < 4) {
   correctnessFailures.push('legacy fixture did not preserve its starting wave');
 }
@@ -519,10 +675,10 @@ for (const report of reports) {
 
 const completed = reports.filter((report) => !report.blocked).length;
 console.log(
-  `\nÖsszegzés: ${completed}/${reports.length} stratégia teljesítette mind a 10 hullámot.`,
+  `\nÖsszegzés: ${completed}/${reports.length} stratégia teljesítette mind a ${LAST_WAVE_ID} hullámot.`,
 );
 if (balanceWarnings.length > 0) {
-  console.log('\nEgyensúlyi figyelmeztetések (M1.4):');
+  console.log('\nEgyensúlyi megjegyzések:');
   for (const warning of balanceWarnings) console.log(`  - ${warning}`);
 }
 if (correctnessFailures.length > 0) {

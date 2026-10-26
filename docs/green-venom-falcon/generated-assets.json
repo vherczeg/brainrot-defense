@@ -1,0 +1,113 @@
+{
+  "generatedAt": "2026-10-26T08:00:01.260Z",
+  "status": "generated-concept-placeholder-pending-abel-approval",
+  "unit": [
+    {
+      "state": "idle",
+      "frames": 4,
+      "fps": 5,
+      "repeat": -1,
+      "strip": "public/assets/units/green-venom-falcon/idle.png"
+    },
+    {
+      "state": "fly",
+      "frames": 4,
+      "fps": 10,
+      "repeat": -1,
+      "strip": "public/assets/units/green-venom-falcon/fly.png"
+    },
+    {
+      "state": "claw",
+      "frames": 6,
+      "fps": 12,
+      "repeat": 0,
+      "strip": "public/assets/units/green-venom-falcon/claw.png"
+    },
+    {
+      "state": "poison",
+      "frames": 6,
+      "fps": 10,
+      "repeat": 0,
+      "strip": "public/assets/units/green-venom-falcon/poison.png"
+    },
+    {
+      "state": "spin",
+      "frames": 6,
+      "fps": 12,
+      "repeat": -1,
+      "strip": "public/assets/units/green-venom-falcon/spin.png"
+    },
+    {
+      "state": "spin-break",
+      "frames": 6,
+      "fps": 6,
+      "repeat": -1,
+      "strip": "public/assets/units/green-venom-falcon/spin-break.png"
+    },
+    {
+      "state": "hurt",
+      "frames": 4,
+      "fps": 12,
+      "repeat": 0,
+      "strip": "public/assets/units/green-venom-falcon/hurt.png"
+    },
+    {
+      "state": "death",
+      "frames": 8,
+      "fps": 8,
+      "repeat": 0,
+      "strip": "public/assets/units/green-venom-falcon/death.png"
+    }
+  ],
+  "effects": [
+    {
+      "key": "poison-projectile",
+      "frames": 4,
+      "fps": 12,
+      "repeat": 0,
+      "strip": "public/assets/effects/green-venom-falcon/poison-projectile.png"
+    },
+    {
+      "key": "poison-muzzle",
+      "frames": 4,
+      "fps": 12,
+      "repeat": 0,
+      "strip": "public/assets/effects/green-venom-falcon/poison-muzzle.png"
+    },
+    {
+      "key": "poison-impact",
+      "frames": 4,
+      "fps": 14,
+      "repeat": 0,
+      "strip": "public/assets/effects/green-venom-falcon/poison-impact.png"
+    },
+    {
+      "key": "spin-aura",
+      "frames": 6,
+      "fps": 12,
+      "repeat": -1,
+      "strip": "public/assets/effects/green-venom-falcon/spin-aura.png"
+    },
+    {
+      "key": "spin-break",
+      "frames": 6,
+      "fps": 12,
+      "repeat": 0,
+      "strip": "public/assets/effects/green-venom-falcon/spin-break.png"
+    },
+    {
+      "key": "earthquake",
+      "frames": 6,
+      "fps": 12,
+      "repeat": 0,
+      "strip": "public/assets/effects/green-venom-falcon/earthquake.png"
+    },
+    {
+      "key": "defeat",
+      "frames": 8,
+      "fps": 8,
+      "repeat": 0,
+      "strip": "public/assets/effects/green-venom-falcon/defeat.png"
+    }
+  ]
+}

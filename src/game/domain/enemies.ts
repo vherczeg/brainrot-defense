@@ -1,4 +1,9 @@
-import { MAX_SAFE_STAT, type EnemyDefinition, type EnemyTypeId } from './types';
+import {
+  MAX_SAFE_STAT,
+  type EnemyAbilities,
+  type EnemyDefinition,
+  type EnemyTypeId,
+} from './types';
 
 export const ENEMY_DEFINITIONS: Readonly<Record<EnemyTypeId, EnemyDefinition>> = {
   'mini-brainrot': {
@@ -50,8 +55,8 @@ export const ENEMY_DEFINITIONS: Readonly<Record<EnemyTypeId, EnemyDefinition>> =
     id: 'mega-brainrot-gorilla',
     nameHu: 'Mega Brainrot Gorilla',
     descriptionHu: 'A tizedik hullám főellensége. Hatalmas, páncélozott és dühös.',
-    baseHp: 1400,
-    baseAttack: 34,
+    baseHp: 1800,
+    baseAttack: 36,
     attackIntervalSec: 1.4,
     range: 1.2,
     moveSpeed: 0.55,
@@ -61,6 +66,41 @@ export const ENEMY_DEFINITIONS: Readonly<Record<EnemyTypeId, EnemyDefinition>> =
     isBoss: true,
     colors: { primary: 0xff3b6b, secondary: 0x3a0c33, accent: 0xffef5e },
   },
+  'green-venom-falcon': {
+    id: 'green-venom-falcon',
+    nameHu: 'Zöld Méreg Sólyom',
+    descriptionHu:
+      'Ábel saját főellensége. Barna tollazat, hatalmas fekete karmok, zöld méreg és örvénylő védőpajzs.',
+    baseHp: 1700,
+    baseAttack: 36,
+    attackIntervalSec: 1.15,
+    range: 1.2,
+    moveSpeed: 0.8,
+    armor: 0.15,
+    hpGrowth: 1.38,
+    attackGrowth: 1.3,
+    isBoss: true,
+    abilities: {
+      earthquake: { freezeSec: 2 },
+      poison: {
+        attackFactor: 0.35,
+        tickIntervalSec: 1,
+        durationSec: 4,
+        cooldownSec: 5.5,
+        range: 4.5,
+      },
+      spinShield: {
+        durationSec: 5,
+        cooldownSec: 8,
+        rangedSlowFactor: 0.5,
+        vulnerableSec: 4,
+        auraAttackFactor: 0.12,
+        auraRadius: 2.3,
+        auraTickIntervalSec: 1,
+      },
+    },
+    colors: { primary: 0x9b6338, secondary: 0x24150c, accent: 0x7dff5a },
+  },
 };
 
 export const ENEMY_TYPE_IDS: readonly EnemyTypeId[] = [
@@ -68,6 +108,7 @@ export const ENEMY_TYPE_IDS: readonly EnemyTypeId[] = [
   'armored-slug',
   'shadow-runner',
   'mega-brainrot-gorilla',
+  'green-venom-falcon',
 ];
 
 export function isEnemyTypeId(value: unknown): value is EnemyTypeId {
@@ -75,8 +116,18 @@ export function isEnemyTypeId(value: unknown): value is EnemyTypeId {
     value === 'mini-brainrot' ||
     value === 'armored-slug' ||
     value === 'shadow-runner' ||
-    value === 'mega-brainrot-gorilla'
+    value === 'mega-brainrot-gorilla' ||
+    value === 'green-venom-falcon'
   );
+}
+
+export function enemyAbilities(typeId: EnemyTypeId): EnemyAbilities {
+  const abilities = ENEMY_DEFINITIONS[typeId].abilities;
+  return {
+    poison: abilities?.poison ?? null,
+    spinShield: abilities?.spinShield ?? null,
+    earthquake: abilities?.earthquake ?? null,
+  };
 }
 
 function boundedRound(value: number): number {

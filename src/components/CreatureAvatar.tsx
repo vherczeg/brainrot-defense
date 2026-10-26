@@ -1,4 +1,5 @@
 import { armoredSnailIconUrl } from '../game/rendering/armoredSnail';
+import { greenVenomFalconIconUrl } from '../game/rendering/greenVenomFalcon';
 import { laserCrocodileIconUrl } from '../game/rendering/laserCrocodile';
 import { lightningScorpionIconUrl } from '../game/rendering/lightningScorpion';
 import { megaBrainrotGorillaIconUrl } from '../game/rendering/megaBrainrotGorilla';
@@ -94,6 +95,19 @@ function MegaBoss() {
   );
 }
 
+function GreenVenomFalcon() {
+  return (
+    <image
+      href={greenVenomFalconIconUrl()}
+      x="0"
+      y="0"
+      width="100"
+      height="100"
+      preserveAspectRatio="xMidYMid meet"
+    />
+  );
+}
+
 function CreatureShape({ kind, mergeRank }: { kind: CreatureKind; mergeRank: number }) {
   switch (kind) {
     case 'laser-crocodile':
@@ -108,6 +122,8 @@ function CreatureShape({ kind, mergeRank }: { kind: CreatureKind; mergeRank: num
       return <ShadowRunner />;
     case 'mega-brainrot-gorilla':
       return <MegaBoss />;
+    case 'green-venom-falcon':
+      return <GreenVenomFalcon />;
     default:
       return null;
   }

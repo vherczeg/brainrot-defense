@@ -25,9 +25,11 @@ export function Modal({
   useEffect(() => {
     const dialog = dialogRef.current;
     if (!dialog) return;
-    const focusable = dialog.querySelector<HTMLElement>(
-      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
-    );
+    const focusable =
+      dialog.querySelector<HTMLElement>('[data-autofocus]') ??
+      dialog.querySelector<HTMLElement>(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+      );
     focusable?.focus();
 
     const onKeyDown = (event: KeyboardEvent) => {

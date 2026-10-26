@@ -8,6 +8,13 @@ export function BattleHud({ battle }: { battle: BattleHudView }) {
   return (
     <section className="battle-hud" data-testid="battle-hud">
       <div className="battle-hud__counts">
+        <span
+          className={`difficulty-chip difficulty-chip--${battle.difficulty}`}
+          data-testid="battle-difficulty"
+        >
+          <Icon name={battle.difficulty === 'hard' ? 'swords' : 'shield'} size={14} />
+          {battle.difficulty === 'hard' ? t('difficultyHard') : t('difficultyNormal')}
+        </span>
         <span className="battle-hud__count battle-hud__count--ally">
           <span className="battle-hud__dot" aria-hidden="true" />
           {t('battleAllies')} <strong data-testid="allies-alive">{battle.alliesAlive}</strong>

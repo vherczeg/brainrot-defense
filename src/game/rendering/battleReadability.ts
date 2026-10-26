@@ -44,6 +44,10 @@ export function attackLinkColor(kind: AttackKind): number {
       return 0xc98bff;
     case 'boss-smash':
       return 0xff5a7a;
+    case 'claw':
+      return 0x7dff5a;
+    case 'poison':
+      return 0x7dff5a;
     default:
       return 0xffa35a;
   }

@@ -104,7 +104,7 @@ test('fights a real battle, rewards the player, and persists progress after relo
   await expect(page.getByTestId('result-overlay')).toBeVisible({ timeout: 60_000 });
   await expect(page.getByTestId('result-title')).toContainText('teljesítve');
   await expect(page.getByTestId('result-overlay')).toContainText('+120');
-  await expect(page.getByTestId('result-first-bonus')).toContainText('+60');
+  await expect(page.getByTestId('result-first-bonus')).toContainText('+78');
   await expect(page.getByTestId('result-xp-reward')).toContainText('+75 TP / harcos');
   await expect(page.getByTestId('result-level-ups')).toContainText('SZINTLÉPÉS');
 
@@ -183,7 +183,7 @@ test('exports a save, imports a valid modified save, and persists it', async ({ 
     profile: { coins: number; name: string; profileId: string };
   };
   expect(envelope.appId).toBe('brainrot-defense');
-  expect(envelope.schemaVersion).toBe(2);
+  expect(envelope.schemaVersion).toBe(4);
   expect(envelope.profile.coins).toBe(350);
 
   envelope.profile.coins = 4321;
@@ -238,7 +238,7 @@ test('can merge two characters with a canvas drag gesture', async ({ page }, tes
   await expect(page.getByTestId('unit-inspector')).toContainText('2. rang');
 });
 
-test('shows the defeat screen and allows a free retry with comfort coins', async ({ page }) => {
+test('shows the rewarded defeat screen and allows a free retry', async ({ page }) => {
   await startGame(page);
   await page.getByTestId('game-menu').click();
   await page.getByTestId('menu-save').click();
@@ -287,7 +287,17 @@ test('shows the defeat screen and allows a free retry with comfort coins', async
   await page.getByTestId('battle-speed').click();
   await expect(page.getByTestId('result-overlay')).toBeVisible({ timeout: 90_000 });
   await expect(page.getByTestId('result-title')).toContainText('VERESÉG');
+  await expect(page.getByTestId('result-overlay')).toContainText('+50');
+  await expect(page.getByTestId('result-defeat-xp')).toContainText('Harci tapasztalat');
+  await expect(page.getByTestId('result-defeat-xp')).toContainText('42 TP / részt vevő harcos');
+  await expect(page.getByTestId('result-defeat-xp-count')).toContainText(
+    'XP-jutalmazott vereségek: 1/3',
+  );
+  await page.screenshot({
+    path: 'docs/qa/m3.7/defeat-reward.png',
+    fullPage: true,
+  });
   await page.getByTestId('result-retry').click();
   await expect(page.getByTestId('battle-button')).toBeVisible();
-  await expect(page.getByTestId('coins-value')).toHaveAttribute('data-coins', '20');
+  await expect(page.getByTestId('coins-value')).toHaveAttribute('data-coins', '50');
 });
