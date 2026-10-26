@@ -248,8 +248,8 @@ to the ordinary curve after the boss premium, preventing a permanent post-boss r
 
 - **Normál** is the default for every profile, including migrated v1/v2 saves.
 - **Nehéz** applies global enemy multipliers after normal level scaling:
-  - enemy HP ×1.35;
-  - enemy attack ×1.15.
+  - enemy HP ×1.40;
+  - enemy attack ×1.20.
 - Multipliers apply to every enemy, including both bosses.
 - Armor, speed, range, attack intervals, ability durations, cooldowns, and all Green Venom Falcon
   mechanics remain unchanged. Poison and spin-aura damage scale only because they derive from the

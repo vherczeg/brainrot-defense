@@ -63,7 +63,7 @@ test('selects Hard in preparation, persists it after reload, and locks it during
   await page.getByTestId('difficulty-hard').click();
   await expect(page.getByTestId('difficulty-hard')).toHaveAttribute('aria-pressed', 'true');
   await expect(selector).toContainText(
-    'Nehéz mód: az ellenfeleknek +35% életereje és +15% támadóereje van.',
+    'Nehéz mód: az ellenfeleknek +40% életereje és +20% támadóereje van.',
   );
 
   await page.reload();

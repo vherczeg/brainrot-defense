@@ -10,14 +10,14 @@ function enemyUnit(state: ReturnType<typeof createBattleState>, typeId: string) 
 }
 
 describe('difficulty configuration', () => {
-  it('defines Normal as baseline and Hard as +35% HP / +15% attack', () => {
+  it('defines Normal as baseline and Hard as +40% HP / +20% attack', () => {
     expect(DIFFICULTY_CONFIG.normal).toEqual({
       enemyHpMultiplier: 1,
       enemyAttackMultiplier: 1,
     });
     expect(DIFFICULTY_CONFIG.hard).toEqual({
-      enemyHpMultiplier: 1.35,
-      enemyAttackMultiplier: 1.15,
+      enemyHpMultiplier: 1.4,
+      enemyAttackMultiplier: 1.2,
     });
   });
 
@@ -27,7 +27,7 @@ describe('difficulty configuration', () => {
       attack: 7,
     });
     expect(enemyStatsForDifficulty('mini-brainrot', 1, 'hard')).toMatchObject({
-      maxHp: 74,
+      maxHp: 77,
       attack: 8,
     });
   });
@@ -36,16 +36,16 @@ describe('difficulty configuration', () => {
     const normalGorilla = enemyStatsForDifficulty('mega-brainrot-gorilla', 3, 'normal');
     const hardGorilla = enemyStatsForDifficulty('mega-brainrot-gorilla', 3, 'hard');
     expect(normalGorilla.maxHp).toBe(3281);
-    expect(hardGorilla.maxHp).toBe(4429);
+    expect(hardGorilla.maxHp).toBe(4593);
     expect(normalGorilla.attack).toBe(59);
-    expect(hardGorilla.attack).toBe(68);
+    expect(hardGorilla.attack).toBe(71);
 
     const normalFalcon = enemyStatsForDifficulty('green-venom-falcon', 6, 'normal');
     const hardFalcon = enemyStatsForDifficulty('green-venom-falcon', 6, 'hard');
     expect(normalFalcon.maxHp).toBe(8508);
-    expect(hardFalcon.maxHp).toBe(11486);
+    expect(hardFalcon.maxHp).toBe(11911);
     expect(normalFalcon.attack).toBe(134);
-    expect(hardFalcon.attack).toBe(154);
+    expect(hardFalcon.attack).toBe(161);
   });
 
   it('creates battle state with Normal by default and stores the chosen difficulty', () => {
@@ -56,10 +56,10 @@ describe('difficulty configuration', () => {
     expect(normal.difficulty).toBe('normal');
     expect(hard.difficulty).toBe('hard');
     expect(enemyUnit(hard, 'mega-brainrot-gorilla').maxHp).toBe(
-      Math.round(enemyUnit(normal, 'mega-brainrot-gorilla').maxHp * 1.35),
+      Math.round(enemyUnit(normal, 'mega-brainrot-gorilla').maxHp * 1.4),
     );
     expect(enemyUnit(hard, 'mega-brainrot-gorilla').attack).toBe(
-      Math.round(enemyUnit(normal, 'mega-brainrot-gorilla').attack * 1.15),
+      Math.round(enemyUnit(normal, 'mega-brainrot-gorilla').attack * 1.2),
     );
   });
 

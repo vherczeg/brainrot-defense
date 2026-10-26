@@ -13,7 +13,7 @@ az azonosakat, majd indíts automatikus csatát a betolakodó szörnyek ellen.
 - Harcos eladása megerősítéssel, rangalapú visszatérítéssel; teljes pályán is felszabadítható hely.
 - M3.4 egyensúly: fokozatos 20 hullámos gazdaság, erősebb 10. és 20. főellenség, 35%-os replay jutalom.
 - M3.4.2 early curve: a 3–5., 7., 11. és 17. hullám célzott erősítése; a kezdő sereg már a 4. hullámnál fejlesztést igényel.
-- M3.6: Normál / Nehéz nehézségi módok, profilanként mentett beállítással; a Nehéz mód +35% ellenség HP és +15% támadás; 18–19. hullám finomhangolása.
+- M3.6: Normál / Nehéz nehézségi módok, profilanként mentett beállítással; a Nehéz mód +40% ellenség HP és +20% támadás; 18–19. hullám finomhangolása.
 - Egérrel, érintéssel és billentyűzettel is játszható.
 - A játéklogika teljesen független a Phaser rendereléstől és a React UI-tól.
 

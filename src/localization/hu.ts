@@ -108,7 +108,7 @@ export const hu = {
   difficultyNormal: 'Normál',
   difficultyHard: 'Nehéz',
   difficultyNormalHint: 'Az ellenfelek az alap nehézségen harcolnak.',
-  difficultyHardHint: 'Nehéz mód: az ellenfeleknek +35% életereje és +15% támadóereje van.',
+  difficultyHardHint: 'Nehéz mód: az ellenfeleknek +40% életereje és +20% támadóereje van.',
   difficultyAria: 'Nehézség: {difficulty}',
   battleNoArmy: 'Előbb helyezz harcost a pályára!',
   battleStarted: 'Harc kezdete!',

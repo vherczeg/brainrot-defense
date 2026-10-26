@@ -8,7 +8,7 @@ export interface DifficultyConfig {
 
 export const DIFFICULTY_CONFIG: Readonly<Record<Difficulty, DifficultyConfig>> = {
   normal: { enemyHpMultiplier: 1, enemyAttackMultiplier: 1 },
-  hard: { enemyHpMultiplier: 1.35, enemyAttackMultiplier: 1.15 },
+  hard: { enemyHpMultiplier: 1.4, enemyAttackMultiplier: 1.2 },
 };
 
 export function difficultyConfig(difficulty: Difficulty): DifficultyConfig {

@@ -149,7 +149,7 @@ Benchmarks after this change:
 M3.6 adds selectable **Normál** and **Nehéz** difficulty:
 
 - Normal keeps all M3.4.2 enemy HP/attack values.
-- Hard applies enemy HP ×1.35 and enemy attack ×1.15 after normal level scaling.
+- Hard applies enemy HP ×1.40 and enemy attack ×1.20 after normal level scaling.
 - Both bosses scale; all ability mechanics and durations remain unchanged.
 - Rewards and XP are identical in both modes.
 
