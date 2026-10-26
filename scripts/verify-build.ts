@@ -24,6 +24,10 @@ import {
   megaBrainrotGorillaStaticPaths,
 } from '../src/game/rendering/megaBrainrotGorilla';
 import {
+  GREEN_VENOM_FALCON_ANIMATIONS,
+  greenVenomFalconStaticPaths,
+} from '../src/game/rendering/greenVenomFalcon';
+import {
   SHADOW_RUNNER_ANIMATIONS,
   shadowRunnerStaticPaths,
 } from '../src/game/rendering/shadowRunner';
@@ -163,6 +167,14 @@ const assetGroups = [
       'assets/units/mega-brainrot-gorilla/manifest.json',
       ...MEGA_BRAINROT_GORILLA_ANIMATIONS.map((animation) => animation.url.replace(/^\/+/, '')),
       ...megaBrainrotGorillaStaticPaths(),
+    ],
+  },
+  {
+    name: 'Green Venom Falcon',
+    assets: [
+      'assets/units/green-venom-falcon/manifest.json',
+      ...GREEN_VENOM_FALCON_ANIMATIONS.map((animation) => animation.url.replace(/^\/+/, '')),
+      ...greenVenomFalconStaticPaths(),
     ],
   },
   {

@@ -73,6 +73,18 @@ import {
   shadowRunnerAnimationKey,
 } from '../shadowRunner';
 import {
+  GREEN_VENOM_FALCON_ANIMATIONS,
+  GREEN_VENOM_FALCON_DISPLAY_WIDTH,
+  GREEN_VENOM_FALCON_EFFECTS,
+  GREEN_VENOM_FALCON_ENEMY_ID,
+  GREEN_VENOM_FALCON_ORIGIN,
+  GREEN_VENOM_FALCON_PROJECTILE_EFFECTS,
+  greenVenomFalconAnimationKey,
+  type GreenVenomFalconAnimationState,
+  preloadGreenVenomFalcon,
+  registerGreenVenomFalconAnimations,
+} from '../greenVenomFalcon';
+import {
   MEGA_BRAINROT_GORILLA_ANIMATIONS,
   MEGA_BRAINROT_GORILLA_DISPLAY_WIDTH,
   MEGA_BRAINROT_GORILLA_EFFECTS,
@@ -115,12 +127,14 @@ const ANIMATED_UNIT_ANIMATION_KEYS = new Set(
     ...ARMORED_SNAIL_EFFECT_ANIMATIONS,
     ...SHADOW_RUNNER_ANIMATIONS,
     ...MEGA_BRAINROT_GORILLA_ANIMATIONS,
+    ...GREEN_VENOM_FALCON_ANIMATIONS,
   ].map((asset) => asset.key),
 );
 
 type UnitAnimationState = 'idle' | 'walk' | 'attack' | 'hurt';
+type UnitPlayableState = UnitAnimationState | 'fly' | 'claw' | 'poison' | 'spin' | 'spin-break';
 type UnitLocomotion = 'idle' | 'walk';
-type UnitAction = 'attack' | 'hurt';
+type UnitAction = 'attack' | 'hurt' | 'poison';
 
 interface AnimatedCharacterEffects {
   readonly projectile: string;
@@ -129,7 +143,7 @@ interface AnimatedCharacterEffects {
 }
 
 interface AnimatedCharacterVisual {
-  readonly animationKey: (state: UnitAnimationState) => string;
+  readonly animationKey: (state: UnitPlayableState) => string;
   readonly origin: { readonly x: number; readonly y: number };
   readonly displayWidth: number;
   readonly effects?: AnimatedCharacterEffects;
@@ -163,6 +177,7 @@ interface UnitView {
   deathCleanup: (() => void) | null;
   locomotionTween: LaserCrocodileLocomotion | null;
   spinAura: Phaser.GameObjects.Container | null;
+  animationOverride: UnitPlayableState | null;
   pendingHurt: boolean;
   lastX: number;
   lastY: number;
@@ -175,6 +190,27 @@ interface UnitView {
 
 type Mode = 'prep' | 'battle' | 'none';
 
+function basicAnimationState(state: UnitPlayableState): UnitAnimationState {
+  switch (state) {
+    case 'fly':
+      return 'walk';
+    case 'claw':
+    case 'poison':
+      return 'attack';
+    case 'spin':
+    case 'spin-break':
+      return 'idle';
+    default:
+      return state;
+  }
+}
+
+function falconAnimationState(state: UnitPlayableState): GreenVenomFalconAnimationState {
+  if (state === 'walk') return 'fly';
+  if (state === 'attack') return 'claw';
+  return state;
+}
+
 function animatedCharacterVisual(
   typeId: CharacterTypeId,
   mergeRank: number,
@@ -182,7 +218,7 @@ function animatedCharacterVisual(
   if (typeId === 'laser-crocodile') {
     const tier = laserCrocodileTier(mergeRank);
     return {
-      animationKey: (state) => laserCrocodileAnimationKey(tier, state),
+      animationKey: (state) => laserCrocodileAnimationKey(tier, basicAnimationState(state)),
       origin: LASER_CROCODILE_ORIGIN,
       displayWidth: LASER_CROCODILE_DISPLAY_WIDTH,
       effects: LASER_CROCODILE_EFFECTS,
@@ -192,7 +228,7 @@ function animatedCharacterVisual(
   if (typeId === 'lightning-scorpion') {
     const tier = lightningScorpionTier(mergeRank);
     return {
-      animationKey: (state) => lightningScorpionAnimationKey(tier, state),
+      animationKey: (state) => lightningScorpionAnimationKey(tier, basicAnimationState(state)),
       origin: LIGHTNING_SCORPION_ORIGIN,
       displayWidth: LIGHTNING_SCORPION_DISPLAY_WIDTH,
       effects: LIGHTNING_SCORPION_EFFECTS,
@@ -204,30 +240,38 @@ function animatedCharacterVisual(
 function animatedEnemyVisual(typeId: EnemyTypeId): AnimatedCharacterVisual | null {
   if (typeId === 'mini-brainrot') {
     return {
-      animationKey: (state) => miniBrainrotAnimationKey(state),
+      animationKey: (state) => miniBrainrotAnimationKey(basicAnimationState(state)),
       origin: MINI_BRAINROT_ORIGIN,
       displayWidth: MINI_BRAINROT_DISPLAY_WIDTH,
     };
   }
   if (typeId === ARMORED_SNAIL_ENEMY_ID) {
     return {
-      animationKey: (state) => armoredSnailAnimationKey(state),
+      animationKey: (state) => armoredSnailAnimationKey(basicAnimationState(state)),
       origin: ARMORED_SNAIL_ORIGIN,
       displayWidth: ARMORED_SNAIL_DISPLAY_WIDTH,
     };
   }
   if (typeId === SHADOW_RUNNER_ENEMY_ID) {
     return {
-      animationKey: (state) => shadowRunnerAnimationKey(state),
+      animationKey: (state) => shadowRunnerAnimationKey(basicAnimationState(state)),
       origin: SHADOW_RUNNER_ORIGIN,
       displayWidth: SHADOW_RUNNER_DISPLAY_WIDTH,
     };
   }
   if (typeId === MEGA_BRAINROT_GORILLA_ENEMY_ID) {
     return {
-      animationKey: (state) => megaBrainrotGorillaAnimationKey(state),
+      animationKey: (state) => megaBrainrotGorillaAnimationKey(basicAnimationState(state)),
       origin: MEGA_BRAINROT_GORILLA_ORIGIN,
       displayWidth: MEGA_BRAINROT_GORILLA_DISPLAY_WIDTH,
+    };
+  }
+  if (typeId === GREEN_VENOM_FALCON_ENEMY_ID) {
+    return {
+      animationKey: (state) => greenVenomFalconAnimationKey(falconAnimationState(state)),
+      origin: GREEN_VENOM_FALCON_ORIGIN,
+      displayWidth: GREEN_VENOM_FALCON_DISPLAY_WIDTH,
+      deathKey: greenVenomFalconAnimationKey('death'),
     };
   }
   return null;
@@ -287,6 +331,7 @@ export class BattleScene extends Phaser.Scene {
     preloadArmoredSnailEffects(this, baseUrl);
     preloadShadowRunner(this, baseUrl);
     preloadMegaBrainrotGorilla(this, baseUrl);
+    preloadGreenVenomFalcon(this, baseUrl);
     preloadChaosArena(this, baseUrl);
     preloadArenaSpawnPortal(this, baseUrl);
   }
@@ -299,6 +344,7 @@ export class BattleScene extends Phaser.Scene {
     registerArmoredSnailEffectsAnimations(this);
     registerShadowRunnerAnimations(this);
     registerMegaBrainrotGorillaAnimations(this);
+    registerGreenVenomFalconAnimations(this);
     registerArenaSpawnPortalAnimations(this);
     this.cameras.main.setBackgroundColor('rgba(0,0,0,0)');
     this.terrainLayer = this.add.container(0, 0).setDepth(-10);
@@ -591,6 +637,7 @@ export class BattleScene extends Phaser.Scene {
         deathCleanup: null,
         locomotionTween: locomotionTween ?? null,
         spinAura: null,
+        animationOverride: null,
         pendingHurt: false,
         lastX: character.col + 0.5,
         lastY: character.row + 0.5,
@@ -622,6 +669,11 @@ export class BattleScene extends Phaser.Scene {
       spec.team === 'ally'
         ? animatedCharacterVisual(spec.typeId as CharacterTypeId, spec.mergeRank)
         : animatedEnemyVisual(spec.typeId as EnemyTypeId);
+    // A failed/missing spritesheet must not break the battle: fall back to procedural art.
+    const animatedReady = animated
+      ? this.textures.exists(animated.animationKey('idle')) &&
+        this.anims.exists(animated.animationKey('idle'))
+      : false;
     const progressionLevel = spec.team === 'ally' ? spec.mergeRank : spec.level;
     const levelScale = 1 + Math.min(progressionLevel - 1, 9) * 0.03;
     const scale = (isBoss ? 1.32 : levelScale) * (options.ghost ? 0.82 : 1);
@@ -643,13 +695,13 @@ export class BattleScene extends Phaser.Scene {
     art.fillEllipse(0, 30, 62, 14);
 
     if (spec.team === 'ally') {
-      if (animated) {
+      if (animatedReady) {
         this.drawAllyAura(art, spec.typeId as CharacterTypeId, spec.mergeRank);
       } else {
         this.drawAllyArt(art, spec.typeId as CharacterTypeId, spec.mergeRank);
       }
     } else {
-      if (!animated) this.drawEnemyArt(art, spec.typeId as EnemyTypeId, spec.level, isBoss);
+      if (!animatedReady) this.drawEnemyArt(art, spec.typeId as EnemyTypeId, spec.level, isBoss);
       if (!options.ghost) {
         art.lineStyle(2, 0xff5a7a, 0.35);
         art.strokeCircle(0, 2, 44);
@@ -657,7 +709,7 @@ export class BattleScene extends Phaser.Scene {
     }
     container.add(art);
 
-    if (animated) {
+    if (animated && animatedReady) {
       const idleKey = animated.animationKey('idle');
       const sprite = this.add
         .sprite(0, UNIT_FEET_Y, idleKey, 0)
@@ -1010,6 +1062,7 @@ export class BattleScene extends Phaser.Scene {
           deathCleanup: null,
           locomotionTween: locomotionTween ?? null,
           spinAura: null,
+          animationOverride: null,
           pendingHurt: false,
           lastX: unit.x,
           lastY: unit.y,
@@ -1104,6 +1157,14 @@ export class BattleScene extends Phaser.Scene {
     deltaY = 0,
   ): void {
     view.locomotion = moved ? 'walk' : 'idle';
+    if (view.animationOverride && view.sprite && view.visual) {
+      const overrideKey = view.visual.animationKey(view.animationOverride);
+      if (!(view.sprite.anims.isPlaying && view.sprite.anims.currentAnim?.key === overrideKey)) {
+        view.sprite.play(overrideKey);
+      }
+      view.locomotionTween?.stop();
+      return;
+    }
     if (moved && view.typeId === ARMORED_SNAIL_ENEMY_ID) {
       const now = this.time.now;
       if (!this.prefersReducedMotion() && now >= view.nextTrailAt) {
@@ -1160,7 +1221,8 @@ export class BattleScene extends Phaser.Scene {
         this.playAnimatedCharacterAction(unitId, 'hurt');
         return;
       }
-      const locomotionKey = visual.animationKey(view.locomotion);
+      const state = view.animationOverride ?? view.locomotion;
+      const locomotionKey = visual.animationKey(state);
       if (!(sprite.anims.isPlaying && sprite.anims.currentAnim?.key === locomotionKey)) {
         sprite.play(locomotionKey);
       }
@@ -1169,6 +1231,33 @@ export class BattleScene extends Phaser.Scene {
     view.actionHandler = { event, handler };
     sprite.once(event, handler);
     if (!(sprite.anims.isPlaying && sprite.anims.currentAnim?.key === key)) sprite.play(key);
+  }
+
+  private setAnimationOverride(view: UnitView | undefined, state: UnitPlayableState): void {
+    if (!view || !view.sprite || !view.visual || !view.alive) return;
+    if (view.actionHandler) {
+      view.sprite.off(view.actionHandler.event, view.actionHandler.handler);
+      view.actionHandler = null;
+    }
+    view.action = null;
+    view.pendingHurt = false;
+    view.animationOverride = state;
+    view.locomotionTween?.stop();
+    const key = view.visual.animationKey(state);
+    if (!this.anims.exists(key)) return;
+    if (!(view.sprite.anims.isPlaying && view.sprite.anims.currentAnim?.key === key)) {
+      view.sprite.play(key);
+    }
+  }
+
+  private clearAnimationOverride(view: UnitView | undefined): void {
+    if (!view || !view.animationOverride) return;
+    view.animationOverride = null;
+    if (!view.alive || !view.sprite || !view.visual) return;
+    const key = view.visual.animationKey(view.locomotion);
+    if (!(view.sprite.anims.isPlaying && view.sprite.anims.currentAnim?.key === key)) {
+      view.sprite.play(key);
+    }
   }
 
   private scheduleLaserShot(
@@ -1214,6 +1303,7 @@ export class BattleScene extends Phaser.Scene {
     view.laserRelease?.cancel();
     view.laserRelease = null;
     view.locomotionTween?.stop();
+    view.animationOverride = null;
     this.clearSpinAura(view);
     if (view.sprite && view.actionHandler) {
       view.sprite.off(view.actionHandler.event, view.actionHandler.handler);
@@ -1273,7 +1363,10 @@ export class BattleScene extends Phaser.Scene {
           }
           this.controller.playSound('hit');
         }
-        this.playAnimatedCharacterAction(event.attackerId, 'attack');
+        this.playAnimatedCharacterAction(
+          event.attackerId,
+          event.kind === 'poison' ? 'poison' : 'attack',
+        );
         break;
       }
       case 'chain': {
@@ -1318,18 +1411,26 @@ export class BattleScene extends Phaser.Scene {
         const view = this.unitViews.get(event.unitId);
         if (event.status === 'poisoned') {
           this.spawnFloatingText(at.px, at.py - 40, t('canvasPoisoned'), '#7dff5a', 16);
-          if (!reduced) this.spawnDotBurst(at, 0x7dff5a, 6);
+          if (!reduced) {
+            this.spawnDotBurst(at, 0x7dff5a, 6);
+            if (view) {
+              this.spawnUnitOneShotEffect(view, GREEN_VENOM_FALCON_EFFECTS.poisonImpact, 86, 0.75);
+            }
+          }
         } else if (event.status === 'spin-start') {
           this.spawnFloatingText(at.px, at.py - 62, t('canvasSpinStart'), '#b6ff7a', 17);
-          if (!reduced && view) this.startSpinAura(view, 900);
+          this.setAnimationOverride(view, 'spin');
+          if (!reduced && view) this.startSpinAura(view);
         } else if (event.status === 'spin-break') {
           this.spawnFloatingText(at.px, at.py - 62, t('canvasSpinBreak'), '#ffe86b', 18);
+          this.setAnimationOverride(view, 'spin-break');
           if (!reduced && view) {
             this.clearSpinAura(view);
-            this.startSpinAura(view, 1800);
+            this.spawnOneShotEffect(at, GREEN_VENOM_FALCON_EFFECTS.spinBreak, 170);
             this.spawnRing(at.px, at.py, 0x7dff5a, 70, 380);
           }
         } else if (event.status === 'spin-end' && view) {
+          this.clearAnimationOverride(view);
           this.clearSpinAura(view);
         }
         break;
@@ -1345,6 +1446,9 @@ export class BattleScene extends Phaser.Scene {
         );
         if (!reduced) {
           this.cameras.main.shake(500, 0.008);
+          this.spawnOneShotEffect(at, GREEN_VENOM_FALCON_EFFECTS.earthquake, 420, {
+            ground: true,
+          });
           this.spawnRing(at.px, at.py, 0x62e7ff, 220, 700);
           this.spawnRing(at.px, at.py, 0x7dff5a, 150, 520);
         }
@@ -1361,6 +1465,8 @@ export class BattleScene extends Phaser.Scene {
           if (isBoss) {
             if (view?.typeId === MEGA_BRAINROT_GORILLA_ENEMY_ID) {
               this.spawnOneShotEffect(at, MEGA_BRAINROT_GORILLA_EFFECTS.defeat, 128);
+            } else if (view?.typeId === GREEN_VENOM_FALCON_ENEMY_ID) {
+              this.spawnOneShotEffect(at, GREEN_VENOM_FALCON_EFFECTS.defeat, 320);
             }
             this.spawnRing(at.px, at.py, 0xffd447, 92, 520);
             this.spawnRing(at.px, at.py, 0x7dff5a, 64, 380);
@@ -1413,6 +1519,12 @@ export class BattleScene extends Phaser.Scene {
     options: { showMuzzle?: boolean; duration?: number } = {},
   ): void {
     if (options.showMuzzle !== false) this.spawnOneShotEffect(from, effects.muzzle, 56);
+    const projectileReady =
+      this.anims.exists(effects.projectile) && this.textures.exists(effects.projectile);
+    if (!projectileReady) {
+      this.spawnImpact(to, effects.projectile.includes('poison') ? 0x7dff5a : 0xffa35a);
+      return;
+    }
     const bolt = this.add
       .sprite(from.px, from.py, effects.projectile, 0)
       .setOrigin(0.5)
@@ -1428,12 +1540,23 @@ export class BattleScene extends Phaser.Scene {
       ease: 'Linear',
       onComplete: () => {
         bolt.destroy();
-        this.spawnOneShotEffect(to, effects.impact, 72);
+        if (!this.spawnOneShotEffect(to, effects.impact, 72)) {
+          this.spawnImpact(to, effects.impact.includes('poison') ? 0x7dff5a : 0xffa35a);
+        }
       },
     });
   }
 
   private spawnPoisonSpit(from: { px: number; py: number }, to: { px: number; py: number }): void {
+    if (
+      this.anims.exists(GREEN_VENOM_FALCON_EFFECTS.poisonProjectile) &&
+      this.textures.exists(GREEN_VENOM_FALCON_EFFECTS.poisonProjectile)
+    ) {
+      this.spawnProjectileAttack(from, to, GREEN_VENOM_FALCON_PROJECTILE_EFFECTS, {
+        duration: 260,
+      });
+      return;
+    }
     const bolt = this.add.circle(from.px, from.py, 10, 0x7dff5a, 0.95);
     this.effectsLayer?.add(bolt);
     this.tweens.add({
@@ -1467,27 +1590,34 @@ export class BattleScene extends Phaser.Scene {
     }
   }
 
-  private startSpinAura(view: UnitView, duration: number): void {
+  private startSpinAura(view: UnitView): void {
     this.clearSpinAura(view);
     const aura = this.add.container(0, 0);
-    for (let ring = 0; ring < 3; ring += 1) {
-      const radius = 38 + ring * 9;
-      const arc = this.add.graphics();
-      arc.lineStyle(3, ring === 1 ? 0x7dff5a : 0x3fbf4a, 0.55 - ring * 0.1);
-      arc.beginPath();
-      arc.arc(0, 0, radius, ring * 1.2, ring * 1.2 + Math.PI * 1.1);
-      arc.strokePath();
-      aura.add(arc);
+    const auraKey = GREEN_VENOM_FALCON_EFFECTS.spinAura;
+    if (this.anims.exists(auraKey) && this.textures.exists(auraKey)) {
+      const sprite = this.add.sprite(0, 0, auraKey, 0).setOrigin(0.5).setDisplaySize(180, 180);
+      sprite.play(auraKey);
+      aura.add(sprite);
+    } else {
+      for (let ring = 0; ring < 3; ring += 1) {
+        const radius = 38 + ring * 9;
+        const arc = this.add.graphics();
+        arc.lineStyle(3, ring === 1 ? 0x7dff5a : 0x3fbf4a, 0.55 - ring * 0.1);
+        arc.beginPath();
+        arc.arc(0, 0, radius, ring * 1.2, ring * 1.2 + Math.PI * 1.1);
+        arc.strokePath();
+        aura.add(arc);
+      }
+      this.tweens.add({
+        targets: aura,
+        angle: 360,
+        duration: 900,
+        repeat: -1,
+        ease: 'Linear',
+      });
     }
     view.container.addAt(aura, 0);
     view.spinAura = aura;
-    this.tweens.add({
-      targets: aura,
-      angle: 360,
-      duration,
-      repeat: -1,
-      ease: 'Linear',
-    });
   }
 
   private spawnUnitOneShotEffect(
@@ -1496,7 +1626,14 @@ export class BattleScene extends Phaser.Scene {
     size: number,
     alpha = 1,
   ): Phaser.GameObjects.Sprite | null {
-    if (!view.sprite || !ANIMATED_UNIT_ANIMATION_KEYS.has(key)) return null;
+    if (
+      !view.sprite ||
+      !ANIMATED_UNIT_ANIMATION_KEYS.has(key) ||
+      !this.anims.exists(key) ||
+      !this.textures.exists(key)
+    ) {
+      return null;
+    }
     const sprite = this.add
       .sprite(0, 0, key, 0)
       .setOrigin(0.5)
@@ -1515,7 +1652,13 @@ export class BattleScene extends Phaser.Scene {
     size: number,
     options: { ground?: boolean; alpha?: number } = {},
   ): Phaser.GameObjects.Sprite | null {
-    if (!ANIMATED_UNIT_ANIMATION_KEYS.has(key)) return null;
+    if (
+      !ANIMATED_UNIT_ANIMATION_KEYS.has(key) ||
+      !this.anims.exists(key) ||
+      !this.textures.exists(key)
+    ) {
+      return null;
+    }
     const sprite = this.add
       .sprite(at.px, at.py, key, 0)
       .setOrigin(0.5)
