@@ -85,7 +85,7 @@ describe('wave rewards and retry policy', () => {
     if (!first.ok) return;
     expect(first.value.firstCompletion).toBe(true);
     expect(first.value.rewardCoins).toBe(120);
-    expect(first.value.firstCompletionBonus).toBe(60);
+    expect(first.value.firstCompletionBonus).toBe(78);
     expect(first.value.profile.coins).toBe(120);
     expect(first.value.profile.completedWaves).toEqual([1]);
     expect(first.value.profile.currentWave).toBe(2);
@@ -95,9 +95,9 @@ describe('wave rewards and retry policy', () => {
     expect(second.ok).toBe(true);
     if (!second.ok) return;
     expect(second.value.firstCompletion).toBe(false);
-    expect(second.value.rewardCoins).toBe(60);
+    expect(second.value.rewardCoins).toBe(42);
     expect(second.value.firstCompletionBonus).toBe(0);
-    expect(second.value.profile.coins).toBe(180);
+    expect(second.value.profile.coins).toBe(162);
     expect(second.value.profile.completedWaves).toEqual([1]);
     expect(second.value.profile.currentWave).toBe(2);
   });
@@ -129,9 +129,9 @@ describe('wave rewards and retry policy', () => {
     const first = claimWaveReward(base, 10);
     expect(first.ok).toBe(true);
     if (!first.ok) return;
-    expect(first.value.rewardCoins).toBe(600);
-    expect(first.value.firstCompletionBonus).toBe(300);
-    expect(first.value.profile.coins).toBe(600);
+    expect(first.value.rewardCoins).toBe(500);
+    expect(first.value.firstCompletionBonus).toBe(325);
+    expect(first.value.profile.coins).toBe(500);
     expect(first.value.profile.currentWave).toBe(11);
     expect(first.value.profile.unlockedWave).toBe(11);
 
@@ -139,9 +139,9 @@ describe('wave rewards and retry policy', () => {
     expect(replay.ok).toBe(true);
     if (!replay.ok) return;
     expect(replay.value.firstCompletion).toBe(false);
-    expect(replay.value.rewardCoins).toBe(300);
+    expect(replay.value.rewardCoins).toBe(175);
     expect(replay.value.firstCompletionBonus).toBe(0);
-    expect(replay.value.profile.coins).toBe(900);
+    expect(replay.value.profile.coins).toBe(675);
   });
 
   it('keeps wave rewards independent across profiles', () => {

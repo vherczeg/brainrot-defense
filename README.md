@@ -11,6 +11,7 @@ az azonosakat, majd indíts automatikus csatát a betolakodó szörnyek ellen.
 - Kétdimenziós fejlődés: **evolúciós rang 1–10** egyesítésből és **karakterszint 1–100**
   tapasztalati pontból.
 - Harcos eladása megerősítéssel, rangalapú visszatérítéssel; teljes pályán is felszabadítható hely.
+- M3.4 egyensúly: fokozatos 20 hullámos gazdaság, erősebb 10. és 20. főellenség, 35%-os replay jutalom.
 - Egérrel, érintéssel és billentyűzettel is játszható.
 - A játéklogika teljesen független a Phaser rendereléstől és a React UI-tól.
 
@@ -174,7 +175,7 @@ véletlenül éles deploy történjen. **A custom domain és a Pages beállítá
 
 ## Tesztelés
 
-- **Unit/integrációs:** 315 teszt, 39 fájlban. merge/rang-szabályok, eladás és visszatérítés, XP-küszöbök minden
+- **Unit/integrációs:** 328 teszt, 40 fájlban. merge/rang-szabályok, eladás és visszatérítés, M3.4 jutalomtábla és boss-nehézség, XP-küszöbök minden
   határon, XP-összeadás és sapka, első győzelmi és csökkentett ismételt XP, halott és nem
   résztvevő harcosok kizárása, gazdaság, statisztikák, rács, hullámok, targeting, range,
   cooldown, páncél, láncvillám, halál, győzelem/vereség, determinizmus, 1×/2× sebesség,
@@ -212,10 +213,11 @@ véletlenül éles deploy történjen. **A custom domain és a Pages beállítá
   kínál hullámválasztót, ezért játék közben csak egy későbbi mérföldköben válik elérhetővé.
 - Az automatikus több-lapos védelem a Web Locks API-ra épül; ahol ez nem elérhető, ott a
   játék a korábbi single-tab viselkedésre esik vissza.
-- **M1.4 kiegyensúlyozási ismert hiba:** a szimuláció szerint a 10. hullám több stratégiánál
-  33–73 vereséget okoz. Ez nem progression softlock (minden stratégia teljesíti a 10. hullámot),
-  ezért az M1.1 nem változtatja meg a jóváhagyott képleteket; a nehézségi görbét az M1.4-ben kell
-  újrahangolni. A `npm run simulate` ezt figyelmeztetésként jelzi, nem korrektségi hibaként.
+- **M3.4 egyensúly:** az új gazdaság és ellenségszintek mind a nyolc vizsgált stratégiánál
+  teljesítik a 20 hullámot; a kezdő és kazsuális stratégiák a 10. és 20. hullámban szoros
+  csatát vívnak. A részletes előtte/utána táblázat és szimulációs eredmények:
+  [docs/BALANCE_M3.4.md](docs/BALANCE_M3.4.md). Valós játékteszt továbbra is szükséges, különösen
+  Ábel szokásos játékstílusával.
 - Automatizált böngészőteszt Chromiumon (desktop + mobil emuláció) fut. Firefox és Safari
   manuális ellenőrzést igényel; a kód szabványos Pointer Events/IndexedDB/Web Locks API-kra épül.
 - A custom domain beállítása és az éles deploy a tulajdonos jóváhagyását igényli.

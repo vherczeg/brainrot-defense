@@ -68,8 +68,8 @@ test('defeats the wave 10 boss and opens wave 11', async ({ page }, testInfo) =>
   await page.getByTestId('battle-button').click();
   await expect(page.getByTestId('battle-hud')).toBeVisible();
   await expect(page.getByTestId('result-overlay')).toBeVisible({ timeout: 60_000 });
-  await expect(page.getByTestId('result-overlay')).toContainText('+600');
-  await expect(page.getByTestId('result-first-bonus')).toContainText('+300');
+  await expect(page.getByTestId('result-overlay')).toContainText('+500');
+  await expect(page.getByTestId('result-first-bonus')).toContainText('+325');
 
   await page.getByTestId('result-next').click();
   await expect(page.getByTestId('battle-button')).toBeVisible();
@@ -95,8 +95,8 @@ test('defeats the Green Venom Falcon on wave 20 and completes all waves', async 
   await expect(page.getByTestId('battle-hud')).toBeVisible();
   await expect(page.getByTestId('result-overlay')).toBeVisible({ timeout: 60_000 });
   await expect(page.getByTestId('result-title')).toContainText('MINDEN HULLÁMOT TELJESÍTETTÉL');
-  await expect(page.getByTestId('result-overlay')).toContainText('+3000');
-  await expect(page.getByTestId('result-first-bonus')).toContainText('+1500');
+  await expect(page.getByTestId('result-overlay')).toContainText('+1200');
+  await expect(page.getByTestId('result-first-bonus')).toContainText('+780');
   await board.screenshot({ path: '/tmp/opencode/boss20_0.png' });
 
   await page.getByTestId('result-next').click();
@@ -104,6 +104,6 @@ test('defeats the Green Venom Falcon on wave 20 and completes all waves', async 
   await page.getByTestId('battle-button').click();
   await expect(page.getByTestId('battle-hud')).toBeVisible();
   await expect(page.getByTestId('result-overlay')).toBeVisible({ timeout: 60_000 });
-  await expect(page.getByTestId('result-overlay')).toContainText('+1500');
+  await expect(page.getByTestId('result-overlay')).toContainText('+420');
   await expect(page.getByTestId('result-first-bonus')).toHaveCount(0);
 });

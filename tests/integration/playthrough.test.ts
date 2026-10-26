@@ -137,7 +137,7 @@ describe('complete M0 playthrough', () => {
       if (!repeat.ok) throw new Error('claim failed');
       profile = repeat.value.profile;
     }
-    expect(profile.coins).toBe(coinsAfterFirst + 3 * 60);
+    expect(profile.coins).toBe(coinsAfterFirst + 3 * 42);
     expect(profile.completedWaves).toEqual([1]);
     expect(profile.currentWave).toBe(2);
   });

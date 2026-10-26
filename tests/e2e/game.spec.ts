@@ -104,7 +104,7 @@ test('fights a real battle, rewards the player, and persists progress after relo
   await expect(page.getByTestId('result-overlay')).toBeVisible({ timeout: 60_000 });
   await expect(page.getByTestId('result-title')).toContainText('teljesítve');
   await expect(page.getByTestId('result-overlay')).toContainText('+120');
-  await expect(page.getByTestId('result-first-bonus')).toContainText('+60');
+  await expect(page.getByTestId('result-first-bonus')).toContainText('+78');
   await expect(page.getByTestId('result-xp-reward')).toContainText('+75 TP / harcos');
   await expect(page.getByTestId('result-level-ups')).toContainText('SZINTLÉPÉS');
 

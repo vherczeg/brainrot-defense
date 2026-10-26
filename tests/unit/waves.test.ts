@@ -52,16 +52,35 @@ describe('wave definitions', () => {
     expect(finalWave?.nameHu).toContain('Zöld Méreg Sólyom');
   });
 
-  it('rewards increase with wave difficulty', () => {
-    for (let index = 1; index < WAVE_DEFINITIONS.length; index += 1) {
-      const previous = WAVE_DEFINITIONS[index - 1];
-      const current = WAVE_DEFINITIONS[index];
+  it('rewards increase smoothly across ordinary waves', () => {
+    const ordinaryRewards = WAVE_DEFINITIONS.filter((wave) => !wave.isBossWave).map(
+      (wave) => wave.rewardCoins,
+    );
+    for (let index = 1; index < ordinaryRewards.length; index += 1) {
+      const previous = ordinaryRewards[index - 1];
+      const current = ordinaryRewards[index];
       expect(previous).toBeDefined();
       expect(current).toBeDefined();
-      if (previous && current) {
-        expect(current.rewardCoins).toBeGreaterThan(previous.rewardCoins);
+      if (previous !== undefined && current !== undefined) {
+        expect(current).toBeGreaterThan(previous);
+        expect(current - previous).toBeLessThanOrEqual(75);
       }
     }
+  });
+
+  it('boss rewards are attractive milestones without breaking the curve', () => {
+    const boss10 = getWave(10);
+    const boss20 = getWave(20);
+    const wave9 = getWave(9);
+    const wave11 = getWave(11);
+    const wave19 = getWave(19);
+    expect(boss10?.rewardCoins).toBe(500);
+    expect(boss20?.rewardCoins).toBe(1200);
+    expect(boss10?.rewardCoins).toBeGreaterThan(wave9?.rewardCoins ?? 0);
+    expect(boss10?.rewardCoins).toBeGreaterThan(wave11?.rewardCoins ?? 0);
+    expect(boss20?.rewardCoins).toBeGreaterThan(wave19?.rewardCoins ?? 0);
+    expect((boss10?.rewardCoins ?? 0) / (wave9?.rewardCoins ?? 1)).toBeLessThanOrEqual(1.5);
+    expect((boss20?.rewardCoins ?? 0) / (wave19?.rewardCoins ?? 1)).toBeLessThanOrEqual(1.5);
   });
 
   it('only marks waves 10 and 20 as boss waves', () => {
@@ -70,11 +89,12 @@ describe('wave definitions', () => {
     ]);
   });
 
-  it('splits every reward into a replay half and a one-time first bonus half', () => {
+  it('splits every reward into a 35% replay reward and a first-clear bonus', () => {
     for (const wave of WAVE_DEFINITIONS) {
       const replay = waveReplayRewardCoins(wave);
       const bonus = waveFirstCompletionBonus(wave);
       expect(replay + bonus).toBe(wave.rewardCoins);
+      expect(replay).toBe(Math.floor((wave.rewardCoins * 35) / 100));
       expect(replay).toBeGreaterThan(0);
       expect(bonus).toBeGreaterThan(0);
     }

@@ -147,10 +147,24 @@ M1.4 balance/playtesting item; M1.1 must not silently change the agreed progress
 | `mini-brainrot`         | Mini Brainrot         |   55 |   7 |    1.2 s |  1.05 |   1.0 |    0% |
 | `armored-slug`          | Páncélozott Csiga     |  150 |   9 |    1.6 s |   0.5 |   1.0 |   35% |
 | `shadow-runner`         | Árny Futó             |   80 |   9 |    0.9 s |   1.7 |   1.0 |    0% |
-| `mega-brainrot-gorilla` | Mega Brainrot Gorilla | 1400 |  34 |    1.4 s |  0.55 |   1.2 |   25% |
+| `mega-brainrot-gorilla` | Mega Brainrot Gorilla | 1800 |  36 |    1.4 s |  0.55 |   1.2 |   25% |
+| `green-venom-falcon`    | Zöld Méreg Sólyom     | 1700 |  36 |   1.15 s |   0.8 |   1.2 |   15% |
 
-Enemy stat scaling per level: HP × `1.35^(level-1)`, ATK × `1.28^(level-1)`. The boss is visually
-larger, has `isBoss`, and starts at wave-defined level (M1.1: level 3).
+Enemy stat scaling per level: HP × `1.35^(level-1)`, ATK × `1.28^(level-1)` for ordinary enemies.
+Bosses use their own growth values: Gorilla `1.35` HP / `1.28` ATK, Falcon `1.38` HP / `1.30` ATK.
+The bosses are visually larger, have `isBoss`, and use wave-defined levels: Gorilla L3 on wave 10,
+Falcon L6 on wave 20.
+
+### Boss encounters
+
+- **Wave 10 – Mega Brainrot Gorilla:** 3 281 HP, 59 ATK, 25% armor. It is a durable milestone
+  supported by two Mini Brainrots and an Armored Slug. A narrow four-unit army can be focused down;
+  a wider formation with several ranged attackers performs much better.
+- **Wave 20 – Zöld Méreg Sólyom:** 8 508 HP, 134 ATK, 15% armor, six supporting enemies. Ábel's
+  mechanics are unchanged: black-talon melee, poison over time, a spinning shield, spin aura
+  damage, ranged shield-breaking with a 50% spin slow, and a two-second earthquake freeze on
+  arrival. The battle is balanced around roughly 8–12 developed units with enough ranged damage to
+  break the shield and enough spacing to survive poison and spin pressure.
 
 ## Economy
 
@@ -159,7 +173,7 @@ larger, has `isBoss`, and starts at wave-defined level (M1.1: level 3).
 - Purchases create rank 1, level 1 units in the first empty allied cell (row-major order).
 - Purchases validate funds and free space before any mutation.
 - A full board blocks purchasing; the player can merge or sell a selected unit to free a cell.
-- Wave coin rewards are claimable once per wave. Replaying a completed wave gives no new coins.
+- Wave coin rewards are claimable once per wave. A replay gives **35%** of the listed first-clear reward, so farming remains useful but cannot replace advancing.
 - Defeat grants **20 comfort coins**. Units are never lost, and retries are free. This guarantees
   that an unlucky ordinary playthrough cannot become permanently unplayable.
 - Coins have a hard persistence bound of **1,000,000,000**. A reward or comfort grant that would
@@ -203,20 +217,32 @@ sellRefund(rank)           = floor(purchaseValueForRank(rank) * 0.5)
 
 ### Waves
 
-| Wave | Name                  | Enemies                                | Reward |
-| ---: | --------------------- | -------------------------------------- | -----: |
-|    1 | Első kopogás          | 2 × Mini L1                            |    120 |
-|    2 | Több kis szörny       | 3 × Mini L1                            |    140 |
-|    3 | Páncélos vendég       | 2 × Mini L1, 1 × Csiga L1              |    170 |
-|    4 | Gyors lábak           | 2 × Mini L2, 2 × Futó L1               |    190 |
-|    5 | Vegyes had            | 2 × Mini L1, 1 × Csiga L1, 2 × Futó L2 |    220 |
-|    6 | Erősödő sereg         | 3 × Mini L3, 1 × Csiga L2              |    260 |
-|    7 | Acélfal               | 2 × Csiga L2, 2 × Mini L2              |    300 |
-|    8 | Árny roham            | 4 × Futó L2, 1 × Mini L2               |    340 |
-|    9 | Káosz kapuja          | 3 × Mini L3, 2 × Csiga L2, 1 × Futó L3 |    400 |
-|   10 | Mega Brainrot Gorilla | Boss L3, 2 × Mini L3, 1 × Csiga L2     |    600 |
+| Wave | Name                  | Enemies                                               | Reward |
+| ---: | --------------------- | ----------------------------------------------------- | -----: |
+|    1 | Első kopogás          | 2 × Mini L1                                           |    120 |
+|    2 | Több kis szörny       | 3 × Mini L1                                           |    145 |
+|    3 | Páncélos vendég       | 2 × Mini L1, 1 × Csiga L1                             |    170 |
+|    4 | Gyors lábak           | 2 × Mini L2, 2 × Futó L1                              |    195 |
+|    5 | Vegyes had            | 2 × Mini L1, 1 × Csiga L1, 2 × Futó L2                |    225 |
+|    6 | Erősödő sereg         | 3 × Mini L4, 1 × Csiga L3                             |    255 |
+|    7 | Acélfal               | 2 × Csiga L3, 2 × Mini L3                             |    285 |
+|    8 | Árny roham            | 4 × Futó L3, 1 × Mini L3                              |    315 |
+|    9 | Káosz kapuja          | 3 × Mini L4, 2 × Csiga L3, 1 × Futó L4                |    350 |
+|   10 | Mega Brainrot Gorilla | 1 × Gorilla L3, 2 × Mini L3, 1 × Csiga L2             |    500 |
+|   11 | Káosz utórezgés       | 3 × Mini L5, 1 × Csiga L4                             |    425 |
+|   12 | Árny vihar            | 4 × Futó L5, 1 × Mini L5                              |    475 |
+|   13 | Vastag fal            | 2 × Csiga L5, 3 × Mini L5, 1 × Futó L5                |    525 |
+|   14 | Kettős szorítás       | 2 × Mini L5, 2 × Csiga L5, 2 × Futó L6                |    575 |
+|   15 | Sűrű raj              | 3 × Mini L6, 2 × Csiga L5, 1 × Futó L5, 1 × Futó L6   |    625 |
+|   16 | Mérges hullám         | 4 × Mini L6, 2 × Csiga L6, 2 × Futó L6                |    675 |
+|   17 | Hétpróbás             | 4 × Mini L6, 2 × Csiga L6, 1 × Futó L6, 1 × Futó L7   |    725 |
+|   18 | Acél és árnyék        | 4 × Mini L6, 2 × Csiga L6, 1 × Futó L6, 3 × Futó L7   |    775 |
+|   19 | A sólyom árnyéka      | 4 × Mini L7, 2 × Csiga L6, 2 × Futó L6, 3 × Futó L7   |    825 |
+|   20 | Zöld Méreg Sólyom     | 1 × Sólyom L6, 2 × Mini L6, 2 × Csiga L6, 1 × Futó L6 |   1200 |
 
-Exact positions are data in `src/game/domain/waves.ts` and are validated by tests.
+Exact positions are data in `src/game/domain/waves.ts` and are validated by tests. First-clear
+rewards total **9 385**; replays use 35% of the listed value. The wave 10→11 transition drops back
+to the ordinary curve after the boss premium, preventing a permanent post-boss reward inflation.
 
 ## Combat simulation
 
@@ -245,7 +271,7 @@ ordering. This is explicit and tested; future balance changes can adjust IDs/ord
 
 - Base damage is the attacker's current attack.
 - Armor mitigation: `max(1, round(rawDamage * (1 - armor)))`, with armor clamped to 0–90%.
-- Armored Slug: 35% mitigation. Boss: 25%.
+- Armored Slug: 35% mitigation. Mega Brainrot Gorilla: 25%. Green Venom Falcon: 15%.
 - Chain lightning: primary target takes full damage; exactly one additional enemy within 1.6 grid
   units of the primary takes `attack × 0.6` (after its armor). Ties resolved by distance then ID.
   The chain only jumps if the primary target survives the initial hit.
@@ -263,7 +289,7 @@ ordering. This is explicit and tested; future balance changes can adjust IDs/ord
 - Victory: no living enemies remain.
 - Defeat: no living allies remain, or the 90 s limit is reached.
 - On victory, each battle-start participant receives XP, the wave coin reward is granted **once**,
-  `completedWaves` is updated, and `currentWave` advances up to wave 10.
+  `completedWaves` is updated, and `currentWave` advances up to wave 20.
 - On defeat, no XP is granted, the persistent army is untouched, and 20 comfort coins are granted.
 - On surrender, no XP and no coins are granted; the army is untouched.
 - The result is stored only after the battle resolves. A mid-battle browser close restores the
