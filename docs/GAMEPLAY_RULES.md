@@ -244,6 +244,17 @@ Exact positions are data in `src/game/domain/waves.ts` and are validated by test
 rewards total **9 385**; replays use 35% of the listed value. The wave 10→11 transition drops back
 to the ordinary curve after the boss premium, preventing a permanent post-boss reward inflation.
 
+### M3.4.2 approved early/mid curve
+
+- Wave 3 adds a level-2 Mini Brainrot and upgrades the Slug to L2.
+- Wave 4 upgrades both runners to L2, so an untouched starting army can no longer coast through it.
+- Wave 5 upgrades both minions and the Slug to L2.
+- Wave 7 gains a third Mini Brainrot L3, removing the DPS dip after wave 6.
+- Wave 11 gains a Mini Brainrot L4 and a Shadow Runner L4, so it is stronger than wave 9 again.
+- Wave 17 gains a fifth Mini Brainrot L6, smoothing the jump into wave 18.
+- All rewards, defender stats, prices, XP, saves, bosses, and Green Venom Falcon mechanics are
+  unchanged.
+
 ## Combat simulation
 
 - Fixed step: **1/30 s**. The accumulator is fed real elapsed time (clamped to 250 ms). At most 20

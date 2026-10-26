@@ -116,3 +116,30 @@ Replay farming still adds gold but has diminishing value:
   wealth through new first-clear rewards. Fresh profiles have a tighter but still completable
   economy, as shown by the simulation.
 - Import/export and old M0.1 migration are unchanged.
+
+## M3.4.2 follow-up: approved early/mid curve
+
+The M3.4.1 audit found that the untouched three-unit starting army could clear waves 1–4 and reach
+wave 5 with 980 gold. The approved follow-up changes only these wave compositions:
+
+| Wave | Before                                             | After                                | HP before → after | Nominal DPS before → after |
+| ---: | -------------------------------------------------- | ------------------------------------ | ----------------: | -------------------------: |
+|    3 | 2× Mini L1, 1× Slug L1                             | 1× Mini L1, 1× Mini L2, 1× Slug L2   |         260 → 332 |              17.29 → 20.83 |
+|    4 | 2× Mini L2, 2× Runner L1                           | 2× Mini L2, 2× Runner L2             |         308 → 364 |              35.00 → 41.67 |
+|    5 | 2× Mini L1, 1× Slug L1, 2× Runner L2               | 2× Mini L2, 1× Slug L2, 2× Runner L2 |         476 → 567 |              43.96 → 49.17 |
+|    7 | 2× Slug L3, 2× Mini L3                             | 2× Slug L3, 3× Mini L3               |         746 → 846 |              37.08 → 46.25 |
+|   11 | 3× Mini L5, 1× Slug L4                             | +1× Mini L4, +1× Runner L4           |       918 → 1,250 |              59.38 → 88.55 |
+|   17 | 4× Mini L6, 2× Slug L6, 1× Runner L6, 1× Runner L7 | +1× Mini L6                          |     3,177 → 3,424 |            197.64 → 217.64 |
+
+All other wave compositions, rewards, defender stats, prices, XP, saves, boss mechanics, and Falcon
+mechanics are unchanged.
+
+Benchmarks after this change:
+
+- Untouched starting army: wins waves 1–3, then loses wave 4.
+- One sensible early Laser Crocodile purchase: wave 4 becomes a victory with surviving units.
+- Sensible merging and purchasing: completes wave 5 and reaches the existing wave 10 boss.
+- Wave 7 now has more HP than wave 6 and effectively flat DPS instead of a 21% dip.
+- Wave 11 is stronger than wave 9 in both HP and DPS.
+- Wave 17 has more HP and DPS than wave 16.
+- The full M3.4 simulation remains 8/8 completed scenarios with no software correctness failures.

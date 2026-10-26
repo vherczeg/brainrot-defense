@@ -12,6 +12,7 @@ az azonosakat, majd indíts automatikus csatát a betolakodó szörnyek ellen.
   tapasztalati pontból.
 - Harcos eladása megerősítéssel, rangalapú visszatérítéssel; teljes pályán is felszabadítható hely.
 - M3.4 egyensúly: fokozatos 20 hullámos gazdaság, erősebb 10. és 20. főellenség, 35%-os replay jutalom.
+- M3.4.2 early curve: a 3–5., 7., 11. és 17. hullám célzott erősítése; a kezdő sereg már a 4. hullámnál fejlesztést igényel.
 - Egérrel, érintéssel és billentyűzettel is játszható.
 - A játéklogika teljesen független a Phaser rendereléstől és a React UI-tól.
 
@@ -175,7 +176,7 @@ véletlenül éles deploy történjen. **A custom domain és a Pages beállítá
 
 ## Tesztelés
 
-- **Unit/integrációs:** 328 teszt, 40 fájlban. merge/rang-szabályok, eladás és visszatérítés, M3.4 jutalomtábla és boss-nehézség, XP-küszöbök minden
+- **Unit/integrációs:** 334 teszt, 41 fájlban. merge/rang-szabályok, eladás és visszatérítés, M3.4 jutalomtábla és boss-nehézség, M3.4.2 early-curve benchmarkok, XP-küszöbök minden
   határon, XP-összeadás és sapka, első győzelmi és csökkentett ismételt XP, halott és nem
   résztvevő harcosok kizárása, gazdaság, statisztikák, rács, hullámok, targeting, range,
   cooldown, páncél, láncvillám, halál, győzelem/vereség, determinizmus, 1×/2× sebesség,

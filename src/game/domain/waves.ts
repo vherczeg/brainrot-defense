@@ -39,8 +39,8 @@ export const WAVE_DEFINITIONS: readonly WaveDefinition[] = [
     isBossWave: false,
     enemies: [
       enemy('mini-brainrot', 1, 1, 0),
-      enemy('armored-slug', 1, 2, 0),
-      enemy('mini-brainrot', 1, 3, 1),
+      enemy('armored-slug', 2, 2, 0),
+      enemy('mini-brainrot', 2, 3, 1),
     ],
   },
   {
@@ -52,8 +52,8 @@ export const WAVE_DEFINITIONS: readonly WaveDefinition[] = [
     enemies: [
       enemy('mini-brainrot', 2, 1, 1),
       enemy('mini-brainrot', 2, 4, 1),
-      enemy('shadow-runner', 1, 2, 0),
-      enemy('shadow-runner', 1, 3, 0),
+      enemy('shadow-runner', 2, 2, 0),
+      enemy('shadow-runner', 2, 3, 0),
     ],
   },
   {
@@ -63,9 +63,9 @@ export const WAVE_DEFINITIONS: readonly WaveDefinition[] = [
     rewardCoins: 225,
     isBossWave: false,
     enemies: [
-      enemy('mini-brainrot', 1, 0, 1),
-      enemy('mini-brainrot', 1, 5, 1),
-      enemy('armored-slug', 1, 2, 0),
+      enemy('mini-brainrot', 2, 0, 1),
+      enemy('mini-brainrot', 2, 5, 1),
+      enemy('armored-slug', 2, 2, 0),
       enemy('shadow-runner', 2, 3, 0),
       enemy('shadow-runner', 2, 4, 1),
     ],
@@ -94,6 +94,7 @@ export const WAVE_DEFINITIONS: readonly WaveDefinition[] = [
       enemy('armored-slug', 3, 4, 0),
       enemy('mini-brainrot', 3, 2, 1),
       enemy('mini-brainrot', 3, 3, 1),
+      enemy('mini-brainrot', 3, 5, 1),
     ],
   },
   {
@@ -149,6 +150,8 @@ export const WAVE_DEFINITIONS: readonly WaveDefinition[] = [
       enemy('mini-brainrot', 5, 4, 0),
       enemy('mini-brainrot', 5, 2, 2),
       enemy('armored-slug', 4, 3, 1),
+      enemy('mini-brainrot', 4, 0, 0),
+      enemy('shadow-runner', 4, 5, 0),
     ],
   },
   {
@@ -243,6 +246,7 @@ export const WAVE_DEFINITIONS: readonly WaveDefinition[] = [
       enemy('shadow-runner', 6, 3, 2),
       enemy('shadow-runner', 7, 3, 0),
       enemy('mini-brainrot', 6, 0, 2),
+      enemy('mini-brainrot', 6, 5, 2),
     ],
   },
   {
