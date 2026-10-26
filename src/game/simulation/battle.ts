@@ -1,12 +1,14 @@
 import { characterStats } from '../domain/characters';
 import { characterLevelFromXp } from '../domain/progression';
-import { ENEMY_DEFINITIONS, enemyAbilities, enemyStats } from '../domain/enemies';
+import { ENEMY_DEFINITIONS, enemyAbilities } from '../domain/enemies';
+import { enemyStatsForDifficulty } from '../domain/difficulty';
 import {
   BOARD_COLS,
   BOARD_ROWS,
   type AttackKind,
   type BattleStatus,
   type CharacterInstance,
+  type Difficulty,
   type EnemyAbilities,
   type Team,
   type WaveDefinition,
@@ -75,6 +77,7 @@ export function createBattleState(
   characters: readonly CharacterInstance[],
   wave: WaveDefinition,
   seed = 1,
+  difficulty: Difficulty = 'normal',
 ): BattleState {
   const earthquakeFreezeSec = wave.enemies.reduce((longest, config) => {
     const freezeSec = enemyAbilities(config.typeId).earthquake?.freezeSec ?? 0;
@@ -115,7 +118,7 @@ export function createBattleState(
   });
 
   const enemyUnits: BattleUnit[] = wave.enemies.map((config, index) => {
-    const stats = enemyStats(config.typeId, config.level);
+    const stats = enemyStatsForDifficulty(config.typeId, config.level, difficulty);
     const abilities = enemyAbilities(config.typeId);
     const position = cellCenter(config.col, config.row);
     return {
@@ -166,6 +169,7 @@ export function createBattleState(
   return {
     waveId: wave.id,
     seed,
+    difficulty,
     ticks: 0,
     elapsedSec: 0,
     status: 'running',

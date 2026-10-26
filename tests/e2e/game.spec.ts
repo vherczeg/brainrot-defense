@@ -183,7 +183,7 @@ test('exports a save, imports a valid modified save, and persists it', async ({ 
     profile: { coins: number; name: string; profileId: string };
   };
   expect(envelope.appId).toBe('brainrot-defense');
-  expect(envelope.schemaVersion).toBe(2);
+  expect(envelope.schemaVersion).toBe(3);
   expect(envelope.profile.coins).toBe(350);
 
   envelope.profile.coins = 4321;

@@ -1,4 +1,4 @@
-import type { AttackKind, BattleStatus, EnemyAbilities, Team } from '../domain/types';
+import type { AttackKind, BattleStatus, Difficulty, EnemyAbilities, Team } from '../domain/types';
 
 export const FIXED_TICK_SECONDS = 1 / 30;
 export const MAX_BATTLE_SECONDS = 90;
@@ -53,6 +53,7 @@ export interface BattleUnit {
 export interface BattleState {
   readonly waveId: number;
   readonly seed: number;
+  readonly difficulty: Difficulty;
   readonly ticks: number;
   readonly elapsedSec: number;
   readonly status: BattleStatus;

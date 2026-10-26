@@ -136,7 +136,52 @@ beforeEach(() => {
   globalThis.indexedDB = new IDBFactory();
 });
 
-describe('v1 -> v2 save migration', () => {
+describe('v1 -> v3 save migration', () => {
+  it('migrates a v2 envelope to v3 and defaults difficulty to Normal', () => {
+    const v2Profile = {
+      ...legacyProfile(),
+      characters: [
+        { id: 'unit-1', typeId: 'laser-crocodile', mergeRank: 3, totalXp: 100, col: 1, row: 4 },
+      ],
+      settings: { soundEnabled: true, reducedMotion: false, battleSpeed: 1 },
+    };
+    const parsed = validateEnvelope({
+      format: 'brainrot-defense-save',
+      appId: 'brainrot-defense',
+      schemaVersion: 2,
+      exportedAt: '2026-01-01T00:00:00.000Z',
+      profile: v2Profile,
+    });
+    expect(parsed.ok).toBe(true);
+    if (!parsed.ok) return;
+    expect(parsed.value.schemaVersion).toBe(CURRENT_SAVE_VERSION);
+    expect(parsed.value.profile.coins).toBe(777);
+    expect(parsed.value.profile.settings.difficulty).toBe('normal');
+    expect(parsed.value.profile.characters[0]).toMatchObject({ mergeRank: 3, totalXp: 100 });
+  });
+
+  it('preserves Hard difficulty from a v3 envelope', () => {
+    const hard = profileWith([], {
+      profileId: 'hard-profile',
+      settings: {
+        soundEnabled: true,
+        reducedMotion: false,
+        battleSpeed: 1,
+        difficulty: 'hard',
+      },
+    });
+    const parsed = validateEnvelope({
+      format: 'brainrot-defense-save',
+      appId: 'brainrot-defense',
+      schemaVersion: 3,
+      exportedAt: '2026-01-01T00:00:00.000Z',
+      profile: hard,
+    });
+    expect(parsed.ok).toBe(true);
+    if (!parsed.ok) return;
+    expect(parsed.value.profile.settings.difficulty).toBe('hard');
+  });
+
   it('migrates a valid M0.1 export and preserves all profile metadata', () => {
     const parsed = parseProfileFromImport(JSON.stringify(legacyEnvelope()));
     expect(parsed.ok).toBe(true);
@@ -152,6 +197,7 @@ describe('v1 -> v2 save migration', () => {
       soundEnabled: false,
       reducedMotion: true,
       battleSpeed: 2,
+      difficulty: 'normal',
     });
     expect(parsed.value.upgrades).toEqual({ laser: 2 });
     expect(parsed.value.tutorialSeen).toBe(true);
@@ -267,6 +313,41 @@ describe('v1 -> v2 save migration', () => {
 });
 
 describe('IndexedDB legacy record migration', () => {
+  it('migrates a raw v2 stored record to v3 with Normal difficulty', async () => {
+    const repository = new IndexedDbProfileRepository();
+    const profile = profileWith([unit('unit-1', 'laser-crocodile', 4, 1, 4, 9000)], {
+      profileId: 'v2-stored',
+      coins: 4321,
+    });
+    const v2Payload = {
+      ...profile,
+      settings: {
+        soundEnabled: profile.settings.soundEnabled,
+        reducedMotion: profile.settings.reducedMotion,
+        battleSpeed: profile.settings.battleSpeed,
+      },
+    };
+    await putRawRecord({
+      profileId: 'v2-stored',
+      schemaVersion: 2,
+      checksum: checksumOf(v2Payload),
+      savedAt: 222,
+      payload: v2Payload,
+    });
+
+    const loaded = await repository.loadProfile('v2-stored');
+    expect(loaded.ok).toBe(true);
+    if (!loaded.ok) return;
+    expect(loaded.value.coins).toBe(4321);
+    expect(loaded.value.characters[0]).toMatchObject({ mergeRank: 4, totalXp: 9000 });
+    expect(loaded.value.settings.difficulty).toBe('normal');
+
+    const shadow = (await getRawMeta('shadow:v2-stored')) as StoredProfileRecord;
+    expect(shadow.schemaVersion).toBe(CURRENT_SAVE_VERSION);
+    expect((shadow.payload as { settings: { difficulty: string } }).settings.difficulty).toBe(
+      'normal',
+    );
+  });
   it('loads and migrates a raw v1 stored record', async () => {
     const repository = new IndexedDbProfileRepository();
     const legacy = legacyStoredRecord();
@@ -282,7 +363,7 @@ describe('IndexedDB legacy record migration', () => {
     expect(loaded.value.characters.every((character) => character.totalXp === 0)).toBe(true);
   });
 
-  it('migrates once and then reloads the persisted v2 record without changes', async () => {
+  it('migrates once and then reloads the persisted current record without changes', async () => {
     const repository = new IndexedDbProfileRepository();
     await putRawRecord(legacyStoredRecord());
 

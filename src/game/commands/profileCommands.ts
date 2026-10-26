@@ -21,6 +21,7 @@ import {
   ok,
   type BattleSpeed,
   type CharacterInstance,
+  type Difficulty,
   type CharacterTypeId,
   type GameSettings,
   type PlayerProfile,
@@ -358,6 +359,10 @@ export function updateSettings(
 ): PlayerProfile {
   const battleSpeed: BattleSpeed =
     settings.battleSpeed === 2 ? 2 : settings.battleSpeed === 1 ? 1 : profile.settings.battleSpeed;
+  const difficulty: Difficulty =
+    settings.difficulty === 'hard' || settings.difficulty === 'normal'
+      ? settings.difficulty
+      : profile.settings.difficulty;
   return updated(
     {
       ...profile,
@@ -365,6 +370,7 @@ export function updateSettings(
         soundEnabled: settings.soundEnabled ?? profile.settings.soundEnabled,
         reducedMotion: settings.reducedMotion ?? profile.settings.reducedMotion,
         battleSpeed,
+        difficulty,
       },
     },
     now,

@@ -113,6 +113,25 @@ describe('M3.4.2 approved wave compositions', () => {
     });
   });
 
+  it('uses the approved late-wave smoothing for waves 18 and 19 while keeping wave 20 intact', () => {
+    expect(Object.fromEntries(waveTotals(18).levels)).toEqual({
+      'mini-brainrot': [6, 6, 6, 6],
+      'armored-slug': [6, 6],
+      'shadow-runner': [6, 7, 7],
+    });
+    expect(Object.fromEntries(waveTotals(19).levels)).toEqual({
+      'mini-brainrot': [7, 7, 7, 7],
+      'armored-slug': [6, 6],
+      'shadow-runner': [6, 6, 6, 7],
+    });
+    expect(Object.fromEntries(waveTotals(20).levels)).toEqual({
+      'green-venom-falcon': [6],
+      'mini-brainrot': [6, 6],
+      'armored-slug': [6, 6],
+      'shadow-runner': [6],
+    });
+  });
+
   it('removes the previously identified difficulty dips', () => {
     const wave6 = waveTotals(6);
     const wave7 = waveTotals(7);

@@ -236,13 +236,27 @@ sellRefund(rank)           = floor(purchaseValueForRank(rank) * 0.5)
 |   15 | Sűrű raj              | 3 × Mini L6, 2 × Csiga L5, 1 × Futó L5, 1 × Futó L6   |    625 |
 |   16 | Mérges hullám         | 4 × Mini L6, 2 × Csiga L6, 2 × Futó L6                |    675 |
 |   17 | Hétpróbás             | 4 × Mini L6, 2 × Csiga L6, 1 × Futó L6, 1 × Futó L7   |    725 |
-|   18 | Acél és árnyék        | 4 × Mini L6, 2 × Csiga L6, 1 × Futó L6, 3 × Futó L7   |    775 |
-|   19 | A sólyom árnyéka      | 4 × Mini L7, 2 × Csiga L6, 2 × Futó L6, 3 × Futó L7   |    825 |
+|   18 | Acél és árnyék        | 4 × Mini L6, 2 × Csiga L6, 1 × Futó L6, 2 × Futó L7   |    775 |
+|   19 | A sólyom árnyéka      | 4 × Mini L7, 2 × Csiga L6, 3 × Futó L6, 1 × Futó L7   |    825 |
 |   20 | Zöld Méreg Sólyom     | 1 × Sólyom L6, 2 × Mini L6, 2 × Csiga L6, 1 × Futó L6 |   1200 |
 
 Exact positions are data in `src/game/domain/waves.ts` and are validated by tests. First-clear
 rewards total **9 385**; replays use 35% of the listed value. The wave 10→11 transition drops back
 to the ordinary curve after the boss premium, preventing a permanent post-boss reward inflation.
+
+### Difficulty modes (M3.6)
+
+- **Normál** is the default for every profile, including migrated v1/v2 saves.
+- **Nehéz** applies global enemy multipliers after normal level scaling:
+  - enemy HP ×1.35;
+  - enemy attack ×1.15.
+- Multipliers apply to every enemy, including both bosses.
+- Armor, speed, range, attack intervals, ability durations, cooldowns, and all Green Venom Falcon
+  mechanics remain unchanged. Poison and spin-aura damage scale only because they derive from the
+  scaled attack value.
+- Gold and XP rewards are identical in both modes. Completed-wave progress is shared per profile.
+- Difficulty can be selected only during preparation and is captured when a battle starts. It is
+  stored in `settings.difficulty` and persists across reloads and profile switches.
 
 ### M3.4.2 approved early/mid curve
 
@@ -254,6 +268,8 @@ to the ordinary curve after the boss premium, preventing a permanent post-boss r
 - Wave 17 gains a fifth Mini Brainrot L6, smoothing the jump into wave 18.
 - All rewards, defender stats, prices, XP, saves, bosses, and Green Venom Falcon mechanics are
   unchanged.
+- **M3.6 late-wave smoothing:** wave 18 removes one Shadow Runner L7; wave 19 removes one Shadow
+  Runner L7 and downgrades another to L6. Wave 20 is unchanged.
 
 ## Combat simulation
 

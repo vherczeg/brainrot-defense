@@ -3,6 +3,7 @@ import { checksumOf } from '../import-export/saveCodec';
 import {
   CURRENT_SAVE_VERSION,
   LEGACY_SAVE_VERSION,
+  PREVIOUS_SAVE_VERSION,
   migrateV1Profile,
   validateLegacyProfileV1,
   validateProfile,
@@ -130,6 +131,17 @@ interface ResolvedStoredProfile {
   readonly migratedFromLegacy: boolean;
 }
 
+function legacyV2Checksum(profile: PlayerProfile): string {
+  return checksumOf({
+    ...profile,
+    settings: {
+      soundEnabled: profile.settings.soundEnabled,
+      reducedMotion: profile.settings.reducedMotion,
+      battleSpeed: profile.settings.battleSpeed,
+    },
+  });
+}
+
 function migrateLegacySafely(
   payload: unknown,
   markerInfo: RecordSchemaMarker,
@@ -140,7 +152,12 @@ function migrateLegacySafely(
   if (!legacy.ok) return null;
   const migrated = migrateV1Profile(payload);
   if (!migrated.ok || migrated.value.profileId !== profileId) return null;
-  return markerInfo.shadowChecksum === checksumOf(migrated.value) ? migrated.value : null;
+  const currentChecksum = checksumOf(migrated.value);
+  const previousChecksum = legacyV2Checksum(migrated.value);
+  return markerInfo.shadowChecksum === currentChecksum ||
+    markerInfo.shadowChecksum === previousChecksum
+    ? migrated.value
+    : null;
 }
 
 function resolveStoredProfile(
@@ -167,20 +184,33 @@ function resolveStoredProfile(
     return fail('unsupported-version', `schemaVersion ${stored.schemaVersion}`);
   }
 
+  if (stored.schemaVersion === PREVIOUS_SAVE_VERSION) {
+    const profile = validateProfile(stored.payload);
+    if (!profile.ok) return profile;
+    if (profile.value.profileId !== profileId) {
+      return fail('corrupt-save', 'profileId-mismatch');
+    }
+    return ok({ profile: profile.value, migratedFromLegacy: true });
+  }
+
   if (stored.schemaVersion === LEGACY_SAVE_VERSION) {
     const markerInfo = parseRecordSchemaMarker(marker);
-    if (markerInfo && markerInfo.schemaVersion >= CURRENT_SAVE_VERSION) {
+    if (markerInfo && markerInfo.schemaVersion >= PREVIOUS_SAVE_VERSION) {
       const shadowRecord = validateStoredRecord(shadow);
       if (
         shadowRecord.ok &&
-        shadowRecord.value.schemaVersion === CURRENT_SAVE_VERSION &&
+        shadowRecord.value.schemaVersion >= PREVIOUS_SAVE_VERSION &&
+        shadowRecord.value.schemaVersion <= CURRENT_SAVE_VERSION &&
         checksumOf(shadowRecord.value.payload) === shadowRecord.value.checksum &&
         (markerInfo.shadowChecksum === undefined ||
           markerInfo.shadowChecksum === shadowRecord.value.checksum)
       ) {
         const shadowProfile = validateProfile(shadowRecord.value.payload);
         if (shadowProfile.ok && shadowProfile.value.profileId === profileId) {
-          return ok({ profile: shadowProfile.value, migratedFromLegacy: false });
+          return ok({
+            profile: shadowProfile.value,
+            migratedFromLegacy: shadowRecord.value.schemaVersion < CURRENT_SAVE_VERSION,
+          });
         }
       }
 

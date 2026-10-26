@@ -57,7 +57,7 @@ function completeProfile() {
       completedWaves: [1, 2, 3],
       tutorialSeen: true,
       upgrades: { laser: 2 },
-      settings: { soundEnabled: false, reducedMotion: true, battleSpeed: 2 },
+      settings: { soundEnabled: false, reducedMotion: true, battleSpeed: 2, difficulty: 'normal' },
     },
   );
 }
@@ -267,7 +267,7 @@ describe('save import validation', () => {
     const profile = completeProfile();
     const envelope = {
       ...createEnvelope(profile),
-      schemaVersion: 3,
+      schemaVersion: 4,
     };
     const parsed = parseProfileFromImport(JSON.stringify(envelope));
     expect(parsed.ok).toBe(false);

@@ -26,6 +26,7 @@ export type Team = 'ally' | 'enemy';
 export type AttackKind = 'laser' | 'lightning' | 'melee' | 'boss-smash' | 'claw' | 'poison';
 export type BattleStatus = 'running' | 'victory' | 'defeat';
 export type BattleSpeed = 1 | 2;
+export type Difficulty = 'normal' | 'hard';
 export type GameScreen = 'loading' | 'menu' | 'profiles' | 'game' | 'error';
 export type GamePhase = 'preparation' | 'battle' | 'result';
 export type WaveOutcome = 'victory' | 'defeat';
@@ -39,6 +40,7 @@ export interface GameSettings {
   readonly soundEnabled: boolean;
   readonly reducedMotion: boolean;
   readonly battleSpeed: BattleSpeed;
+  readonly difficulty: Difficulty;
 }
 
 export interface CharacterInstance {

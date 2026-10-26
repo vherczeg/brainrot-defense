@@ -13,6 +13,7 @@ az azonosakat, majd indíts automatikus csatát a betolakodó szörnyek ellen.
 - Harcos eladása megerősítéssel, rangalapú visszatérítéssel; teljes pályán is felszabadítható hely.
 - M3.4 egyensúly: fokozatos 20 hullámos gazdaság, erősebb 10. és 20. főellenség, 35%-os replay jutalom.
 - M3.4.2 early curve: a 3–5., 7., 11. és 17. hullám célzott erősítése; a kezdő sereg már a 4. hullámnál fejlesztést igényel.
+- M3.6: Normál / Nehéz nehézségi módok, profilanként mentett beállítással; a Nehéz mód +35% ellenség HP és +15% támadás; 18–19. hullám finomhangolása.
 - Egérrel, érintéssel és billentyűzettel is játszható.
 - A játéklogika teljesen független a Phaser rendereléstől és a React UI-tól.
 
@@ -112,10 +113,10 @@ Részletek: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 ## Mentés
 
 - IndexedDB adatbázis: `brainrot-defense`, `profiles` és `meta` object store-ok.
-- Verziózott séma (`schemaVersion: 2`), szigorú validáció, FNV-1a checksum.
-- Az M0.1 `schemaVersion: 1` mentések betöltéskor/importkor tiszta migrációval v2-re váltanak.
-  A régi rekord biztonsági másolata és egy v2 árnyékmásolat a `meta` store-ban marad; a migráció
-  nem foglal el egyetlen játékosprofil-helyet sem. Egy régi lap elavult v1 írását a v2
+- Verziózott séma (`schemaVersion: 3`), szigorú validáció, FNV-1a checksum.
+- Az M0.1 `schemaVersion: 1` és a korábbi `schemaVersion: 2` mentések betöltéskor/importkor tiszta migrációval v3-ra váltanak.
+  A régi rekord biztonsági másolata és egy v3 árnyékmásolat a `meta` store-ban marad; a migráció
+  nem foglal el egyetlen játékosprofil-helyet sem. Egy régi lap elavult v1 írását a v3
   árnyékmásolat védi ki.
 - Profilonként egy atomi rekordfrissítés; megszakadt írás nem hoz létre félkész mentést.
 - Az autosave-ek egy szerializált, koaleszkált írási sorban futnak. A legfrissebb állapot
@@ -176,7 +177,7 @@ véletlenül éles deploy történjen. **A custom domain és a Pages beállítá
 
 ## Tesztelés
 
-- **Unit/integrációs:** 334 teszt, 41 fájlban. merge/rang-szabályok, eladás és visszatérítés, M3.4 jutalomtábla és boss-nehézség, M3.4.2 early-curve benchmarkok, XP-küszöbök minden
+- **Unit/integrációs:** 349 teszt, 43 fájlban. merge/rang-szabályok, eladás és visszatérítés, M3.4 jutalomtábla és boss-nehézség, M3.4.2 early-curve benchmarkok, M3.6 difficulty scaling és v3-mentésmigráció, XP-küszöbök minden
   határon, XP-összeadás és sapka, első győzelmi és csökkentett ismételt XP, halott és nem
   résztvevő harcosok kizárása, gazdaság, statisztikák, rács, hullámok, targeting, range,
   cooldown, páncél, láncvillám, halál, győzelem/vereség, determinizmus, 1×/2× sebesség,
@@ -186,9 +187,9 @@ véletlenül éles deploy történjen. **A custom domain és a Pages beállítá
   import/törlés versenyhelyzetek, boundary- és overflow-tesztek, aktív profil metaadat
   hibakezelés, zárolás tulajdonjog, késleltetett/hibás csatajutalom-mentés, több-lapos
   védelem, teljes 20 hullámos végigjátszás, mérgezés, forgó pajzs, távolsági pajzstörés, földrengéses fagyasztás.
-- **Böngésző:** 110 sikeres teszt + 10 kihagyott (eszközspecifikus desktop/mobil tesztek),
+- **Böngésző:** 113 sikeres teszt + 11 kihagyott (eszközspecifikus desktop/mobil tesztek),
   Chromium desktopon és mobil emulációban, valódi IndexedDB-vel: menü, játék
-  indítás, egykattintásos vásárlás, teljes pályás eladás és cserevásárlás, szövegkijelölés
+  indítás, Normál/Nehéz választás és perzisztencia, meglévő wave-20 mentés Nehéz Falconja, egykattintásos vásárlás, teljes pályás eladás és cserevásárlás, szövegkijelölés
   elleni védelem, egyesítés egérrel és akadálymentes panellel, eltérő XP-szintű harcosok
   egyesítése, rang/szint/XP megjelenítés, győzelmi XP és szintlépés, reload utáni
   XP-megmaradás, M0.1 mentés importja, áthelyezés, csata, pause/resume, 2× sebesség, győzelem,

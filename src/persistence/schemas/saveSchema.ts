@@ -13,12 +13,14 @@ import {
   ok,
   type BattleSpeed,
   type CharacterInstance,
+  type Difficulty,
   type GameSettings,
   type PlayerProfile,
   type Result,
 } from '../../game/domain/types';
 
-export const CURRENT_SAVE_VERSION = 2;
+export const CURRENT_SAVE_VERSION = 3;
+export const PREVIOUS_SAVE_VERSION = 2;
 export const LEGACY_SAVE_VERSION = 1;
 export const SAVE_APP_ID = 'brainrot-defense';
 export const SAVE_FORMAT = 'brainrot-defense-save';
@@ -100,10 +102,15 @@ function parseSettings(value: unknown): Result<GameSettings> {
   if (typeof value.reducedMotion !== 'boolean') {
     return fail('invalid-import', 'settings.reducedMotion');
   }
+  const rawDifficulty = value.difficulty;
+  if (rawDifficulty !== undefined && rawDifficulty !== 'normal' && rawDifficulty !== 'hard') {
+    return fail('invalid-import', 'settings.difficulty');
+  }
   return ok({
     soundEnabled: value.soundEnabled,
     reducedMotion: value.reducedMotion,
     battleSpeed: battleSpeed as BattleSpeed,
+    difficulty: (rawDifficulty ?? 'normal') as Difficulty,
   });
 }
 

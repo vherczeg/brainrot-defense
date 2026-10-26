@@ -194,7 +194,7 @@ test('an old M0.1 tab cannot block opening, migration, or offline reload', async
   const migrated = await storedState(page);
   expect(migrated.version).toBe(1);
   expect(migrated.record?.schemaVersion).toBe(1);
-  expect(migrated.shadow?.schemaVersion).toBe(2);
+  expect(migrated.shadow?.schemaVersion).toBe(3);
 
   await page.evaluate(async () => {
     if ('serviceWorker' in navigator) await navigator.serviceWorker.ready;

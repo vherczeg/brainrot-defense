@@ -143,3 +143,21 @@ Benchmarks after this change:
 - Wave 11 is stronger than wave 9 in both HP and DPS.
 - Wave 17 has more HP and DPS than wave 16.
 - The full M3.4 simulation remains 8/8 completed scenarios with no software correctness failures.
+
+## M3.6 difficulty modes and late-wave smoothing
+
+M3.6 adds selectable **Normál** and **Nehéz** difficulty:
+
+- Normal keeps all M3.4.2 enemy HP/attack values.
+- Hard applies enemy HP ×1.35 and enemy attack ×1.15 after normal level scaling.
+- Both bosses scale; all ability mechanics and durations remain unchanged.
+- Rewards and XP are identical in both modes.
+
+Late-wave smoothing applies in both modes:
+
+- Wave 18 removes one Shadow Runner L7.
+- Wave 19 removes one Shadow Runner L7 and downgrades another Runner L7 to L6.
+- Wave 20 is unchanged.
+
+The fixed-army and campaign benchmarks are documented in the M3.6 analysis; the implementation
+keeps the approved values without silently weakening Hard.

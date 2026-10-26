@@ -7,6 +7,7 @@ import { AccessiblePlacement } from './AccessiblePlacement';
 import { BattleHud } from './BattleHud';
 import { BattlePauseOverlay } from './BattlePauseOverlay';
 import { BattlefieldView } from './BattlefieldView';
+import { DifficultySelector } from './DifficultySelector';
 import { ImportConfirmModal } from './ImportConfirmModal';
 import { ResultOverlay } from './ResultOverlay';
 import { SaveManagerModal } from './SaveManagerModal';
@@ -154,6 +155,7 @@ export function GameScreen({ snapshot }: { snapshot: AppSnapshot }) {
 
           {phase === 'preparation' ? (
             <>
+              <DifficultySelector difficulty={profile.settings.difficulty} />
               <div className="battle-launch panel">
                 <div className="battle-launch__info">
                   <p className="battle-launch__hint">{t('battleReadyHint')}</p>

@@ -29,6 +29,7 @@ import {
   type CharacterInstance,
   type CharacterTypeId,
   type CommandErrorCode,
+  type Difficulty,
   type GamePhase,
   type GameScreen,
   type GameSettings,
@@ -67,6 +68,7 @@ export interface FatalErrorView {
 
 export interface BattleHudView {
   readonly waveId: number;
+  readonly difficulty: Difficulty;
   readonly elapsedSec: number;
   readonly alliesAlive: number;
   readonly enemiesAlive: number;
@@ -78,6 +80,7 @@ export interface BattleHudView {
 export interface BattleResultView {
   readonly outcome: 'victory' | 'defeat';
   readonly waveId: number;
+  readonly difficulty: Difficulty;
   readonly rewardCoins: number;
   readonly comfortCoins: number;
   readonly firstCompletion: boolean;
@@ -208,6 +211,7 @@ function buildHud(state: BattleState, session: BattleSession): BattleHudView {
   const enemiesAlive = state.units.filter((unit) => unit.team === 'enemy' && unit.alive).length;
   return {
     waveId: state.waveId,
+    difficulty: state.difficulty,
     elapsedSec: state.elapsedSec,
     alliesAlive,
     enemiesAlive,
@@ -992,6 +996,14 @@ export class GameController {
     this.commitProfile(outcome.value.profile);
   }
 
+  setDifficulty(difficulty: Difficulty): void {
+    if (!this.profile || this.phase !== 'preparation') return;
+    if (this.profile.settings.difficulty === difficulty) return;
+    const next = updateSettings(this.profile, { difficulty }, this.now());
+    this.commitProfile(next);
+    this.sound.play('click');
+  }
+
   updateSettings(settings: Partial<GameSettings>): void {
     if (!this.profile) return;
     const next = updateSettings(this.profile, settings, this.now());
@@ -1021,7 +1033,12 @@ export class GameController {
     const seed = hashSeed(
       `${this.profile.profileId}:${wave.id}:${this.battleAttempt}:${this.profile.coins}`,
     );
-    const state = createBattleState(this.profile.characters, wave, seed);
+    const state = createBattleState(
+      this.profile.characters,
+      wave,
+      seed,
+      this.profile.settings.difficulty,
+    );
     this.session = new BattleSession(state, this.profile.settings.battleSpeed);
     this.phase = 'battle';
     this.result = null;
@@ -1095,6 +1112,7 @@ export class GameController {
     this.battleFinishing = true;
     if (this.modal === 'surrender') this.modal = null;
     const waveId = this.battleWaveId ?? this.profile.currentWave;
+    const difficulty = this.session?.getState().difficulty ?? this.profile.settings.difficulty;
     const profileToken = this.profileChangeToken;
     if (status === 'victory') {
       const resolved = resolveBattleRewards(this.profile, waveId, this.battleRoster, this.now());
@@ -1103,6 +1121,7 @@ export class GameController {
         this.result = {
           outcome: 'victory',
           waveId,
+          difficulty,
           rewardCoins: 0,
           comfortCoins: 0,
           firstCompletion: false,
@@ -1130,6 +1149,7 @@ export class GameController {
       const result: BattleResultView = {
         outcome: 'victory',
         waveId,
+        difficulty,
         rewardCoins: resolved.value.rewardCoins,
         comfortCoins: 0,
         firstCompletion: resolved.value.firstCompletion,
@@ -1186,6 +1206,7 @@ export class GameController {
     const result: BattleResultView = {
       outcome: 'defeat',
       waveId,
+      difficulty,
       rewardCoins: 0,
       comfortCoins,
       firstCompletion: false,

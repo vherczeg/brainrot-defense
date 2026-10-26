@@ -27,6 +27,13 @@ export function ResultOverlay({ result }: { result: BattleResultView }) {
             {t('waveLabel', { wave: result.waveId })}
             {wave ? ` · ${wave.nameHu}` : ''}
           </p>
+          <p
+            className={`difficulty-chip difficulty-chip--${result.difficulty} result-difficulty`}
+            data-testid="result-difficulty"
+          >
+            <Icon name={result.difficulty === 'hard' ? 'swords' : 'shield'} size={14} />
+            {result.difficulty === 'hard' ? t('difficultyHard') : t('difficultyNormal')}
+          </p>
           <h3 className="result-title" data-testid="result-title">
             {victory
               ? result.completedAllWaves

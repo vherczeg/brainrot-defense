@@ -39,6 +39,7 @@ export const DEFAULT_SETTINGS: GameSettings = {
   soundEnabled: true,
   reducedMotion: false,
   battleSpeed: 1,
+  difficulty: 'normal',
 };
 
 export interface CreateProfileOptions {
