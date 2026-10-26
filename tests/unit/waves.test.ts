@@ -12,10 +12,12 @@ import {
 } from '../../src/game/domain/waves';
 
 describe('wave definitions', () => {
-  it('contains exactly ten valid waves in order', () => {
+  it('contains exactly twenty valid waves in order', () => {
     expect(WAVE_DEFINITIONS).toHaveLength(TOTAL_WAVES);
-    expect(WAVE_DEFINITIONS.map((wave) => wave.id)).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
-    expect(LAST_WAVE_ID).toBe(10);
+    expect(WAVE_DEFINITIONS.map((wave) => wave.id)).toEqual(
+      Array.from({ length: TOTAL_WAVES }, (_, index) => index + 1),
+    );
+    expect(LAST_WAVE_ID).toBe(20);
   });
 
   it('places every enemy in the enemy deployment area', () => {
@@ -36,11 +38,18 @@ describe('wave definitions', () => {
     }
   });
 
-  it('includes the Mega Brainrot Gorilla as the final boss', () => {
+  it('includes the Mega Brainrot Gorilla as the wave 10 boss', () => {
     const finalWave = getWave(10);
     expect(finalWave?.isBossWave).toBe(true);
     expect(finalWave?.enemies.some((enemy) => enemy.typeId === 'mega-brainrot-gorilla')).toBe(true);
     expect(finalWave?.nameHu).toContain('Mega Brainrot Gorilla');
+  });
+
+  it('includes the Green Venom Falcon as the wave 20 boss', () => {
+    const finalWave = getWave(20);
+    expect(finalWave?.isBossWave).toBe(true);
+    expect(finalWave?.enemies.some((enemy) => enemy.typeId === 'green-venom-falcon')).toBe(true);
+    expect(finalWave?.nameHu).toContain('Zöld Méreg Sólyom');
   });
 
   it('rewards increase with wave difficulty', () => {
@@ -55,8 +64,10 @@ describe('wave definitions', () => {
     }
   });
 
-  it('does not include a boss before wave ten', () => {
-    expect(WAVE_DEFINITIONS.slice(0, 9).some((wave) => wave.isBossWave)).toBe(false);
+  it('only marks waves 10 and 20 as boss waves', () => {
+    expect(WAVE_DEFINITIONS.filter((wave) => wave.isBossWave).map((wave) => wave.id)).toEqual([
+      10, 20,
+    ]);
   });
 
   it('splits every reward into a replay half and a one-time first bonus half', () => {

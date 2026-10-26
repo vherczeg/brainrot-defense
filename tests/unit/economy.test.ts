@@ -104,17 +104,19 @@ describe('wave rewards and retry policy', () => {
 
   it('never advances beyond the final wave', () => {
     const profile = profileWith([], {
-      currentWave: 10,
-      unlockedWave: 10,
+      currentWave: 20,
+      unlockedWave: 20,
       coins: 0,
-      completedWaves: [1, 2, 3, 4, 5, 6, 7, 8, 9],
+      completedWaves: Array.from({ length: 19 }, (_, index) => index + 1),
     });
-    const result = claimWaveReward(profile, 10);
+    const result = claimWaveReward(profile, 20);
     expect(result.ok).toBe(true);
     if (!result.ok) return;
-    expect(result.value.profile.currentWave).toBe(10);
-    expect(result.value.profile.unlockedWave).toBe(10);
-    expect(result.value.profile.completedWaves).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+    expect(result.value.profile.currentWave).toBe(20);
+    expect(result.value.profile.unlockedWave).toBe(20);
+    expect(result.value.profile.completedWaves).toEqual(
+      Array.from({ length: 20 }, (_, index) => index + 1),
+    );
   });
 
   it('gives the full boss reward once and a half reward on replay', () => {
@@ -130,6 +132,8 @@ describe('wave rewards and retry policy', () => {
     expect(first.value.rewardCoins).toBe(600);
     expect(first.value.firstCompletionBonus).toBe(300);
     expect(first.value.profile.coins).toBe(600);
+    expect(first.value.profile.currentWave).toBe(11);
+    expect(first.value.profile.unlockedWave).toBe(11);
 
     const replay = claimWaveReward(first.value.profile, 10);
     expect(replay.ok).toBe(true);

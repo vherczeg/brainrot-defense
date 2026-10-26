@@ -237,6 +237,23 @@ describe('v1 -> v2 save migration', () => {
     expect(parsed.ok).toBe(false);
   });
 
+  it('opens wave 11 from a legacy save that completed the old ten-wave campaign', () => {
+    const legacyMaxed = profileWith([unit('unit-1', 'laser-crocodile', 3, 1, 4, 500)], {
+      profileId: 'legacy-maxed',
+      name: 'Régi bajnok',
+      currentWave: 10,
+      unlockedWave: 10,
+      completedWaves: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    });
+    const parsed = parseProfileFromImport(serializeEnvelope(legacyMaxed));
+    expect(parsed.ok).toBe(true);
+    if (!parsed.ok) return;
+    expect(parsed.value.currentWave).toBe(11);
+    expect(parsed.value.unlockedWave).toBe(11);
+    expect(parsed.value.completedWaves).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+    expect(parsed.value.characters).toEqual(legacyMaxed.characters);
+  });
+
   it('leaves an existing v2 profile unchanged', () => {
     const profile = profileWith([unit('unit-1', 'laser-crocodile', 3, 1, 4, 500)], {
       profileId: 'v2',

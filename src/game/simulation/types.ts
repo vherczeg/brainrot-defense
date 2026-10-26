@@ -1,7 +1,25 @@
-import type { AttackKind, BattleStatus, Team } from '../domain/types';
+import type { AttackKind, BattleStatus, EnemyAbilities, Team } from '../domain/types';
 
 export const FIXED_TICK_SECONDS = 1 / 30;
 export const MAX_BATTLE_SECONDS = 90;
+
+export interface PoisonStatus {
+  readonly remainingSec: number;
+  readonly tickInSec: number;
+  readonly tickIntervalSec: number;
+  readonly damagePerTick: number;
+  readonly sourceId: string;
+}
+
+export interface SpinShieldStatus {
+  readonly active: boolean;
+  readonly shielded: boolean;
+  readonly remainingSec: number;
+  readonly cooldownSec: number;
+  readonly speedFactor: number;
+  readonly vulnerableSec: number;
+  readonly auraTickInSec: number;
+}
 
 export interface BattleUnit {
   readonly id: string;
@@ -25,6 +43,11 @@ export interface BattleUnit {
   readonly cooldown: number;
   readonly alive: boolean;
   readonly isBoss: boolean;
+  readonly abilities: EnemyAbilities;
+  readonly poison: PoisonStatus | null;
+  readonly spinShield: SpinShieldStatus | null;
+  readonly poisonCooldownSec: number;
+  readonly frozenSec: number;
 }
 
 export interface BattleState {
@@ -40,6 +63,8 @@ export interface BattlePoint {
   readonly x: number;
   readonly y: number;
 }
+
+export type DamageSource = 'attack' | 'poison' | 'spin-aura';
 
 export type BattleEvent =
   | {
@@ -64,12 +89,25 @@ export type BattleEvent =
       readonly hp: number;
       readonly maxHp: number;
       readonly at: BattlePoint;
+      readonly source?: DamageSource;
+      readonly blocked?: boolean;
     }
   | {
       readonly type: 'death';
       readonly unitId: string;
       readonly team: Team;
       readonly at: BattlePoint;
+    }
+  | {
+      readonly type: 'status';
+      readonly unitId: string;
+      readonly status: 'poisoned' | 'spin-start' | 'spin-break' | 'spin-end';
+      readonly at: BattlePoint;
+    }
+  | {
+      readonly type: 'earthquake';
+      readonly at: BattlePoint;
+      readonly freezeSec: number;
     }
   | {
       readonly type: 'battle-end';

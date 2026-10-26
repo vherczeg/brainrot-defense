@@ -17,7 +17,7 @@ import {
 } from '../src/game/domain/progression';
 import { createInitialProfile } from '../src/game/domain/state';
 import type { CharacterInstance, CharacterTypeId, PlayerProfile } from '../src/game/domain/types';
-import { getWave } from '../src/game/domain/waves';
+import { LAST_WAVE_ID, getWave } from '../src/game/domain/waves';
 import { createBattleState, runBattleToCompletion } from '../src/game/simulation/battle';
 import { parseProfileFromImport } from '../src/persistence/import-export/saveCodec';
 
@@ -285,7 +285,7 @@ function simulate(strategy: Strategy): SimulationReport {
   const waves: WaveReport[] = [];
 
   console.log(`\n=== ${strategy.name} ===`);
-  for (let waveId = 1; waveId <= 10; waveId += 1) {
+  for (let waveId = 1; waveId <= LAST_WAVE_ID; waveId += 1) {
     const wave = getWave(waveId);
     if (!wave) throw new Error(`missing wave ${waveId}`);
     let won = false;
@@ -355,7 +355,7 @@ function simulate(strategy: Strategy): SimulationReport {
     signature: signatureOf(profile, defeats),
   };
   console.log(
-    `  Végső hullám: ${report.finalWave}/10, vereségek: ${report.defeats}, érme: ${report.coins}`,
+    `  Végső hullám: ${report.finalWave}/${LAST_WAVE_ID}, vereségek: ${report.defeats}, érme: ${report.coins}`,
   );
   console.log(`  Sereg: ${report.army || 'üres'}`);
   console.log(`  Összes TP: ${report.totalXp}`);
@@ -492,7 +492,7 @@ const balanceWarnings: string[] = [];
 
 for (const report of reports) {
   if (report.blocked) {
-    correctnessFailures.push(`${report.name}: blocked before completing wave 10`);
+    correctnessFailures.push(`${report.name}: blocked before completing wave ${LAST_WAVE_ID}`);
   }
   if (report.defeats >= BALANCE_DEFEAT_WARNING_THRESHOLD) {
     balanceWarnings.push(
@@ -519,7 +519,7 @@ for (const report of reports) {
 
 const completed = reports.filter((report) => !report.blocked).length;
 console.log(
-  `\nÖsszegzés: ${completed}/${reports.length} stratégia teljesítette mind a 10 hullámot.`,
+  `\nÖsszegzés: ${completed}/${reports.length} stratégia teljesítette mind a ${LAST_WAVE_ID} hullámot.`,
 );
 if (balanceWarnings.length > 0) {
   console.log('\nEgyensúlyi figyelmeztetések (M1.4):');

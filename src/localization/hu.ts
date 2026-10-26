@@ -40,7 +40,7 @@ export const hu = {
   menuHowTo: 'Hogyan játssz?',
   menuProfileLabel: 'Játékos',
   menuWaveLabel: 'Következő hullám',
-  menuProgress: '{done} / 10 hullám teljesítve',
+  menuProgress: '{done} / {total} hullám teljesítve',
   menuFooter: 'Helyi mentés · Reklám nélkül · Ingyenes',
   menuAllWaves: 'Minden hullám teljesítve!',
   menuResumeHint: 'Azonnal folytathatod, ahol abbahagytad.',
@@ -133,6 +133,11 @@ export const hu = {
   canvasBattleTitle: 'CSATA · {wave}. HULLÁM',
   canvasBoss: 'BOSS',
   canvasMerge: 'EGYESÍTÉS!',
+  canvasPoisoned: 'MÉREG',
+  canvasSpinStart: 'PÖRGŐ PAJZS!',
+  canvasSpinBreak: 'PAJZS TÖRT!',
+  canvasShieldBlocked: 'PAJZS',
+  canvasEarthquake: 'FÖLDRENGÉS!',
   battleAllies: 'Védők',
   battleEnemies: 'Szörnyek',
   battlePause: 'Szünet',
@@ -149,7 +154,8 @@ export const hu = {
   battleSideHint:
     'A harc magától zajlik. Figyeld a sereged, és szükség esetén lassíts vagy állítsd meg!',
   battleLiveHint: 'A csata folyamatban van. A szünet gombbal megállíthatod.',
-  prepHintDrag: 'Húzd vagy koppints a harcosokra az elhelyezéshez. Azonos harcost a társára húzva egyesíthetsz!',
+  prepHintDrag:
+    'Húzd vagy koppints a harcosokra az elhelyezéshez. Azonos harcost a társára húzva egyesíthetsz!',
 
   resultVictory: 'GYŐZELEM!',
   resultDefeat: 'VERESÉG',

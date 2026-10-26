@@ -1,0 +1,38 @@
+ZÖLD MÉREG SÓLYOM – M3.1 FŐELLENSÉG ASSET HIÁNY
+
+Állapot
+------
+A 20. hullám főellenségének mérgezés, forgó pajzs, távolsági pajzstörés és
+földrengés/fagyasztás mechanikái elkészültek és teszteltek. A látható grafika
+jelenleg SZÁNDÉKOSAN HELYETTESÍTŐ (procedurális Phaser Graphics / inline SVG),
+nem a végleges boss asset.
+
+Mi hiányzik
+-----------
+1. Egyedi főellenség spritesheet (4-8 frame), legalább:
+   - idle (barna sólyom, fekete karmok)
+   - walk / röpkép
+   - claw attack (közelharc)
+   - poison spit (zöld méreg köpés)
+   - spin shield (forgás, szárnypajzs)
+   - hurt
+   - death
+2. Külön effekt spritesheet / animáció:
+   - zöld méreg nyálkanyom és becsapódás
+   - forgó szárnypajzs aura
+   - pajzstörés szikra
+   - földrengés hullám és 2 másodperces fagyasztás jelzése
+3. Portré/ikon a hullám-előnézethez és a menühöz
+   (javasolt útvonal: public/assets/icons/green-venom-falcon.png).
+4. Manifest a meglévő rendszerhez:
+   public/assets/units/green-venom-falcon/manifest.json
+   (characterTypeId: "green-venom-falcon", unitOrigin, recommendedDisplayWidth,
+   animations: idle/walk/attack/hurt/death + effektek).
+
+Amíg ezek nincsenek meg
+-----------------------
+- A CreatureAvatar.tsx inline SVG sólyom alakja és a BattleScene.drawEnemyArt
+  procedurális rajza használatos. Ezeket NEM szabad végleges boss assetnek
+  nevezni vagy dokumentálni.
+- A játékmenet-mechanikák nem függenek a grafikától: a csere kizárólag a
+  rendering layerben történhet, a domain/simulation/save kód változtatása nélkül.

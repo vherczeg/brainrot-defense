@@ -7,6 +7,7 @@ import {
   MAX_ARMY_SIZE,
   MAX_COINS,
   MAX_NEXT_CHARACTER_ID,
+  PREVIOUS_TOTAL_WAVES,
   TOTAL_WAVES,
   fail,
   ok,
@@ -126,7 +127,7 @@ function parseUpgrades(value: unknown): Result<Readonly<Record<string, number>>>
   return ok(upgrades);
 }
 
-function parseCompletedWaves(value: unknown, currentWave: number): Result<readonly number[]> {
+function parseCompletedWaves(value: unknown): Result<readonly number[]> {
   if (!Array.isArray(value)) return fail('invalid-import', 'completedWaves');
   const completedWaves: number[] = [];
   for (const wave of value) {
@@ -139,10 +140,6 @@ function parseCompletedWaves(value: unknown, currentWave: number): Result<readon
     if (completedWaves[index] !== index + 1) {
       return fail('invalid-import', 'completedWaves.prefix');
     }
-  }
-  const expectedCurrentWave = Math.min(completedWaves.length + 1, TOTAL_WAVES);
-  if (currentWave !== expectedCurrentWave) {
-    return fail('invalid-import', 'currentWave.order');
   }
   return ok(completedWaves);
 }
@@ -177,8 +174,19 @@ function parseBaseProfile(value: Record<string, unknown>): Result<{
   if (value.currentWave > value.unlockedWave) {
     return fail('invalid-import', 'wave-order');
   }
-  const completedWaves = parseCompletedWaves(value.completedWaves, value.currentWave);
+  const completedWaves = parseCompletedWaves(value.completedWaves);
   if (!completedWaves.ok) return completedWaves;
+  const expectedCurrentWave = Math.min(completedWaves.value.length + 1, TOTAL_WAVES);
+  const legacyMaxedWave =
+    completedWaves.value.length >= PREVIOUS_TOTAL_WAVES &&
+    value.currentWave === PREVIOUS_TOTAL_WAVES;
+  if (value.currentWave !== expectedCurrentWave && !legacyMaxedWave) {
+    return fail('invalid-import', 'currentWave.order');
+  }
+  // Saves made when the campaign ended at wave 10 stored currentWave/unlockedWave as 10.
+  // Opening wave 11 must not corrupt them: accept that legacy shape and advance it in memory.
+  const currentWave = legacyMaxedWave ? expectedCurrentWave : value.currentWave;
+  const unlockedWave = Math.max(value.unlockedWave, currentWave);
   const upgrades = parseUpgrades(value.upgrades);
   if (!upgrades.ok) return upgrades;
   const settings = parseSettings(value.settings);
@@ -199,8 +207,8 @@ function parseBaseProfile(value: Record<string, unknown>): Result<{
     profileId: value.profileId,
     name: value.name.trim(),
     coins: value.coins,
-    currentWave: value.currentWave,
-    unlockedWave: value.unlockedWave,
+    currentWave,
+    unlockedWave,
     completedWaves: completedWaves.value,
     upgrades: upgrades.value,
     settings: settings.value,

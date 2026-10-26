@@ -7,7 +7,7 @@ az azonosakat, majd indíts automatikus csatát a betolakodó szörnyek ellen.
 - Ingyenes, reklám nélküli, offline-first.
 - Nincs fiók, nincs backend, nincs mikrotransaction.
 - Három helyi játékosprofil, automatikus mentés IndexedDB-be.
-- 10 adatvezérelt hullám, köztük a **Mega Brainrot Gorilla** főellenség.
+- 20 adatvezérelt hullám, köztük a **Mega Brainrot Gorilla** (10.) és Ábel saját főellensége, a **Zöld Méreg Sólyom** (20.).
 - Kétdimenziós fejlődés: **evolúciós rang 1–10** egyesítésből és **karakterszint 1–100**
   tapasztalati pontból.
 - Egérrel, érintéssel és billentyűzettel is játszható.
@@ -94,7 +94,7 @@ src/
   styles/         Reszponzív, akadálymentes CSS
 tests/
   unit/           Domain-, combat- és perzisztenciatesztek
-  integration/    Teljes 10 hullámos végigjátszás, mentés-visszatöltés
+  integration/    Teljes 20 hullámos végigjátszás, mentés-visszatöltés
   e2e/            Playwright böngészőtesztek (desktop + mobil)
 ```
 
@@ -181,7 +181,7 @@ véletlenül éles deploy történjen. **A custom domain és a Pages beállítá
   mentés, import validáció és invariánsok, profilizoláció, írási sor/koaleszálás,
   import/törlés versenyhelyzetek, boundary- és overflow-tesztek, aktív profil metaadat
   hibakezelés, zárolás tulajdonjog, késleltetett/hibás csatajutalom-mentés, több-lapos
-  védelem, teljes 10 hullámos végigjátszás.
+  védelem, teljes 20 hullámos végigjátszás, mérgezés, forgó pajzs, távolsági pajzstörés, földrengéses fagyasztás.
 - **Böngésző:** 50 sikeres teszt + 2 kihagyott (desktop-only tablet- és canvas drag teszt a
   mobil futásban), Chromium desktopon és mobil emulációban, valódi IndexedDB-vel: menü, játék
   indítás, vásárlás, egyesítés egérrel és akadálymentes panellel, eltérő XP-szintű harcosok

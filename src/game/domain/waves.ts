@@ -138,6 +138,160 @@ export const WAVE_DEFINITIONS: readonly WaveDefinition[] = [
       enemy('armored-slug', 2, 0, 0),
     ],
   },
+  {
+    id: 11,
+    nameHu: 'Káosz utórezgés',
+    descriptionHu: 'A tizedik hullám után új szörnyek törnek elő. Erősítsd tovább a sereged!',
+    rewardCoins: 700,
+    isBossWave: false,
+    enemies: [
+      enemy('mini-brainrot', 4, 1, 0),
+      enemy('mini-brainrot', 4, 4, 0),
+      enemy('mini-brainrot', 4, 2, 2),
+      enemy('armored-slug', 3, 3, 1),
+    ],
+  },
+  {
+    id: 12,
+    nameHu: 'Árny vihar',
+    descriptionHu: 'Négy gyors Árny Futó keresi az utat a védelmeden át.',
+    rewardCoins: 820,
+    isBossWave: false,
+    enemies: [
+      enemy('shadow-runner', 4, 0, 1),
+      enemy('shadow-runner', 4, 1, 2),
+      enemy('shadow-runner', 4, 4, 0),
+      enemy('shadow-runner', 4, 5, 1),
+      enemy('mini-brainrot', 4, 2, 0),
+    ],
+  },
+  {
+    id: 13,
+    nameHu: 'Vastag fal',
+    descriptionHu: 'Páncélozott Csigák és gyors futók egyszerre támadnak.',
+    rewardCoins: 950,
+    isBossWave: false,
+    enemies: [
+      enemy('armored-slug', 4, 1, 1),
+      enemy('armored-slug', 4, 4, 1),
+      enemy('mini-brainrot', 4, 0, 0),
+      enemy('mini-brainrot', 4, 2, 2),
+      enemy('mini-brainrot', 4, 5, 0),
+      enemy('shadow-runner', 4, 3, 0),
+    ],
+  },
+  {
+    id: 14,
+    nameHu: 'Kettős szorítás',
+    descriptionHu: 'Két oldalról zárul a gyűrű. Oszd el jól a tüzerőt!',
+    rewardCoins: 1100,
+    isBossWave: false,
+    enemies: [
+      enemy('mini-brainrot', 4, 0, 1),
+      enemy('mini-brainrot', 4, 5, 2),
+      enemy('armored-slug', 4, 1, 0),
+      enemy('armored-slug', 4, 4, 0),
+      enemy('shadow-runner', 5, 2, 1),
+      enemy('shadow-runner', 5, 3, 1),
+    ],
+  },
+  {
+    id: 15,
+    nameHu: 'Sűrű raj',
+    descriptionHu: 'A Mini Brainrotek szintet léptek. Már nem olyan ártalmatlanok.',
+    rewardCoins: 1250,
+    isBossWave: false,
+    enemies: [
+      enemy('mini-brainrot', 5, 0, 0),
+      enemy('mini-brainrot', 5, 3, 0),
+      enemy('mini-brainrot', 5, 5, 1),
+      enemy('armored-slug', 4, 1, 2),
+      enemy('armored-slug', 4, 4, 2),
+      enemy('shadow-runner', 4, 2, 1),
+    ],
+  },
+  {
+    id: 16,
+    nameHu: 'Mérges hullám',
+    descriptionHu: 'Minden fajta szörny összefog. A páncél és a sebesség most együtt jön.',
+    rewardCoins: 1450,
+    isBossWave: false,
+    enemies: [
+      enemy('mini-brainrot', 5, 0, 2),
+      enemy('mini-brainrot', 5, 2, 0),
+      enemy('mini-brainrot', 5, 5, 2),
+      enemy('armored-slug', 5, 1, 1),
+      enemy('armored-slug', 5, 4, 1),
+      enemy('shadow-runner', 5, 3, 0),
+    ],
+  },
+  {
+    id: 17,
+    nameHu: 'Hétpróbás',
+    descriptionHu: 'Hét szörny, egyetlen cél: áttörni a védelmeden.',
+    rewardCoins: 1650,
+    isBossWave: false,
+    enemies: [
+      enemy('mini-brainrot', 5, 0, 0),
+      enemy('mini-brainrot', 5, 2, 2),
+      enemy('mini-brainrot', 5, 4, 0),
+      enemy('armored-slug', 5, 1, 1),
+      enemy('armored-slug', 5, 5, 1),
+      enemy('shadow-runner', 5, 3, 2),
+      enemy('shadow-runner', 6, 3, 0),
+    ],
+  },
+  {
+    id: 18,
+    nameHu: 'Acél és árnyék',
+    descriptionHu: 'A legkeményebb páncélosok és a leggyorsabb futók csapata.',
+    rewardCoins: 1900,
+    isBossWave: false,
+    enemies: [
+      enemy('mini-brainrot', 5, 0, 1),
+      enemy('mini-brainrot', 5, 3, 1),
+      enemy('mini-brainrot', 5, 5, 0),
+      enemy('armored-slug', 5, 1, 0),
+      enemy('armored-slug', 5, 4, 2),
+      enemy('shadow-runner', 5, 2, 2),
+      enemy('shadow-runner', 6, 5, 2),
+      enemy('shadow-runner', 6, 2, 0),
+    ],
+  },
+  {
+    id: 19,
+    nameHu: 'A sólyom árnyéka',
+    descriptionHu: 'A levegő megremeg. Valami nagy és mérges közeledik a 20. hullámban.',
+    rewardCoins: 2200,
+    isBossWave: false,
+    enemies: [
+      enemy('mini-brainrot', 6, 0, 0),
+      enemy('mini-brainrot', 6, 3, 0),
+      enemy('mini-brainrot', 6, 5, 1),
+      enemy('armored-slug', 5, 1, 1),
+      enemy('armored-slug', 5, 4, 1),
+      enemy('shadow-runner', 5, 2, 2),
+      enemy('shadow-runner', 5, 4, 0),
+      enemy('shadow-runner', 6, 0, 2),
+      enemy('shadow-runner', 6, 3, 2),
+    ],
+  },
+  {
+    id: 20,
+    nameHu: 'Zöld Méreg Sólyom',
+    descriptionHu:
+      'Ábel saját főellensége: Zöld Méreg Sólyom. Földrengéssel érkezik, mérget köp, és forgó szárnypajzzsal védi magát. Távolsági találattal törhető meg a pajzs!',
+    rewardCoins: 3000,
+    isBossWave: true,
+    enemies: [
+      enemy('green-venom-falcon', 3, 2, 1),
+      enemy('mini-brainrot', 5, 0, 0),
+      enemy('mini-brainrot', 5, 5, 0),
+      enemy('armored-slug', 5, 1, 2),
+      enemy('armored-slug', 5, 4, 2),
+      enemy('shadow-runner', 5, 3, 2),
+    ],
+  },
 ];
 
 export function getWave(waveId: number): WaveDefinition | null {
@@ -153,7 +307,7 @@ export function waveFirstCompletionBonus(wave: WaveDefinition): number {
 }
 
 export const FIRST_WAVE_ID = 1;
-export const LAST_WAVE_ID = 10;
+export const LAST_WAVE_ID = 20;
 
 export function isValidWaveId(waveId: number): boolean {
   return Number.isInteger(waveId) && getWave(waveId) !== null;

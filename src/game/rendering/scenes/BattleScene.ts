@@ -162,6 +162,7 @@ interface UnitView {
   laserRelease: LaserAttackRelease | null;
   deathCleanup: (() => void) | null;
   locomotionTween: LaserCrocodileLocomotion | null;
+  spinAura: Phaser.GameObjects.Container | null;
   pendingHurt: boolean;
   lastX: number;
   lastY: number;
@@ -355,6 +356,7 @@ export class BattleScene extends Phaser.Scene {
         view.laserRelease?.cancel();
         view.laserRelease = null;
         view.locomotionTween?.stop();
+        this.clearSpinAura(view);
       }
     });
   }
@@ -474,11 +476,19 @@ export class BattleScene extends Phaser.Scene {
       view.laserRelease?.cancel();
       view.laserRelease = null;
       view.locomotionTween?.stop();
+      this.clearSpinAura(view);
       view.container.destroy(true);
     }
     this.unitViews.clear();
     for (const preview of this.previewViews) preview.destroy(true);
     this.previewViews = [];
+  }
+
+  private clearSpinAura(view: UnitView): void {
+    if (!view.spinAura) return;
+    this.tweens.killTweensOf(view.spinAura);
+    view.spinAura.destroy(true);
+    view.spinAura = null;
   }
 
   private prepareBattle(): void {
@@ -580,6 +590,7 @@ export class BattleScene extends Phaser.Scene {
         laserRelease: null,
         deathCleanup: null,
         locomotionTween: locomotionTween ?? null,
+        spinAura: null,
         pendingHurt: false,
         lastX: character.col + 0.5,
         lastY: character.row + 0.5,
@@ -605,7 +616,8 @@ export class BattleScene extends Phaser.Scene {
     },
     options: { ghost?: boolean; selected?: boolean } = {},
   ): Phaser.GameObjects.Container {
-    const isBoss = spec.typeId === 'mega-brainrot-gorilla';
+    const isBoss =
+      spec.team === 'enemy' && (ENEMY_DEFINITIONS[spec.typeId as EnemyTypeId]?.isBoss ?? false);
     const animated =
       spec.team === 'ally'
         ? animatedCharacterVisual(spec.typeId as CharacterTypeId, spec.mergeRank)
@@ -765,6 +777,54 @@ export class BattleScene extends Phaser.Scene {
     isBoss: boolean,
   ): void {
     const colors = ENEMY_DEFINITIONS[typeId].colors;
+    if (typeId === 'green-venom-falcon') {
+      // Placeholder procedural art until the final Green Venom Falcon spritesheet exists.
+      // See docs/green-venom-falcon/ASSET_GUIDE.txt for the missing asset specification.
+      g.fillStyle(colors.secondary, 1);
+      g.fillTriangle(-30, -6, -58, -34, -14, -22);
+      g.fillTriangle(30, -6, 58, -34, 14, -22);
+      g.fillStyle(colors.primary, 1);
+      g.fillEllipse(0, 2, 58, 46);
+      g.fillTriangle(-20, 20, -4, 20, -12, 34);
+      g.fillTriangle(20, 20, 4, 20, 12, 34);
+      g.fillCircle(0, -20, 22);
+      g.fillStyle(colors.secondary, 1);
+      g.fillTriangle(-16, -26, -24, -42, -4, -34);
+      g.fillTriangle(16, -26, 24, -42, 4, -34);
+      g.fillStyle(colors.accent, 1);
+      g.fillTriangle(-5, -16, 5, -16, 0, -4);
+      g.fillCircle(-9, -24, 4);
+      g.fillCircle(9, -24, 4);
+      g.fillStyle(0x0a1207, 1);
+      g.fillCircle(-9, -24, 2);
+      g.fillCircle(9, -24, 2);
+      g.lineStyle(5, 0x070707, 1);
+      g.beginPath();
+      g.moveTo(-18, 22);
+      g.lineTo(-24, 40);
+      g.lineTo(-34, 48);
+      g.moveTo(-18, 22);
+      g.lineTo(-10, 42);
+      g.lineTo(-4, 50);
+      g.moveTo(18, 22);
+      g.lineTo(24, 40);
+      g.lineTo(34, 48);
+      g.moveTo(18, 22);
+      g.lineTo(10, 42);
+      g.lineTo(4, 50);
+      g.strokePath();
+      g.fillStyle(0x070707, 1);
+      g.fillTriangle(-36, 48, -28, 42, -28, 54);
+      g.fillTriangle(-6, 50, 2, 44, 2, 56);
+      g.fillTriangle(36, 48, 28, 42, 28, 54);
+      g.fillTriangle(6, 50, -2, 44, -2, 56);
+      g.fillStyle(colors.accent, 0.9);
+      g.fillCircle(26, 10, 5);
+      g.fillCircle(32, 18, 3.5);
+      g.lineStyle(3, colors.accent, 0.75);
+      g.strokeCircle(0, 0, 46);
+      return;
+    }
     if (isBoss) {
       g.fillStyle(colors.secondary, 1);
       g.fillCircle(-26, 22, 16);
@@ -949,6 +1009,7 @@ export class BattleScene extends Phaser.Scene {
           laserRelease: null,
           deathCleanup: null,
           locomotionTween: locomotionTween ?? null,
+          spinAura: null,
           pendingHurt: false,
           lastX: unit.x,
           lastY: unit.y,
@@ -1153,6 +1214,7 @@ export class BattleScene extends Phaser.Scene {
     view.laserRelease?.cancel();
     view.laserRelease = null;
     view.locomotionTween?.stop();
+    this.clearSpinAura(view);
     if (view.sprite && view.actionHandler) {
       view.sprite.off(view.actionHandler.event, view.actionHandler.handler);
       view.actionHandler = null;
@@ -1189,6 +1251,9 @@ export class BattleScene extends Phaser.Scene {
         } else if (event.kind === 'lightning') {
           if (!reduced) this.spawnProjectileAttack(from, to, LIGHTNING_SCORPION_EFFECTS);
           this.controller.playSound('lightning');
+        } else if (event.kind === 'poison') {
+          if (!reduced) this.spawnPoisonSpit(from, to);
+          this.controller.playSound('hit');
         } else if (event.kind === 'boss-smash') {
           if (!reduced) {
             this.spawnOneShotEffect(from, MEGA_BRAINROT_GORILLA_EFFECTS.charge, 96);
@@ -1198,7 +1263,7 @@ export class BattleScene extends Phaser.Scene {
         } else {
           const attacker = this.unitViews.get(event.attackerId);
           if (!reduced) {
-            this.spawnImpact(to, 0xffa35a);
+            this.spawnImpact(to, attacker?.typeId === 'green-venom-falcon' ? 0x7dff5a : 0xffa35a);
             if (attacker?.typeId === ARMORED_SNAIL_ENEMY_ID) {
               this.spawnOneShotEffect(to, ARMORED_SNAIL_EFFECTS.slimeSplash, 76, {
                 ground: true,
@@ -1225,7 +1290,17 @@ export class BattleScene extends Phaser.Scene {
       case 'damage': {
         const at = gridToPixel(event.at.x, event.at.y);
         const view = this.unitViews.get(event.unitId);
-        this.spawnDamageText(at, event.amount, reduced);
+        if (event.blocked) {
+          this.spawnFloatingText(at.px, at.py - 30, t('canvasShieldBlocked'), '#7dff5a', 16);
+          break;
+        }
+        const damageColor =
+          event.source === 'poison'
+            ? '#7dff5a'
+            : event.source === 'spin-aura'
+              ? '#b6ff7a'
+              : undefined;
+        this.spawnDamageText(at, event.amount, reduced, damageColor);
         if (!reduced && view?.sprite) this.flashSprite(view.sprite);
         if (!reduced && view?.typeId === ARMORED_SNAIL_ENEMY_ID) {
           this.spawnUnitOneShotEffect(view, ARMORED_SNAIL_EFFECTS.shellHit, 64, 0.85);
@@ -1238,14 +1313,57 @@ export class BattleScene extends Phaser.Scene {
         }
         break;
       }
+      case 'status': {
+        const at = gridToPixel(event.at.x, event.at.y);
+        const view = this.unitViews.get(event.unitId);
+        if (event.status === 'poisoned') {
+          this.spawnFloatingText(at.px, at.py - 40, t('canvasPoisoned'), '#7dff5a', 16);
+          if (!reduced) this.spawnDotBurst(at, 0x7dff5a, 6);
+        } else if (event.status === 'spin-start') {
+          this.spawnFloatingText(at.px, at.py - 62, t('canvasSpinStart'), '#b6ff7a', 17);
+          if (!reduced && view) this.startSpinAura(view, 900);
+        } else if (event.status === 'spin-break') {
+          this.spawnFloatingText(at.px, at.py - 62, t('canvasSpinBreak'), '#ffe86b', 18);
+          if (!reduced && view) {
+            this.clearSpinAura(view);
+            this.startSpinAura(view, 1800);
+            this.spawnRing(at.px, at.py, 0x7dff5a, 70, 380);
+          }
+        } else if (event.status === 'spin-end' && view) {
+          this.clearSpinAura(view);
+        }
+        break;
+      }
+      case 'earthquake': {
+        const at = gridToPixel(event.at.x, event.at.y);
+        this.spawnFloatingText(
+          BOARD_X + BOARD_WIDTH / 2,
+          BOARD_Y + BOARD_HEIGHT / 2 - 40,
+          t('canvasEarthquake'),
+          '#62e7ff',
+          26,
+        );
+        if (!reduced) {
+          this.cameras.main.shake(500, 0.008);
+          this.spawnRing(at.px, at.py, 0x62e7ff, 220, 700);
+          this.spawnRing(at.px, at.py, 0x7dff5a, 150, 520);
+        }
+        this.controller.playSound('hit');
+        break;
+      }
       case 'death': {
         if (!reduced) {
           const at = gridToPixel(event.at.x, event.at.y);
           const view = this.unitViews.get(event.unitId);
-          const isBoss = view?.typeId === MEGA_BRAINROT_GORILLA_ENEMY_ID;
+          const isBoss =
+            view?.team === 'enemy' &&
+            (ENEMY_DEFINITIONS[view.typeId as EnemyTypeId]?.isBoss ?? false);
           if (isBoss) {
-            this.spawnOneShotEffect(at, MEGA_BRAINROT_GORILLA_EFFECTS.defeat, 128);
+            if (view?.typeId === MEGA_BRAINROT_GORILLA_ENEMY_ID) {
+              this.spawnOneShotEffect(at, MEGA_BRAINROT_GORILLA_EFFECTS.defeat, 128);
+            }
             this.spawnRing(at.px, at.py, 0xffd447, 92, 520);
+            this.spawnRing(at.px, at.py, 0x7dff5a, 64, 380);
             this.spawnDeathBurst(at, 0xff7a8e, 16, 68);
           } else {
             this.spawnDeathBurst(at, event.team === 'ally' ? 0x6dffb0 : 0xff7a8e);
@@ -1315,6 +1433,63 @@ export class BattleScene extends Phaser.Scene {
     });
   }
 
+  private spawnPoisonSpit(from: { px: number; py: number }, to: { px: number; py: number }): void {
+    const bolt = this.add.circle(from.px, from.py, 10, 0x7dff5a, 0.95);
+    this.effectsLayer?.add(bolt);
+    this.tweens.add({
+      targets: bolt,
+      x: to.px,
+      y: to.py,
+      scale: 0.55,
+      duration: 380,
+      ease: 'Sine.easeIn',
+      onComplete: () => {
+        bolt.destroy();
+        this.spawnImpact(to, 0x7dff5a);
+        this.spawnDotBurst(to, 0x7dff5a, 5);
+      },
+    });
+  }
+
+  private spawnDotBurst(at: { px: number; py: number }, color: number, count: number): void {
+    for (let index = 0; index < count; index += 1) {
+      const angle = Math.random() * Math.PI * 2;
+      const dot = this.add.circle(at.px, at.py, 3, color, 0.85);
+      this.effectsLayer?.add(dot);
+      this.tweens.add({
+        targets: dot,
+        x: at.px + Math.cos(angle) * (16 + Math.random() * 18),
+        y: at.py + Math.sin(angle) * (16 + Math.random() * 18),
+        alpha: 0,
+        duration: 380 + Math.random() * 180,
+        onComplete: () => dot.destroy(),
+      });
+    }
+  }
+
+  private startSpinAura(view: UnitView, duration: number): void {
+    this.clearSpinAura(view);
+    const aura = this.add.container(0, 0);
+    for (let ring = 0; ring < 3; ring += 1) {
+      const radius = 38 + ring * 9;
+      const arc = this.add.graphics();
+      arc.lineStyle(3, ring === 1 ? 0x7dff5a : 0x3fbf4a, 0.55 - ring * 0.1);
+      arc.beginPath();
+      arc.arc(0, 0, radius, ring * 1.2, ring * 1.2 + Math.PI * 1.1);
+      arc.strokePath();
+      aura.add(arc);
+    }
+    view.container.addAt(aura, 0);
+    view.spinAura = aura;
+    this.tweens.add({
+      targets: aura,
+      angle: 360,
+      duration,
+      repeat: -1,
+      ease: 'Linear',
+    });
+  }
+
   private spawnUnitOneShotEffect(
     view: UnitView,
     key: string,
@@ -1353,14 +1528,19 @@ export class BattleScene extends Phaser.Scene {
     return sprite;
   }
 
-  private spawnDamageText(at: { px: number; py: number }, amount: number, reduced = false): void {
+  private spawnDamageText(
+    at: { px: number; py: number },
+    amount: number,
+    reduced = false,
+    color?: string,
+  ): void {
     const stagger = Math.random() * 22 - 11;
     const text = this.add
       .text(at.px + stagger, at.py - 34, `-${amount}`, {
         fontFamily: '"Trebuchet MS", "Segoe UI", sans-serif',
         fontSize: amount > 30 ? '22px' : '18px',
         fontStyle: 'bold',
-        color: amount > 30 ? '#ffe86b' : '#ffffff',
+        color: color ?? (amount > 30 ? '#ffe86b' : '#ffffff'),
         stroke: '#1c0a24',
         strokeThickness: 5,
       })
