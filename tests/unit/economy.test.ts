@@ -160,7 +160,7 @@ describe('wave rewards and retry policy', () => {
     const next = applyDefeatComfort(profile);
     expect(next.ok).toBe(true);
     if (!next.ok) return;
-    expect(next.value.coins).toBe(20);
+    expect(next.value.coins).toBe(50);
     expect(profile.coins).toBe(0);
   });
 

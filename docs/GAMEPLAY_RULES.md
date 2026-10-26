@@ -80,7 +80,7 @@ xpRequiredForLevel(level) = 25 * (level - 1)^2
 
 ## Combat XP rewards
 
-XP is granted when a battle ends in victory, not on defeat or surrender.
+XP is granted after victory, and partial combat XP is granted for a limited number of genuine defeats. Surrender grants nothing.
 
 ```text
 baseWaveXp(wave) = 60 + 15 * wave
@@ -96,7 +96,7 @@ baseWaveXp(wave) = 60 + 15 * wave
 - Repeat victory of an already completed wave: each participant receives `floor(base * 0.25)`.
   Replay is not exposed in the current UI; this rule is implemented and tested for a later
   wave-selector milestone.
-- Defeat and surrender grant **0 XP**.
+- Defeat grants 20% of the wave's applicable victory XP to every battle participant for the first three XP-rewarded defeats of that wave. Further defeats grant gold only. Surrender grants **0 XP**.
 - The participating persistent character IDs are captured when the battle starts. XP is applied
   to that roster only, even if the temporary battle copy died or the persistent formation changes
   later.
@@ -174,8 +174,11 @@ Falcon L6 on wave 20.
 - Purchases validate funds and free space before any mutation.
 - A full board blocks purchasing; the player can merge or sell a selected unit to free a cell.
 - Wave coin rewards are claimable once per wave. A replay gives **35%** of the listed first-clear reward, so farming remains useful but cannot replace advancing.
-- Defeat grants **20 comfort coins**. Units are never lost, and retries are free. This guarantees
-  that an unlucky ordinary playthrough cannot become permanently unplayable.
+- Defeat grants **50 vigaszdíj coins**. Units are never lost, and retries are free.
+- Each profile and wave has a persistent defeat-XP counter. The first three genuine defeats grant
+  20% of the applicable victory XP; the fourth and later defeats grant 50 coins and no XP. Normal
+  and Hard share the same counter, while each wave has its own counter.
+- Surrender, abandoning, refreshing during combat, and quitting to the menu grant no defeat reward.
 - Coins have a hard persistence bound of **1,000,000,000**. A reward or comfort grant that would
   exceed it is rejected with a visible error; the profile is left unchanged and remains saveable.
 
@@ -246,7 +249,7 @@ to the ordinary curve after the boss premium, preventing a permanent post-boss r
 
 ### Difficulty modes (M3.6)
 
-- **Normál** is the default for every profile, including migrated v1/v2 saves.
+- **Normál** is the default for every profile, including migrated v1/v2/v3 saves.
 - **Nehéz** applies global enemy multipliers after normal level scaling:
   - enemy HP ×1.40;
   - enemy attack ×1.20.
@@ -317,7 +320,7 @@ ordering. This is explicit and tested; future balance changes can adjust IDs/ord
 - Defeat: no living allies remain, or the 90 s limit is reached.
 - On victory, each battle-start participant receives XP, the wave coin reward is granted **once**,
   `completedWaves` is updated, and `currentWave` advances up to wave 20.
-- On defeat, no XP is granted, the persistent army is untouched, and 20 comfort coins are granted.
+- On defeat, the persistent army is untouched. A genuine defeat grants 50 coins and, for the first three XP-rewarded defeats of that wave, 20% of the applicable victory XP to participants. Later defeats grant coins only.
 - On surrender, no XP and no coins are granted; the army is untouched.
 - The result is stored only after the battle resolves. A mid-battle browser close restores the
   last preparation save and grants no XP.

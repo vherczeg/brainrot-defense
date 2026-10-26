@@ -14,6 +14,7 @@ az azonosakat, majd indíts automatikus csatát a betolakodó szörnyek ellen.
 - M3.4 egyensúly: fokozatos 20 hullámos gazdaság, erősebb 10. és 20. főellenség, 35%-os replay jutalom.
 - M3.4.2 early curve: a 3–5., 7., 11. és 17. hullám célzott erősítése; a kezdő sereg már a 4. hullámnál fejlesztést igényel.
 - M3.6: Normál / Nehéz nehézségi módok, profilanként mentett beállítással; a Nehéz mód +40% ellenség HP és +20% támadás; 18–19. hullám finomhangolása.
+- M3.7: vereségért 50 vigaszdíj és hullámonként legfeljebb 3×20% harci TP; perzisztens vereség-XP számláló.
 - Egérrel, érintéssel és billentyűzettel is játszható.
 - A játéklogika teljesen független a Phaser rendereléstől és a React UI-tól.
 
@@ -113,10 +114,10 @@ Részletek: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 ## Mentés
 
 - IndexedDB adatbázis: `brainrot-defense`, `profiles` és `meta` object store-ok.
-- Verziózott séma (`schemaVersion: 3`), szigorú validáció, FNV-1a checksum.
-- Az M0.1 `schemaVersion: 1` és a korábbi `schemaVersion: 2` mentések betöltéskor/importkor tiszta migrációval v3-ra váltanak.
-  A régi rekord biztonsági másolata és egy v3 árnyékmásolat a `meta` store-ban marad; a migráció
-  nem foglal el egyetlen játékosprofil-helyet sem. Egy régi lap elavult v1 írását a v3
+- Verziózott séma (`schemaVersion: 4`), szigorú validáció, FNV-1a checksum.
+- Az M0.1 `schemaVersion: 1`, valamint a korábbi `schemaVersion: 2` és `3` mentések betöltéskor/importkor tiszta migrációval v4-re váltanak.
+  A régi rekord biztonsági másolata és egy v4 árnyékmásolat a `meta` store-ban marad; a migráció
+  nem foglal el egyetlen játékosprofil-helyet sem. Egy régi lap elavult v1 írását a v4
   árnyékmásolat védi ki.
 - Profilonként egy atomi rekordfrissítés; megszakadt írás nem hoz létre félkész mentést.
 - Az autosave-ek egy szerializált, koaleszkált írási sorban futnak. A legfrissebb állapot
@@ -177,7 +178,7 @@ véletlenül éles deploy történjen. **A custom domain és a Pages beállítá
 
 ## Tesztelés
 
-- **Unit/integrációs:** 349 teszt, 43 fájlban. merge/rang-szabályok, eladás és visszatérítés, M3.4 jutalomtábla és boss-nehézség, M3.4.2 early-curve benchmarkok, M3.6 difficulty scaling és v3-mentésmigráció, XP-küszöbök minden
+- **Unit/integrációs:** 362 teszt, 45 fájlban. merge/rang-szabályok, eladás és visszatérítés, M3.4 jutalomtábla és boss-nehézség, M3.4.2 early-curve benchmarkok, M3.6 difficulty scaling, M3.7 vereségjutalom és v4-mentésmigráció, XP-küszöbök minden
   határon, XP-összeadás és sapka, első győzelmi és csökkentett ismételt XP, halott és nem
   résztvevő harcosok kizárása, gazdaság, statisztikák, rács, hullámok, targeting, range,
   cooldown, páncél, láncvillám, halál, győzelem/vereség, determinizmus, 1×/2× sebesség,

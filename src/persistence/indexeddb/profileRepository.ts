@@ -3,7 +3,7 @@ import { checksumOf } from '../import-export/saveCodec';
 import {
   CURRENT_SAVE_VERSION,
   LEGACY_SAVE_VERSION,
-  PREVIOUS_SAVE_VERSION,
+  MIN_MIGRATABLE_SAVE_VERSION,
   migrateV1Profile,
   validateLegacyProfileV1,
   validateProfile,
@@ -131,9 +131,19 @@ interface ResolvedStoredProfile {
   readonly migratedFromLegacy: boolean;
 }
 
+function profileWithoutDefeatCounts(profile: PlayerProfile): Omit<PlayerProfile, 'defeatXpCounts'> {
+  const rest = { ...profile };
+  delete (rest as { defeatXpCounts?: readonly number[] }).defeatXpCounts;
+  return rest;
+}
+
+function legacyV3Checksum(profile: PlayerProfile): string {
+  return checksumOf(profileWithoutDefeatCounts(profile));
+}
+
 function legacyV2Checksum(profile: PlayerProfile): string {
   return checksumOf({
-    ...profile,
+    ...profileWithoutDefeatCounts(profile),
     settings: {
       soundEnabled: profile.settings.soundEnabled,
       reducedMotion: profile.settings.reducedMotion,
@@ -152,12 +162,12 @@ function migrateLegacySafely(
   if (!legacy.ok) return null;
   const migrated = migrateV1Profile(payload);
   if (!migrated.ok || migrated.value.profileId !== profileId) return null;
-  const currentChecksum = checksumOf(migrated.value);
-  const previousChecksum = legacyV2Checksum(migrated.value);
-  return markerInfo.shadowChecksum === currentChecksum ||
-    markerInfo.shadowChecksum === previousChecksum
-    ? migrated.value
-    : null;
+  const checksums = [
+    checksumOf(migrated.value),
+    legacyV3Checksum(migrated.value),
+    legacyV2Checksum(migrated.value),
+  ];
+  return checksums.includes(markerInfo.shadowChecksum) ? migrated.value : null;
 }
 
 function resolveStoredProfile(
@@ -184,7 +194,10 @@ function resolveStoredProfile(
     return fail('unsupported-version', `schemaVersion ${stored.schemaVersion}`);
   }
 
-  if (stored.schemaVersion === PREVIOUS_SAVE_VERSION) {
+  if (
+    stored.schemaVersion >= MIN_MIGRATABLE_SAVE_VERSION &&
+    stored.schemaVersion < CURRENT_SAVE_VERSION
+  ) {
     const profile = validateProfile(stored.payload);
     if (!profile.ok) return profile;
     if (profile.value.profileId !== profileId) {
@@ -195,11 +208,11 @@ function resolveStoredProfile(
 
   if (stored.schemaVersion === LEGACY_SAVE_VERSION) {
     const markerInfo = parseRecordSchemaMarker(marker);
-    if (markerInfo && markerInfo.schemaVersion >= PREVIOUS_SAVE_VERSION) {
+    if (markerInfo && markerInfo.schemaVersion >= MIN_MIGRATABLE_SAVE_VERSION) {
       const shadowRecord = validateStoredRecord(shadow);
       if (
         shadowRecord.ok &&
-        shadowRecord.value.schemaVersion >= PREVIOUS_SAVE_VERSION &&
+        shadowRecord.value.schemaVersion >= MIN_MIGRATABLE_SAVE_VERSION &&
         shadowRecord.value.schemaVersion <= CURRENT_SAVE_VERSION &&
         checksumOf(shadowRecord.value.payload) === shadowRecord.value.checksum &&
         (markerInfo.shadowChecksum === undefined ||

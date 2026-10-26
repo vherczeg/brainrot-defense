@@ -12,6 +12,8 @@ export const MAX_SAFE_STAT = 1_000_000_000;
 export const MAX_COINS = 1_000_000_000;
 export const MAX_NEXT_CHARACTER_ID = 2_000_000_000;
 export const MAX_PROFILES = 3;
+export const MAX_DEFEAT_XP_REWARDS = 3;
+export const DEFEAT_XP_RATE = 0.2;
 
 export type CharacterTypeId = 'laser-crocodile' | 'lightning-scorpion';
 
@@ -60,6 +62,7 @@ export interface PlayerProfile {
   readonly unlockedWave: number;
   readonly completedWaves: readonly number[];
   readonly characters: readonly CharacterInstance[];
+  readonly defeatXpCounts: readonly number[];
   readonly upgrades: Readonly<Record<string, number>>;
   readonly settings: GameSettings;
   readonly tutorialSeen: boolean;

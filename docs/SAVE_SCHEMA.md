@@ -34,7 +34,7 @@ There is no backend and no cloud synchronization. Each browser profile has its o
 ```ts
 interface StoredProfileRecord {
   profileId: string;
-  schemaVersion: 3;
+  schemaVersion: 4;
   checksum: string;
   savedAt: number;
   payload: PlayerProfile;
@@ -43,7 +43,7 @@ interface StoredProfileRecord {
 
 - The checksum is a 32-bit FNV-1a hash of `JSON.stringify(payload)`, rendered as 8 hex chars.
 - Load order: check the deletion tombstone → validate record shape → check supported version →
-  recompute checksum → validate or migrate the payload → validate the final v3 profile → verify
+  recompute checksum → validate or migrate the payload → validate the final v4 profile → verify
   `payload.profileId === record.profileId`.
 - Writes validate the profile **before** opening the read/write transaction. A failed validation
   leaves the previous valid record untouched.
@@ -69,6 +69,7 @@ interface PlayerProfile {
     battleSpeed: 1 | 2;
     difficulty: 'normal' | 'hard';
   };
+  defeatXpCounts: number[]; // exactly 20 entries, each integer 0..3
   tutorialSeen: boolean;
   nextCharacterId: number; // integer >= 1
   createdAt: number; // integer epoch ms
@@ -98,7 +99,8 @@ Additional invariants enforced on import/save validation:
 - `currentWave <= unlockedWave`;
 - `nextCharacterId` is an integer in `1..2_000_000_000`; at the upper bound the allocator reuses
   that starting point and skips existing IDs without advancing the stored value past the bound;
-- `coins` is an integer in `0..1_000_000_000`. Wave rewards and comfort coins that would exceed
+- `defeatXpCounts` has exactly one entry per wave; each entry is an integer 0..3.
+- `coins` is an integer in `0..1_000_000_000`. Wave rewards and defeat coins that would exceed
   the bound are rejected with `coin-overflow` instead of creating an unsaveable profile. A victory
   whose coin reward overflows still completes the wave and grants XP with zero coins.
 
@@ -111,7 +113,7 @@ the persisted schema so an imported character can never appear on the enemy side
 {
   "format": "brainrot-defense-save",
   "appId": "brainrot-defense",
-  "schemaVersion": 3,
+  "schemaVersion": 4,
   "exportedAt": "2026-10-25T00:00:00.000Z",
   "profile": { "...": "PlayerProfile" }
 }
@@ -126,7 +128,7 @@ complete state transitions.
 2. Reject empty or larger-than-2 MB input.
 3. `JSON.parse` inside a narrow `try/catch`; parse failure returns a typed error.
 4. Validate app identity, format, supported version, and the entire profile schema/bounds.
-5. If `schemaVersion` is 1 or 2, validate/migrate the profile to v3. Missing difficulty defaults to Normal.
+5. If `schemaVersion` is 1, 2, or 3, validate/migrate the profile to v4. Missing difficulty defaults to Normal and missing defeat counters default to zero.
 6. If an existing profile has the same ID, the import replaces it only after explicit confirmation.
 7. If the profile is new, it is allowed only while fewer than three profiles exist.
 8. The imported profile is saved to IndexedDB first. Only after a successful write does the
@@ -135,7 +137,7 @@ complete state transitions.
 Malformed JSON, unknown character types, out-of-range stats, duplicate positions/IDs, unsupported
 versions, and invalid settings are rejected with a user-facing Hungarian error.
 
-## Migration v1 → v2 → v3
+## Migration v1 → v2 → v3 → v4
 
 M0.1 stored a character property named `level` that represented the **merge level**. In M1.1 this
 maps to `mergeRank`; historical combat XP did not exist, so `totalXp` starts at `0`:
@@ -152,12 +154,13 @@ becomes
 
 Migration rules:
 
-- `CURRENT_SAVE_VERSION = 3`, `PREVIOUS_SAVE_VERSION = 2`, `LEGACY_SAVE_VERSION = 1`.
+- `CURRENT_SAVE_VERSION = 4`, `MIN_MIGRATABLE_SAVE_VERSION = 2`, `LEGACY_SAVE_VERSION = 1`.
 - A v1 payload is validated against the complete v1 schema **before** conversion.
 - The migration function is pure and deterministic for v1 input. Already migrated v2 profiles
   go through current validation; `migrateV1Profile` does not pass them through.
-- The complete migrated profile is validated again against v3 before it is returned.
-- v2 saves keep every field and receive `settings.difficulty = 'normal'`.
+- The complete migrated profile is validated again against v4 before it is returned.
+- v2 saves keep every field and receive `settings.difficulty = 'normal'` plus zero defeat counters.
+- v3 saves keep their difficulty setting and receive zero defeat counters.
 - `level` is never interpreted as character level.
 - Character IDs, types, positions, coins, completed waves, wave unlock state, profile identity,
   settings, upgrades, tutorial state, and ID allocator state are preserved.
@@ -167,7 +170,7 @@ Migration rules:
 - Version semantics are strict: a `schemaVersion: 1` payload must use the v1 `level` character
   shape. A v1 marker wrapping v2-shaped `mergeRank`/`totalXp` characters is rejected as
   `invalid-import`/`corrupt-save`; `migrateV1Profile` is not an idempotent pass-through.
-- Any record or envelope newer than v3 is rejected as `unsupported-version`; it is not partially
+- Any record or envelope newer than v4 is rejected as `unsupported-version`; it is not partially
   loaded.
 - A failed migration never overwrites the stored record.
 
@@ -177,8 +180,8 @@ Loading a valid v1 IndexedDB record migrates it in memory. Best-effort backgroun
 then retain:
 
 - the original v1 record under `backup:v1:<profileId>`;
-- a current v3 shadow record under `shadow:<profileId>`;
-- `record-schema:<profileId> = 3` (or the highest stored version during recovery).
+- a current v4 shadow record under `shadow:<profileId>`;
+- `record-schema:<profileId> = 4` (or the highest stored version during recovery).
 
 The main profile record is not replaced until the next successful autosave. If those metadata
 writes fail, the migrated profile is still returned and the old record remains untouched.
@@ -219,7 +222,7 @@ The controller saves after:
 - successful merge;
 - unit movement;
 - wave completion, XP award, and reward claim;
-- defeat comfort coins;
+- defeat gold and defeat-XP counter/XP transaction;
 - settings change;
 - tutorial completion;
 - profile creation/selection/import.

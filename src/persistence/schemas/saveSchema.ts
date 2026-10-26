@@ -19,8 +19,8 @@ import {
   type Result,
 } from '../../game/domain/types';
 
-export const CURRENT_SAVE_VERSION = 3;
-export const PREVIOUS_SAVE_VERSION = 2;
+export const CURRENT_SAVE_VERSION = 4;
+export const MIN_MIGRATABLE_SAVE_VERSION = 2;
 export const LEGACY_SAVE_VERSION = 1;
 export const SAVE_APP_ID = 'brainrot-defense';
 export const SAVE_FORMAT = 'brainrot-defense-save';
@@ -226,6 +226,19 @@ function parseBaseProfile(value: Record<string, unknown>): Result<{
   });
 }
 
+function parseDefeatXpCounts(value: unknown): Result<readonly number[]> {
+  if (value === undefined) return ok(Array.from({ length: TOTAL_WAVES }, () => 0));
+  if (!Array.isArray(value) || value.length !== TOTAL_WAVES) {
+    return fail('invalid-import', 'defeatXpCounts');
+  }
+  const counts: number[] = [];
+  for (const count of value) {
+    if (!isInt(count, 0, 3)) return fail('invalid-import', 'defeatXpCounts.item');
+    counts.push(count);
+  }
+  return ok(counts);
+}
+
 function parseCharacter(value: unknown): Result<CharacterInstance> {
   if (!isRecord(value)) return fail('invalid-import', 'character');
   if (!isSafeId(value.id)) return fail('invalid-import', 'character.id');
@@ -310,6 +323,8 @@ export function validateProfile(value: unknown): Result<PlayerProfile> {
   if (!base.ok) return base;
   const characters = parseCharacterList(value.characters, parseCharacter, (character) => character);
   if (!characters.ok) return characters;
+  const defeatXpCounts = parseDefeatXpCounts(value.defeatXpCounts);
+  if (!defeatXpCounts.ok) return defeatXpCounts;
   return ok({
     profileId: base.value.profileId,
     name: base.value.name,
@@ -318,6 +333,7 @@ export function validateProfile(value: unknown): Result<PlayerProfile> {
     unlockedWave: base.value.unlockedWave,
     completedWaves: base.value.completedWaves,
     characters: characters.value,
+    defeatXpCounts: defeatXpCounts.value,
     upgrades: base.value.upgrades,
     settings: base.value.settings,
     tutorialSeen: base.value.tutorialSeen,

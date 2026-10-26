@@ -1,11 +1,11 @@
 import { SoundManager, type SoundName } from '../audio/soundManager';
 import {
-  applyDefeatComfort,
   markTutorialSeen,
   mergeCharacters,
   moveCharacter,
   purchaseCharacter,
   resolveBattleRewards,
+  resolveDefeatRewards,
   sellCharacter,
   undoMerge,
   updateSettings,
@@ -15,13 +15,10 @@ import {
 import { CHARACTER_DEFINITIONS, sellRefund } from '../game/domain/characters';
 import { characterLevelFromXp, MAX_CHARACTER_XP } from '../game/domain/progression';
 import { emptyAlliedCells } from '../game/domain/grid';
-import {
-  createInitialProfile,
-  DEFEAT_COMFORT_COINS,
-  DEFAULT_PROFILE_NAME,
-} from '../game/domain/state';
+import { createInitialProfile, DEFAULT_PROFILE_NAME } from '../game/domain/state';
 import {
   MAX_ARMY_SIZE,
+  MAX_DEFEAT_XP_REWARDS,
   MAX_MERGE_RANK,
   MAX_PROFILES,
   TOTAL_WAVES,
@@ -92,6 +89,8 @@ export interface BattleResultView {
   readonly levelUps: readonly BattleLevelUp[];
   readonly maxLevelReached: boolean;
   readonly persistenceError: boolean;
+  readonly defeatXpCount: number;
+  readonly defeatXpLimit: number;
 }
 
 export interface PrepView {
@@ -1133,6 +1132,8 @@ export class GameController {
           levelUps: [],
           maxLevelReached: false,
           persistenceError: false,
+          defeatXpCount: 0,
+          defeatXpLimit: MAX_DEFEAT_XP_REWARDS,
         };
         this.phase = 'result';
         this.sound.play('victory');
@@ -1164,6 +1165,8 @@ export class GameController {
             character.totalXp >= MAX_CHARACTER_XP && this.battleRoster.includes(character.id),
         ),
         persistenceError: false,
+        defeatXpCount: 0,
+        defeatXpLimit: MAX_DEFEAT_XP_REWARDS,
       };
       const persistence = this.saveCriticalProfile(nextProfile);
       void persistence.then((saved) => {
@@ -1200,31 +1203,37 @@ export class GameController {
       return;
     }
 
-    const comfort = applyDefeatComfort(this.profile, this.now());
-    const nextProfile = comfort.ok ? comfort.value : this.profile;
-    const comfortCoins = comfort.ok ? DEFEAT_COMFORT_COINS : 0;
+    const defeated = resolveDefeatRewards(this.profile, waveId, this.battleRoster, this.now());
+    const nextProfile = defeated.ok ? defeated.value.profile : this.profile;
     const result: BattleResultView = {
       outcome: 'defeat',
       waveId,
       difficulty,
       rewardCoins: 0,
-      comfortCoins,
+      comfortCoins: defeated.ok ? defeated.value.comfortCoins : 0,
       firstCompletion: false,
       firstCompletionBonus: 0,
       completedAllWaves: false,
       nextWave: nextProfile.currentWave,
-      xpPerUnit: 0,
-      totalXpAwarded: 0,
-      levelUps: [],
-      maxLevelReached: false,
+      xpPerUnit: defeated.ok ? defeated.value.xpPerUnit : 0,
+      totalXpAwarded: defeated.ok ? defeated.value.totalXpAwarded : 0,
+      levelUps: defeated.ok ? defeated.value.levelUps : [],
+      maxLevelReached: defeated.ok
+        ? nextProfile.characters.some(
+            (character) =>
+              character.totalXp >= MAX_CHARACTER_XP && this.battleRoster.includes(character.id),
+          )
+        : false,
       persistenceError: false,
+      defeatXpCount: defeated.ok ? defeated.value.defeatXpCountAfter : 0,
+      defeatXpLimit: MAX_DEFEAT_XP_REWARDS,
     };
-    if (!comfort.ok) {
+    if (!defeated.ok) {
       this.battleFinishing = false;
       this.result = { ...result, comfortCoins: 0 };
       this.phase = 'result';
       this.sound.play('defeat');
-      this.showToastKey(errorKey(comfort.error), {}, 'error');
+      this.showToastKey(errorKey(defeated.error), {}, 'error');
       if (this.session) this.battleHud = buildHud(this.session.getState(), this.session);
       this.emit();
       return;
@@ -1244,7 +1253,7 @@ export class GameController {
           this.result = result;
           this.phase = 'result';
           this.sound.play('defeat');
-          this.showToastKey('toastComfort', { coins: DEFEAT_COMFORT_COINS }, 'info');
+          this.showToastKey('toastComfort', { coins: result.comfortCoins }, 'info');
         }
       } else if (stillActive) {
         this.failBattlePersistence(result);
@@ -1270,6 +1279,8 @@ export class GameController {
       levelUps: [],
       maxLevelReached: false,
       persistenceError: true,
+      defeatXpCount: 0,
+      defeatXpLimit: MAX_DEFEAT_XP_REWARDS,
     };
     this.phase = 'result';
     this.sound.play('error');

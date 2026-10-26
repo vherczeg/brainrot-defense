@@ -9,11 +9,13 @@ import {
   awardXp,
   battleXpPerUnit,
   characterLevelFromXp,
+  defeatXpPerUnit,
   mergeCharacterXp,
 } from '../domain/progression';
 import { DEFEAT_COMFORT_COINS } from '../domain/state';
 import {
   MAX_COINS,
+  MAX_DEFEAT_XP_REWARDS,
   MAX_MERGE_RANK,
   MAX_NEXT_CHARACTER_ID,
   TOTAL_WAVES,
@@ -63,6 +65,17 @@ export interface BattleLevelUp {
   readonly typeId: CharacterTypeId;
   readonly fromLevel: number;
   readonly toLevel: number;
+}
+
+export interface DefeatRewardOutcome {
+  readonly profile: PlayerProfile;
+  readonly comfortCoins: number;
+  readonly xpPerUnit: number;
+  readonly totalXpAwarded: number;
+  readonly levelUps: readonly BattleLevelUp[];
+  readonly defeatXpCountBefore: number;
+  readonly defeatXpCountAfter: number;
+  readonly defeatXpEligible: boolean;
 }
 
 export interface BattleRewardOutcome {
@@ -260,6 +273,68 @@ export function claimWaveReward(
     rewardCoins,
     firstCompletion,
     firstCompletionBonus,
+  });
+}
+
+export function resolveDefeatRewards(
+  profile: PlayerProfile,
+  waveId: number,
+  participantIds: readonly string[],
+  now = Date.now(),
+): Result<DefeatRewardOutcome> {
+  const wave = getWave(waveId);
+  if (!wave) return fail('invalid-wave');
+  if (profile.coins > MAX_COINS - DEFEAT_COMFORT_COINS) return fail('coin-overflow');
+
+  const firstCompletion = !profile.completedWaves.includes(waveId);
+  const counterIndex = waveId - 1;
+  const countBefore = profile.defeatXpCounts[counterIndex] ?? 0;
+  const eligible = countBefore < MAX_DEFEAT_XP_REWARDS;
+  const xpPerUnit = eligible ? defeatXpPerUnit(waveId, firstCompletion) : 0;
+  const participants = new Set(participantIds);
+  const levelUps: BattleLevelUp[] = [];
+  let totalXpAwarded = 0;
+
+  const characters = profile.characters.map((character) => {
+    if (!participants.has(character.id) || xpPerUnit <= 0) return character;
+    const beforeLevel = characterLevelFromXp(character.totalXp);
+    const nextXp = awardXp(character.totalXp, xpPerUnit);
+    const afterLevel = characterLevelFromXp(nextXp);
+    totalXpAwarded += nextXp - character.totalXp;
+    if (afterLevel > beforeLevel) {
+      levelUps.push({
+        characterId: character.id,
+        typeId: character.typeId,
+        fromLevel: beforeLevel,
+        toLevel: afterLevel,
+      });
+    }
+    return { ...character, totalXp: nextXp };
+  });
+
+  const defeatXpCounts = Array.from(
+    { length: Math.max(TOTAL_WAVES, profile.defeatXpCounts.length) },
+    (_, index) => profile.defeatXpCounts[index] ?? 0,
+  );
+  if (eligible) defeatXpCounts[counterIndex] = countBefore + 1;
+
+  return ok({
+    profile: updated(
+      {
+        ...profile,
+        coins: profile.coins + DEFEAT_COMFORT_COINS,
+        characters,
+        defeatXpCounts,
+      },
+      now,
+    ),
+    comfortCoins: DEFEAT_COMFORT_COINS,
+    xpPerUnit,
+    totalXpAwarded,
+    levelUps,
+    defeatXpCountBefore: countBefore,
+    defeatXpCountAfter: eligible ? countBefore + 1 : countBefore,
+    defeatXpEligible: eligible,
   });
 }
 

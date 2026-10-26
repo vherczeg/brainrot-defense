@@ -180,6 +180,8 @@ describe('v1 -> v3 save migration', () => {
     expect(parsed.ok).toBe(true);
     if (!parsed.ok) return;
     expect(parsed.value.profile.settings.difficulty).toBe('hard');
+    expect(parsed.value.profile.defeatXpCounts).toHaveLength(20);
+    expect(parsed.value.profile.defeatXpCounts.every((count) => count === 0)).toBe(true);
   });
 
   it('migrates a valid M0.1 export and preserves all profile metadata', () => {
@@ -401,6 +403,40 @@ describe('IndexedDB legacy record migration', () => {
     expect(loaded.value.coins).toBe(4321);
     expect(loaded.value.characters[0]?.mergeRank).toBe(4);
     expect(loaded.value.characters[0]?.totalXp).toBe(9000);
+  });
+
+  it('migrates a raw v3 stored record to v4 and defaults missing defeat counters to zero', async () => {
+    const repository = new IndexedDbProfileRepository();
+    const profile = profileWith([unit('unit-1', 'laser-crocodile', 4, 1, 4, 9000)], {
+      profileId: 'v3-stored',
+      coins: 4321,
+      settings: {
+        soundEnabled: true,
+        reducedMotion: false,
+        battleSpeed: 1,
+        difficulty: 'hard',
+      },
+    });
+    const v3Payload = { ...profile } as Record<string, unknown>;
+    delete v3Payload.defeatXpCounts;
+    await putRawRecord({
+      profileId: 'v3-stored',
+      schemaVersion: 3,
+      checksum: checksumOf(v3Payload),
+      savedAt: 222,
+      payload: v3Payload,
+    });
+
+    const loaded = await repository.loadProfile('v3-stored');
+    expect(loaded.ok).toBe(true);
+    if (!loaded.ok) return;
+    expect(loaded.value.coins).toBe(4321);
+    expect(loaded.value.settings.difficulty).toBe('hard');
+    expect(loaded.value.defeatXpCounts).toHaveLength(20);
+    expect(loaded.value.defeatXpCounts.every((count) => count === 0)).toBe(true);
+
+    const shadow = (await getRawMeta('shadow:v3-stored')) as StoredProfileRecord;
+    expect(shadow.schemaVersion).toBe(CURRENT_SAVE_VERSION);
   });
 
   it('does not consume a player profile slot for an internal migration backup', async () => {

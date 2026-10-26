@@ -161,3 +161,15 @@ Late-wave smoothing applies in both modes:
 
 The fixed-army and campaign benchmarks are documented in the M3.6 analysis; the implementation
 keeps the approved values without silently weakening Hard.
+
+## M3.7 defeat rewards
+
+A genuine defeat now grants:
+
+- **50 coins** (up from 20);
+- **20% of the applicable victory XP** to every battle participant, rounded down;
+- a persistent per-profile, per-wave counter allowing this XP reward at most **3 times per wave**.
+
+The fourth and later defeats on the same wave grant 50 coins and no XP. Normal and Hard share the
+counter. Surrender, abandoning, refreshing during combat, and quitting grant nothing. Victory
+rewards and replay ratios are unchanged.
