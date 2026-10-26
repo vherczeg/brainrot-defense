@@ -1507,6 +1507,10 @@ export class BattleScene extends Phaser.Scene {
       if (!reduced) this.spawnRing(x, y, 0x4cff9a, 54, 340);
       this.spawnFloatingText(x, y - 44, '+1', '#9dffc9', 18);
       if (!reduced) this.spawnSparkleBurst(x, y, 0x4cff9a, 7);
+    } else if (event.type === 'sell') {
+      if (!reduced) this.spawnRing(x, y, 0xffa35a, 46, 300);
+      this.spawnFloatingText(x, y - 44, '-1', '#ffc98a', 18);
+      if (!reduced) this.spawnSparkleBurst(x, y, 0xffa35a, 5);
     } else if (!reduced) {
       this.spawnRing(x, y, 0x7aa2ff, 36, 260);
     }

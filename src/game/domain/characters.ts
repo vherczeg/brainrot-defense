@@ -95,6 +95,23 @@ export function characterStats(
   };
 }
 
+export const SELL_REFUND_PERCENT = 50;
+
+/**
+ * The purchase value of a rank-r unit is the base price doubled for every merge step.
+ * A rank-r unit represents 2^(r-1) rank-1 purchases, so the player can never sell a unit
+ * for more than the gold legitimately invested in its merge lineage.
+ */
+export function purchaseValueForRank(typeId: CharacterTypeId, mergeRank: number): number {
+  const definition = CHARACTER_DEFINITIONS[typeId];
+  const safeRank = clampMergeRank(mergeRank);
+  return definition.cost * 2 ** (safeRank - 1);
+}
+
+export function sellRefund(typeId: CharacterTypeId, mergeRank: number): number {
+  return Math.floor((purchaseValueForRank(typeId, mergeRank) * SELL_REFUND_PERCENT) / 100);
+}
+
 export function canMergeRanks(rankA: number, rankB: number): boolean {
   return rankA === rankB && rankA < MAX_MERGE_RANK;
 }

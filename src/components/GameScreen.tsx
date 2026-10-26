@@ -10,6 +10,7 @@ import { BattlefieldView } from './BattlefieldView';
 import { ImportConfirmModal } from './ImportConfirmModal';
 import { ResultOverlay } from './ResultOverlay';
 import { SaveManagerModal } from './SaveManagerModal';
+import { SellConfirmModal } from './SellConfirmModal';
 import { SettingsModal } from './SettingsModal';
 import { ShopPanel } from './ShopPanel';
 import { SurrenderModal } from './SurrenderModal';
@@ -291,6 +292,9 @@ export function GameScreen({ snapshot }: { snapshot: AppSnapshot }) {
         <ImportConfirmModal fileName={snapshot.pendingImportName} />
       ) : null}
       {snapshot.modal === 'surrender' ? <SurrenderModal /> : null}
+      {snapshot.modal === 'sell-confirm' && snapshot.sellOffer ? (
+        <SellConfirmModal offer={snapshot.sellOffer} />
+      ) : null}
       {snapshot.modal === null && phase === 'battle' && battle?.paused ? (
         <BattlePauseOverlay battle={battle} />
       ) : null}

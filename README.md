@@ -10,6 +10,7 @@ az azonosakat, majd indíts automatikus csatát a betolakodó szörnyek ellen.
 - 20 adatvezérelt hullám, köztük a **Mega Brainrot Gorilla** (10.) és Ábel saját főellensége, a **Zöld Méreg Sólyom** (20.).
 - Kétdimenziós fejlődés: **evolúciós rang 1–10** egyesítésből és **karakterszint 1–100**
   tapasztalati pontból.
+- Harcos eladása megerősítéssel, rangalapú visszatérítéssel; teljes pályán is felszabadítható hely.
 - Egérrel, érintéssel és billentyűzettel is játszható.
 - A játéklogika teljesen független a Phaser rendereléstől és a React UI-tól.
 
@@ -28,7 +29,8 @@ Mobilnézet: [docs/screenshots/mobile.png](docs/screenshots/mobile.png)
 ## Játékmenet
 
 1. A játékos **350 érmével** és három kezdőharcossal indul.
-2. A felkészülési szakaszban nincs időkorlát. Lehet vásárolni, rendezkedni, egyesíteni.
+2. A felkészülési szakaszban nincs időkorlát. Lehet vásárolni, rendezkedni, egyesíteni és
+   eladni. Teljes pályán a kiválasztott harcos eladása szabadít fel helyet.
 3. Két **azonos típusú és rangú** harcos egy magasabb rangú harcossá egyesíthető. Az egyesítés
    a két harcos tapasztalati pontját is összeadja; a szintek nem kell hogy megegyezzenek.
 4. A **HARCOLJ!** gombra kattintva elindul a determinisztikus, automatikus csata.
@@ -172,7 +174,7 @@ véletlenül éles deploy történjen. **A custom domain és a Pages beállítá
 
 ## Tesztelés
 
-- **Unit/integrációs:** 158 teszt, 16 fájlban. merge/rang-szabályok, XP-küszöbök minden
+- **Unit/integrációs:** 315 teszt, 39 fájlban. merge/rang-szabályok, eladás és visszatérítés, XP-küszöbök minden
   határon, XP-összeadás és sapka, első győzelmi és csökkentett ismételt XP, halott és nem
   résztvevő harcosok kizárása, gazdaság, statisztikák, rács, hullámok, targeting, range,
   cooldown, páncél, láncvillám, halál, győzelem/vereség, determinizmus, 1×/2× sebesség,
@@ -182,9 +184,10 @@ véletlenül éles deploy történjen. **A custom domain és a Pages beállítá
   import/törlés versenyhelyzetek, boundary- és overflow-tesztek, aktív profil metaadat
   hibakezelés, zárolás tulajdonjog, késleltetett/hibás csatajutalom-mentés, több-lapos
   védelem, teljes 20 hullámos végigjátszás, mérgezés, forgó pajzs, távolsági pajzstörés, földrengéses fagyasztás.
-- **Böngésző:** 50 sikeres teszt + 2 kihagyott (desktop-only tablet- és canvas drag teszt a
-  mobil futásban), Chromium desktopon és mobil emulációban, valódi IndexedDB-vel: menü, játék
-  indítás, vásárlás, egyesítés egérrel és akadálymentes panellel, eltérő XP-szintű harcosok
+- **Böngésző:** 110 sikeres teszt + 10 kihagyott (eszközspecifikus desktop/mobil tesztek),
+  Chromium desktopon és mobil emulációban, valódi IndexedDB-vel: menü, játék
+  indítás, egykattintásos vásárlás, teljes pályás eladás és cserevásárlás, szövegkijelölés
+  elleni védelem, egyesítés egérrel és akadálymentes panellel, eltérő XP-szintű harcosok
   egyesítése, rang/szint/XP megjelenítés, győzelmi XP és szintlépés, reload utáni
   XP-megmaradás, M0.1 mentés importja, áthelyezés, csata, pause/resume, 2× sebesség, győzelem,
   vereség, jutalom, export/import, profil létrehozás/törlés, boundary import, nagy

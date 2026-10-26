@@ -1,4 +1,9 @@
-import { characterStats, CHARACTER_DEFINITIONS, isCharacterTypeId } from '../domain/characters';
+import {
+  characterStats,
+  CHARACTER_DEFINITIONS,
+  isCharacterTypeId,
+  sellRefund,
+} from '../domain/characters';
 import { firstEmptyAlliedCell, isAlliedCell, isPositionFree, sameCell } from '../domain/grid';
 import {
   awardXp,
@@ -37,6 +42,12 @@ export interface MergeUndo {
 export interface PurchaseOutcome {
   readonly profile: PlayerProfile;
   readonly purchased: CharacterInstance;
+}
+
+export interface SellOutcome {
+  readonly profile: PlayerProfile;
+  readonly sold: CharacterInstance;
+  readonly refund: number;
 }
 
 export interface WaveRewardOutcome {
@@ -189,6 +200,31 @@ export function purchaseCharacter(
     now,
   );
   return ok({ profile: nextProfile, purchased });
+}
+
+export function sellCharacter(
+  profile: PlayerProfile,
+  characterId: string,
+  now = Date.now(),
+): Result<SellOutcome> {
+  const sold = profile.characters.find((character) => character.id === characterId);
+  if (!sold) return fail('not-found', characterId);
+  if (!isCharacterTypeId(sold.typeId)) return fail('invalid-character');
+  const refund = sellRefund(sold.typeId, sold.mergeRank);
+  if (refund > 0 && profile.coins > MAX_COINS - refund) return fail('coin-overflow');
+  const characters = profile.characters.filter((character) => character.id !== sold.id);
+  return ok({
+    profile: updated(
+      {
+        ...profile,
+        coins: profile.coins + refund,
+        characters,
+      },
+      now,
+    ),
+    sold,
+    refund,
+  });
 }
 
 export function claimWaveReward(

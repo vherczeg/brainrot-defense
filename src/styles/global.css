@@ -3200,3 +3200,121 @@ ol {
     background-position: center top;
   }
 }
+
+/* ---------- M3.3 gameplay interaction safety ---------- */
+.game-screen {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.game-screen input,
+.game-screen textarea,
+.game-screen select,
+.game-screen [contenteditable='true'] {
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+.game-screen button,
+.game-screen summary {
+  touch-action: manipulation;
+}
+
+.battlefield,
+.battlefield__canvas,
+.battlefield__canvas canvas {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  touch-action: none;
+}
+
+.inspector-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sell-callout {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 13px;
+  border: 1px solid rgba(255, 90, 122, 0.32);
+  background: rgba(255, 90, 122, 0.07);
+}
+
+.sell-callout strong {
+  color: #ffd2db;
+  font-size: 0.9rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.sell-summary {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.sell-summary > div {
+  padding: 9px 11px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.sell-summary dt {
+  color: var(--muted);
+  font-size: 0.64rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.sell-summary dd {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 2px;
+  font-size: 0.92rem;
+  font-weight: 900;
+}
+
+.sell-summary__refund {
+  grid-column: 1 / -1;
+  border-color: rgba(255, 212, 71, 0.32) !important;
+  background: rgba(255, 212, 71, 0.08) !important;
+}
+
+.sell-summary__refund dd {
+  color: var(--gold);
+  font-size: 1.15rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.sell-warning {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  color: var(--orange);
+  font-size: 0.76rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.sell-confirm-actions {
+  flex-direction: row;
+}
+
+@media (max-width: 720px) {
+  .sell-confirm-actions {
+    flex-direction: column;
+  }
+
+  .sell-summary {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

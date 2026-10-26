@@ -6,13 +6,14 @@ import {
   moveCharacter,
   purchaseCharacter,
   resolveBattleRewards,
+  sellCharacter,
   undoMerge,
   updateSettings,
   type BattleLevelUp,
   type MergeUndo,
 } from '../game/commands/profileCommands';
-import { CHARACTER_DEFINITIONS } from '../game/domain/characters';
-import { MAX_CHARACTER_XP } from '../game/domain/progression';
+import { CHARACTER_DEFINITIONS, sellRefund } from '../game/domain/characters';
+import { characterLevelFromXp, MAX_CHARACTER_XP } from '../game/domain/progression';
 import { emptyAlliedCells } from '../game/domain/grid';
 import {
   createInitialProfile,
@@ -20,6 +21,7 @@ import {
   DEFAULT_PROFILE_NAME,
 } from '../game/domain/state';
 import {
+  MAX_ARMY_SIZE,
   MAX_MERGE_RANK,
   MAX_PROFILES,
   TOTAL_WAVES,
@@ -49,7 +51,8 @@ export const MAX_UNDO_MERGES = 10;
 
 export type SaveStatus = 'idle' | 'saving' | 'saved' | 'error' | 'unavailable';
 export type ToastTone = 'info' | 'success' | 'error' | 'reward';
-export type ModalId = 'settings' | 'save' | 'tutorial' | 'import-confirm' | 'surrender' | null;
+export type ModalId =
+  'settings' | 'save' | 'tutorial' | 'import-confirm' | 'surrender' | 'sell-confirm' | null;
 
 export interface ToastView {
   readonly id: number;
@@ -104,9 +107,19 @@ export interface PrepView {
 
 export interface VisualEvent {
   readonly id: number;
-  readonly type: 'merge' | 'purchase' | 'move';
+  readonly type: 'merge' | 'purchase' | 'move' | 'sell';
   readonly col: number;
   readonly row: number;
+}
+
+export interface SellOfferView {
+  readonly characterId: string;
+  readonly typeId: CharacterTypeId;
+  readonly mergeRank: number;
+  readonly level: number;
+  readonly col: number;
+  readonly row: number;
+  readonly refund: number;
 }
 
 export interface AppSnapshot {
@@ -128,6 +141,7 @@ export interface AppSnapshot {
   readonly pendingImportName: string | null;
   readonly creatingProfile: boolean;
   readonly undoCount: number;
+  readonly sellOffer: SellOfferView | null;
 }
 
 interface ControllerOptions {
@@ -247,6 +261,7 @@ export class GameController {
   private pendingImport: PlayerProfile | null = null;
   private pendingImportName: string | null = null;
   private creatingProfile = false;
+  private sellOffer: SellOfferView | null = null;
   private profileChangeToken = 0;
 
   private toastCounter = 0;
@@ -317,6 +332,7 @@ export class GameController {
       pendingImportName: this.pendingImportName,
       creatingProfile: this.creatingProfile,
       undoCount: this.undoStack.length,
+      sellOffer: this.sellOffer,
     };
   }
 
@@ -502,6 +518,7 @@ export class GameController {
     this.phase = 'preparation';
     this.result = null;
     this.selectedId = null;
+    this.sellOffer = null;
     this.modal = null;
     this.fatalError = null;
     this.emit();
@@ -516,6 +533,7 @@ export class GameController {
     this.phase = 'preparation';
     this.result = null;
     this.selectedId = null;
+    this.sellOffer = null;
     this.prepVersion += 1;
     this.modal = this.profile.tutorialSeen ? null : 'tutorial';
     this.emit();
@@ -575,6 +593,7 @@ export class GameController {
 
     this.creatingProfile = false;
     this.undoStack = [];
+    this.sellOffer = null;
     this.profile = profile;
     this.profiles = this.upsertSummary(profile);
     this.saveStatus = this.storageAvailable ? 'saved' : 'unavailable';
@@ -648,6 +667,7 @@ export class GameController {
     }
     await this.sessionGuard.releaseOthers(profileId);
     this.undoStack = [];
+    this.sellOffer = null;
     this.profile = loaded.value;
     this.profiles = this.upsertSummary(loaded.value);
     this.screen = 'menu';
@@ -681,6 +701,7 @@ export class GameController {
       await this.sessionGuard.release(profileId);
       this.profile = null;
       this.undoStack = [];
+      this.sellOffer = null;
     }
     this.screen = 'profiles';
     this.showToastKey('profileDeleted', {}, 'info');
@@ -694,6 +715,7 @@ export class GameController {
   }
 
   openModal(modal: Exclude<ModalId, null>): void {
+    if (modal !== 'sell-confirm') this.sellOffer = null;
     this.modal = modal;
     this.emit();
   }
@@ -703,6 +725,7 @@ export class GameController {
       this.markTutorial();
       return;
     }
+    if (this.modal === 'sell-confirm') this.sellOffer = null;
     this.modal = null;
     this.emit();
   }
@@ -873,10 +896,99 @@ export class GameController {
       this.sound.play('error');
       return;
     }
-    this.selectedId = outcome.value.purchased.id;
-    this.pushVisualEvent('purchase', outcome.value.purchased.col, outcome.value.purchased.row);
+    const purchased = outcome.value.purchased;
+    const nextProfile = outcome.value.profile;
+    this.selectedId = purchased.id;
+    this.pushVisualEvent('purchase', purchased.col, purchased.row);
     this.sound.play('buy');
-    this.showToastKey('toastPurchased', { name: CHARACTER_DEFINITIONS[typeId].nameHu }, 'success');
+    this.showToastKey(
+      'toastPurchased',
+      {
+        name: CHARACTER_DEFINITIONS[typeId].nameHu,
+        col: purchased.col + 1,
+        row: purchased.row + 1,
+        coins: nextProfile.coins,
+        count: nextProfile.characters.length,
+        max: MAX_ARMY_SIZE,
+      },
+      'success',
+    );
+    this.commitProfile(nextProfile);
+  }
+
+  requestSell(characterId?: string): void {
+    if (this.phase !== 'preparation' || !this.profile) return;
+    const targetId = characterId ?? this.selectedId;
+    if (!targetId || targetId !== this.selectedId) {
+      this.sound.play('error');
+      this.showToastKey('toastSellNoSelection', {}, 'info');
+      return;
+    }
+    const character = this.profile.characters.find((unit) => unit.id === targetId);
+    if (!character) {
+      this.sound.play('error');
+      this.showToastKey('errorNotFound', {}, 'error');
+      return;
+    }
+    this.sellOffer = {
+      characterId: character.id,
+      typeId: character.typeId,
+      mergeRank: character.mergeRank,
+      level: characterLevelFromXp(character.totalXp),
+      col: character.col,
+      row: character.row,
+      refund: sellRefund(character.typeId, character.mergeRank),
+    };
+    this.modal = 'sell-confirm';
+    this.sound.play('click');
+    this.emit();
+  }
+
+  cancelSell(): void {
+    if (!this.sellOffer && this.modal !== 'sell-confirm') return;
+    this.sellOffer = null;
+    this.modal = null;
+    this.sound.play('click');
+    this.emit();
+  }
+
+  confirmSell(): void {
+    if (this.phase !== 'preparation' || !this.profile) {
+      this.sellOffer = null;
+      if (this.modal === 'sell-confirm') this.modal = null;
+      this.emit();
+      return;
+    }
+    const offer = this.sellOffer;
+    this.sellOffer = null;
+    if (!offer) {
+      if (this.modal === 'sell-confirm') this.modal = null;
+      this.emit();
+      return;
+    }
+    this.modal = null;
+    const outcome = sellCharacter(this.profile, offer.characterId, this.now());
+    if (!outcome.ok) {
+      this.sound.play('error');
+      this.showToastKey(errorKey(outcome.error), {}, 'error');
+      this.emit();
+      return;
+    }
+    const sold = outcome.value.sold;
+    this.undoStack = [];
+    if (this.selectedId === sold.id) this.selectedId = null;
+    this.pushVisualEvent('sell', sold.col, sold.row);
+    this.sound.play('reward');
+    this.showToastKey(
+      'toastSold',
+      {
+        name: CHARACTER_DEFINITIONS[sold.typeId].nameHu,
+        coins: outcome.value.refund,
+        count: outcome.value.profile.characters.length,
+        max: MAX_ARMY_SIZE,
+      },
+      'success',
+    );
     this.commitProfile(outcome.value.profile);
   }
 
@@ -916,6 +1028,7 @@ export class GameController {
     this.selectedId = null;
     this.battleResolved = false;
     this.battleFinishing = false;
+    this.sellOffer = null;
     this.battleRoster = this.profile.characters.map((character) => character.id);
     this.battleWaveId = wave.id;
     this.lastFrameTime = 0;
@@ -1339,6 +1452,7 @@ export class GameController {
       this.writes.invalidate(imported.profileId);
     }
     this.undoStack = [];
+    this.sellOffer = null;
     this.profile = imported;
     this.profiles = this.upsertSummary(imported);
     this.pendingImport = null;

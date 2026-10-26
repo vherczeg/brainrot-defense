@@ -1,5 +1,10 @@
 import { useGameController } from '../app/ControllerContext';
-import { CHARACTER_DEFINITIONS, characterStats, isMaxMergeRank } from '../game/domain/characters';
+import {
+  CHARACTER_DEFINITIONS,
+  characterStats,
+  isMaxMergeRank,
+  sellRefund,
+} from '../game/domain/characters';
 import { xpProgress } from '../game/domain/progression';
 import { MAX_MERGE_RANK, type PlayerProfile } from '../game/domain/types';
 import { formatNumber, t } from '../localization';
@@ -43,6 +48,7 @@ export function UnitInspector({ profile }: { profile: PlayerProfile }) {
   );
   const atMaxRank = isMaxMergeRank(selected.mergeRank);
   const atMaxLevel = progression.level >= 100;
+  const refund = sellRefund(selected.typeId, selected.mergeRank);
   const progressRatio =
     progression.nextLevelXp === null
       ? 1
@@ -84,6 +90,27 @@ export function UnitInspector({ profile }: { profile: PlayerProfile }) {
           <p className="inspector-position">
             {t('positionLabel', { col: selected.col + 1, row: selected.row + 1 })}
           </p>
+        </div>
+      </div>
+
+      <div className="inspector-actions">
+        <div className="sell-callout">
+          <div>
+            <p className="panel-label">{t('sellPrice')}</p>
+            <strong data-testid="sell-refund">
+              {formatNumber(refund)} {t('coins')}
+            </strong>
+          </div>
+          <button
+            type="button"
+            className="button button--danger-ghost button--compact"
+            onClick={() => controller.requestSell(selected.id)}
+            data-testid="sell-button"
+            aria-label={`${t('sellTitle')} – ${definition.nameHu} – ${refund} ${t('coins')}`}
+          >
+            <Icon name="sell" size={17} />
+            {t('sell')}
+          </button>
         </div>
       </div>
 

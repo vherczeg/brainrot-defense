@@ -158,12 +158,48 @@ larger, has `isBoss`, and starts at wave-defined level (M1.1: level 3).
 - Starting army: 2 × rank 1 Lézer Krokodil, 1 × rank 1 Villám Skorpió, all at 0 XP.
 - Purchases create rank 1, level 1 units in the first empty allied cell (row-major order).
 - Purchases validate funds and free space before any mutation.
-- A full board blocks purchasing; the player must merge to free a cell.
+- A full board blocks purchasing; the player can merge or sell a selected unit to free a cell.
 - Wave coin rewards are claimable once per wave. Replaying a completed wave gives no new coins.
 - Defeat grants **20 comfort coins**. Units are never lost, and retries are free. This guarantees
   that an unlucky ordinary playthrough cannot become permanently unplayable.
 - Coins have a hard persistence bound of **1,000,000,000**. A reward or comfort grant that would
   exceed it is rejected with a visible error; the profile is left unchanged and remains saveable.
+
+### Selling units
+
+- Selling is available only in preparation, and only for the friendly unit the player selected.
+  The confirmation dialog always targets that exact unit; enemies and unselected units cannot be
+  sold.
+- Selling requires confirmation. The safe default is cancellation (`Mégse`); the destructive
+  `Eladás` action must be chosen explicitly. The dialog shows the unit name, merge rank, character
+  level, and the exact refund before confirmation.
+- The refund is based on the unit's **merge investment**, not its current stats or XP level:
+
+```text
+purchaseValueForRank(rank) = baseCost * 2^(rank - 1)
+sellRefund(rank)           = floor(purchaseValueForRank(rank) * 0.5)
+```
+
+| Rank | Laser Crocodile invested | Refund | Lightning Scorpion invested | Refund |
+| ---: | -----------------------: | -----: | --------------------------: | -----: |
+|    1 |                      100 |     50 |                         150 |     75 |
+|    2 |                      200 |    100 |                         300 |    150 |
+|    3 |                      400 |    200 |                         600 |    300 |
+|    4 |                      800 |    400 |                       1 200 |    600 |
+|   10 |                   51 200 | 25 600 |                      76 800 | 38 400 |
+
+- XP and character level add no gold value, so levelling a unit cannot be used to farm refunds.
+- Selling two rank-1 units gives the same refund as merging them and selling the rank-2 result
+  (`50 + 50 = 100` for Laser Crocodile). Buying and immediately selling always loses half the
+  purchase price, so buy/sell and merge/sell cycles cannot create gold.
+- A successful sale removes exactly one unit, adds the integer refund exactly once, frees its cell,
+  clears the selection, and is autosaved through the same profile write queue as other gameplay
+  actions.
+- Selling clears the merge UNDO stack. This conservative policy guarantees that a later UNDO can
+  never resurrect a sold unit, duplicate a character, or restore a stale board position. UNDO
+  becomes empty after a sale.
+- A persistence error is reported visibly and can be retried with the normal save path; the domain
+  transaction itself is still applied exactly once, so no duplicate unit or refund is produced.
 
 ### Waves
 
