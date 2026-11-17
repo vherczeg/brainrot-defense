@@ -9,13 +9,17 @@ import {
   isValidEnemyPosition,
   waveFirstCompletionBonus,
   waveReplayRewardCoins,
+  waveRewardCoins,
 } from '../../src/game/domain/waves';
 
 describe('wave definitions', () => {
-  it('contains exactly ten valid waves in order', () => {
+  it('contains exactly one hundred valid waves in order', () => {
+    // The 100-wave campaign extends the original 20 waves; ids stay contiguous from 1 to 100.
     expect(WAVE_DEFINITIONS).toHaveLength(TOTAL_WAVES);
-    expect(WAVE_DEFINITIONS.map((wave) => wave.id)).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
-    expect(LAST_WAVE_ID).toBe(10);
+    expect(WAVE_DEFINITIONS.map((wave) => wave.id)).toEqual(
+      Array.from({ length: TOTAL_WAVES }, (_, index) => index + 1),
+    );
+    expect(LAST_WAVE_ID).toBe(TOTAL_WAVES);
   });
 
   it('places every enemy in the enemy deployment area', () => {
@@ -36,34 +40,76 @@ describe('wave definitions', () => {
     }
   });
 
-  it('includes the Mega Brainrot Gorilla as the final boss', () => {
+  it('includes the Mega Brainrot Gorilla as the wave 10 boss', () => {
     const finalWave = getWave(10);
     expect(finalWave?.isBossWave).toBe(true);
     expect(finalWave?.enemies.some((enemy) => enemy.typeId === 'mega-brainrot-gorilla')).toBe(true);
     expect(finalWave?.nameHu).toContain('Mega Brainrot Gorilla');
   });
 
-  it('rewards increase with wave difficulty', () => {
-    for (let index = 1; index < WAVE_DEFINITIONS.length; index += 1) {
-      const previous = WAVE_DEFINITIONS[index - 1];
-      const current = WAVE_DEFINITIONS[index];
+  it('includes the Green Venom Falcon as the wave 20 boss', () => {
+    const finalWave = getWave(20);
+    expect(finalWave?.isBossWave).toBe(true);
+    expect(finalWave?.enemies.some((enemy) => enemy.typeId === 'green-venom-falcon')).toBe(true);
+    expect(finalWave?.nameHu).toContain('Zöld Méreg Sólyom');
+  });
+
+  it('rewards increase smoothly across ordinary waves', () => {
+    const ordinaryRewards = WAVE_DEFINITIONS.filter((wave) => !wave.isBossWave).map(
+      (wave) => wave.rewardCoins,
+    );
+    for (let index = 1; index < ordinaryRewards.length; index += 1) {
+      const previous = ordinaryRewards[index - 1];
+      const current = ordinaryRewards[index];
       expect(previous).toBeDefined();
       expect(current).toBeDefined();
-      if (previous && current) {
-        expect(current.rewardCoins).toBeGreaterThan(previous.rewardCoins);
+      if (previous !== undefined && current !== undefined) {
+        expect(current).toBeGreaterThan(previous);
+        expect(current - previous).toBeLessThanOrEqual(75);
       }
     }
   });
 
-  it('does not include a boss before wave ten', () => {
-    expect(WAVE_DEFINITIONS.slice(0, 9).some((wave) => wave.isBossWave)).toBe(false);
+  it('boss rewards are attractive milestones without breaking the curve', () => {
+    const boss10 = getWave(10);
+    const boss20 = getWave(20);
+    const wave9 = getWave(9);
+    const wave11 = getWave(11);
+    const wave19 = getWave(19);
+    expect(boss10?.rewardCoins).toBe(500);
+    expect(boss20?.rewardCoins).toBe(1200);
+    expect(boss10?.rewardCoins).toBeGreaterThan(wave9?.rewardCoins ?? 0);
+    expect(boss10?.rewardCoins).toBeGreaterThan(wave11?.rewardCoins ?? 0);
+    expect(boss20?.rewardCoins).toBeGreaterThan(wave19?.rewardCoins ?? 0);
+    expect((boss10?.rewardCoins ?? 0) / (wave9?.rewardCoins ?? 1)).toBeLessThanOrEqual(1.5);
+    expect((boss20?.rewardCoins ?? 0) / (wave19?.rewardCoins ?? 1)).toBeLessThanOrEqual(1.5);
   });
 
-  it('splits every reward into a replay half and a one-time first bonus half', () => {
+  it('marks every tenth wave as a boss wave', () => {
+    // Requirement: waves 10, 20, 30, …, 100 all contain a mandatory boss encounter.
+    expect(WAVE_DEFINITIONS.filter((wave) => wave.isBossWave).map((wave) => wave.id)).toEqual([
+      10, 20, 30, 40, 50, 60, 70, 80, 90, 100,
+    ]);
+    for (const wave of WAVE_DEFINITIONS) {
+      expect(wave.isBossWave).toBe(wave.id % 10 === 0);
+    }
+  });
+
+  it('gives every wave a valid chapter', () => {
+    for (const wave of WAVE_DEFINITIONS) {
+      expect(wave.chapterId).toBeGreaterThanOrEqual(1);
+      expect(wave.chapterId).toBeLessThanOrEqual(10);
+      expect(wave.chapterId).toBe(Math.floor((wave.id - 1) / 10) + 1);
+    }
+  });
+
+  it('splits every reward into a 35% replay reward and a first-clear bonus', () => {
     for (const wave of WAVE_DEFINITIONS) {
       const replay = waveReplayRewardCoins(wave);
       const bonus = waveFirstCompletionBonus(wave);
-      expect(replay + bonus).toBe(wave.rewardCoins);
+      const scaled = waveRewardCoins(wave);
+      expect(replay + bonus).toBe(scaled);
+      expect(replay).toBe(Math.floor((scaled * 35) / 100));
       expect(replay).toBeGreaterThan(0);
       expect(bonus).toBeGreaterThan(0);
     }

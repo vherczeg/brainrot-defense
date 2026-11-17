@@ -7,6 +7,7 @@ import {
 } from '../../src/persistence/import-export/saveCodec';
 import { IndexedDbProfileRepository } from '../../src/persistence/indexeddb/profileRepository';
 import { createEnvelope, type StoredProfileRecord } from '../../src/persistence/schemas/saveSchema';
+import { TOTAL_WAVES } from '../../src/game/domain/types';
 import { profileWith, unit } from './testFixtures';
 
 const DB_NAME = 'brainrot-defense';
@@ -57,7 +58,10 @@ function completeProfile() {
       completedWaves: [1, 2, 3],
       tutorialSeen: true,
       upgrades: { laser: 2 },
-      settings: { soundEnabled: false, reducedMotion: true, battleSpeed: 2 },
+      defeatXpCounts: Array.from({ length: TOTAL_WAVES }, (_, index) =>
+        index === 0 ? 1 : index === 9 ? 2 : 0,
+      ),
+      settings: { soundEnabled: false, reducedMotion: true, battleSpeed: 2, difficulty: 'normal' },
     },
   );
 }
@@ -87,6 +91,8 @@ describe('IndexedDB save repository', () => {
       ['1,4', '4,3'],
     );
     expect(loaded.value.settings.battleSpeed).toBe(2);
+    expect(loaded.value.defeatXpCounts[0]).toBe(1);
+    expect(loaded.value.defeatXpCounts[9]).toBe(2);
   });
 
   it('keeps separate profiles isolated', async () => {
@@ -253,6 +259,8 @@ describe('save import validation', () => {
     expect(parsed.ok).toBe(true);
     if (!parsed.ok) return;
     expect(parsed.value).toEqual(profile);
+    expect(parsed.value.defeatXpCounts[0]).toBe(1);
+    expect(parsed.value.defeatXpCounts[9]).toBe(2);
   });
 
   it('rejects malformed JSON without throwing', () => {
@@ -267,7 +275,7 @@ describe('save import validation', () => {
     const profile = completeProfile();
     const envelope = {
       ...createEnvelope(profile),
-      schemaVersion: 3,
+      schemaVersion: 5,
     };
     const parsed = parseProfileFromImport(JSON.stringify(envelope));
     expect(parsed.ok).toBe(false);

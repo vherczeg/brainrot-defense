@@ -7,9 +7,26 @@ az azonosakat, majd indíts automatikus csatát a betolakodó szörnyek ellen.
 - Ingyenes, reklám nélküli, offline-first.
 - Nincs fiók, nincs backend, nincs mikrotransaction.
 - Három helyi játékosprofil, automatikus mentés IndexedDB-be.
-- 10 adatvezérelt hullám, köztük a **Mega Brainrot Gorilla** főellenség.
+- **100 adatvezérelt hullám, 10 fejezetben** – minden tizedik hullám kötelező főellenséggel.
+- A 10. hullám főellensége a **Mega Brainrot Gorilla**, a 20.-é Ábel saját terve, a
+  **Zöld Méreg Sólyom**; a 30–100. hullámokban nyolc új főellenség, köztük a három fázisú
+  **Mega Káosz Király** a 100. hullámban.
+- **5 meglepetés-főellenség** végigjátszásonként: profilhoz kötött, determinisztikus,
+  reload-biztos titkos bossok a húszhullámos blokkokban.
+- **Hullámhatások** (vihar, őrjöngés, sebes szél, vastag páncél, aranyláz, sűrű köd),
+  előre jelzett módosítók a hullámelőnézeten.
+- Négy harcos: **Lézer Krokodil** (távsebző), **Villám Skorpió** (láncvillám), **Páncél Rinó**
+  (tank, területsebzés), **Fagy Bagoly** (lassító, fázistörő).
+- Tizennégy új szörnytípus: méreg, tüskék, gyógyítás, pajzsaura, szellem mód, idézés,
+  robbanás, bénítás és dühroham.
 - Kétdimenziós fejlődés: **evolúciós rang 1–10** egyesítésből és **karakterszint 1–100**
-  tapasztalati pontból.
+  tapasztalati pontból; plusz a maradandó **seregfejlesztések** (támadás/életerő, 25 szintig)
+  a késői hullámok aranynyelőjeként.
+- **Négy nehézségi szint** (Könnyű / Normál / Nehéz / Végtelen), profilanként mentve;
+  vereségért 70/50/30/20 vigaszdíj jár, így nincs gazdasági zsákutca.
+- Harcos eladása megerősítéssel, rangalapú visszatérítéssel; teljes pályán is felszabadítható hely.
+- Az automata balanszot **880 szimulált végigjátszás** igazolja (11 stratégia × 4 nehézség × 20 seed):
+  Normál módban a 11-ből 10 stratégia végigjátssza mind a 100 hullámot.
 - Egérrel, érintéssel és billentyűzettel is játszható.
 - A játéklogika teljesen független a Phaser rendereléstől és a React UI-tól.
 
@@ -28,19 +45,26 @@ Mobilnézet: [docs/screenshots/mobile.png](docs/screenshots/mobile.png)
 ## Játékmenet
 
 1. A játékos **350 érmével** és három kezdőharcossal indul.
-2. A felkészülési szakaszban nincs időkorlát. Lehet vásárolni, rendezkedni, egyesíteni.
+2. A felkészülési szakaszban nincs időkorlát. Lehet vásárolni, rendezkedni, egyesíteni és
+   eladni. Teljes pályán a kiválasztott harcos eladása szabadít fel helyet.
 3. Két **azonos típusú és rangú** harcos egy magasabb rangú harcossá egyesíthető. Az egyesítés
    a két harcos tapasztalati pontját is összeadja; a szintek nem kell hogy megegyezzenek.
-4. A **HARCOLJ!** gombra kattintva elindul a determinisztikus, automatikus csata.
-5. Győzelem esetén a hullám érmejutalma begyűjthető, a résztvevő harcosok tapasztalati pontot
+4. A bolt alján a **Sereg fejlesztése** panel aranyért maradandó bónuszokat ad minden harcosnak
+   (támadás és életerő, 25 szintig).
+5. A **HARCOLJ!** gombra kattintva elindul a determinisztikus, automatikus csata.
+6. Győzelem esetén a hullám érmejutalma begyűjthető, a résztvevő harcosok tapasztalati pontot
    kapnak, és nyílik a következő hullám. A harcosok szintje a tapasztalatból számolódik.
-6. Vereség esetén a sereg **nem tűnik el**. Ingyen újrapróbálható, és apró vigasztaló érmék
-   segítik a továbbjutást (20 érme/vereség), így nem alakulhat ki gazdasági zsákutca.
-7. A haladás minden fontos művelet után automatikusan mentődik. A böngésző bármikor bezárható.
-8. A korábbi M0.1 mentések automatikusan migrálódnak: a régi `level` mező az új `mergeRank`
-   érték lesz, a tapasztalat 0-ról indul, minden más előrehaladás megmarad.
+7. Vereség esetén a sereg **nem tűnik el**. Ingyen újrapróbálható, és a nehézségtől függő
+   vigaszdíj (70/50/30/20 érme) segíti a továbbjutást, így nem alakulhat ki gazdasági zsákutca.
+8. A korábbi hullámok 35%-os jutalomért újrajátszhatók; a fejlődéshez a farmolás sosem kötelező.
+9. A haladás minden fontos művelet után automatikusan mentődik. A böngésző bármikor bezárható.
+10. A korábbi M0.1 mentések automatikusan migrálódnak: a régi `level` mező az új `mergeRank`
+    érték lesz, a tapasztalat 0-ról indul, minden más előrehaladás megmarad. A 20 hullámot
+    teljesített mentések a 21. hullámon folytatódnak; a régi vereség-XP számlálók nullákkal
+    egészülnek ki a 100 hullámos kampányra.
 
 A részletes szabályokat lásd: [docs/GAMEPLAY_RULES.md](docs/GAMEPLAY_RULES.md).
+Az automata balanszmérés eredményei: [docs/BALANCE_100.md](docs/BALANCE_100.md).
 
 ## Fejlesztői gyorsindítás
 
@@ -68,6 +92,8 @@ A fejlesztői szerver alapértelmezésben a `http://localhost:5173` címen fut.
 | `npm run typecheck`    | `tsc --noEmit`                                    |
 | `npm run format`       | Prettier formázás                                 |
 | `npm run format:check` | Prettier ellenőrzés                               |
+| `npm run simulate`     | 11 stratégiás, 100 hullámos kampányszimuláció     |
+| `npm run balance`      | Automata balanszmérés (alapból 880 végigjátszás)  |
 
 Az E2E tesztek először produkciós buildet készítenek, majd a `vite preview` szervert használják.
 Playwright böngésző telepítése szükség esetén:
@@ -94,7 +120,7 @@ src/
   styles/         Reszponzív, akadálymentes CSS
 tests/
   unit/           Domain-, combat- és perzisztenciatesztek
-  integration/    Teljes 10 hullámos végigjátszás, mentés-visszatöltés
+  integration/    Teljes 20 hullámos végigjátszás, mentés-visszatöltés
   e2e/            Playwright böngészőtesztek (desktop + mobil)
 ```
 
@@ -108,10 +134,10 @@ Részletek: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 ## Mentés
 
 - IndexedDB adatbázis: `brainrot-defense`, `profiles` és `meta` object store-ok.
-- Verziózott séma (`schemaVersion: 2`), szigorú validáció, FNV-1a checksum.
-- Az M0.1 `schemaVersion: 1` mentések betöltéskor/importkor tiszta migrációval v2-re váltanak.
-  A régi rekord biztonsági másolata és egy v2 árnyékmásolat a `meta` store-ban marad; a migráció
-  nem foglal el egyetlen játékosprofil-helyet sem. Egy régi lap elavult v1 írását a v2
+- Verziózott séma (`schemaVersion: 4`), szigorú validáció, FNV-1a checksum.
+- Az M0.1 `schemaVersion: 1`, valamint a korábbi `schemaVersion: 2` és `3` mentések betöltéskor/importkor tiszta migrációval v4-re váltanak.
+  A régi rekord biztonsági másolata és egy v4 árnyékmásolat a `meta` store-ban marad; a migráció
+  nem foglal el egyetlen játékosprofil-helyet sem. Egy régi lap elavult v1 írását a v4
   árnyékmásolat védi ki.
 - Profilonként egy atomi rekordfrissítés; megszakadt írás nem hoz létre félkész mentést.
 - Az autosave-ek egy szerializált, koaleszkált írási sorban futnak. A legfrissebb állapot
@@ -172,7 +198,7 @@ véletlenül éles deploy történjen. **A custom domain és a Pages beállítá
 
 ## Tesztelés
 
-- **Unit/integrációs:** 158 teszt, 16 fájlban. merge/rang-szabályok, XP-küszöbök minden
+- **Unit/integrációs:** 418 teszt, 50 fájlban. merge/rang-szabályok, eladás és visszatérítés, M3.4 jutalomtábla és boss-nehézség, M3.4.2 early-curve benchmarkok, M3.6/M4 nehézségi szintek, vereségjutalom és v4-mentésmigráció, XP-küszöbök minden
   határon, XP-összeadás és sapka, első győzelmi és csökkentett ismételt XP, halott és nem
   résztvevő harcosok kizárása, gazdaság, statisztikák, rács, hullámok, targeting, range,
   cooldown, páncél, láncvillám, halál, győzelem/vereség, determinizmus, 1×/2× sebesség,
@@ -181,19 +207,29 @@ véletlenül éles deploy történjen. **A custom domain és a Pages beállítá
   mentés, import validáció és invariánsok, profilizoláció, írási sor/koaleszálás,
   import/törlés versenyhelyzetek, boundary- és overflow-tesztek, aktív profil metaadat
   hibakezelés, zárolás tulajdonjog, késleltetett/hibás csatajutalom-mentés, több-lapos
-  védelem, teljes 10 hullámos végigjátszás.
-- **Böngésző:** 50 sikeres teszt + 2 kihagyott (desktop-only tablet- és canvas drag teszt a
-  mobil futásban), Chromium desktopon és mobil emulációban, valódi IndexedDB-vel: menü, játék
-  indítás, vásárlás, egyesítés egérrel és akadálymentes panellel, eltérő XP-szintű harcosok
+  védelem, teljes 20 hullámos végigjátszás, mérgezés, forgó pajzs, távolsági pajzstörés, földrengéses fagyasztás, valamint az M4 rendszerek: 100 hullám/fejezetek/módosítók, a tíz kötelező
+  főellenség, a 20. hullámos mentés továbbvitele a 21. hullámra, a vereség-XP számlálók
+  100 hullámra bővítése, meglepetésboss-determinizmus, gyógyítás/tüskék/szellem mód/idézés/
+  dühroham/robbanás/bénítás/lassítás/páncélaura, villám-visszaívás, seregfejlesztések.
+- **Böngésző:** 117 sikeres Playwright-teszt + 15 kihagyott (eszközspecifikus desktop/mobil tesztek),
+  Chromium desktopon és mobil emulációban, valódi IndexedDB-vel: menü, játék
+  indítás, négy nehézségi mód és perzisztencia, meglévő wave-20 mentés Nehéz Falconja, egykattintásos vásárlás, teljes pályás eladás és cserevásárlás, szövegkijelölés
+  elleni védelem, egyesítés egérrel és akadálymentes panellel, eltérő XP-szintű harcosok
   egyesítése, rang/szint/XP megjelenítés, győzelmi XP és szintlépés, reload utáni
   XP-megmaradás, M0.1 mentés importja, áthelyezés, csata, pause/resume, 2× sebesség, győzelem,
   vereség, jutalom, export/import, profil létrehozás/törlés, boundary import, nagy
   autosave-backlog utáni import/törlés, hang-szinkron, surrender lifecycle, több-lapos
   védelem, sikertelen azonos ID-s import utáni zárolás, régi tab melletti migráció és offline
   újranyitás, törölt profil feltámadásának kivédése, friss első látogatás utáni offline
-  újranyitás. A mobil futás Chromium-emuláció, nem valódi iOS Safari.
+  újranyitás, valamint az M4 felület: a négy nehézségi gomb, a fejlesztőbolt, a fejezet-
+  és módosítócímke a hullámelőnézeten, és a 100. hullám Mega Káosz Király fináléja.
+  A mobil futás Chromium-emuláció, nem valódi iOS Safari.
 - Determinisztikus tesztek fix seeddel és fix lépésközzel; nincs kép-összehasonlításos
   törékeny teszt.
+- **Automata kampánybalansz:** `npm run balance` 880 teljes végigjátszást futtat
+  (11 stratégia × 4 nehézség × 20 seed) a valódi játékparancsokkal; a részletes
+  eloszlás a [docs/BALANCE_100.md](docs/BALANCE_100.md)-ben. `npm run simulate` egy
+  seeddel, részletes naplóval futtatja mind a 11 stratégiát.
 
 ## Ismert korlátok (M1.1)
 
@@ -209,10 +245,11 @@ véletlenül éles deploy történjen. **A custom domain és a Pages beállítá
   kínál hullámválasztót, ezért játék közben csak egy későbbi mérföldköben válik elérhetővé.
 - Az automatikus több-lapos védelem a Web Locks API-ra épül; ahol ez nem elérhető, ott a
   játék a korábbi single-tab viselkedésre esik vissza.
-- **M1.4 kiegyensúlyozási ismert hiba:** a szimuláció szerint a 10. hullám több stratégiánál
-  33–73 vereséget okoz. Ez nem progression softlock (minden stratégia teljesíti a 10. hullámot),
-  ezért az M1.1 nem változtatja meg a jóváhagyott képleteket; a nehézségi görbét az M1.4-ben kell
-  újrahangolni. A `npm run simulate` ezt figyelmeztetésként jelzi, nem korrektségi hibaként.
+- **M3.4 egyensúly:** az új gazdaság és ellenségszintek mind a nyolc vizsgált stratégiánál
+  teljesítik a 20 hullámot; a kezdő és kazsuális stratégiák a 10. és 20. hullámban szoros
+  csatát vívnak. A részletes előtte/utána táblázat és szimulációs eredmények:
+  [docs/BALANCE_M3.4.md](docs/BALANCE_M3.4.md). Valós játékteszt továbbra is szükséges, különösen
+  Ábel szokásos játékstílusával.
 - Automatizált böngészőteszt Chromiumon (desktop + mobil emuláció) fut. Firefox és Safari
   manuális ellenőrzést igényel; a kód szabványos Pointer Events/IndexedDB/Web Locks API-kra épül.
 - A custom domain beállítása és az éles deploy a tulajdonos jóváhagyását igényli.
@@ -220,7 +257,9 @@ véletlenül éles deploy történjen. **A custom domain és a Pages beállítá
 ## Következő mérföldkövek
 
 - **M1.2:** sprite/asset pipeline, animált hangeffektek, rang szerinti karaktergrafika.
-- **M2:** további karakterek, upgrade-ek, passzív képességek, hullámválasztó.
+  (Az M4 új szörnyei jelenleg a meglévő, elszínezett programozott grafikákat használják –
+  a típusok stabil azonosítói miatt később egyenként cserélhetők igazi sprite-okra.)
+- **M2:** további karakterek, passzív képességek, hullámválasztó a felületen.
 - **M3:** export/import minden profilra, további sémamigrációk.
 - **M4:** akadálymentességi audit, Firefox/Safari CI, teljesítményprofilozás, kódrészletezés.
 

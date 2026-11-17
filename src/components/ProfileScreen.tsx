@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useGameController } from '../app/ControllerContext';
-import { MAX_PROFILES } from '../game/domain/types';
+import { MAX_PROFILES, TOTAL_WAVES } from '../game/domain/types';
 import type { AppSnapshot } from '../app/controller';
 import type { ProfileSummary } from '../persistence/indexeddb/profileRepository';
 import { t } from '../localization';
@@ -46,7 +46,7 @@ function ProfileCard({
           <Icon name="coin" size={16} /> {profile.coins}
         </span>
         <span>
-          <Icon name="enemy-wave" size={16} /> {profile.currentWave}/10
+          <Icon name="enemy-wave" size={16} /> {profile.currentWave}/{TOTAL_WAVES}
         </span>
       </div>
       <div className="profile-card__actions">

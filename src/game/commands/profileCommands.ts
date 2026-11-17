@@ -1,27 +1,56 @@
-import { characterStats, CHARACTER_DEFINITIONS, isCharacterTypeId } from '../domain/characters';
-import { firstEmptyAlliedCell, isAlliedCell, isPositionFree, sameCell } from '../domain/grid';
+import {
+  characterStats,
+  CHARACTER_DEFINITIONS,
+  isCharacterTypeId,
+  sellRefund,
+} from '../domain/characters';
+import { defeatComfortCoins, isDifficulty } from '../domain/difficulty';
+import {
+  EXPANSION_COLUMN_ORDER,
+  expansionCellCount,
+  firstEmptyAlliedCell,
+  isPlayableAlliedCell,
+  isPositionFree,
+  sameCell,
+} from '../domain/grid';
+import { nextExpansionCost } from '../domain/expansion';
 import {
   awardXp,
   battleXpPerUnit,
   characterLevelFromXp,
+  defeatXpPerUnit,
   mergeCharacterXp,
 } from '../domain/progression';
-import { DEFEAT_COMFORT_COINS } from '../domain/state';
+import {
+  isUpgradeKind,
+  maxUpgradeLevelReached,
+  upgradeCost,
+  upgradeLevel,
+} from '../domain/upgrades';
 import {
   MAX_COINS,
+  MAX_DEFEAT_XP_REWARDS,
   MAX_MERGE_RANK,
   MAX_NEXT_CHARACTER_ID,
+  MAX_UPGRADE_ENTRIES,
   TOTAL_WAVES,
   fail,
   ok,
   type BattleSpeed,
   type CharacterInstance,
+  type Difficulty,
   type CharacterTypeId,
   type GameSettings,
   type PlayerProfile,
   type Result,
+  type UpgradeKind,
 } from '../domain/types';
-import { getWave, waveFirstCompletionBonus, waveReplayRewardCoins } from '../domain/waves';
+import {
+  getWave,
+  waveFirstCompletionBonus,
+  waveReplayRewardCoins,
+  waveRewardCoins,
+} from '../domain/waves';
 
 export interface MergeOutcome {
   readonly profile: PlayerProfile;
@@ -39,6 +68,26 @@ export interface PurchaseOutcome {
   readonly purchased: CharacterInstance;
 }
 
+export interface ExpansionPurchaseOutcome {
+  readonly profile: PlayerProfile;
+  readonly expansionCells: number;
+  readonly unlockedColumn: number;
+  readonly cost: number;
+}
+
+export interface UpgradePurchaseOutcome {
+  readonly profile: PlayerProfile;
+  readonly kind: UpgradeKind;
+  readonly level: number;
+  readonly cost: number;
+}
+
+export interface SellOutcome {
+  readonly profile: PlayerProfile;
+  readonly sold: CharacterInstance;
+  readonly refund: number;
+}
+
 export interface WaveRewardOutcome {
   readonly profile: PlayerProfile;
   readonly rewardCoins: number;
@@ -51,6 +100,17 @@ export interface BattleLevelUp {
   readonly typeId: CharacterTypeId;
   readonly fromLevel: number;
   readonly toLevel: number;
+}
+
+export interface DefeatRewardOutcome {
+  readonly profile: PlayerProfile;
+  readonly comfortCoins: number;
+  readonly xpPerUnit: number;
+  readonly totalXpAwarded: number;
+  readonly levelUps: readonly BattleLevelUp[];
+  readonly defeatXpCountBefore: number;
+  readonly defeatXpCountAfter: number;
+  readonly defeatXpEligible: boolean;
 }
 
 export interface BattleRewardOutcome {
@@ -88,7 +148,9 @@ export function moveCharacter(
 ): Result<PlayerProfile> {
   const source = profile.characters.find((character) => character.id === characterId);
   if (!source) return fail('not-found', characterId);
-  if (!isAlliedCell(targetCol, targetRow)) return fail('not-allied-cell');
+  if (!isPlayableAlliedCell(targetCol, targetRow, profile.expansionCells)) {
+    return fail('not-allied-cell');
+  }
   if (sameCell(source, { col: targetCol, row: targetRow })) {
     return ok(profile);
   }
@@ -167,7 +229,7 @@ export function purchaseCharacter(
   if (!isCharacterTypeId(typeId)) return fail('invalid-character');
   const definition = CHARACTER_DEFINITIONS[typeId];
   if (profile.coins < definition.cost) return fail('insufficient-coins');
-  const emptyCell = firstEmptyAlliedCell(profile.characters);
+  const emptyCell = firstEmptyAlliedCell(profile.characters, profile.expansionCells);
   if (!emptyCell) return fail('board-full');
 
   const allocation = allocateCharacterId(profile);
@@ -191,6 +253,49 @@ export function purchaseCharacter(
   return ok({ profile: nextProfile, purchased });
 }
 
+export function purchaseExpansion(
+  profile: PlayerProfile,
+  now = Date.now(),
+): Result<ExpansionPurchaseOutcome> {
+  const cost = nextExpansionCost(profile.expansionCells);
+  if (cost === null) return fail('max-expansion');
+  if (profile.coins < cost) return fail('insufficient-coins');
+  const nextCount = expansionCellCount(profile.expansionCells) + 1;
+  const unlockedColumn = EXPANSION_COLUMN_ORDER[nextCount - 1];
+  if (unlockedColumn === undefined) return fail('max-expansion');
+  return ok({
+    profile: updated({ ...profile, coins: profile.coins - cost, expansionCells: nextCount }, now),
+    expansionCells: nextCount,
+    unlockedColumn,
+    cost,
+  });
+}
+
+export function sellCharacter(
+  profile: PlayerProfile,
+  characterId: string,
+  now = Date.now(),
+): Result<SellOutcome> {
+  const sold = profile.characters.find((character) => character.id === characterId);
+  if (!sold) return fail('not-found', characterId);
+  if (!isCharacterTypeId(sold.typeId)) return fail('invalid-character');
+  const refund = sellRefund(sold.typeId, sold.mergeRank);
+  if (refund > 0 && profile.coins > MAX_COINS - refund) return fail('coin-overflow');
+  const characters = profile.characters.filter((character) => character.id !== sold.id);
+  return ok({
+    profile: updated(
+      {
+        ...profile,
+        coins: profile.coins + refund,
+        characters,
+      },
+      now,
+    ),
+    sold,
+    refund,
+  });
+}
+
 export function claimWaveReward(
   profile: PlayerProfile,
   waveId: number,
@@ -199,7 +304,7 @@ export function claimWaveReward(
   const wave = getWave(waveId);
   if (!wave) return fail('invalid-wave');
   const firstCompletion = !profile.completedWaves.includes(waveId);
-  const rewardCoins = firstCompletion ? wave.rewardCoins : waveReplayRewardCoins(wave);
+  const rewardCoins = firstCompletion ? waveRewardCoins(wave) : waveReplayRewardCoins(wave);
   const firstCompletionBonus = firstCompletion ? waveFirstCompletionBonus(wave) : 0;
   if (rewardCoins > 0 && profile.coins > MAX_COINS - rewardCoins) return fail('coin-overflow');
   const completedWaves = firstCompletion
@@ -223,6 +328,69 @@ export function claimWaveReward(
     rewardCoins,
     firstCompletion,
     firstCompletionBonus,
+  });
+}
+
+export function resolveDefeatRewards(
+  profile: PlayerProfile,
+  waveId: number,
+  participantIds: readonly string[],
+  now = Date.now(),
+): Result<DefeatRewardOutcome> {
+  const wave = getWave(waveId);
+  if (!wave) return fail('invalid-wave');
+  const comfortCoins = defeatComfortCoins(profile.settings.difficulty);
+  if (profile.coins > MAX_COINS - comfortCoins) return fail('coin-overflow');
+
+  const firstCompletion = !profile.completedWaves.includes(waveId);
+  const counterIndex = waveId - 1;
+  const countBefore = profile.defeatXpCounts[counterIndex] ?? 0;
+  const eligible = countBefore < MAX_DEFEAT_XP_REWARDS;
+  const xpPerUnit = eligible ? defeatXpPerUnit(waveId, firstCompletion) : 0;
+  const participants = new Set(participantIds);
+  const levelUps: BattleLevelUp[] = [];
+  let totalXpAwarded = 0;
+
+  const characters = profile.characters.map((character) => {
+    if (!participants.has(character.id) || xpPerUnit <= 0) return character;
+    const beforeLevel = characterLevelFromXp(character.totalXp);
+    const nextXp = awardXp(character.totalXp, xpPerUnit);
+    const afterLevel = characterLevelFromXp(nextXp);
+    totalXpAwarded += nextXp - character.totalXp;
+    if (afterLevel > beforeLevel) {
+      levelUps.push({
+        characterId: character.id,
+        typeId: character.typeId,
+        fromLevel: beforeLevel,
+        toLevel: afterLevel,
+      });
+    }
+    return { ...character, totalXp: nextXp };
+  });
+
+  const defeatXpCounts = Array.from(
+    { length: Math.max(TOTAL_WAVES, profile.defeatXpCounts.length) },
+    (_, index) => profile.defeatXpCounts[index] ?? 0,
+  );
+  if (eligible) defeatXpCounts[counterIndex] = countBefore + 1;
+
+  return ok({
+    profile: updated(
+      {
+        ...profile,
+        coins: profile.coins + comfortCoins,
+        characters,
+        defeatXpCounts,
+      },
+      now,
+    ),
+    comfortCoins,
+    xpPerUnit,
+    totalXpAwarded,
+    levelUps,
+    defeatXpCountBefore: countBefore,
+    defeatXpCountAfter: eligible ? countBefore + 1 : countBefore,
+    defeatXpEligible: eligible,
   });
 }
 
@@ -303,16 +471,47 @@ export function applyDefeatComfort(
   profile: PlayerProfile,
   now = Date.now(),
 ): Result<PlayerProfile> {
-  if (profile.coins > MAX_COINS - DEFEAT_COMFORT_COINS) return fail('coin-overflow');
+  const comfortCoins = defeatComfortCoins(profile.settings.difficulty);
+  if (profile.coins > MAX_COINS - comfortCoins) return fail('coin-overflow');
   return ok(
     updated(
       {
         ...profile,
-        coins: profile.coins + DEFEAT_COMFORT_COINS,
+        coins: profile.coins + comfortCoins,
       },
       now,
     ),
   );
+}
+
+export function purchaseUpgrade(
+  profile: PlayerProfile,
+  kind: UpgradeKind,
+  now = Date.now(),
+): Result<UpgradePurchaseOutcome> {
+  if (!isUpgradeKind(kind)) return fail('invalid-upgrade');
+  if (maxUpgradeLevelReached(profile, kind)) return fail('max-upgrade');
+  const currentLevel = upgradeLevel(profile, kind);
+  const cost = upgradeCost(kind, currentLevel);
+  if (profile.coins < cost) return fail('insufficient-coins');
+  const nextLevel = currentLevel + 1;
+  const upgrades: Record<string, number> = { ...profile.upgrades };
+  upgrades[kind] = nextLevel;
+  const entryCount = Object.keys(upgrades).length;
+  if (entryCount > MAX_UPGRADE_ENTRIES) return fail('invalid-upgrade');
+  return ok({
+    profile: updated(
+      {
+        ...profile,
+        coins: profile.coins - cost,
+        upgrades,
+      },
+      now,
+    ),
+    kind,
+    level: nextLevel,
+    cost,
+  });
 }
 
 export function updateSettings(
@@ -322,6 +521,9 @@ export function updateSettings(
 ): PlayerProfile {
   const battleSpeed: BattleSpeed =
     settings.battleSpeed === 2 ? 2 : settings.battleSpeed === 1 ? 1 : profile.settings.battleSpeed;
+  const difficulty: Difficulty = isDifficulty(settings.difficulty)
+    ? settings.difficulty
+    : profile.settings.difficulty;
   return updated(
     {
       ...profile,
@@ -329,6 +531,7 @@ export function updateSettings(
         soundEnabled: settings.soundEnabled ?? profile.settings.soundEnabled,
         reducedMotion: settings.reducedMotion ?? profile.settings.reducedMotion,
         battleSpeed,
+        difficulty,
       },
     },
     now,

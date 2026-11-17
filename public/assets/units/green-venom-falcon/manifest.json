@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "characterTypeId": "green-venom-falcon",
+  "role": "wave-20-boss",
+  "artStatus": "generated-concept-placeholder-pending-abel-approval",
+  "format": "horizontal-spritesheet",
+  "frameSize": [
+    256,
+    256
+  ],
+  "frameOrder": "left-to-right",
+  "unitOrigin": [
+    0.5,
+    0.88
+  ],
+  "facing": "left",
+  "recommendedDisplayWidth": 190,
+  "animations": [
+    {
+      "key": "gvf-idle",
+      "url": "/assets/units/green-venom-falcon/idle.png",
+      "frameWidth": 256,
+      "frameHeight": 256,
+      "frames": 4,
+      "fps": 5,
+      "repeat": -1,
+      "origin": [
+        0.5,
+        0.88
+      ]
+    },
+    {
+      "key": "gvf-fly",
+      "url": "/assets/units/green-venom-falcon/fly.png",
+      "frameWidth": 256,
+      "frameHeight": 256,
+      "frames": 4,
+      "fps": 10,
+      "repeat": -1,
+      "origin": [
+        0.5,
+        0.88
+      ]
+    },
+    {
+      "key": "gvf-claw",
+      "url": "/assets/units/green-venom-falcon/claw.png",
+      "frameWidth": 256,
+      "frameHeight": 256,
+      "frames": 6,
+      "fps": 12,
+      "repeat": 0,
+      "origin": [
+        0.5,
+        0.88
+      ]
+    },
+    {
+      "key": "gvf-poison",
+      "url": "/assets/units/green-venom-falcon/poison.png",
+      "frameWidth": 256,
+      "frameHeight": 256,
+      "frames": 6,
+      "fps": 10,
+      "repeat": 0,
+      "origin": [
+        0.5,
+        0.88
+      ]
+    },
+    {
+      "key": "gvf-spin",
+      "url": "/assets/units/green-venom-falcon/spin.png",
+      "frameWidth": 256,
+      "frameHeight": 256,
+      "frames": 6,
+      "fps": 12,
+      "repeat": -1,
+      "origin": [
+        0.5,
+        0.88
+      ]
+    },
+    {
+      "key": "gvf-spin-break",
+      "url": "/assets/units/green-venom-falcon/spin-break.png",
+      "frameWidth": 256,
+      "frameHeight": 256,
+      "frames": 6,
+      "fps": 6,
+      "repeat": -1,
+      "origin": [
+        0.5,
+        0.88
+      ]
+    },
+    {
+      "key": "gvf-hurt",
+      "url": "/assets/units/green-venom-falcon/hurt.png",
+      "frameWidth": 256,
+      "frameHeight": 256,
+      "frames": 4,
+      "fps": 12,
+      "repeat": 0,
+      "origin": [
+        0.5,
+        0.88
+      ]
+    },
+    {
+      "key": "gvf-death",
+      "url": "/assets/units/green-venom-falcon/death.png",
+      "frameWidth": 256,
+      "frameHeight": 256,
+      "frames": 8,
+      "fps": 8,
+      "repeat": 0,
+      "origin": [
+        0.5,
+        0.88
+      ]
+    },
+    {
+      "key": "gvf-fx-poison-projectile",
+      "url": "/assets/effects/green-venom-falcon/poison-projectile.png",
+      "frameWidth": 256,
+      "frameHeight": 256,
+      "frames": 4,
+      "fps": 12,
+      "repeat": 0,
+      "origin": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "key": "gvf-fx-poison-muzzle",
+      "url": "/assets/effects/green-venom-falcon/poison-muzzle.png",
+      "frameWidth": 256,
+      "frameHeight": 256,
+      "frames": 4,
+      "fps": 12,
+      "repeat": 0,
+      "origin": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "key": "gvf-fx-poison-impact",
+      "url": "/assets/effects/green-venom-falcon/poison-impact.png",
+      "frameWidth": 256,
+      "frameHeight": 256,
+      "frames": 4,
+      "fps": 14,
+      "repeat": 0,
+      "origin": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "key": "gvf-fx-spin-aura",
+      "url": "/assets/effects/green-venom-falcon/spin-aura.png",
+      "frameWidth": 256,
+      "frameHeight": 256,
+      "frames": 6,
+      "fps": 12,
+      "repeat": -1,
+      "origin": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "key": "gvf-fx-spin-break",
+      "url": "/assets/effects/green-venom-falcon/spin-break.png",
+      "frameWidth": 256,
+      "frameHeight": 256,
+      "frames": 6,
+      "fps": 12,
+      "repeat": 0,
+      "origin": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "key": "gvf-fx-earthquake",
+      "url": "/assets/effects/green-venom-falcon/earthquake.png",
+      "frameWidth": 256,
+      "frameHeight": 256,
+      "frames": 6,
+      "fps": 12,
+      "repeat": 0,
+      "origin": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "key": "gvf-fx-defeat",
+      "url": "/assets/effects/green-venom-falcon/defeat.png",
+      "frameWidth": 256,
+      "frameHeight": 256,
+      "frames": 8,
+      "fps": 8,
+      "repeat": 0,
+      "origin": [
+        0.5,
+        0.5
+      ]
+    }
+  ]
+}

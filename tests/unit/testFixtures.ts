@@ -43,6 +43,7 @@ export function oneEnemyWave(
     descriptionHu: 'Teszt',
     rewardCoins: 0,
     isBossWave: false,
+    chapterId: 1,
     enemies: [{ typeId, level, col, row }],
   };
 }
@@ -54,6 +55,7 @@ export function waveWith(enemies: WaveDefinition['enemies'], id = 99): WaveDefin
     descriptionHu: 'Teszt',
     rewardCoins: 0,
     isBossWave: enemies.some((enemy) => enemy.typeId === 'mega-brainrot-gorilla'),
+    chapterId: 1,
     enemies,
   };
 }

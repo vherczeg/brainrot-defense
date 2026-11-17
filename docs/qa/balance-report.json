@@ -1,0 +1,2925 @@
+{
+  "totalRuns": 880,
+  "completedRuns": 587,
+  "blockedRuns": [
+    {
+      "name": "beginner-wide",
+      "difficulty": "normal",
+      "wave": 92,
+      "defeats": 62
+    },
+    {
+      "name": "beginner-wide",
+      "difficulty": "normal",
+      "wave": 98,
+      "defeats": 62
+    },
+    {
+      "name": "scorpion-focus",
+      "difficulty": "normal",
+      "wave": 92,
+      "defeats": 86
+    },
+    {
+      "name": "rhino-tank",
+      "difficulty": "normal",
+      "wave": 94,
+      "defeats": 60
+    },
+    {
+      "name": "rhino-tank",
+      "difficulty": "normal",
+      "wave": 92,
+      "defeats": 60
+    },
+    {
+      "name": "rhino-tank",
+      "difficulty": "normal",
+      "wave": 72,
+      "defeats": 60
+    },
+    {
+      "name": "rhino-tank",
+      "difficulty": "normal",
+      "wave": 98,
+      "defeats": 60
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "normal",
+      "wave": 93,
+      "defeats": 75
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "normal",
+      "wave": 91,
+      "defeats": 68
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "normal",
+      "wave": 91,
+      "defeats": 68
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "normal",
+      "wave": 91,
+      "defeats": 76
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "normal",
+      "wave": 91,
+      "defeats": 68
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "normal",
+      "wave": 88,
+      "defeats": 79
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "normal",
+      "wave": 91,
+      "defeats": 68
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "normal",
+      "wave": 91,
+      "defeats": 68
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "normal",
+      "wave": 95,
+      "defeats": 75
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "normal",
+      "wave": 91,
+      "defeats": 68
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "normal",
+      "wave": 85,
+      "defeats": 109
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "normal",
+      "wave": 91,
+      "defeats": 76
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "normal",
+      "wave": 79,
+      "defeats": 79
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "normal",
+      "wave": 92,
+      "defeats": 75
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "normal",
+      "wave": 72,
+      "defeats": 68
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "normal",
+      "wave": 91,
+      "defeats": 68
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "normal",
+      "wave": 91,
+      "defeats": 68
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "normal",
+      "wave": 91,
+      "defeats": 68
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "normal",
+      "wave": 91,
+      "defeats": 68
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "normal",
+      "wave": 91,
+      "defeats": 68
+    },
+    {
+      "name": "casual-kid",
+      "difficulty": "hard",
+      "wave": 92,
+      "defeats": 104
+    },
+    {
+      "name": "scorpion-focus",
+      "difficulty": "hard",
+      "wave": 80,
+      "defeats": 187
+    },
+    {
+      "name": "scorpion-focus",
+      "difficulty": "hard",
+      "wave": 80,
+      "defeats": 187
+    },
+    {
+      "name": "scorpion-focus",
+      "difficulty": "hard",
+      "wave": 80,
+      "defeats": 187
+    },
+    {
+      "name": "scorpion-focus",
+      "difficulty": "hard",
+      "wave": 73,
+      "defeats": 187
+    },
+    {
+      "name": "scorpion-focus",
+      "difficulty": "hard",
+      "wave": 80,
+      "defeats": 187
+    },
+    {
+      "name": "scorpion-focus",
+      "difficulty": "hard",
+      "wave": 92,
+      "defeats": 190
+    },
+    {
+      "name": "scorpion-focus",
+      "difficulty": "hard",
+      "wave": 92,
+      "defeats": 172
+    },
+    {
+      "name": "scorpion-focus",
+      "difficulty": "hard",
+      "wave": 80,
+      "defeats": 187
+    },
+    {
+      "name": "scorpion-focus",
+      "difficulty": "hard",
+      "wave": 80,
+      "defeats": 187
+    },
+    {
+      "name": "scorpion-focus",
+      "difficulty": "hard",
+      "wave": 80,
+      "defeats": 187
+    },
+    {
+      "name": "scorpion-focus",
+      "difficulty": "hard",
+      "wave": 95,
+      "defeats": 200
+    },
+    {
+      "name": "scorpion-focus",
+      "difficulty": "hard",
+      "wave": 93,
+      "defeats": 172
+    },
+    {
+      "name": "scorpion-focus",
+      "difficulty": "hard",
+      "wave": 79,
+      "defeats": 190
+    },
+    {
+      "name": "scorpion-focus",
+      "difficulty": "hard",
+      "wave": 80,
+      "defeats": 187
+    },
+    {
+      "name": "scorpion-focus",
+      "difficulty": "hard",
+      "wave": 72,
+      "defeats": 187
+    },
+    {
+      "name": "scorpion-focus",
+      "difficulty": "hard",
+      "wave": 80,
+      "defeats": 187
+    },
+    {
+      "name": "scorpion-focus",
+      "difficulty": "hard",
+      "wave": 80,
+      "defeats": 187
+    },
+    {
+      "name": "scorpion-focus",
+      "difficulty": "hard",
+      "wave": 80,
+      "defeats": 187
+    },
+    {
+      "name": "scorpion-focus",
+      "difficulty": "hard",
+      "wave": 80,
+      "defeats": 187
+    },
+    {
+      "name": "scorpion-focus",
+      "difficulty": "hard",
+      "wave": 80,
+      "defeats": 187
+    },
+    {
+      "name": "rhino-tank",
+      "difficulty": "hard",
+      "wave": 93,
+      "defeats": 68
+    },
+    {
+      "name": "rhino-tank",
+      "difficulty": "hard",
+      "wave": 93,
+      "defeats": 68
+    },
+    {
+      "name": "rhino-tank",
+      "difficulty": "hard",
+      "wave": 93,
+      "defeats": 68
+    },
+    {
+      "name": "rhino-tank",
+      "difficulty": "hard",
+      "wave": 93,
+      "defeats": 68
+    },
+    {
+      "name": "rhino-tank",
+      "difficulty": "hard",
+      "wave": 93,
+      "defeats": 68
+    },
+    {
+      "name": "rhino-tank",
+      "difficulty": "hard",
+      "wave": 92,
+      "defeats": 68
+    },
+    {
+      "name": "rhino-tank",
+      "difficulty": "hard",
+      "wave": 93,
+      "defeats": 68
+    },
+    {
+      "name": "rhino-tank",
+      "difficulty": "hard",
+      "wave": 95,
+      "defeats": 68
+    },
+    {
+      "name": "rhino-tank",
+      "difficulty": "hard",
+      "wave": 93,
+      "defeats": 68
+    },
+    {
+      "name": "rhino-tank",
+      "difficulty": "hard",
+      "wave": 93,
+      "defeats": 68
+    },
+    {
+      "name": "rhino-tank",
+      "difficulty": "hard",
+      "wave": 87,
+      "defeats": 68
+    },
+    {
+      "name": "rhino-tank",
+      "difficulty": "hard",
+      "wave": 79,
+      "defeats": 68
+    },
+    {
+      "name": "rhino-tank",
+      "difficulty": "hard",
+      "wave": 92,
+      "defeats": 68
+    },
+    {
+      "name": "rhino-tank",
+      "difficulty": "hard",
+      "wave": 72,
+      "defeats": 68
+    },
+    {
+      "name": "rhino-tank",
+      "difficulty": "hard",
+      "wave": 89,
+      "defeats": 68
+    },
+    {
+      "name": "rhino-tank",
+      "difficulty": "hard",
+      "wave": 92,
+      "defeats": 68
+    },
+    {
+      "name": "rhino-tank",
+      "difficulty": "hard",
+      "wave": 95,
+      "defeats": 124
+    },
+    {
+      "name": "rhino-tank",
+      "difficulty": "hard",
+      "wave": 93,
+      "defeats": 68
+    },
+    {
+      "name": "rhino-tank",
+      "difficulty": "hard",
+      "wave": 93,
+      "defeats": 68
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "hard",
+      "wave": 50,
+      "defeats": 137
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "hard",
+      "wave": 50,
+      "defeats": 150
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "hard",
+      "wave": 50,
+      "defeats": 165
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "hard",
+      "wave": 50,
+      "defeats": 150
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "hard",
+      "wave": 50,
+      "defeats": 150
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "hard",
+      "wave": 50,
+      "defeats": 150
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "hard",
+      "wave": 50,
+      "defeats": 167
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "hard",
+      "wave": 50,
+      "defeats": 150
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "hard",
+      "wave": 50,
+      "defeats": 137
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "hard",
+      "wave": 50,
+      "defeats": 150
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "hard",
+      "wave": 82,
+      "defeats": 174
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "hard",
+      "wave": 50,
+      "defeats": 167
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "hard",
+      "wave": 50,
+      "defeats": 150
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "hard",
+      "wave": 50,
+      "defeats": 137
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "hard",
+      "wave": 50,
+      "defeats": 150
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "hard",
+      "wave": 50,
+      "defeats": 165
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "hard",
+      "wave": 50,
+      "defeats": 150
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "hard",
+      "wave": 50,
+      "defeats": 150
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "hard",
+      "wave": 50,
+      "defeats": 150
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "hard",
+      "wave": 50,
+      "defeats": 150
+    },
+    {
+      "name": "replay-farmer-9",
+      "difficulty": "hard",
+      "wave": 92,
+      "defeats": 100
+    },
+    {
+      "name": "replay-farmer-9",
+      "difficulty": "hard",
+      "wave": 98,
+      "defeats": 100
+    },
+    {
+      "name": "replay-farmer-15",
+      "difficulty": "hard",
+      "wave": 95,
+      "defeats": 108
+    },
+    {
+      "name": "replay-farmer-15",
+      "difficulty": "hard",
+      "wave": 95,
+      "defeats": 108
+    },
+    {
+      "name": "replay-farmer-15",
+      "difficulty": "hard",
+      "wave": 95,
+      "defeats": 108
+    },
+    {
+      "name": "replay-farmer-15",
+      "difficulty": "hard",
+      "wave": 94,
+      "defeats": 108
+    },
+    {
+      "name": "replay-farmer-15",
+      "difficulty": "hard",
+      "wave": 95,
+      "defeats": 108
+    },
+    {
+      "name": "replay-farmer-15",
+      "difficulty": "hard",
+      "wave": 100,
+      "defeats": 108
+    },
+    {
+      "name": "replay-farmer-15",
+      "difficulty": "hard",
+      "wave": 92,
+      "defeats": 108
+    },
+    {
+      "name": "replay-farmer-15",
+      "difficulty": "hard",
+      "wave": 95,
+      "defeats": 108
+    },
+    {
+      "name": "replay-farmer-15",
+      "difficulty": "hard",
+      "wave": 95,
+      "defeats": 108
+    },
+    {
+      "name": "replay-farmer-15",
+      "difficulty": "hard",
+      "wave": 95,
+      "defeats": 108
+    },
+    {
+      "name": "replay-farmer-15",
+      "difficulty": "hard",
+      "wave": 95,
+      "defeats": 108
+    },
+    {
+      "name": "replay-farmer-15",
+      "difficulty": "hard",
+      "wave": 95,
+      "defeats": 108
+    },
+    {
+      "name": "replay-farmer-15",
+      "difficulty": "hard",
+      "wave": 95,
+      "defeats": 108
+    },
+    {
+      "name": "replay-farmer-15",
+      "difficulty": "hard",
+      "wave": 92,
+      "defeats": 108
+    },
+    {
+      "name": "replay-farmer-15",
+      "difficulty": "hard",
+      "wave": 72,
+      "defeats": 108
+    },
+    {
+      "name": "replay-farmer-15",
+      "difficulty": "hard",
+      "wave": 95,
+      "defeats": 108
+    },
+    {
+      "name": "replay-farmer-15",
+      "difficulty": "hard",
+      "wave": 92,
+      "defeats": 108
+    },
+    {
+      "name": "replay-farmer-15",
+      "difficulty": "hard",
+      "wave": 93,
+      "defeats": 108
+    },
+    {
+      "name": "replay-farmer-15",
+      "difficulty": "hard",
+      "wave": 95,
+      "defeats": 108
+    },
+    {
+      "name": "replay-farmer-15",
+      "difficulty": "hard",
+      "wave": 95,
+      "defeats": 108
+    },
+    {
+      "name": "scorpion-focus",
+      "difficulty": "easy",
+      "wave": 92,
+      "defeats": 60
+    },
+    {
+      "name": "rhino-tank",
+      "difficulty": "easy",
+      "wave": 98,
+      "defeats": 60
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "easy",
+      "wave": 93,
+      "defeats": 68
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "easy",
+      "wave": 93,
+      "defeats": 68
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "easy",
+      "wave": 93,
+      "defeats": 68
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "easy",
+      "wave": 93,
+      "defeats": 68
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "easy",
+      "wave": 93,
+      "defeats": 68
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "easy",
+      "wave": 93,
+      "defeats": 68
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "easy",
+      "wave": 92,
+      "defeats": 60
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "easy",
+      "wave": 93,
+      "defeats": 68
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "easy",
+      "wave": 95,
+      "defeats": 68
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "easy",
+      "wave": 93,
+      "defeats": 68
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "easy",
+      "wave": 93,
+      "defeats": 68
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "easy",
+      "wave": 93,
+      "defeats": 68
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "easy",
+      "wave": 93,
+      "defeats": 68
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "easy",
+      "wave": 92,
+      "defeats": 60
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "easy",
+      "wave": 93,
+      "defeats": 68
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "easy",
+      "wave": 93,
+      "defeats": 68
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "easy",
+      "wave": 92,
+      "defeats": 60
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "easy",
+      "wave": 95,
+      "defeats": 68
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "easy",
+      "wave": 93,
+      "defeats": 68
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "easy",
+      "wave": 93,
+      "defeats": 68
+    },
+    {
+      "name": "beginner-wide",
+      "difficulty": "extreme",
+      "wave": 10,
+      "defeats": 60
+    },
+    {
+      "name": "beginner-wide",
+      "difficulty": "extreme",
+      "wave": 10,
+      "defeats": 60
+    },
+    {
+      "name": "beginner-wide",
+      "difficulty": "extreme",
+      "wave": 10,
+      "defeats": 60
+    },
+    {
+      "name": "beginner-wide",
+      "difficulty": "extreme",
+      "wave": 10,
+      "defeats": 60
+    },
+    {
+      "name": "beginner-wide",
+      "difficulty": "extreme",
+      "wave": 10,
+      "defeats": 60
+    },
+    {
+      "name": "beginner-wide",
+      "difficulty": "extreme",
+      "wave": 10,
+      "defeats": 60
+    },
+    {
+      "name": "beginner-wide",
+      "difficulty": "extreme",
+      "wave": 10,
+      "defeats": 60
+    },
+    {
+      "name": "beginner-wide",
+      "difficulty": "extreme",
+      "wave": 10,
+      "defeats": 60
+    },
+    {
+      "name": "beginner-wide",
+      "difficulty": "extreme",
+      "wave": 10,
+      "defeats": 60
+    },
+    {
+      "name": "beginner-wide",
+      "difficulty": "extreme",
+      "wave": 10,
+      "defeats": 60
+    },
+    {
+      "name": "beginner-wide",
+      "difficulty": "extreme",
+      "wave": 10,
+      "defeats": 60
+    },
+    {
+      "name": "beginner-wide",
+      "difficulty": "extreme",
+      "wave": 10,
+      "defeats": 60
+    },
+    {
+      "name": "beginner-wide",
+      "difficulty": "extreme",
+      "wave": 10,
+      "defeats": 60
+    },
+    {
+      "name": "beginner-wide",
+      "difficulty": "extreme",
+      "wave": 10,
+      "defeats": 60
+    },
+    {
+      "name": "beginner-wide",
+      "difficulty": "extreme",
+      "wave": 10,
+      "defeats": 60
+    },
+    {
+      "name": "beginner-wide",
+      "difficulty": "extreme",
+      "wave": 10,
+      "defeats": 60
+    },
+    {
+      "name": "beginner-wide",
+      "difficulty": "extreme",
+      "wave": 10,
+      "defeats": 60
+    },
+    {
+      "name": "beginner-wide",
+      "difficulty": "extreme",
+      "wave": 10,
+      "defeats": 60
+    },
+    {
+      "name": "beginner-wide",
+      "difficulty": "extreme",
+      "wave": 10,
+      "defeats": 60
+    },
+    {
+      "name": "beginner-wide",
+      "difficulty": "extreme",
+      "wave": 10,
+      "defeats": 60
+    },
+    {
+      "name": "casual-kid",
+      "difficulty": "extreme",
+      "wave": 100,
+      "defeats": 223
+    },
+    {
+      "name": "casual-kid",
+      "difficulty": "extreme",
+      "wave": 100,
+      "defeats": 223
+    },
+    {
+      "name": "casual-kid",
+      "difficulty": "extreme",
+      "wave": 100,
+      "defeats": 223
+    },
+    {
+      "name": "casual-kid",
+      "difficulty": "extreme",
+      "wave": 100,
+      "defeats": 231
+    },
+    {
+      "name": "casual-kid",
+      "difficulty": "extreme",
+      "wave": 100,
+      "defeats": 223
+    },
+    {
+      "name": "casual-kid",
+      "difficulty": "extreme",
+      "wave": 100,
+      "defeats": 216
+    },
+    {
+      "name": "casual-kid",
+      "difficulty": "extreme",
+      "wave": 92,
+      "defeats": 197
+    },
+    {
+      "name": "casual-kid",
+      "difficulty": "extreme",
+      "wave": 100,
+      "defeats": 223
+    },
+    {
+      "name": "casual-kid",
+      "difficulty": "extreme",
+      "wave": 100,
+      "defeats": 223
+    },
+    {
+      "name": "casual-kid",
+      "difficulty": "extreme",
+      "wave": 100,
+      "defeats": 223
+    },
+    {
+      "name": "casual-kid",
+      "difficulty": "extreme",
+      "wave": 100,
+      "defeats": 206
+    },
+    {
+      "name": "casual-kid",
+      "difficulty": "extreme",
+      "wave": 100,
+      "defeats": 197
+    },
+    {
+      "name": "casual-kid",
+      "difficulty": "extreme",
+      "wave": 100,
+      "defeats": 216
+    },
+    {
+      "name": "casual-kid",
+      "difficulty": "extreme",
+      "wave": 92,
+      "defeats": 223
+    },
+    {
+      "name": "casual-kid",
+      "difficulty": "extreme",
+      "wave": 100,
+      "defeats": 231
+    },
+    {
+      "name": "casual-kid",
+      "difficulty": "extreme",
+      "wave": 100,
+      "defeats": 223
+    },
+    {
+      "name": "casual-kid",
+      "difficulty": "extreme",
+      "wave": 100,
+      "defeats": 223
+    },
+    {
+      "name": "casual-kid",
+      "difficulty": "extreme",
+      "wave": 100,
+      "defeats": 223
+    },
+    {
+      "name": "casual-kid",
+      "difficulty": "extreme",
+      "wave": 100,
+      "defeats": 223
+    },
+    {
+      "name": "casual-kid",
+      "difficulty": "extreme",
+      "wave": 98,
+      "defeats": 223
+    },
+    {
+      "name": "crocodile-focus",
+      "difficulty": "extreme",
+      "wave": 92,
+      "defeats": 175
+    },
+    {
+      "name": "crocodile-focus",
+      "difficulty": "extreme",
+      "wave": 72,
+      "defeats": 164
+    },
+    {
+      "name": "scorpion-focus",
+      "difficulty": "extreme",
+      "wave": 10,
+      "defeats": 67
+    },
+    {
+      "name": "scorpion-focus",
+      "difficulty": "extreme",
+      "wave": 10,
+      "defeats": 67
+    },
+    {
+      "name": "scorpion-focus",
+      "difficulty": "extreme",
+      "wave": 10,
+      "defeats": 67
+    },
+    {
+      "name": "scorpion-focus",
+      "difficulty": "extreme",
+      "wave": 10,
+      "defeats": 67
+    },
+    {
+      "name": "scorpion-focus",
+      "difficulty": "extreme",
+      "wave": 10,
+      "defeats": 67
+    },
+    {
+      "name": "scorpion-focus",
+      "difficulty": "extreme",
+      "wave": 10,
+      "defeats": 67
+    },
+    {
+      "name": "scorpion-focus",
+      "difficulty": "extreme",
+      "wave": 10,
+      "defeats": 67
+    },
+    {
+      "name": "scorpion-focus",
+      "difficulty": "extreme",
+      "wave": 10,
+      "defeats": 67
+    },
+    {
+      "name": "scorpion-focus",
+      "difficulty": "extreme",
+      "wave": 10,
+      "defeats": 67
+    },
+    {
+      "name": "scorpion-focus",
+      "difficulty": "extreme",
+      "wave": 10,
+      "defeats": 67
+    },
+    {
+      "name": "scorpion-focus",
+      "difficulty": "extreme",
+      "wave": 10,
+      "defeats": 67
+    },
+    {
+      "name": "scorpion-focus",
+      "difficulty": "extreme",
+      "wave": 10,
+      "defeats": 67
+    },
+    {
+      "name": "scorpion-focus",
+      "difficulty": "extreme",
+      "wave": 10,
+      "defeats": 67
+    },
+    {
+      "name": "scorpion-focus",
+      "difficulty": "extreme",
+      "wave": 10,
+      "defeats": 67
+    },
+    {
+      "name": "scorpion-focus",
+      "difficulty": "extreme",
+      "wave": 10,
+      "defeats": 67
+    },
+    {
+      "name": "scorpion-focus",
+      "difficulty": "extreme",
+      "wave": 10,
+      "defeats": 67
+    },
+    {
+      "name": "scorpion-focus",
+      "difficulty": "extreme",
+      "wave": 10,
+      "defeats": 67
+    },
+    {
+      "name": "scorpion-focus",
+      "difficulty": "extreme",
+      "wave": 10,
+      "defeats": 67
+    },
+    {
+      "name": "scorpion-focus",
+      "difficulty": "extreme",
+      "wave": 10,
+      "defeats": 67
+    },
+    {
+      "name": "scorpion-focus",
+      "difficulty": "extreme",
+      "wave": 10,
+      "defeats": 67
+    },
+    {
+      "name": "rhino-tank",
+      "difficulty": "extreme",
+      "wave": 80,
+      "defeats": 107
+    },
+    {
+      "name": "rhino-tank",
+      "difficulty": "extreme",
+      "wave": 80,
+      "defeats": 107
+    },
+    {
+      "name": "rhino-tank",
+      "difficulty": "extreme",
+      "wave": 93,
+      "defeats": 120
+    },
+    {
+      "name": "rhino-tank",
+      "difficulty": "extreme",
+      "wave": 73,
+      "defeats": 105
+    },
+    {
+      "name": "rhino-tank",
+      "difficulty": "extreme",
+      "wave": 80,
+      "defeats": 105
+    },
+    {
+      "name": "rhino-tank",
+      "difficulty": "extreme",
+      "wave": 80,
+      "defeats": 107
+    },
+    {
+      "name": "rhino-tank",
+      "difficulty": "extreme",
+      "wave": 80,
+      "defeats": 107
+    },
+    {
+      "name": "rhino-tank",
+      "difficulty": "extreme",
+      "wave": 80,
+      "defeats": 107
+    },
+    {
+      "name": "rhino-tank",
+      "difficulty": "extreme",
+      "wave": 55,
+      "defeats": 105
+    },
+    {
+      "name": "rhino-tank",
+      "difficulty": "extreme",
+      "wave": 80,
+      "defeats": 107
+    },
+    {
+      "name": "rhino-tank",
+      "difficulty": "extreme",
+      "wave": 80,
+      "defeats": 107
+    },
+    {
+      "name": "rhino-tank",
+      "difficulty": "extreme",
+      "wave": 73,
+      "defeats": 105
+    },
+    {
+      "name": "rhino-tank",
+      "difficulty": "extreme",
+      "wave": 58,
+      "defeats": 105
+    },
+    {
+      "name": "rhino-tank",
+      "difficulty": "extreme",
+      "wave": 73,
+      "defeats": 105
+    },
+    {
+      "name": "rhino-tank",
+      "difficulty": "extreme",
+      "wave": 72,
+      "defeats": 105
+    },
+    {
+      "name": "rhino-tank",
+      "difficulty": "extreme",
+      "wave": 80,
+      "defeats": 107
+    },
+    {
+      "name": "rhino-tank",
+      "difficulty": "extreme",
+      "wave": 54,
+      "defeats": 105
+    },
+    {
+      "name": "rhino-tank",
+      "difficulty": "extreme",
+      "wave": 80,
+      "defeats": 107
+    },
+    {
+      "name": "rhino-tank",
+      "difficulty": "extreme",
+      "wave": 80,
+      "defeats": 107
+    },
+    {
+      "name": "rhino-tank",
+      "difficulty": "extreme",
+      "wave": 80,
+      "defeats": 107
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "extreme",
+      "wave": 10,
+      "defeats": 62
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "extreme",
+      "wave": 10,
+      "defeats": 62
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "extreme",
+      "wave": 10,
+      "defeats": 62
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "extreme",
+      "wave": 10,
+      "defeats": 62
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "extreme",
+      "wave": 10,
+      "defeats": 62
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "extreme",
+      "wave": 10,
+      "defeats": 62
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "extreme",
+      "wave": 10,
+      "defeats": 62
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "extreme",
+      "wave": 10,
+      "defeats": 62
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "extreme",
+      "wave": 10,
+      "defeats": 62
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "extreme",
+      "wave": 10,
+      "defeats": 62
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "extreme",
+      "wave": 10,
+      "defeats": 62
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "extreme",
+      "wave": 10,
+      "defeats": 62
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "extreme",
+      "wave": 10,
+      "defeats": 62
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "extreme",
+      "wave": 10,
+      "defeats": 62
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "extreme",
+      "wave": 10,
+      "defeats": 62
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "extreme",
+      "wave": 10,
+      "defeats": 62
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "extreme",
+      "wave": 10,
+      "defeats": 62
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "extreme",
+      "wave": 10,
+      "defeats": 62
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "extreme",
+      "wave": 10,
+      "defeats": 62
+    },
+    {
+      "name": "owl-support",
+      "difficulty": "extreme",
+      "wave": 10,
+      "defeats": 62
+    },
+    {
+      "name": "replay-farmer-9",
+      "difficulty": "extreme",
+      "wave": 50,
+      "defeats": 151
+    },
+    {
+      "name": "replay-farmer-9",
+      "difficulty": "extreme",
+      "wave": 50,
+      "defeats": 151
+    },
+    {
+      "name": "replay-farmer-9",
+      "difficulty": "extreme",
+      "wave": 50,
+      "defeats": 151
+    },
+    {
+      "name": "replay-farmer-9",
+      "difficulty": "extreme",
+      "wave": 50,
+      "defeats": 151
+    },
+    {
+      "name": "replay-farmer-9",
+      "difficulty": "extreme",
+      "wave": 50,
+      "defeats": 151
+    },
+    {
+      "name": "replay-farmer-9",
+      "difficulty": "extreme",
+      "wave": 50,
+      "defeats": 153
+    },
+    {
+      "name": "replay-farmer-9",
+      "difficulty": "extreme",
+      "wave": 50,
+      "defeats": 151
+    },
+    {
+      "name": "replay-farmer-9",
+      "difficulty": "extreme",
+      "wave": 50,
+      "defeats": 151
+    },
+    {
+      "name": "replay-farmer-9",
+      "difficulty": "extreme",
+      "wave": 50,
+      "defeats": 151
+    },
+    {
+      "name": "replay-farmer-9",
+      "difficulty": "extreme",
+      "wave": 50,
+      "defeats": 151
+    },
+    {
+      "name": "replay-farmer-9",
+      "difficulty": "extreme",
+      "wave": 50,
+      "defeats": 151
+    },
+    {
+      "name": "replay-farmer-9",
+      "difficulty": "extreme",
+      "wave": 50,
+      "defeats": 151
+    },
+    {
+      "name": "replay-farmer-9",
+      "difficulty": "extreme",
+      "wave": 50,
+      "defeats": 153
+    },
+    {
+      "name": "replay-farmer-9",
+      "difficulty": "extreme",
+      "wave": 50,
+      "defeats": 151
+    },
+    {
+      "name": "replay-farmer-9",
+      "difficulty": "extreme",
+      "wave": 50,
+      "defeats": 151
+    },
+    {
+      "name": "replay-farmer-9",
+      "difficulty": "extreme",
+      "wave": 50,
+      "defeats": 151
+    },
+    {
+      "name": "replay-farmer-9",
+      "difficulty": "extreme",
+      "wave": 50,
+      "defeats": 151
+    },
+    {
+      "name": "replay-farmer-9",
+      "difficulty": "extreme",
+      "wave": 50,
+      "defeats": 151
+    },
+    {
+      "name": "replay-farmer-9",
+      "difficulty": "extreme",
+      "wave": 50,
+      "defeats": 151
+    },
+    {
+      "name": "replay-farmer-9",
+      "difficulty": "extreme",
+      "wave": 50,
+      "defeats": 151
+    },
+    {
+      "name": "replay-farmer-15",
+      "difficulty": "extreme",
+      "wave": 100,
+      "defeats": 164
+    },
+    {
+      "name": "replay-farmer-15",
+      "difficulty": "extreme",
+      "wave": 100,
+      "defeats": 164
+    },
+    {
+      "name": "replay-farmer-15",
+      "difficulty": "extreme",
+      "wave": 100,
+      "defeats": 164
+    },
+    {
+      "name": "replay-farmer-15",
+      "difficulty": "extreme",
+      "wave": 100,
+      "defeats": 220
+    },
+    {
+      "name": "replay-farmer-15",
+      "difficulty": "extreme",
+      "wave": 100,
+      "defeats": 164
+    },
+    {
+      "name": "replay-farmer-15",
+      "difficulty": "extreme",
+      "wave": 100,
+      "defeats": 164
+    },
+    {
+      "name": "replay-farmer-15",
+      "difficulty": "extreme",
+      "wave": 92,
+      "defeats": 173
+    },
+    {
+      "name": "replay-farmer-15",
+      "difficulty": "extreme",
+      "wave": 100,
+      "defeats": 164
+    },
+    {
+      "name": "replay-farmer-15",
+      "difficulty": "extreme",
+      "wave": 100,
+      "defeats": 164
+    },
+    {
+      "name": "replay-farmer-15",
+      "difficulty": "extreme",
+      "wave": 100,
+      "defeats": 164
+    },
+    {
+      "name": "replay-farmer-15",
+      "difficulty": "extreme",
+      "wave": 100,
+      "defeats": 173
+    },
+    {
+      "name": "replay-farmer-15",
+      "difficulty": "extreme",
+      "wave": 100,
+      "defeats": 174
+    },
+    {
+      "name": "replay-farmer-15",
+      "difficulty": "extreme",
+      "wave": 100,
+      "defeats": 164
+    },
+    {
+      "name": "replay-farmer-15",
+      "difficulty": "extreme",
+      "wave": 92,
+      "defeats": 164
+    },
+    {
+      "name": "replay-farmer-15",
+      "difficulty": "extreme",
+      "wave": 100,
+      "defeats": 180
+    },
+    {
+      "name": "replay-farmer-15",
+      "difficulty": "extreme",
+      "wave": 100,
+      "defeats": 164
+    },
+    {
+      "name": "replay-farmer-15",
+      "difficulty": "extreme",
+      "wave": 100,
+      "defeats": 164
+    },
+    {
+      "name": "replay-farmer-15",
+      "difficulty": "extreme",
+      "wave": 100,
+      "defeats": 164
+    },
+    {
+      "name": "replay-farmer-15",
+      "difficulty": "extreme",
+      "wave": 100,
+      "defeats": 164
+    },
+    {
+      "name": "replay-farmer-15",
+      "difficulty": "extreme",
+      "wave": 98,
+      "defeats": 164
+    },
+    {
+      "name": "legacy-save",
+      "difficulty": "extreme",
+      "wave": 100,
+      "defeats": 116
+    },
+    {
+      "name": "legacy-save",
+      "difficulty": "extreme",
+      "wave": 100,
+      "defeats": 116
+    },
+    {
+      "name": "legacy-save",
+      "difficulty": "extreme",
+      "wave": 100,
+      "defeats": 116
+    },
+    {
+      "name": "legacy-save",
+      "difficulty": "extreme",
+      "wave": 100,
+      "defeats": 116
+    },
+    {
+      "name": "legacy-save",
+      "difficulty": "extreme",
+      "wave": 100,
+      "defeats": 116
+    },
+    {
+      "name": "legacy-save",
+      "difficulty": "extreme",
+      "wave": 100,
+      "defeats": 116
+    },
+    {
+      "name": "legacy-save",
+      "difficulty": "extreme",
+      "wave": 100,
+      "defeats": 116
+    },
+    {
+      "name": "legacy-save",
+      "difficulty": "extreme",
+      "wave": 100,
+      "defeats": 116
+    },
+    {
+      "name": "legacy-save",
+      "difficulty": "extreme",
+      "wave": 100,
+      "defeats": 116
+    },
+    {
+      "name": "legacy-save",
+      "difficulty": "extreme",
+      "wave": 100,
+      "defeats": 116
+    },
+    {
+      "name": "legacy-save",
+      "difficulty": "extreme",
+      "wave": 100,
+      "defeats": 116
+    },
+    {
+      "name": "legacy-save",
+      "difficulty": "extreme",
+      "wave": 100,
+      "defeats": 116
+    },
+    {
+      "name": "legacy-save",
+      "difficulty": "extreme",
+      "wave": 100,
+      "defeats": 116
+    },
+    {
+      "name": "legacy-save",
+      "difficulty": "extreme",
+      "wave": 100,
+      "defeats": 116
+    },
+    {
+      "name": "legacy-save",
+      "difficulty": "extreme",
+      "wave": 100,
+      "defeats": 116
+    },
+    {
+      "name": "legacy-save",
+      "difficulty": "extreme",
+      "wave": 100,
+      "defeats": 116
+    },
+    {
+      "name": "legacy-save",
+      "difficulty": "extreme",
+      "wave": 100,
+      "defeats": 116
+    },
+    {
+      "name": "legacy-save",
+      "difficulty": "extreme",
+      "wave": 100,
+      "defeats": 116
+    },
+    {
+      "name": "legacy-save",
+      "difficulty": "extreme",
+      "wave": 100,
+      "defeats": 116
+    },
+    {
+      "name": "legacy-save",
+      "difficulty": "extreme",
+      "wave": 100,
+      "defeats": 116
+    }
+  ],
+  "totalDefeats": 42316,
+  "difficultyGroups": [
+    {
+      "difficulty": "normal",
+      "total": 220,
+      "completed": 193
+    },
+    {
+      "difficulty": "hard",
+      "total": 220,
+      "completed": 138
+    },
+    {
+      "difficulty": "easy",
+      "total": 220,
+      "completed": 198
+    },
+    {
+      "difficulty": "extreme",
+      "total": 220,
+      "completed": 58
+    }
+  ],
+  "waveStats": [
+    {
+      "waveId": 1,
+      "samples": 880,
+      "avgDefeats": 0,
+      "maxDefeats": 0,
+      "avgAttempts": 1,
+      "heavyLosses": 0
+    },
+    {
+      "waveId": 2,
+      "samples": 880,
+      "avgDefeats": 0,
+      "maxDefeats": 0,
+      "avgAttempts": 1,
+      "heavyLosses": 0
+    },
+    {
+      "waveId": 3,
+      "samples": 880,
+      "avgDefeats": 0,
+      "maxDefeats": 0,
+      "avgAttempts": 1,
+      "heavyLosses": 0
+    },
+    {
+      "waveId": 4,
+      "samples": 880,
+      "avgDefeats": 0,
+      "maxDefeats": 0,
+      "avgAttempts": 1,
+      "heavyLosses": 0
+    },
+    {
+      "waveId": 5,
+      "samples": 880,
+      "avgDefeats": 0,
+      "maxDefeats": 0,
+      "avgAttempts": 1,
+      "heavyLosses": 0
+    },
+    {
+      "waveId": 6,
+      "samples": 880,
+      "avgDefeats": 0,
+      "maxDefeats": 0,
+      "avgAttempts": 1,
+      "heavyLosses": 0
+    },
+    {
+      "waveId": 7,
+      "samples": 880,
+      "avgDefeats": 0,
+      "maxDefeats": 0,
+      "avgAttempts": 1,
+      "heavyLosses": 0
+    },
+    {
+      "waveId": 8,
+      "samples": 880,
+      "avgDefeats": 0.02,
+      "maxDefeats": 1,
+      "avgAttempts": 1.02,
+      "heavyLosses": 0
+    },
+    {
+      "waveId": 9,
+      "samples": 880,
+      "avgDefeats": 0.18,
+      "maxDefeats": 6,
+      "avgAttempts": 1.18,
+      "heavyLosses": 0
+    },
+    {
+      "waveId": 10,
+      "samples": 880,
+      "avgDefeats": 12.55,
+      "maxDefeats": 60,
+      "avgAttempts": 13.48,
+      "heavyLosses": 260
+    },
+    {
+      "waveId": 11,
+      "samples": 820,
+      "avgDefeats": 0,
+      "maxDefeats": 0,
+      "avgAttempts": 1,
+      "heavyLosses": 0
+    },
+    {
+      "waveId": 12,
+      "samples": 820,
+      "avgDefeats": 0,
+      "maxDefeats": 0,
+      "avgAttempts": 1,
+      "heavyLosses": 0
+    },
+    {
+      "waveId": 13,
+      "samples": 820,
+      "avgDefeats": 0,
+      "maxDefeats": 0,
+      "avgAttempts": 1,
+      "heavyLosses": 0
+    },
+    {
+      "waveId": 14,
+      "samples": 820,
+      "avgDefeats": 0,
+      "maxDefeats": 0,
+      "avgAttempts": 1,
+      "heavyLosses": 0
+    },
+    {
+      "waveId": 15,
+      "samples": 820,
+      "avgDefeats": 0.21,
+      "maxDefeats": 24,
+      "avgAttempts": 1.21,
+      "heavyLosses": 1
+    },
+    {
+      "waveId": 16,
+      "samples": 820,
+      "avgDefeats": 0.06,
+      "maxDefeats": 17,
+      "avgAttempts": 1.06,
+      "heavyLosses": 0
+    },
+    {
+      "waveId": 17,
+      "samples": 820,
+      "avgDefeats": 0.25,
+      "maxDefeats": 10,
+      "avgAttempts": 1.25,
+      "heavyLosses": 0
+    },
+    {
+      "waveId": 18,
+      "samples": 820,
+      "avgDefeats": 0.69,
+      "maxDefeats": 8,
+      "avgAttempts": 1.69,
+      "heavyLosses": 0
+    },
+    {
+      "waveId": 19,
+      "samples": 820,
+      "avgDefeats": 1.89,
+      "maxDefeats": 40,
+      "avgAttempts": 2.89,
+      "heavyLosses": 33
+    },
+    {
+      "waveId": 20,
+      "samples": 820,
+      "avgDefeats": 3.7,
+      "maxDefeats": 41,
+      "avgAttempts": 4.7,
+      "heavyLosses": 66
+    },
+    {
+      "waveId": 21,
+      "samples": 820,
+      "avgDefeats": 0,
+      "maxDefeats": 0,
+      "avgAttempts": 1,
+      "heavyLosses": 0
+    },
+    {
+      "waveId": 22,
+      "samples": 820,
+      "avgDefeats": 0,
+      "maxDefeats": 0,
+      "avgAttempts": 1,
+      "heavyLosses": 0
+    },
+    {
+      "waveId": 23,
+      "samples": 820,
+      "avgDefeats": 0.1,
+      "maxDefeats": 3,
+      "avgAttempts": 1.1,
+      "heavyLosses": 0
+    },
+    {
+      "waveId": 24,
+      "samples": 820,
+      "avgDefeats": 0,
+      "maxDefeats": 0,
+      "avgAttempts": 1,
+      "heavyLosses": 0
+    },
+    {
+      "waveId": 25,
+      "samples": 820,
+      "avgDefeats": 0,
+      "maxDefeats": 0,
+      "avgAttempts": 1,
+      "heavyLosses": 0
+    },
+    {
+      "waveId": 26,
+      "samples": 820,
+      "avgDefeats": 1.67,
+      "maxDefeats": 28,
+      "avgAttempts": 2.67,
+      "heavyLosses": 2
+    },
+    {
+      "waveId": 27,
+      "samples": 820,
+      "avgDefeats": 0,
+      "maxDefeats": 0,
+      "avgAttempts": 1,
+      "heavyLosses": 0
+    },
+    {
+      "waveId": 28,
+      "samples": 820,
+      "avgDefeats": 0,
+      "maxDefeats": 0,
+      "avgAttempts": 1,
+      "heavyLosses": 0
+    },
+    {
+      "waveId": 29,
+      "samples": 820,
+      "avgDefeats": 0.08,
+      "maxDefeats": 10,
+      "avgAttempts": 1.08,
+      "heavyLosses": 0
+    },
+    {
+      "waveId": 30,
+      "samples": 820,
+      "avgDefeats": 7.49,
+      "maxDefeats": 50,
+      "avgAttempts": 8.49,
+      "heavyLosses": 149
+    },
+    {
+      "waveId": 31,
+      "samples": 820,
+      "avgDefeats": 0,
+      "maxDefeats": 0,
+      "avgAttempts": 1,
+      "heavyLosses": 0
+    },
+    {
+      "waveId": 32,
+      "samples": 820,
+      "avgDefeats": 0,
+      "maxDefeats": 0,
+      "avgAttempts": 1,
+      "heavyLosses": 0
+    },
+    {
+      "waveId": 33,
+      "samples": 820,
+      "avgDefeats": 0,
+      "maxDefeats": 0,
+      "avgAttempts": 1,
+      "heavyLosses": 0
+    },
+    {
+      "waveId": 34,
+      "samples": 820,
+      "avgDefeats": 0,
+      "maxDefeats": 0,
+      "avgAttempts": 1,
+      "heavyLosses": 0
+    },
+    {
+      "waveId": 35,
+      "samples": 820,
+      "avgDefeats": 0,
+      "maxDefeats": 0,
+      "avgAttempts": 1,
+      "heavyLosses": 0
+    },
+    {
+      "waveId": 36,
+      "samples": 820,
+      "avgDefeats": 0,
+      "maxDefeats": 0,
+      "avgAttempts": 1,
+      "heavyLosses": 0
+    },
+    {
+      "waveId": 37,
+      "samples": 820,
+      "avgDefeats": 0,
+      "maxDefeats": 0,
+      "avgAttempts": 1,
+      "heavyLosses": 0
+    },
+    {
+      "waveId": 38,
+      "samples": 820,
+      "avgDefeats": 0,
+      "maxDefeats": 0,
+      "avgAttempts": 1,
+      "heavyLosses": 0
+    },
+    {
+      "waveId": 39,
+      "samples": 820,
+      "avgDefeats": 0,
+      "maxDefeats": 0,
+      "avgAttempts": 1,
+      "heavyLosses": 0
+    },
+    {
+      "waveId": 40,
+      "samples": 820,
+      "avgDefeats": 0.53,
+      "maxDefeats": 24,
+      "avgAttempts": 1.53,
+      "heavyLosses": 3
+    },
+    {
+      "waveId": 41,
+      "samples": 820,
+      "avgDefeats": 0,
+      "maxDefeats": 0,
+      "avgAttempts": 1,
+      "heavyLosses": 0
+    },
+    {
+      "waveId": 42,
+      "samples": 820,
+      "avgDefeats": 0.01,
+      "maxDefeats": 7,
+      "avgAttempts": 1.01,
+      "heavyLosses": 0
+    },
+    {
+      "waveId": 43,
+      "samples": 820,
+      "avgDefeats": 0,
+      "maxDefeats": 0,
+      "avgAttempts": 1,
+      "heavyLosses": 0
+    },
+    {
+      "waveId": 44,
+      "samples": 820,
+      "avgDefeats": 0,
+      "maxDefeats": 0,
+      "avgAttempts": 1,
+      "heavyLosses": 0
+    },
+    {
+      "waveId": 45,
+      "samples": 820,
+      "avgDefeats": 0,
+      "maxDefeats": 0,
+      "avgAttempts": 1,
+      "heavyLosses": 0
+    },
+    {
+      "waveId": 46,
+      "samples": 820,
+      "avgDefeats": 0,
+      "maxDefeats": 0,
+      "avgAttempts": 1,
+      "heavyLosses": 0
+    },
+    {
+      "waveId": 47,
+      "samples": 820,
+      "avgDefeats": 0,
+      "maxDefeats": 0,
+      "avgAttempts": 1,
+      "heavyLosses": 0
+    },
+    {
+      "waveId": 48,
+      "samples": 820,
+      "avgDefeats": 0,
+      "maxDefeats": 0,
+      "avgAttempts": 1,
+      "heavyLosses": 0
+    },
+    {
+      "waveId": 49,
+      "samples": 820,
+      "avgDefeats": 0,
+      "maxDefeats": 0,
+      "avgAttempts": 1,
+      "heavyLosses": 0
+    },
+    {
+      "waveId": 50,
+      "samples": 820,
+      "avgDefeats": 4.23,
+      "maxDefeats": 60,
+      "avgAttempts": 5.18,
+      "heavyLosses": 54
+    },
+    {
+      "waveId": 51,
+      "samples": 781,
+      "avgDefeats": 0,
+      "maxDefeats": 0,
+      "avgAttempts": 1,
+      "heavyLosses": 0
+    },
+    {
+      "waveId": 52,
+      "samples": 781,
+      "avgDefeats": 0,
+      "maxDefeats": 0,
+      "avgAttempts": 1,
+      "heavyLosses": 0
+    },
+    {
+      "waveId": 53,
+      "samples": 781,
+      "avgDefeats": 0,
+      "maxDefeats": 0,
+      "avgAttempts": 1,
+      "heavyLosses": 0
+    },
+    {
+      "waveId": 54,
+      "samples": 781,
+      "avgDefeats": 0.08,
+      "maxDefeats": 60,
+      "avgAttempts": 1.08,
+      "heavyLosses": 1
+    },
+    {
+      "waveId": 55,
+      "samples": 780,
+      "avgDefeats": 0.08,
+      "maxDefeats": 60,
+      "avgAttempts": 1.08,
+      "heavyLosses": 1
+    },
+    {
+      "waveId": 56,
+      "samples": 779,
+      "avgDefeats": 0,
+      "maxDefeats": 0,
+      "avgAttempts": 1,
+      "heavyLosses": 0
+    },
+    {
+      "waveId": 57,
+      "samples": 779,
+      "avgDefeats": 0,
+      "maxDefeats": 0,
+      "avgAttempts": 1,
+      "heavyLosses": 0
+    },
+    {
+      "waveId": 58,
+      "samples": 779,
+      "avgDefeats": 0.08,
+      "maxDefeats": 60,
+      "avgAttempts": 1.08,
+      "heavyLosses": 1
+    },
+    {
+      "waveId": 59,
+      "samples": 778,
+      "avgDefeats": 0,
+      "maxDefeats": 0,
+      "avgAttempts": 1,
+      "heavyLosses": 0
+    },
+    {
+      "waveId": 60,
+      "samples": 778,
+      "avgDefeats": 0,
+      "maxDefeats": 0,
+      "avgAttempts": 1,
+      "heavyLosses": 0
+    },
+    {
+      "waveId": 61,
+      "samples": 778,
+      "avgDefeats": 0,
+      "maxDefeats": 0,
+      "avgAttempts": 1,
+      "heavyLosses": 0
+    },
+    {
+      "waveId": 62,
+      "samples": 778,
+      "avgDefeats": 0,
+      "maxDefeats": 0,
+      "avgAttempts": 1,
+      "heavyLosses": 0
+    },
+    {
+      "waveId": 63,
+      "samples": 778,
+      "avgDefeats": 0,
+      "maxDefeats": 0,
+      "avgAttempts": 1,
+      "heavyLosses": 0
+    },
+    {
+      "waveId": 64,
+      "samples": 778,
+      "avgDefeats": 0,
+      "maxDefeats": 0,
+      "avgAttempts": 1,
+      "heavyLosses": 0
+    },
+    {
+      "waveId": 65,
+      "samples": 778,
+      "avgDefeats": 0,
+      "maxDefeats": 0,
+      "avgAttempts": 1,
+      "heavyLosses": 0
+    },
+    {
+      "waveId": 66,
+      "samples": 778,
+      "avgDefeats": 0,
+      "maxDefeats": 0,
+      "avgAttempts": 1,
+      "heavyLosses": 0
+    },
+    {
+      "waveId": 67,
+      "samples": 778,
+      "avgDefeats": 0,
+      "maxDefeats": 0,
+      "avgAttempts": 1,
+      "heavyLosses": 0
+    },
+    {
+      "waveId": 68,
+      "samples": 778,
+      "avgDefeats": 0,
+      "maxDefeats": 0,
+      "avgAttempts": 1,
+      "heavyLosses": 0
+    },
+    {
+      "waveId": 69,
+      "samples": 778,
+      "avgDefeats": 0,
+      "maxDefeats": 0,
+      "avgAttempts": 1,
+      "heavyLosses": 0
+    },
+    {
+      "waveId": 70,
+      "samples": 778,
+      "avgDefeats": 0,
+      "maxDefeats": 0,
+      "avgAttempts": 1,
+      "heavyLosses": 0
+    },
+    {
+      "waveId": 71,
+      "samples": 778,
+      "avgDefeats": 0,
+      "maxDefeats": 0,
+      "avgAttempts": 1,
+      "heavyLosses": 0
+    },
+    {
+      "waveId": 72,
+      "samples": 778,
+      "avgDefeats": 1.82,
+      "maxDefeats": 60,
+      "avgAttempts": 2.81,
+      "heavyLosses": 32
+    },
+    {
+      "waveId": 73,
+      "samples": 771,
+      "avgDefeats": 0.33,
+      "maxDefeats": 60,
+      "avgAttempts": 1.33,
+      "heavyLosses": 4
+    },
+    {
+      "waveId": 74,
+      "samples": 767,
+      "avgDefeats": 0.03,
+      "maxDefeats": 2,
+      "avgAttempts": 1.03,
+      "heavyLosses": 0
+    },
+    {
+      "waveId": 75,
+      "samples": 767,
+      "avgDefeats": 0,
+      "maxDefeats": 0,
+      "avgAttempts": 1,
+      "heavyLosses": 0
+    },
+    {
+      "waveId": 76,
+      "samples": 767,
+      "avgDefeats": 0,
+      "maxDefeats": 0,
+      "avgAttempts": 1,
+      "heavyLosses": 0
+    },
+    {
+      "waveId": 77,
+      "samples": 767,
+      "avgDefeats": 0.04,
+      "maxDefeats": 32,
+      "avgAttempts": 1.04,
+      "heavyLosses": 1
+    },
+    {
+      "waveId": 78,
+      "samples": 767,
+      "avgDefeats": 0,
+      "maxDefeats": 0,
+      "avgAttempts": 1,
+      "heavyLosses": 0
+    },
+    {
+      "waveId": 79,
+      "samples": 767,
+      "avgDefeats": 0.23,
+      "maxDefeats": 60,
+      "avgAttempts": 1.23,
+      "heavyLosses": 3
+    },
+    {
+      "waveId": 80,
+      "samples": 764,
+      "avgDefeats": 1.96,
+      "maxDefeats": 60,
+      "avgAttempts": 2.93,
+      "heavyLosses": 25
+    },
+    {
+      "waveId": 81,
+      "samples": 739,
+      "avgDefeats": 0,
+      "maxDefeats": 0,
+      "avgAttempts": 1,
+      "heavyLosses": 0
+    },
+    {
+      "waveId": 82,
+      "samples": 739,
+      "avgDefeats": 0.08,
+      "maxDefeats": 60,
+      "avgAttempts": 1.08,
+      "heavyLosses": 1
+    },
+    {
+      "waveId": 83,
+      "samples": 738,
+      "avgDefeats": 0,
+      "maxDefeats": 0,
+      "avgAttempts": 1,
+      "heavyLosses": 0
+    },
+    {
+      "waveId": 84,
+      "samples": 738,
+      "avgDefeats": 0,
+      "maxDefeats": 0,
+      "avgAttempts": 1,
+      "heavyLosses": 0
+    },
+    {
+      "waveId": 85,
+      "samples": 738,
+      "avgDefeats": 0.08,
+      "maxDefeats": 60,
+      "avgAttempts": 1.08,
+      "heavyLosses": 1
+    },
+    {
+      "waveId": 86,
+      "samples": 737,
+      "avgDefeats": 0,
+      "maxDefeats": 0,
+      "avgAttempts": 1,
+      "heavyLosses": 0
+    },
+    {
+      "waveId": 87,
+      "samples": 737,
+      "avgDefeats": 0.08,
+      "maxDefeats": 60,
+      "avgAttempts": 1.08,
+      "heavyLosses": 1
+    },
+    {
+      "waveId": 88,
+      "samples": 736,
+      "avgDefeats": 0.08,
+      "maxDefeats": 60,
+      "avgAttempts": 1.08,
+      "heavyLosses": 1
+    },
+    {
+      "waveId": 89,
+      "samples": 735,
+      "avgDefeats": 0.08,
+      "maxDefeats": 60,
+      "avgAttempts": 1.08,
+      "heavyLosses": 1
+    },
+    {
+      "waveId": 90,
+      "samples": 734,
+      "avgDefeats": 0,
+      "maxDefeats": 0,
+      "avgAttempts": 1,
+      "heavyLosses": 0
+    },
+    {
+      "waveId": 91,
+      "samples": 734,
+      "avgDefeats": 1.06,
+      "maxDefeats": 60,
+      "avgAttempts": 2.04,
+      "heavyLosses": 13
+    },
+    {
+      "waveId": 92,
+      "samples": 721,
+      "avgDefeats": 2.43,
+      "maxDefeats": 60,
+      "avgAttempts": 3.4,
+      "heavyLosses": 27
+    },
+    {
+      "waveId": 93,
+      "samples": 698,
+      "avgDefeats": 2.57,
+      "maxDefeats": 60,
+      "avgAttempts": 3.53,
+      "heavyLosses": 30
+    },
+    {
+      "waveId": 94,
+      "samples": 669,
+      "avgDefeats": 0.28,
+      "maxDefeats": 60,
+      "avgAttempts": 1.27,
+      "heavyLosses": 3
+    },
+    {
+      "waveId": 95,
+      "samples": 667,
+      "avgDefeats": 1.71,
+      "maxDefeats": 60,
+      "avgAttempts": 2.68,
+      "heavyLosses": 19
+    },
+    {
+      "waveId": 96,
+      "samples": 648,
+      "avgDefeats": 0,
+      "maxDefeats": 0,
+      "avgAttempts": 1,
+      "heavyLosses": 0
+    },
+    {
+      "waveId": 97,
+      "samples": 648,
+      "avgDefeats": 0,
+      "maxDefeats": 0,
+      "avgAttempts": 1,
+      "heavyLosses": 0
+    },
+    {
+      "waveId": 98,
+      "samples": 648,
+      "avgDefeats": 0.62,
+      "maxDefeats": 60,
+      "avgAttempts": 1.61,
+      "heavyLosses": 7
+    },
+    {
+      "waveId": 99,
+      "samples": 642,
+      "avgDefeats": 0,
+      "maxDefeats": 0,
+      "avgAttempts": 1,
+      "heavyLosses": 0
+    },
+    {
+      "waveId": 100,
+      "samples": 642,
+      "avgDefeats": 6.24,
+      "maxDefeats": 60,
+      "avgAttempts": 7.15,
+      "heavyLosses": 73
+    }
+  ],
+  "surpriseWaves": [
+    {
+      "waveId": 17,
+      "count": 99
+    },
+    {
+      "waveId": 39,
+      "count": 33
+    },
+    {
+      "waveId": 58,
+      "count": 124
+    },
+    {
+      "waveId": 77,
+      "count": 93
+    },
+    {
+      "waveId": 96,
+      "count": 50
+    },
+    {
+      "waveId": 14,
+      "count": 66
+    },
+    {
+      "waveId": 27,
+      "count": 99
+    },
+    {
+      "waveId": 79,
+      "count": 92
+    },
+    {
+      "waveId": 15,
+      "count": 66
+    },
+    {
+      "waveId": 28,
+      "count": 33
+    },
+    {
+      "waveId": 52,
+      "count": 62
+    },
+    {
+      "waveId": 71,
+      "count": 31
+    },
+    {
+      "waveId": 94,
+      "count": 133
+    },
+    {
+      "waveId": 12,
+      "count": 99
+    },
+    {
+      "waveId": 31,
+      "count": 146
+    },
+    {
+      "waveId": 73,
+      "count": 93
+    },
+    {
+      "waveId": 13,
+      "count": 99
+    },
+    {
+      "waveId": 36,
+      "count": 66
+    },
+    {
+      "waveId": 55,
+      "count": 62
+    },
+    {
+      "waveId": 74,
+      "count": 61
+    },
+    {
+      "waveId": 87,
+      "count": 88
+    },
+    {
+      "waveId": 18,
+      "count": 146
+    },
+    {
+      "waveId": 32,
+      "count": 66
+    },
+    {
+      "waveId": 48,
+      "count": 33
+    },
+    {
+      "waveId": 69,
+      "count": 62
+    },
+    {
+      "waveId": 95,
+      "count": 26
+    },
+    {
+      "waveId": 19,
+      "count": 146
+    },
+    {
+      "waveId": 35,
+      "count": 99
+    },
+    {
+      "waveId": 92,
+      "count": 86
+    },
+    {
+      "waveId": 16,
+      "count": 99
+    },
+    {
+      "waveId": 56,
+      "count": 31
+    },
+    {
+      "waveId": 89,
+      "count": 87
+    },
+    {
+      "waveId": 93,
+      "count": 57
+    },
+    {
+      "waveId": 51,
+      "count": 93
+    },
+    {
+      "waveId": 97,
+      "count": 25
+    },
+    {
+      "waveId": 26,
+      "count": 33
+    },
+    {
+      "waveId": 47,
+      "count": 146
+    },
+    {
+      "waveId": 68,
+      "count": 112
+    },
+    {
+      "waveId": 54,
+      "count": 93
+    },
+    {
+      "waveId": 91,
+      "count": 27
+    },
+    {
+      "waveId": 29,
+      "count": 146
+    },
+    {
+      "waveId": 72,
+      "count": 142
+    },
+    {
+      "waveId": 98,
+      "count": 48
+    },
+    {
+      "waveId": 38,
+      "count": 66
+    },
+    {
+      "waveId": 66,
+      "count": 62
+    },
+    {
+      "waveId": 37,
+      "count": 33
+    },
+    {
+      "waveId": 75,
+      "count": 30
+    },
+    {
+      "waveId": 46,
+      "count": 33
+    },
+    {
+      "waveId": 59,
+      "count": 31
+    },
+    {
+      "waveId": 53,
+      "count": 80
+    },
+    {
+      "waveId": 86,
+      "count": 80
+    }
+  ],
+  "warnings": [
+    {
+      "waveId": 10,
+      "samples": 880,
+      "avgDefeats": 12.55,
+      "maxDefeats": 60,
+      "avgAttempts": 13.48,
+      "heavyLosses": 260
+    },
+    {
+      "waveId": 19,
+      "samples": 820,
+      "avgDefeats": 1.89,
+      "maxDefeats": 40,
+      "avgAttempts": 2.89,
+      "heavyLosses": 33
+    },
+    {
+      "waveId": 20,
+      "samples": 820,
+      "avgDefeats": 3.7,
+      "maxDefeats": 41,
+      "avgAttempts": 4.7,
+      "heavyLosses": 66
+    },
+    {
+      "waveId": 30,
+      "samples": 820,
+      "avgDefeats": 7.49,
+      "maxDefeats": 50,
+      "avgAttempts": 8.49,
+      "heavyLosses": 149
+    },
+    {
+      "waveId": 50,
+      "samples": 820,
+      "avgDefeats": 4.23,
+      "maxDefeats": 60,
+      "avgAttempts": 5.18,
+      "heavyLosses": 54
+    },
+    {
+      "waveId": 72,
+      "samples": 778,
+      "avgDefeats": 1.82,
+      "maxDefeats": 60,
+      "avgAttempts": 2.81,
+      "heavyLosses": 32
+    },
+    {
+      "waveId": 73,
+      "samples": 771,
+      "avgDefeats": 0.33,
+      "maxDefeats": 60,
+      "avgAttempts": 1.33,
+      "heavyLosses": 4
+    },
+    {
+      "waveId": 79,
+      "samples": 767,
+      "avgDefeats": 0.23,
+      "maxDefeats": 60,
+      "avgAttempts": 1.23,
+      "heavyLosses": 3
+    },
+    {
+      "waveId": 80,
+      "samples": 764,
+      "avgDefeats": 1.96,
+      "maxDefeats": 60,
+      "avgAttempts": 2.93,
+      "heavyLosses": 25
+    },
+    {
+      "waveId": 91,
+      "samples": 734,
+      "avgDefeats": 1.06,
+      "maxDefeats": 60,
+      "avgAttempts": 2.04,
+      "heavyLosses": 13
+    },
+    {
+      "waveId": 92,
+      "samples": 721,
+      "avgDefeats": 2.43,
+      "maxDefeats": 60,
+      "avgAttempts": 3.4,
+      "heavyLosses": 27
+    },
+    {
+      "waveId": 93,
+      "samples": 698,
+      "avgDefeats": 2.57,
+      "maxDefeats": 60,
+      "avgAttempts": 3.53,
+      "heavyLosses": 30
+    },
+    {
+      "waveId": 94,
+      "samples": 669,
+      "avgDefeats": 0.28,
+      "maxDefeats": 60,
+      "avgAttempts": 1.27,
+      "heavyLosses": 3
+    },
+    {
+      "waveId": 95,
+      "samples": 667,
+      "avgDefeats": 1.71,
+      "maxDefeats": 60,
+      "avgAttempts": 2.68,
+      "heavyLosses": 19
+    },
+    {
+      "waveId": 98,
+      "samples": 648,
+      "avgDefeats": 0.62,
+      "maxDefeats": 60,
+      "avgAttempts": 1.61,
+      "heavyLosses": 7
+    },
+    {
+      "waveId": 100,
+      "samples": 642,
+      "avgDefeats": 6.24,
+      "maxDefeats": 60,
+      "avgAttempts": 7.15,
+      "heavyLosses": 73
+    }
+  ]
+}

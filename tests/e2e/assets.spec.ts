@@ -95,6 +95,11 @@ test('service worker cache name is build-versioned and includes JavaScript and C
   expect(cache.paths).toContain('/assets/units/mega-brainrot-gorilla/idle.png');
   expect(cache.paths).toContain('/assets/effects/mega-brainrot-gorilla/ground-slam.png');
   expect(cache.paths).toContain('/assets/icons/mega-brainrot-gorilla.png');
+  expect(cache.paths).toContain('/assets/units/green-venom-falcon/idle.png');
+  expect(cache.paths).toContain('/assets/units/green-venom-falcon/spin.png');
+  expect(cache.paths).toContain('/assets/units/green-venom-falcon/spin-break.png');
+  expect(cache.paths).toContain('/assets/effects/green-venom-falcon/spin-aura.png');
+  expect(cache.paths).toContain('/assets/icons/green-venom-falcon.png');
   expect(cache.paths).toContain('/assets/terrain/chaos-arena/floor-tiles.png');
   expect(cache.paths).toContain('/assets/terrain/chaos-arena/decorations.png');
   expect(cache.paths).toContain('/assets/terrain/chaos-arena/tiles/basalt-01.png');
@@ -879,3 +884,78 @@ for (const character of CHARACTER_ASSETS) {
     }
   });
 }
+
+test('Green Venom Falcon unit and effect strips decode with transparent frames', async ({
+  page,
+  request,
+}) => {
+  const manifestResponse = await request.get('/assets/units/green-venom-falcon/manifest.json');
+  expect(manifestResponse.ok(), manifestResponse.url()).toBe(true);
+  const manifest = (await manifestResponse.json()) as {
+    artStatus: string;
+    animations: { key: string; url: string; frames: number }[];
+  };
+  expect(manifest.artStatus).toBe('generated-concept-placeholder-pending-abel-approval');
+  expect(manifest.animations).toHaveLength(15);
+
+  for (const path of [
+    '/assets/units/green-venom-falcon/green-venom-falcon.png',
+    '/assets/icons/green-venom-falcon.png',
+  ]) {
+    const response = await request.get(path);
+    expect(response.ok(), path).toBe(true);
+  }
+
+  await page.goto('/');
+  const result = await page.evaluate(
+    async (
+      animations: { key: string; url: string; frames: number }[],
+    ): Promise<{ key: string; width: number; height: number; opaqueFrames: number[] }[]> => {
+      async function load(url: string): Promise<HTMLImageElement> {
+        const image = new Image();
+        image.src = url;
+        await image.decode();
+        return image;
+      }
+      const canvas = document.createElement('canvas');
+      canvas.width = 256;
+      canvas.height = 256;
+      const context = canvas.getContext('2d');
+      if (!context) throw new Error('2D canvas context is unavailable');
+      const output = [];
+      for (const animation of animations) {
+        const image = await load(animation.url);
+        const opaqueFrames: number[] = [];
+        for (let frame = 0; frame < animation.frames; frame += 1) {
+          context.clearRect(0, 0, 256, 256);
+          context.drawImage(image, frame * 256, 0, 256, 256, 0, 0, 256, 256);
+          const pixels = context.getImageData(0, 0, 256, 256).data;
+          let opaque = 0;
+          for (let index = 3; index < pixels.length; index += 4) {
+            if ((pixels[index] ?? 0) > 0) opaque += 1;
+          }
+          opaqueFrames.push(opaque);
+        }
+        output.push({
+          key: animation.key,
+          width: image.naturalWidth,
+          height: image.naturalHeight,
+          opaqueFrames,
+        });
+      }
+      return output;
+    },
+    manifest.animations,
+  );
+
+  for (const animation of result) {
+    const definition = manifest.animations.find((entry) => entry.key === animation.key);
+    expect(definition, animation.key).toBeDefined();
+    expect(animation.width, animation.key).toBe(256 * (definition?.frames ?? 0));
+    expect(animation.height, animation.key).toBe(256);
+    expect(animation.opaqueFrames, animation.key).toHaveLength(definition?.frames ?? 0);
+    for (const [frame, opaque] of animation.opaqueFrames.entries()) {
+      expect(opaque, `${animation.key} frame ${frame}`).toBeGreaterThan(0);
+    }
+  }
+});

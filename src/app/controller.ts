@@ -1,25 +1,29 @@
 import { SoundManager, type SoundName } from '../audio/soundManager';
 import {
-  applyDefeatComfort,
   markTutorialSeen,
   mergeCharacters,
   moveCharacter,
   purchaseCharacter,
+  purchaseExpansion,
+  purchaseUpgrade,
   resolveBattleRewards,
+  resolveDefeatRewards,
+  sellCharacter,
   undoMerge,
   updateSettings,
   type BattleLevelUp,
   type MergeUndo,
 } from '../game/commands/profileCommands';
-import { CHARACTER_DEFINITIONS } from '../game/domain/characters';
-import { MAX_CHARACTER_XP } from '../game/domain/progression';
-import { emptyAlliedCells } from '../game/domain/grid';
+import { CHARACTER_DEFINITIONS, sellRefund } from '../game/domain/characters';
+import { characterLevelFromXp, MAX_CHARACTER_XP } from '../game/domain/progression';
 import {
-  createInitialProfile,
-  DEFEAT_COMFORT_COINS,
-  DEFAULT_PROFILE_NAME,
-} from '../game/domain/state';
+  emptyAlliedCells,
+  playableAlliedCellCount,
+  unlockedExpansionColumns,
+} from '../game/domain/grid';
+import { createInitialProfile, DEFAULT_PROFILE_NAME } from '../game/domain/state';
 import {
+  MAX_DEFEAT_XP_REWARDS,
   MAX_MERGE_RANK,
   MAX_PROFILES,
   TOTAL_WAVES,
@@ -27,14 +31,16 @@ import {
   type CharacterInstance,
   type CharacterTypeId,
   type CommandErrorCode,
+  type Difficulty,
   type GamePhase,
   type GameScreen,
   type GameSettings,
   type PlayerProfile,
   type Result,
+  type UpgradeKind,
   type WaveEnemyConfig,
 } from '../game/domain/types';
-import { getWave } from '../game/domain/waves';
+import { resolveWave } from '../game/domain/mirrorInvasion';
 import { createBattleState } from '../game/simulation/battle';
 import { BattleSession } from '../game/simulation/battleSession';
 import type { BattleEvent, BattleState } from '../game/simulation/types';
@@ -49,7 +55,8 @@ export const MAX_UNDO_MERGES = 10;
 
 export type SaveStatus = 'idle' | 'saving' | 'saved' | 'error' | 'unavailable';
 export type ToastTone = 'info' | 'success' | 'error' | 'reward';
-export type ModalId = 'settings' | 'save' | 'tutorial' | 'import-confirm' | 'surrender' | null;
+export type ModalId =
+  'settings' | 'save' | 'tutorial' | 'import-confirm' | 'surrender' | 'sell-confirm' | null;
 
 export interface ToastView {
   readonly id: number;
@@ -64,6 +71,7 @@ export interface FatalErrorView {
 
 export interface BattleHudView {
   readonly waveId: number;
+  readonly difficulty: Difficulty;
   readonly elapsedSec: number;
   readonly alliesAlive: number;
   readonly enemiesAlive: number;
@@ -75,6 +83,7 @@ export interface BattleHudView {
 export interface BattleResultView {
   readonly outcome: 'victory' | 'defeat';
   readonly waveId: number;
+  readonly difficulty: Difficulty;
   readonly rewardCoins: number;
   readonly comfortCoins: number;
   readonly firstCompletion: boolean;
@@ -86,6 +95,8 @@ export interface BattleResultView {
   readonly levelUps: readonly BattleLevelUp[];
   readonly maxLevelReached: boolean;
   readonly persistenceError: boolean;
+  readonly defeatXpCount: number;
+  readonly defeatXpLimit: number;
 }
 
 export interface PrepView {
@@ -100,13 +111,25 @@ export interface PrepView {
     readonly characterId: string;
   }[];
   readonly reducedMotion: boolean;
+  readonly expansionCells: number;
+  readonly unlockedExpansionColumns: readonly number[];
 }
 
 export interface VisualEvent {
   readonly id: number;
-  readonly type: 'merge' | 'purchase' | 'move';
+  readonly type: 'merge' | 'purchase' | 'move' | 'sell';
   readonly col: number;
   readonly row: number;
+}
+
+export interface SellOfferView {
+  readonly characterId: string;
+  readonly typeId: CharacterTypeId;
+  readonly mergeRank: number;
+  readonly level: number;
+  readonly col: number;
+  readonly row: number;
+  readonly refund: number;
 }
 
 export interface AppSnapshot {
@@ -128,6 +151,7 @@ export interface AppSnapshot {
   readonly pendingImportName: string | null;
   readonly creatingProfile: boolean;
   readonly undoCount: number;
+  readonly sellOffer: SellOfferView | null;
 }
 
 interface ControllerOptions {
@@ -180,6 +204,10 @@ function errorKey(code: CommandErrorCode): TranslationKey {
     'no-army': 'errorNoArmy',
     'invalid-import': 'errorInvalidImport',
     'invalid-character': 'errorInvalidCharacter',
+    'invalid-upgrade': 'errorInvalidUpgrade',
+    'max-upgrade': 'errorMaxUpgrade',
+    'max-expansion': 'errorMaxExpansion',
+    'cell-locked': 'errorCellLocked',
     'corrupt-save': 'errorCorruptSave',
     'save-failed': 'errorSaveFailed',
     'unsupported-version': 'errorUnsupportedVersion',
@@ -194,6 +222,7 @@ function buildHud(state: BattleState, session: BattleSession): BattleHudView {
   const enemiesAlive = state.units.filter((unit) => unit.team === 'enemy' && unit.alive).length;
   return {
     waveId: state.waveId,
+    difficulty: state.difficulty,
     elapsedSec: state.elapsedSec,
     alliesAlive,
     enemiesAlive,
@@ -247,7 +276,10 @@ export class GameController {
   private pendingImport: PlayerProfile | null = null;
   private pendingImportName: string | null = null;
   private creatingProfile = false;
+  private sellOffer: SellOfferView | null = null;
   private profileChangeToken = 0;
+
+  private expansionPurchaseInFlight = false;
 
   private toastCounter = 0;
   private toastTimer: ReturnType<typeof setTimeout> | null = null;
@@ -317,6 +349,7 @@ export class GameController {
       pendingImportName: this.pendingImportName,
       creatingProfile: this.creatingProfile,
       undoCount: this.undoStack.length,
+      sellOffer: this.sellOffer,
     };
   }
 
@@ -502,6 +535,7 @@ export class GameController {
     this.phase = 'preparation';
     this.result = null;
     this.selectedId = null;
+    this.sellOffer = null;
     this.modal = null;
     this.fatalError = null;
     this.emit();
@@ -516,6 +550,7 @@ export class GameController {
     this.phase = 'preparation';
     this.result = null;
     this.selectedId = null;
+    this.sellOffer = null;
     this.prepVersion += 1;
     this.modal = this.profile.tutorialSeen ? null : 'tutorial';
     this.emit();
@@ -575,6 +610,7 @@ export class GameController {
 
     this.creatingProfile = false;
     this.undoStack = [];
+    this.sellOffer = null;
     this.profile = profile;
     this.profiles = this.upsertSummary(profile);
     this.saveStatus = this.storageAvailable ? 'saved' : 'unavailable';
@@ -648,6 +684,7 @@ export class GameController {
     }
     await this.sessionGuard.releaseOthers(profileId);
     this.undoStack = [];
+    this.sellOffer = null;
     this.profile = loaded.value;
     this.profiles = this.upsertSummary(loaded.value);
     this.screen = 'menu';
@@ -681,6 +718,7 @@ export class GameController {
       await this.sessionGuard.release(profileId);
       this.profile = null;
       this.undoStack = [];
+      this.sellOffer = null;
     }
     this.screen = 'profiles';
     this.showToastKey('profileDeleted', {}, 'info');
@@ -694,6 +732,7 @@ export class GameController {
   }
 
   openModal(modal: Exclude<ModalId, null>): void {
+    if (modal !== 'sell-confirm') this.sellOffer = null;
     this.modal = modal;
     this.emit();
   }
@@ -703,6 +742,7 @@ export class GameController {
       this.markTutorial();
       return;
     }
+    if (this.modal === 'sell-confirm') this.sellOffer = null;
     this.modal = null;
     this.emit();
   }
@@ -873,11 +913,159 @@ export class GameController {
       this.sound.play('error');
       return;
     }
-    this.selectedId = outcome.value.purchased.id;
-    this.pushVisualEvent('purchase', outcome.value.purchased.col, outcome.value.purchased.row);
+    const purchased = outcome.value.purchased;
+    const nextProfile = outcome.value.profile;
+    this.selectedId = purchased.id;
+    this.pushVisualEvent('purchase', purchased.col, purchased.row);
     this.sound.play('buy');
-    this.showToastKey('toastPurchased', { name: CHARACTER_DEFINITIONS[typeId].nameHu }, 'success');
+    this.showToastKey(
+      'toastPurchased',
+      {
+        name: CHARACTER_DEFINITIONS[typeId].nameHu,
+        col: purchased.col + 1,
+        row: purchased.row + 1,
+        coins: nextProfile.coins,
+        count: nextProfile.characters.length,
+        max: playableAlliedCellCount(nextProfile.expansionCells),
+      },
+      'success',
+    );
+    this.commitProfile(nextProfile);
+  }
+
+  purchaseUpgrade(kind: UpgradeKind): void {
+    if (!this.profile || this.phase !== 'preparation') return;
+    const outcome = purchaseUpgrade(this.profile, kind, this.now());
+    if (!outcome.ok) {
+      this.showToastKey(errorKey(outcome.error), {}, 'error');
+      this.sound.play('error');
+      return;
+    }
+    this.sound.play('buy');
+    this.showToastKey(
+      'toastUpgradePurchased',
+      {
+        name: t(`upgrade${kind === 'army-attack' ? 'AttackName' : 'HpName'}`),
+        level: outcome.value.level,
+        coins: outcome.value.profile.coins,
+      },
+      'success',
+    );
     this.commitProfile(outcome.value.profile);
+  }
+
+  purchaseExpansion(): void {
+    if (!this.profile || this.phase !== 'preparation') return;
+    // Idempotency guard: a single physical tap/click can be delivered as a burst of
+    // duplicate events in the same task (touch + pointer + click). The purchase command is
+    // atomic, but only the first invocation of this burst may run; the guard resets on the
+    // next microtask so legitimate consecutive purchases (separate user actions) still work.
+    if (this.expansionPurchaseInFlight) return;
+    this.expansionPurchaseInFlight = true;
+    queueMicrotask(() => {
+      this.expansionPurchaseInFlight = false;
+    });
+    const outcome = purchaseExpansion(this.profile, this.now());
+    if (!outcome.ok) {
+      this.showToastKey(errorKey(outcome.error), {}, 'error');
+      this.sound.play('error');
+      return;
+    }
+    this.sound.play('buy');
+    this.pushVisualEvent('purchase', outcome.value.unlockedColumn, 5);
+    this.showToastKey(
+      'toastExpansionPurchased',
+      {
+        count: outcome.value.expansionCells,
+        coins: outcome.value.profile.coins,
+      },
+      'success',
+    );
+    this.commitProfile(outcome.value.profile);
+  }
+
+  requestSell(characterId?: string): void {
+    if (this.phase !== 'preparation' || !this.profile) return;
+    const targetId = characterId ?? this.selectedId;
+    if (!targetId || targetId !== this.selectedId) {
+      this.sound.play('error');
+      this.showToastKey('toastSellNoSelection', {}, 'info');
+      return;
+    }
+    const character = this.profile.characters.find((unit) => unit.id === targetId);
+    if (!character) {
+      this.sound.play('error');
+      this.showToastKey('errorNotFound', {}, 'error');
+      return;
+    }
+    this.sellOffer = {
+      characterId: character.id,
+      typeId: character.typeId,
+      mergeRank: character.mergeRank,
+      level: characterLevelFromXp(character.totalXp),
+      col: character.col,
+      row: character.row,
+      refund: sellRefund(character.typeId, character.mergeRank),
+    };
+    this.modal = 'sell-confirm';
+    this.sound.play('click');
+    this.emit();
+  }
+
+  cancelSell(): void {
+    if (!this.sellOffer && this.modal !== 'sell-confirm') return;
+    this.sellOffer = null;
+    this.modal = null;
+    this.sound.play('click');
+    this.emit();
+  }
+
+  confirmSell(): void {
+    if (this.phase !== 'preparation' || !this.profile) {
+      this.sellOffer = null;
+      if (this.modal === 'sell-confirm') this.modal = null;
+      this.emit();
+      return;
+    }
+    const offer = this.sellOffer;
+    this.sellOffer = null;
+    if (!offer) {
+      if (this.modal === 'sell-confirm') this.modal = null;
+      this.emit();
+      return;
+    }
+    this.modal = null;
+    const outcome = sellCharacter(this.profile, offer.characterId, this.now());
+    if (!outcome.ok) {
+      this.sound.play('error');
+      this.showToastKey(errorKey(outcome.error), {}, 'error');
+      this.emit();
+      return;
+    }
+    const sold = outcome.value.sold;
+    this.undoStack = [];
+    if (this.selectedId === sold.id) this.selectedId = null;
+    this.pushVisualEvent('sell', sold.col, sold.row);
+    this.sound.play('reward');
+    this.showToastKey(
+      'toastSold',
+      {
+        name: CHARACTER_DEFINITIONS[sold.typeId].nameHu,
+        coins: outcome.value.refund,
+        count: outcome.value.profile.characters.length,
+        max: playableAlliedCellCount(outcome.value.profile.expansionCells),
+      },
+      'success',
+    );
+    this.commitProfile(outcome.value.profile);
+  }
+
+  setDifficulty(difficulty: Difficulty): void {
+    if (!this.profile || this.phase !== 'preparation') return;
+    if (this.profile.settings.difficulty === difficulty) return;
+    const next = updateSettings(this.profile, { difficulty }, this.now());
+    this.commitProfile(next);
+    this.sound.play('click');
   }
 
   updateSettings(settings: Partial<GameSettings>): void {
@@ -899,7 +1087,7 @@ export class GameController {
       this.sound.play('error');
       return;
     }
-    const wave = getWave(this.profile.currentWave);
+    const wave = resolveWave(this.profile, this.profile.currentWave);
     if (!wave) {
       this.showToastKey('errorInvalidWave', {}, 'error');
       return;
@@ -909,13 +1097,20 @@ export class GameController {
     const seed = hashSeed(
       `${this.profile.profileId}:${wave.id}:${this.battleAttempt}:${this.profile.coins}`,
     );
-    const state = createBattleState(this.profile.characters, wave, seed);
+    const state = createBattleState(
+      this.profile.characters,
+      wave,
+      seed,
+      this.profile.settings.difficulty,
+      this.profile.upgrades,
+    );
     this.session = new BattleSession(state, this.profile.settings.battleSpeed);
     this.phase = 'battle';
     this.result = null;
     this.selectedId = null;
     this.battleResolved = false;
     this.battleFinishing = false;
+    this.sellOffer = null;
     this.battleRoster = this.profile.characters.map((character) => character.id);
     this.battleWaveId = wave.id;
     this.lastFrameTime = 0;
@@ -982,6 +1177,7 @@ export class GameController {
     this.battleFinishing = true;
     if (this.modal === 'surrender') this.modal = null;
     const waveId = this.battleWaveId ?? this.profile.currentWave;
+    const difficulty = this.session?.getState().difficulty ?? this.profile.settings.difficulty;
     const profileToken = this.profileChangeToken;
     if (status === 'victory') {
       const resolved = resolveBattleRewards(this.profile, waveId, this.battleRoster, this.now());
@@ -990,6 +1186,7 @@ export class GameController {
         this.result = {
           outcome: 'victory',
           waveId,
+          difficulty,
           rewardCoins: 0,
           comfortCoins: 0,
           firstCompletion: false,
@@ -1001,6 +1198,8 @@ export class GameController {
           levelUps: [],
           maxLevelReached: false,
           persistenceError: false,
+          defeatXpCount: 0,
+          defeatXpLimit: MAX_DEFEAT_XP_REWARDS,
         };
         this.phase = 'result';
         this.sound.play('victory');
@@ -1017,6 +1216,7 @@ export class GameController {
       const result: BattleResultView = {
         outcome: 'victory',
         waveId,
+        difficulty,
         rewardCoins: resolved.value.rewardCoins,
         comfortCoins: 0,
         firstCompletion: resolved.value.firstCompletion,
@@ -1031,6 +1231,8 @@ export class GameController {
             character.totalXp >= MAX_CHARACTER_XP && this.battleRoster.includes(character.id),
         ),
         persistenceError: false,
+        defeatXpCount: 0,
+        defeatXpLimit: MAX_DEFEAT_XP_REWARDS,
       };
       const persistence = this.saveCriticalProfile(nextProfile);
       void persistence.then((saved) => {
@@ -1067,30 +1269,37 @@ export class GameController {
       return;
     }
 
-    const comfort = applyDefeatComfort(this.profile, this.now());
-    const nextProfile = comfort.ok ? comfort.value : this.profile;
-    const comfortCoins = comfort.ok ? DEFEAT_COMFORT_COINS : 0;
+    const defeated = resolveDefeatRewards(this.profile, waveId, this.battleRoster, this.now());
+    const nextProfile = defeated.ok ? defeated.value.profile : this.profile;
     const result: BattleResultView = {
       outcome: 'defeat',
       waveId,
+      difficulty,
       rewardCoins: 0,
-      comfortCoins,
+      comfortCoins: defeated.ok ? defeated.value.comfortCoins : 0,
       firstCompletion: false,
       firstCompletionBonus: 0,
       completedAllWaves: false,
       nextWave: nextProfile.currentWave,
-      xpPerUnit: 0,
-      totalXpAwarded: 0,
-      levelUps: [],
-      maxLevelReached: false,
+      xpPerUnit: defeated.ok ? defeated.value.xpPerUnit : 0,
+      totalXpAwarded: defeated.ok ? defeated.value.totalXpAwarded : 0,
+      levelUps: defeated.ok ? defeated.value.levelUps : [],
+      maxLevelReached: defeated.ok
+        ? nextProfile.characters.some(
+            (character) =>
+              character.totalXp >= MAX_CHARACTER_XP && this.battleRoster.includes(character.id),
+          )
+        : false,
       persistenceError: false,
+      defeatXpCount: defeated.ok ? defeated.value.defeatXpCountAfter : 0,
+      defeatXpLimit: MAX_DEFEAT_XP_REWARDS,
     };
-    if (!comfort.ok) {
+    if (!defeated.ok) {
       this.battleFinishing = false;
       this.result = { ...result, comfortCoins: 0 };
       this.phase = 'result';
       this.sound.play('defeat');
-      this.showToastKey(errorKey(comfort.error), {}, 'error');
+      this.showToastKey(errorKey(defeated.error), {}, 'error');
       if (this.session) this.battleHud = buildHud(this.session.getState(), this.session);
       this.emit();
       return;
@@ -1110,7 +1319,7 @@ export class GameController {
           this.result = result;
           this.phase = 'result';
           this.sound.play('defeat');
-          this.showToastKey('toastComfort', { coins: DEFEAT_COMFORT_COINS }, 'info');
+          this.showToastKey('toastComfort', { coins: result.comfortCoins }, 'info');
         }
       } else if (stillActive) {
         this.failBattlePersistence(result);
@@ -1136,6 +1345,8 @@ export class GameController {
       levelUps: [],
       maxLevelReached: false,
       persistenceError: true,
+      defeatXpCount: 0,
+      defeatXpLimit: MAX_DEFEAT_XP_REWARDS,
     };
     this.phase = 'result';
     this.sound.play('error');
@@ -1339,6 +1550,7 @@ export class GameController {
       this.writes.invalidate(imported.profileId);
     }
     this.undoStack = [];
+    this.sellOffer = null;
     this.profile = imported;
     this.profiles = this.upsertSummary(imported);
     this.pendingImport = null;
@@ -1377,12 +1589,16 @@ export class GameController {
         validMoveCells: [],
         mergeTargets: [],
         reducedMotion: true,
+        expansionCells: 0,
+        unlockedExpansionColumns: [],
       };
     }
     const selected =
       this.profile.characters.find((character) => character.id === this.selectedId) ?? null;
     const moves = selected
-      ? emptyAlliedCells(this.profile.characters).map((cell) => ({ ...cell }))
+      ? emptyAlliedCells(this.profile.characters, this.profile.expansionCells).map((cell) => ({
+          ...cell,
+        }))
       : [];
     const mergeTargets = selected
       ? this.profile.characters
@@ -1399,7 +1615,7 @@ export class GameController {
             characterId: character.id,
           }))
       : [];
-    const wave = getWave(this.profile.currentWave);
+    const wave = resolveWave(this.profile, this.profile.currentWave);
     return {
       version: this.prepVersion,
       selectedId: this.selectedId,
@@ -1408,6 +1624,8 @@ export class GameController {
       validMoveCells: moves,
       mergeTargets,
       reducedMotion: this.profile.settings.reducedMotion,
+      expansionCells: this.profile.expansionCells,
+      unlockedExpansionColumns: unlockedExpansionColumns(this.profile.expansionCells),
     };
   }
 

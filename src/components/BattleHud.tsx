@@ -1,13 +1,28 @@
 import { useGameController } from '../app/ControllerContext';
 import type { BattleHudView } from '../app/controller';
-import { formatSeconds, t } from '../localization';
+import { difficultyLabel, formatSeconds, t } from '../localization';
 import { Icon } from './Icon';
 
 export function BattleHud({ battle }: { battle: BattleHudView }) {
   const controller = useGameController();
+  const difficultyIcon =
+    battle.difficulty === 'easy'
+      ? 'life-heart'
+      : battle.difficulty === 'extreme'
+        ? 'skull'
+        : battle.difficulty === 'hard'
+          ? 'swords'
+          : 'shield';
   return (
     <section className="battle-hud" data-testid="battle-hud">
       <div className="battle-hud__counts">
+        <span
+          className={`difficulty-chip difficulty-chip--${battle.difficulty}`}
+          data-testid="battle-difficulty"
+        >
+          <Icon name={difficultyIcon} size={14} />
+          {difficultyLabel(battle.difficulty)}
+        </span>
         <span className="battle-hud__count battle-hud__count--ally">
           <span className="battle-hud__dot" aria-hidden="true" />
           {t('battleAllies')} <strong data-testid="allies-alive">{battle.alliesAlive}</strong>

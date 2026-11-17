@@ -1,4 +1,5 @@
 import {
+  DEFEAT_XP_RATE,
   MAX_CHARACTER_LEVEL,
   MAX_CHARACTER_XP,
   MAX_MERGE_RANK,
@@ -67,6 +68,10 @@ export function battleXpPerUnit(waveId: number, firstCompletion: boolean): numbe
   const base = baseWaveXp(waveId);
   if (firstCompletion) return base;
   return Math.floor((base * REPLAY_XP_NUMERATOR) / REPLAY_XP_DENOMINATOR);
+}
+
+export function defeatXpPerUnit(waveId: number, firstCompletion: boolean): number {
+  return Math.floor(battleXpPerUnit(waveId, firstCompletion) * DEFEAT_XP_RATE);
 }
 
 export function xpProgress(totalXp: number): {

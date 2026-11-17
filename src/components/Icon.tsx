@@ -17,6 +17,9 @@ export type IconName =
   | 'arrow-left'
   | 'close'
   | 'merge'
+  | 'sell'
+  | 'shield'
+  | 'swords'
   | 'undo'
   | 'tutorial'
   | 'check'
@@ -64,6 +67,10 @@ const PATHS: Readonly<Record<IconName, string>> = {
   'arrow-left': 'M20 12H5m0 0 5-5m-5 5 5 5',
   close: 'M6 6l12 12M18 6 6 18',
   merge: 'M7 4h6l-2 6h5l-9 10 2-8H4l3-8Z',
+  sell: 'M4 7h16l-2 12H6L4 7Zm4-3h8l1 3H7l1-3Zm1 7h6',
+  shield: 'M12 3 4 6v5c0 5 3.4 8.4 8 10 4.6-1.6 8-5 8-10V6l-8-3Z',
+  swords:
+    'M4 4l5 5m0 0 9 9m-9-9 2-2M4 4l2 2m13 13-2-2M20 4l-5 5m0 0-9 9m9-9-2-2M20 4l-2 2M3 17l4 4m0 0 3-3M3 17l3-3',
   undo: 'M9 14 4 9l5-5M4 9h11a6 6 0 0 1 0 12h-2',
   tutorial:
     'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18Zm0 13.5v.5M9.5 9a2.5 2.5 0 1 1 3.6 2.2c-.7.4-1.1 1-1.1 1.8',

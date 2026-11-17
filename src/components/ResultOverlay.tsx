@@ -2,7 +2,7 @@ import { useGameController } from '../app/ControllerContext';
 import type { BattleResultView } from '../app/controller';
 import { CHARACTER_DEFINITIONS } from '../game/domain/characters';
 import { getWave } from '../game/domain/waves';
-import { formatNumber, t } from '../localization';
+import { difficultyLabel, formatNumber, t } from '../localization';
 import { CreatureAvatar } from './CreatureAvatar';
 import { Icon } from './Icon';
 import { Modal } from './Modal';
@@ -11,6 +11,14 @@ export function ResultOverlay({ result }: { result: BattleResultView }) {
   const controller = useGameController();
   const wave = getWave(result.waveId);
   const victory = result.outcome === 'victory';
+  const difficultyIcon =
+    result.difficulty === 'easy'
+      ? 'life-heart'
+      : result.difficulty === 'extreme'
+        ? 'skull'
+        : result.difficulty === 'hard'
+          ? 'swords'
+          : 'shield';
   return (
     <Modal
       title={victory ? t('resultVictory') : t('resultDefeat')}
@@ -26,6 +34,13 @@ export function ResultOverlay({ result }: { result: BattleResultView }) {
           <p className="result-wave">
             {t('waveLabel', { wave: result.waveId })}
             {wave ? ` · ${wave.nameHu}` : ''}
+          </p>
+          <p
+            className={`difficulty-chip difficulty-chip--${result.difficulty} result-difficulty`}
+            data-testid="result-difficulty"
+          >
+            <Icon name={difficultyIcon} size={14} />
+            {difficultyLabel(result.difficulty)}
           </p>
           <h3 className="result-title" data-testid="result-title">
             {victory
@@ -106,7 +121,36 @@ export function ResultOverlay({ result }: { result: BattleResultView }) {
         </div>
       ) : null}
 
-      {victory && result.levelUps.length > 0 ? (
+      {!result.persistenceError && !victory ? (
+        <div className="reward-box reward-box--xp" data-testid="result-defeat-xp">
+          <Icon name="bolt" size={24} />
+          <div>
+            <p className="panel-label">{t('resultDefeatXpReward')}</p>
+            {result.xpPerUnit > 0 ? (
+              <>
+                <p className="reward-amount">
+                  {t('resultDefeatXpPerUnit', { xp: formatNumber(result.xpPerUnit) })}
+                </p>
+                <p className="progression-hint">
+                  {t('resultDefeatXpTotal', { xp: formatNumber(result.totalXpAwarded) })}
+                </p>
+              </>
+            ) : (
+              <p className="progression-hint">{t('resultDefeatXpCapped')}</p>
+            )}
+            <p className="progression-hint" data-testid="result-defeat-xp-count">
+              {t('resultDefeatXpCount', {
+                count: result.defeatXpCount,
+                limit: result.defeatXpLimit,
+              })}
+            </p>
+            {result.xpPerUnit > 0 && result.defeatXpCount >= result.defeatXpLimit ? (
+              <p className="progression-hint">{t('resultDefeatXpCapped')}</p>
+            ) : null}
+          </div>
+        </div>
+      ) : null}
+      {!result.persistenceError && result.levelUps.length > 0 ? (
         <div className="level-up-box" data-testid="result-level-ups">
           <p className="panel-label">{t('resultLevelUps')}</p>
           <ul className="level-up-list">

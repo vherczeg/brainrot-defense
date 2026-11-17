@@ -70,10 +70,10 @@ describe('LaserCrocodileLocomotion', () => {
     const config = tweens.added[0]?.config;
     expect(config).toMatchObject({
       targets: sprite,
-      scaleX: 0.4375 * 1.02,
-      scaleY: 0.4375 * 1.02,
-      y: 30 - 1.5,
-      duration: 1400,
+      scaleX: 0.4375 * 1.012,
+      scaleY: 0.4375 * 1.012,
+      y: 30,
+      duration: 2400,
       ease: 'Sine.easeInOut',
       yoyo: true,
       repeat: -1,
@@ -89,7 +89,7 @@ describe('LaserCrocodileLocomotion', () => {
 
     expect(tweens.added).toHaveLength(1);
     const config = tweens.added[0]?.config;
-    expect(config).toMatchObject({ y: 30 - 1.8, duration: 440, yoyo: true, repeat: -1 });
+    expect(config).toMatchObject({ y: 30 - 1, duration: 520, yoyo: true, repeat: -1 });
     expect(config?.scaleX).toBeUndefined();
     expect(config?.scaleY).toBeUndefined();
   });
@@ -117,7 +117,7 @@ describe('LaserCrocodileLocomotion', () => {
     expect(tweens.added).toHaveLength(2);
     expect(tweens.added[0]?.removed).toBe(true);
     expect(tweens.added[1]?.removed).toBe(false);
-    expect(tweens.added[1]?.config.duration).toBe(440);
+    expect(tweens.added[1]?.config.duration).toBe(520);
   });
 
   it('switches back from walk to idle', () => {
@@ -129,8 +129,8 @@ describe('LaserCrocodileLocomotion', () => {
     locomotion.play('idle');
 
     expect(tweens.added).toHaveLength(2);
-    expect(tweens.added[1]?.config.duration).toBe(1400);
-    expect(tweens.added[1]?.config.scaleX).toBe(0.4375 * 1.02);
+    expect(tweens.added[1]?.config.duration).toBe(2400);
+    expect(tweens.added[1]?.config.scaleX).toBe(0.4375 * 1.012);
   });
 
   it('stop removes the active tween and resets the sprite to its base transform', () => {

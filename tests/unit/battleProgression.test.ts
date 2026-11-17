@@ -55,10 +55,10 @@ describe('battle XP distribution', () => {
     if (!result.ok) throw new Error('expected success');
     expect(result.value.firstCompletion).toBe(false);
     expect(result.value.xpPerUnit).toBe(18);
-    expect(result.value.rewardCoins).toBe(60);
+    expect(result.value.rewardCoins).toBe(42);
     expect(result.value.firstCompletionBonus).toBe(0);
     expect(result.value.profile.characters.find((c) => c.id === 'unit-1')?.totalXp).toBe(3043);
-    expect(result.value.profile.coins).toBe(60);
+    expect(result.value.profile.coins).toBe(42);
   });
 
   it('reports level-ups and never awards XP twice for the same resolution', () => {
@@ -129,8 +129,8 @@ describe('battle XP distribution', () => {
     const second = resolveBattleRewards(first.value.profile, 1, ['unit-1'], NOW + 1);
     if (!second.ok) throw new Error('expected success');
     expect(first.value.rewardCoins).toBe(120);
-    expect(first.value.firstCompletionBonus).toBe(60);
-    expect(second.value.rewardCoins).toBe(60);
+    expect(first.value.firstCompletionBonus).toBe(78);
+    expect(second.value.rewardCoins).toBe(42);
     expect(second.value.firstCompletionBonus).toBe(0);
     expect(second.value.xpPerUnit).toBe(18);
   });

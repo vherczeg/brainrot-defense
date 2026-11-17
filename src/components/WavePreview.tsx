@@ -1,6 +1,9 @@
+import { chapterOfWave } from '../game/domain/chapters';
 import { ENEMY_DEFINITIONS } from '../game/domain/enemies';
+import { waveModifierConfig } from '../game/domain/modifiers';
+import { isSurpriseBossWaveFor } from '../game/domain/surpriseBosses';
 import type { PlayerProfile } from '../game/domain/types';
-import { getWave } from '../game/domain/waves';
+import { resolveWave } from '../game/domain/mirrorInvasion';
 import { formatNumber, t } from '../localization';
 import { CreatureAvatar } from './CreatureAvatar';
 import { Icon } from './Icon';
@@ -12,8 +15,12 @@ interface EnemyStack {
 }
 
 export function WavePreview({ profile }: { profile: PlayerProfile }) {
-  const wave = getWave(profile.currentWave);
+  const wave = resolveWave(profile, profile.currentWave);
   if (!wave) return null;
+
+  const chapter = chapterOfWave(wave.id);
+  const modifier = waveModifierConfig(wave.modifier);
+  const surpriseBoss = isSurpriseBossWaveFor(profile.profileId, wave.id);
 
   const stacks = new Map<string, EnemyStack>();
   for (const enemy of wave.enemies) {
@@ -30,17 +37,28 @@ export function WavePreview({ profile }: { profile: PlayerProfile }) {
     <section className="panel wave-preview">
       <div className="panel-heading">
         <div>
-          <p className="panel-label">{t('waveLabel', { wave: wave.id })}</p>
+          <p className="panel-label">
+            {t('waveLabel', { wave: wave.id })}
+            {chapter
+              ? ` · ${t('chapterLabel', { chapter: chapter.id, name: chapter.nameHu })}`
+              : ''}
+          </p>
           <h2 className="panel-title">{wave.nameHu}</h2>
         </div>
-        {wave.isBossWave ? (
+        {wave.isBossWave || surpriseBoss ? (
           <span className="boss-chip">
             <Icon name="boss-crown" size={15} />
-            {t('bossLabel')}
+            {surpriseBoss ? t('surpriseBossLabel') : t('bossLabel')}
           </span>
         ) : null}
       </div>
       <p className="wave-preview__description">{wave.descriptionHu}</p>
+      {modifier ? (
+        <p className="wave-modifier" data-testid="wave-modifier">
+          <Icon name="bolt" size={14} />
+          <strong>{modifier.nameHu}:</strong> {modifier.descriptionHu}
+        </p>
+      ) : null}
       <div className="enemy-stack-list" aria-label={t('wavePreviewTitle')}>
         {[...stacks.values()].map((stack) => {
           const definition = ENEMY_DEFINITIONS[stack.typeId];

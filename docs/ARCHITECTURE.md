@@ -75,14 +75,23 @@ available for future formations.
 - Rendering frame rate does not drive the simulation; the browser controller loop calls
   `session.advance(delta)`, and the Phaser scene only displays snapshots.
 - Long tab suspensions are bounded, preventing catch-up spirals.
+- Battle time limits are wave-dependent: 90 s up to wave 20 (the original campaign) and 120 s
+  from wave 21 onward, so late-game tank/boss fights have room to resolve.
 
 Targeting is deterministic: nearest living opponent, then lowest stable entity ID as tie-breaker.
-Units act in stable ID order. Enemies use `enemy-{wave}-{n}` IDs, allies use `unit-{n}`, so in the
-current ID ordering enemies act before allies when IDs are sorted ascending. This is an explicit,
-tested rule, not an accident of object iteration.
+Units act in stable ID order. Enemies use `enemy-{wave}-{n}` IDs (summoned extras use
+`enemy-{wave}-summon-{n}`), allies use `unit-{n}`, so in the current ID ordering enemies act
+before allies when IDs are sorted ascending. This is an explicit, tested rule, not an accident of
+object iteration.
 
 Projectiles are visual only; damage is applied synchronously at the attack tick. This removes
 race conditions between projectile travel, death, and target acquisition.
+
+The M4 campaign adds data-driven enemy abilities to the same deterministic loop: poison, spin
+shield, earthquake (M1.1), plus heal, thorns, phase shift (broken by lightning/frost), summon,
+enrage steps, death explosion, stun, armor aura, ally splash and ally slow. Ability timers are
+tick-based and ability damage derives from the scaled attack value, so every new mechanic is
+reproducible seed-for-seed.
 
 ### 5. Persistence
 

@@ -94,7 +94,7 @@ export function MainMenu({ snapshot }: { snapshot: AppSnapshot }) {
           {profile ? (
             <div className="progress-block">
               <div className="progress-block__labels">
-                <span>{t('menuProgress', { done: completed })}</span>
+                <span>{t('menuProgress', { done: completed, total: TOTAL_WAVES })}</span>
                 <span>{Math.round((completed / TOTAL_WAVES) * 100)}%</span>
               </div>
               <div className="progress-track">

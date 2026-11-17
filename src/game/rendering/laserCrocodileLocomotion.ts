@@ -37,11 +37,11 @@ export interface LaserCrocodileLocomotionOptions {
   readonly walkDuration?: number;
 }
 
-export const LASER_CROCODILE_IDLE_BREATHE_SCALE = 0.02;
-export const LASER_CROCODILE_IDLE_FLOAT = 1.5;
-export const LASER_CROCODILE_IDLE_DURATION = 1400;
-export const LASER_CROCODILE_WALK_BOB = 1.8;
-export const LASER_CROCODILE_WALK_DURATION = 440;
+export const LASER_CROCODILE_IDLE_BREATHE_SCALE = 0.012;
+export const LASER_CROCODILE_IDLE_FLOAT = 0;
+export const LASER_CROCODILE_IDLE_DURATION = 2400;
+export const LASER_CROCODILE_WALK_BOB = 1;
+export const LASER_CROCODILE_WALK_DURATION = 520;
 
 export class LaserCrocodileLocomotion {
   private readonly sprite: LaserLocomotionSprite;

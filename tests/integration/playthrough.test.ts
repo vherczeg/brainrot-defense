@@ -62,7 +62,7 @@ beforeEach(() => {
 });
 
 describe('complete M0 playthrough', () => {
-  it('can complete all ten waves with an ordinary merge strategy', () => {
+  it('can complete all twenty waves with an ordinary merge strategy', () => {
     let profile = createInitialProfile({
       profileId: 'playthrough',
       name: 'Ábel',
@@ -70,7 +70,10 @@ describe('complete M0 playthrough', () => {
       reducedMotion: true,
     });
 
-    for (const wave of WAVE_DEFINITIONS) {
+    // The 100-wave campaign is covered by the balance simulator (scripts/simulate.ts);
+    // this integration test keeps proving that the original 20-wave stretch stays
+    // completable with an ordinary strategy.
+    for (const wave of WAVE_DEFINITIONS.slice(0, 20)) {
       profile = spendCoins(profile);
       const roster = profile.characters.map((character) => character.id);
       const battle = createBattleState(profile.characters, wave, wave.id * 1000);
@@ -82,9 +85,10 @@ describe('complete M0 playthrough', () => {
       profile = resolved.value.profile;
     }
 
-    expect(profile.completedWaves).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
-    expect(profile.currentWave).toBe(10);
-    expect(profile.unlockedWave).toBe(10);
+    expect(profile.completedWaves).toEqual(Array.from({ length: 20 }, (_, index) => index + 1));
+    // Completing wave 20 now opens wave 21 of the extended 100-wave campaign.
+    expect(profile.currentWave).toBe(21);
+    expect(profile.unlockedWave).toBe(21);
     expect(profile.coins).toBeGreaterThan(0);
     profile.characters.forEach((character) => {
       expect(character.mergeRank).toBeGreaterThanOrEqual(1);
@@ -137,7 +141,7 @@ describe('complete M0 playthrough', () => {
       if (!repeat.ok) throw new Error('claim failed');
       profile = repeat.value.profile;
     }
-    expect(profile.coins).toBe(coinsAfterFirst + 3 * 60);
+    expect(profile.coins).toBe(coinsAfterFirst + 3 * 42);
     expect(profile.completedWaves).toEqual([1]);
     expect(profile.currentWave).toBe(2);
   });

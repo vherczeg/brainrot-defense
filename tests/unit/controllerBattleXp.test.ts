@@ -63,7 +63,7 @@ describe('controller battle XP integration', () => {
     ]);
   });
 
-  it('grants zero XP on defeat and on surrender', async () => {
+  it('grants partial XP on a legitimate defeat but nothing on surrender', async () => {
     const initial = profile('battle-xp-defeat');
     const repository = new FakeRepository([initial], initial.profileId);
     const controller = makeController(repository);
@@ -72,19 +72,21 @@ describe('controller battle XP integration', () => {
     controller.startBattle();
     finish(controller, 'defeat');
     await repository.settle();
-    expect(controller.getSnapshot().result?.xpPerUnit).toBe(0);
-    expect(controller.getSnapshot().activeProfile?.characters.every((c) => c.totalXp === 0)).toBe(
-      true,
-    );
+    expect(controller.getSnapshot().result?.xpPerUnit).toBe(15);
+    expect(controller.getSnapshot().activeProfile?.characters.map((c) => c.totalXp)).toEqual([
+      15, 15, 15,
+    ]);
+    expect(controller.getSnapshot().activeProfile?.defeatXpCounts[0]).toBe(1);
 
     controller.goToMenu();
     controller.enterGame();
     controller.startBattle();
     controller.surrenderBattle();
     expect(controller.getSnapshot().phase).toBe('preparation');
-    expect(controller.getSnapshot().activeProfile?.characters.every((c) => c.totalXp === 0)).toBe(
-      true,
-    );
+    expect(controller.getSnapshot().activeProfile?.characters.map((c) => c.totalXp)).toEqual([
+      15, 15, 15,
+    ]);
+    expect(controller.getSnapshot().activeProfile?.defeatXpCounts[0]).toBe(1);
   });
 
   it('does not award XP to a character added after the battle started', async () => {

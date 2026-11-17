@@ -1,4 +1,5 @@
 import { hu, type TranslationKey } from './hu';
+import type { Difficulty } from '../game/domain/types';
 
 export type { TranslationKey };
 export { hu };
@@ -11,6 +12,18 @@ export function t(key: TranslationKey, vars: TranslationVars = {}): string {
     const value = vars[name];
     return value === undefined ? match : String(value);
   });
+}
+
+export function difficultyLabel(difficulty: Difficulty): string {
+  return t(
+    difficulty === 'easy'
+      ? 'difficultyEasy'
+      : difficulty === 'hard'
+        ? 'difficultyHard'
+        : difficulty === 'extreme'
+          ? 'difficultyExtreme'
+          : 'difficultyNormal',
+  );
 }
 
 export function formatNumber(value: number): string {
