@@ -279,6 +279,8 @@ export class GameController {
   private sellOffer: SellOfferView | null = null;
   private profileChangeToken = 0;
 
+  private expansionPurchaseInFlight = false;
+
   private toastCounter = 0;
   private toastTimer: ReturnType<typeof setTimeout> | null = null;
   private visualEvents: VisualEvent[] = [];
@@ -954,6 +956,15 @@ export class GameController {
 
   purchaseExpansion(): void {
     if (!this.profile || this.phase !== 'preparation') return;
+    // Idempotency guard: a single physical tap/click can be delivered as a burst of
+    // duplicate events in the same task (touch + pointer + click). The purchase command is
+    // atomic, but only the first invocation of this burst may run; the guard resets on the
+    // next microtask so legitimate consecutive purchases (separate user actions) still work.
+    if (this.expansionPurchaseInFlight) return;
+    this.expansionPurchaseInFlight = true;
+    queueMicrotask(() => {
+      this.expansionPurchaseInFlight = false;
+    });
     const outcome = purchaseExpansion(this.profile, this.now());
     if (!outcome.ok) {
       this.showToastKey(errorKey(outcome.error), {}, 'error');

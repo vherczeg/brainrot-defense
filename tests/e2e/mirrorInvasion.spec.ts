@@ -74,3 +74,58 @@ test('buys expansion cells and shows the mirror invasion tradeoff', async ({ pag
 
   expect(consoleErrors, 'no runtime console errors').toEqual([]);
 });
+
+test('a single tap purchases exactly one expansion cell', async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== 'mobile-chromium', 'mobile touch test');
+  const profile = {
+    profileId: 'mirror-touch',
+    name: 'Tükör',
+    coins: 100000,
+    currentWave: 22,
+    unlockedWave: 22,
+    completedWaves: Array.from({ length: 21 }, (_, i) => i + 1),
+    characters: [
+      { id: 'unit-1', typeId: 'laser-crocodile', mergeRank: 8, totalXp: 50000, col: 0, row: 3 },
+    ],
+    defeatXpCounts: Array.from({ length: 100 }, () => 0),
+    upgrades: {},
+    expansionCells: 0,
+    settings: { soundEnabled: false, reducedMotion: false, battleSpeed: 2, difficulty: 'normal' },
+    tutorialSeen: true,
+    nextCharacterId: 2,
+    createdAt: 1,
+    lastSavedAt: 2,
+  };
+
+  await page.goto('/');
+  await page.getByTestId('menu-continue').click();
+  const dismiss = page.getByTestId('tutorial-dismiss');
+  if (await dismiss.isVisible()) await dismiss.click();
+  await page.getByTestId('game-menu').click();
+  await page.getByTestId('menu-save').click();
+  await page.getByTestId('import-save-input').setInputFiles({
+    name: 'mirror.json',
+    mimeType: 'application/json',
+    buffer: Buffer.from(JSON.stringify(envelope(profile))),
+  });
+  await expect(page.getByTestId('import-confirm-modal')).toBeVisible();
+  await page.getByTestId('import-confirm').click();
+  await expect(page.getByTestId('battle-button')).toBeVisible();
+
+  const box = await page.getByTestId('expansion-buy').boundingBox();
+  expect(box).not.toBeNull();
+  if (!box) return;
+
+  // Ensure the button is on-screen before tapping.
+  await page.getByTestId('expansion-buy').scrollIntoViewIfNeeded();
+  await page.waitForTimeout(200);
+  const visible = await page.getByTestId('expansion-buy').boundingBox();
+  expect(visible).not.toBeNull();
+  if (!visible) return;
+
+  // A single physical tap must unlock exactly one cell.
+  await page.touchscreen.tap(visible.x + visible.width / 2, visible.y + visible.height / 2);
+  await page.waitForTimeout(500);
+  await expect(page.getByTestId('expansion-count')).toContainText('1/6');
+  await expect(page.getByTestId('coins-value')).toHaveAttribute('data-coins', '90000');
+});
