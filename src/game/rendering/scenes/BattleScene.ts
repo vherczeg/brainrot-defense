@@ -11,6 +11,12 @@ import {
   type CharacterTypeId,
   type EnemyTypeId,
 } from '../../../game/domain/types';
+import {
+  EXPANSION_COLUMN_ORDER,
+  EXPANSION_ROW,
+  isPlayableAlliedCell,
+  unlockedExpansionColumns,
+} from '../../../game/domain/grid';
 import type { BattleEvent, BattleState, BattleUnit } from '../../../game/simulation/types';
 import { isFlyingCreature } from '../creatureArt';
 import { drawCreatureArtToGraphics } from '../creatureArtPhaser';
@@ -110,7 +116,7 @@ import {
 import { t } from '../../../localization';
 
 export const SCENE_WIDTH = 760;
-export const SCENE_HEIGHT = 640;
+export const SCENE_HEIGHT = 740;
 const BOARD_X = 56;
 const BOARD_Y = 70;
 const CELL = 108;
@@ -304,6 +310,7 @@ export class BattleScene extends Phaser.Scene {
   private terrainLayer: Phaser.GameObjects.Container | null = null;
   private portalLayer: Phaser.GameObjects.Container | null = null;
   private staticBoard: Phaser.GameObjects.Graphics | null = null;
+  private expansionLayer: Phaser.GameObjects.Graphics | null = null;
   private groundEffectsLayer: Phaser.GameObjects.Container | null = null;
   private highlightLayer: Phaser.GameObjects.Graphics | null = null;
   private hoverLayer: Phaser.GameObjects.Graphics | null = null;
@@ -355,6 +362,8 @@ export class BattleScene extends Phaser.Scene {
     this.drawSpawnPortal();
     this.staticBoard = this.add.graphics();
     this.drawStaticBoard();
+    this.expansionLayer = this.add.graphics();
+    this.drawExpansion();
     this.groundEffectsLayer = this.add.container(0, 0);
     this.highlightLayer = this.add.graphics();
     this.hoverLayer = this.add.graphics();
@@ -378,7 +387,7 @@ export class BattleScene extends Phaser.Scene {
       })
       .setOrigin(1, 0);
     this.add
-      .text(BOARD_X + BOARD_WIDTH / 2, BOARD_Y + BOARD_HEIGHT + 18, t('canvasAllyZone'), {
+      .text(BOARD_X + BOARD_WIDTH / 2, BOARD_Y + BOARD_HEIGHT + 8, t('canvasAllyZone'), {
         fontFamily: '"Trebuchet MS", "Segoe UI", sans-serif',
         fontSize: '12px',
         fontStyle: 'bold',
@@ -491,6 +500,8 @@ export class BattleScene extends Phaser.Scene {
         const y = BOARD_Y + row * CELL + GAP;
         const size = CELL - GAP * 2;
         const isEnemy = row < ALLY_ROW_START;
+        const isExpansion = row === EXPANSION_ROW;
+        if (isExpansion) continue; // drawn by drawExpansion (purchase state)
         g.fillStyle(isEnemy ? 0x431733 : 0x0d3b2c, isEnemy ? 0.3 : 0.34);
         g.fillRoundedRect(x, y, size, size, 14);
         g.lineStyle(1.5, isEnemy ? 0x78254d : 0x1b6c50, 0.85);
@@ -511,6 +522,47 @@ export class BattleScene extends Phaser.Scene {
     }
     for (let row = 0; row < BOARD_ROWS; row += 1) {
       this.add.text(BOARD_X - 20, cellCenterY(row), String(row + 1), labelStyle).setOrigin(0.5);
+    }
+  }
+
+  private drawExpansion(): void {
+    const g = this.expansionLayer;
+    if (!g) return;
+    g.clear();
+    const expansionCells = this.controller.getSnapshot().activeProfile?.expansionCells ?? 0;
+    const unlocked = new Set(unlockedExpansionColumns(expansionCells));
+
+    // Third defender row: purchased cells are green, the rest stay locked and dimmed.
+    for (let col = 0; col < BOARD_COLS; col += 1) {
+      const x = BOARD_X + col * CELL + GAP;
+      const y = BOARD_Y + EXPANSION_ROW * CELL + GAP;
+      const size = CELL - GAP * 2;
+      if (unlocked.has(col)) {
+        g.fillStyle(0x0d3b2c, 0.34);
+        g.fillRoundedRect(x, y, size, size, 14);
+        g.lineStyle(1.5, 0x1b6c50, 0.85);
+        g.strokeRoundedRect(x, y, size, size, 14);
+      } else {
+        g.fillStyle(0x0a1024, 0.72);
+        g.fillRoundedRect(x, y, size, size, 14);
+        g.lineStyle(1.5, 0x3a466a, 0.6);
+        g.strokeRoundedRect(x, y, size, size, 14);
+      }
+    }
+
+    // Mirror Invasion: each purchased cell mirrors onto the enemy front row as a red cell.
+    const mirrorCount = Math.min(BOARD_COLS, Math.max(0, Math.floor(expansionCells)));
+    const mirrorRow = ALLY_ROW_START - 1;
+    for (let index = 0; index < mirrorCount; index += 1) {
+      const col = EXPANSION_COLUMN_ORDER[index];
+      if (col === undefined) continue;
+      const x = BOARD_X + col * CELL + GAP;
+      const y = BOARD_Y + mirrorRow * CELL + GAP;
+      const size = CELL - GAP * 2;
+      g.fillStyle(0xff5a7a, 0.2);
+      g.fillRoundedRect(x, y, size, size, 14);
+      g.lineStyle(2, 0xff5a7a, 0.75);
+      g.strokeRoundedRect(x, y, size, size, 14);
     }
   }
 
@@ -560,6 +612,7 @@ export class BattleScene extends Phaser.Scene {
     this.highlightLayer?.clear();
     this.hoverLayer?.clear();
     this.selectedWasSet = false;
+    this.drawExpansion();
 
     const snapshot = this.controller.getSnapshot();
     this.waveLabel?.setText(
@@ -1879,7 +1932,7 @@ export class BattleScene extends Phaser.Scene {
       selected !== undefined &&
       selected.typeId === occupant.typeId &&
       selected.mergeRank === occupant.mergeRank;
-    const isValidMove = !occupant && cell.row >= ALLY_ROW_START;
+    const isValidMove = !occupant && isPlayableAlliedCell(cell.col, cell.row, view.expansionCells);
     g.lineStyle(4, canMerge ? 0xc067ff : isValidMove ? 0x4cff9a : 0xff5a7a, 0.95);
     g.strokeRoundedRect(
       BOARD_X + cell.col * CELL + GAP + 2,

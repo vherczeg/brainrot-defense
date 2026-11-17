@@ -1,7 +1,7 @@
 import { useGameController } from '../app/ControllerContext';
 import type { AppSnapshot, SaveStatus } from '../app/controller';
 import { formatNumber, t } from '../localization';
-import { MAX_ARMY_SIZE } from '../game/domain/types';
+import { playableAlliedCellCount } from '../game/domain/grid';
 import { getWave } from '../game/domain/waves';
 import { AccessiblePlacement } from './AccessiblePlacement';
 import { BattleHud } from './BattleHud';
@@ -166,7 +166,7 @@ export function GameScreen({ snapshot }: { snapshot: AppSnapshot }) {
                   >
                     {t('armyCount', {
                       count: profile.characters.length,
-                      max: MAX_ARMY_SIZE,
+                      max: playableAlliedCellCount(profile.expansionCells),
                     })}
                   </span>
                 </div>

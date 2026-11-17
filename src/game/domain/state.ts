@@ -62,6 +62,7 @@ export function createInitialProfile(options: CreateProfileOptions = {}): Player
     characters: STARTER_CHARACTERS.map((character) => ({ ...character })),
     defeatXpCounts: Array.from({ length: TOTAL_WAVES }, () => 0),
     upgrades: {},
+    expansionCells: 0,
     settings: {
       ...DEFAULT_SETTINGS,
       reducedMotion: options.reducedMotion ?? DEFAULT_SETTINGS.reducedMotion,

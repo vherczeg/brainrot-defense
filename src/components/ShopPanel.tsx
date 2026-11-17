@@ -5,6 +5,7 @@ import {
   characterStats,
 } from '../game/domain/characters';
 import { emptyAlliedCells } from '../game/domain/grid';
+import { nextExpansionCost } from '../game/domain/expansion';
 import {
   UPGRADE_DEFINITIONS,
   UPGRADE_KINDS,
@@ -12,7 +13,12 @@ import {
   upgradeCost,
   upgradeLevel,
 } from '../game/domain/upgrades';
-import type { CharacterTypeId, PlayerProfile, UpgradeKind } from '../game/domain/types';
+import {
+  MAX_EXPANSION_CELLS,
+  type CharacterTypeId,
+  type PlayerProfile,
+  type UpgradeKind,
+} from '../game/domain/types';
 import { formatNumber, t } from '../localization';
 import { CreatureAvatar } from './CreatureAvatar';
 import { Icon } from './Icon';
@@ -142,6 +148,62 @@ export function ShopPanel({ profile }: { profile: PlayerProfile }) {
           })}
         </div>
       </div>
+      <ExpansionBlock profile={profile} />
     </section>
+  );
+}
+
+function ExpansionBlock({ profile }: { profile: PlayerProfile }) {
+  const controller = useGameController();
+  const count = Math.min(MAX_EXPANSION_CELLS, Math.max(0, Math.floor(profile.expansionCells)));
+  const cost = nextExpansionCost(count);
+  const maxed = cost === null;
+  const tooExpensive = !maxed && profile.coins < (cost ?? 0);
+  return (
+    <div className="upgrades-block expansion-block" data-testid="expansion-block">
+      <div className="panel-heading">
+        <div>
+          <p className="panel-label">{t('expansionTitle')}</p>
+          <h2 className="panel-title">{t('expansionSubtitle')}</h2>
+        </div>
+        <span className="rank-chip" data-testid="expansion-count">
+          {t('expansionExtraCells', { count, max: MAX_EXPANSION_CELLS })}
+        </span>
+      </div>
+      <p className="upgrade-card__description">{t('expansionTradeoffHint')}</p>
+      <p className="expansion-mirror" data-testid="expansion-mirror">
+        <Icon name="skull" size={14} />
+        {t('expansionMirrorInvasion', { count })}
+      </p>
+      <article className="upgrade-card">
+        <div className="upgrade-card__body">
+          <h3 className="upgrade-card__name">{t('expansionBuy')}</h3>
+          <p className="upgrade-card__description">
+            {maxed
+              ? t('errorMaxExpansion')
+              : t('expansionCostLabel', { cost: formatNumber(cost ?? 0) })}
+          </p>
+        </div>
+        <button
+          type="button"
+          className="buy-button"
+          disabled={maxed || tooExpensive}
+          title={
+            maxed ? t('errorMaxExpansion') : tooExpensive ? t('notEnoughCoins') : t('expansionBuy')
+          }
+          onClick={() => controller.purchaseExpansion()}
+          data-testid="expansion-buy"
+        >
+          {maxed ? (
+            t('expansionMaxLabel')
+          ) : (
+            <>
+              <Icon name="coin" size={18} />
+              {formatNumber(cost ?? 0)}
+            </>
+          )}
+        </button>
+      </article>
+    </div>
   );
 }

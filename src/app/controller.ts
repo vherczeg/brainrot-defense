@@ -4,6 +4,7 @@ import {
   mergeCharacters,
   moveCharacter,
   purchaseCharacter,
+  purchaseExpansion,
   purchaseUpgrade,
   resolveBattleRewards,
   resolveDefeatRewards,
@@ -15,10 +16,13 @@ import {
 } from '../game/commands/profileCommands';
 import { CHARACTER_DEFINITIONS, sellRefund } from '../game/domain/characters';
 import { characterLevelFromXp, MAX_CHARACTER_XP } from '../game/domain/progression';
-import { emptyAlliedCells } from '../game/domain/grid';
+import {
+  emptyAlliedCells,
+  playableAlliedCellCount,
+  unlockedExpansionColumns,
+} from '../game/domain/grid';
 import { createInitialProfile, DEFAULT_PROFILE_NAME } from '../game/domain/state';
 import {
-  MAX_ARMY_SIZE,
   MAX_DEFEAT_XP_REWARDS,
   MAX_MERGE_RANK,
   MAX_PROFILES,
@@ -36,7 +40,7 @@ import {
   type UpgradeKind,
   type WaveEnemyConfig,
 } from '../game/domain/types';
-import { getWaveForProfile } from '../game/domain/waves';
+import { resolveWave } from '../game/domain/mirrorInvasion';
 import { createBattleState } from '../game/simulation/battle';
 import { BattleSession } from '../game/simulation/battleSession';
 import type { BattleEvent, BattleState } from '../game/simulation/types';
@@ -107,6 +111,8 @@ export interface PrepView {
     readonly characterId: string;
   }[];
   readonly reducedMotion: boolean;
+  readonly expansionCells: number;
+  readonly unlockedExpansionColumns: readonly number[];
 }
 
 export interface VisualEvent {
@@ -200,6 +206,8 @@ function errorKey(code: CommandErrorCode): TranslationKey {
     'invalid-character': 'errorInvalidCharacter',
     'invalid-upgrade': 'errorInvalidUpgrade',
     'max-upgrade': 'errorMaxUpgrade',
+    'max-expansion': 'errorMaxExpansion',
+    'cell-locked': 'errorCellLocked',
     'corrupt-save': 'errorCorruptSave',
     'save-failed': 'errorSaveFailed',
     'unsupported-version': 'errorUnsupportedVersion',
@@ -916,7 +924,7 @@ export class GameController {
         row: purchased.row + 1,
         coins: nextProfile.coins,
         count: nextProfile.characters.length,
-        max: MAX_ARMY_SIZE,
+        max: playableAlliedCellCount(nextProfile.expansionCells),
       },
       'success',
     );
@@ -937,6 +945,27 @@ export class GameController {
       {
         name: t(`upgrade${kind === 'army-attack' ? 'AttackName' : 'HpName'}`),
         level: outcome.value.level,
+        coins: outcome.value.profile.coins,
+      },
+      'success',
+    );
+    this.commitProfile(outcome.value.profile);
+  }
+
+  purchaseExpansion(): void {
+    if (!this.profile || this.phase !== 'preparation') return;
+    const outcome = purchaseExpansion(this.profile, this.now());
+    if (!outcome.ok) {
+      this.showToastKey(errorKey(outcome.error), {}, 'error');
+      this.sound.play('error');
+      return;
+    }
+    this.sound.play('buy');
+    this.pushVisualEvent('purchase', outcome.value.unlockedColumn, 5);
+    this.showToastKey(
+      'toastExpansionPurchased',
+      {
+        count: outcome.value.expansionCells,
         coins: outcome.value.profile.coins,
       },
       'success',
@@ -1013,7 +1042,7 @@ export class GameController {
         name: CHARACTER_DEFINITIONS[sold.typeId].nameHu,
         coins: outcome.value.refund,
         count: outcome.value.profile.characters.length,
-        max: MAX_ARMY_SIZE,
+        max: playableAlliedCellCount(outcome.value.profile.expansionCells),
       },
       'success',
     );
@@ -1047,7 +1076,7 @@ export class GameController {
       this.sound.play('error');
       return;
     }
-    const wave = getWaveForProfile(this.profile.profileId, this.profile.currentWave);
+    const wave = resolveWave(this.profile, this.profile.currentWave);
     if (!wave) {
       this.showToastKey('errorInvalidWave', {}, 'error');
       return;
@@ -1549,12 +1578,16 @@ export class GameController {
         validMoveCells: [],
         mergeTargets: [],
         reducedMotion: true,
+        expansionCells: 0,
+        unlockedExpansionColumns: [],
       };
     }
     const selected =
       this.profile.characters.find((character) => character.id === this.selectedId) ?? null;
     const moves = selected
-      ? emptyAlliedCells(this.profile.characters).map((cell) => ({ ...cell }))
+      ? emptyAlliedCells(this.profile.characters, this.profile.expansionCells).map((cell) => ({
+          ...cell,
+        }))
       : [];
     const mergeTargets = selected
       ? this.profile.characters
@@ -1571,7 +1604,7 @@ export class GameController {
             characterId: character.id,
           }))
       : [];
-    const wave = getWaveForProfile(this.profile.profileId, this.profile.currentWave);
+    const wave = resolveWave(this.profile, this.profile.currentWave);
     return {
       version: this.prepVersion,
       selectedId: this.selectedId,
@@ -1580,6 +1613,8 @@ export class GameController {
       validMoveCells: moves,
       mergeTargets,
       reducedMotion: this.profile.settings.reducedMotion,
+      expansionCells: this.profile.expansionCells,
+      unlockedExpansionColumns: unlockedExpansionColumns(this.profile.expansionCells),
     };
   }
 

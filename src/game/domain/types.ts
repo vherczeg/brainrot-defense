@@ -1,6 +1,7 @@
 export const BOARD_COLS = 6;
-export const BOARD_ROWS = 5;
+export const BOARD_ROWS = 6;
 export const ALLY_ROW_START = 3;
+export const MAX_EXPANSION_CELLS = 6;
 export const MAX_MERGE_RANK = 10;
 export const MAX_CHARACTER_LEVEL = 100;
 export const MAX_CHARACTER_XP = 245025;
@@ -100,6 +101,7 @@ export interface PlayerProfile {
   readonly characters: readonly CharacterInstance[];
   readonly defeatXpCounts: readonly number[];
   readonly upgrades: Readonly<Record<string, number>>;
+  readonly expansionCells: number;
   readonly settings: GameSettings;
   readonly tutorialSeen: boolean;
   readonly nextCharacterId: number;
@@ -298,6 +300,8 @@ export type CommandErrorCode =
   | 'invalid-character'
   | 'invalid-upgrade'
   | 'max-upgrade'
+  | 'max-expansion'
+  | 'cell-locked'
   | 'corrupt-save'
   | 'save-failed'
   | 'unsupported-version'

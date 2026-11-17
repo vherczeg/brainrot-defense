@@ -87,7 +87,7 @@ test.describe('M3.3 selection safety', () => {
     if (!box) return;
     const point = (col: number, row: number) => ({
       x: box.x + ((56 + (col + 0.5) * 108) / 760) * box.width,
-      y: box.y + ((70 + (row + 0.5) * 108) / 640) * box.height,
+      y: box.y + ((70 + (row + 0.5) * 108) / 740) * box.height,
     });
     const from = point(2, 4);
     const to = point(0, 3);

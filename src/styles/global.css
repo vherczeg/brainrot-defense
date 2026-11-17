@@ -1183,7 +1183,7 @@ ol {
 .battlefield {
   position: relative;
   width: 100%;
-  aspect-ratio: 760 / 640;
+  aspect-ratio: 760 / 740;
   overflow: hidden;
   border-radius: 18px;
 }
@@ -1673,6 +1673,28 @@ ol {
   color: #a8ecff;
 }
 
+/* Pályabővítés (Mirror Invasion) */
+.expansion-mirror {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  margin: 8px 0;
+  padding: 7px 10px;
+  border-radius: 11px;
+  border: 1px solid rgba(255, 90, 122, 0.34);
+  background: rgba(255, 90, 122, 0.08);
+  color: #ffb8c6;
+  font-size: 0.68rem;
+  font-weight: 800;
+  line-height: 1.4;
+}
+
+.expansion-mirror svg {
+  flex: 0 0 auto;
+  margin-top: 1px;
+  color: #ff7a8e;
+}
+
 /* Inspector */
 .inspector {
   display: flex;
@@ -2023,6 +2045,13 @@ ol {
   border-color: rgba(192, 103, 255, 0.65);
   background: rgba(192, 103, 255, 0.12);
   color: #e1c3ff;
+}
+
+.accessible-cell--locked {
+  border-color: rgba(90, 104, 150, 0.4);
+  background: rgba(10, 16, 36, 0.5);
+  color: var(--muted-2);
+  opacity: 0.6;
 }
 
 .accessible-cell__coord {
@@ -3164,7 +3193,7 @@ ol {
     font-size: 0.68rem;
   }
   .battlefield {
-    aspect-ratio: 760 / 660;
+    aspect-ratio: 760 / 740;
   }
   .accessible-cell {
     min-height: 46px;

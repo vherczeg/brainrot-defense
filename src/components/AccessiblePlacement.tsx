@@ -1,7 +1,7 @@
 import { useGameController } from '../app/ControllerContext';
 import type { PrepView } from '../app/controller';
 import { CHARACTER_DEFINITIONS } from '../game/domain/characters';
-import { cellKey } from '../game/domain/grid';
+import { cellKey, EXPANSION_ROW } from '../game/domain/grid';
 import { characterLevelFromXp } from '../game/domain/progression';
 import { ALLY_ROW_START, BOARD_COLS } from '../game/domain/types';
 import { t } from '../localization';
@@ -18,7 +18,8 @@ export function AccessiblePlacement({
   const moveKeys = new Set(prep.validMoveCells.map((cell) => cellKey(cell.col, cell.row)));
   const mergeKeys = new Set(prep.mergeTargets.map((cell) => cellKey(cell.col, cell.row)));
   const characters = new Map(prep.characters.map((character) => [character.id, character]));
-  const rows = [ALLY_ROW_START, ALLY_ROW_START + 1];
+  const unlockedColumns = new Set(prep.unlockedExpansionColumns);
+  const rows = [ALLY_ROW_START, ALLY_ROW_START + 1, EXPANSION_ROW];
 
   return (
     <details className="accessible-panel panel" data-testid="accessible-panel">
@@ -84,27 +85,35 @@ export function AccessiblePlacement({
           {rows.flatMap((row) =>
             Array.from({ length: BOARD_COLS }, (_, col) => {
               const key = cellKey(col, row);
+              const isLocked = row === EXPANSION_ROW && !unlockedColumns.has(col);
               const occupantId =
                 prep.characters.find((character) => character.col === col && character.row === row)
                   ?.id ?? null;
               const occupant = occupantId ? characters.get(occupantId) : null;
               const isMove = moveKeys.has(key);
               const isMerge = mergeKeys.has(key);
-              const label = occupant
-                ? `${CHARACTER_DEFINITIONS[occupant.typeId].shortNameHu}, ${t('rankWithNumber', {
-                    rank: occupant.mergeRank,
-                  })}, ${t('levelWithNumber', {
-                    level: characterLevelFromXp(occupant.totalXp),
-                  })}`
-                : t('emptyCell');
+              const label = isLocked
+                ? t('errorCellLocked')
+                : occupant
+                  ? `${CHARACTER_DEFINITIONS[occupant.typeId].shortNameHu}, ${t('rankWithNumber', {
+                      rank: occupant.mergeRank,
+                    })}, ${t('levelWithNumber', {
+                      level: characterLevelFromXp(occupant.totalXp),
+                    })}`
+                  : t('emptyCell');
               return (
                 <button
                   key={key}
                   type="button"
-                  className={`accessible-cell${occupant ? ' accessible-cell--occupied' : ''}${
-                    isMove ? ' accessible-cell--move' : ''
-                  }${isMerge ? ' accessible-cell--merge' : ''}`}
-                  onClick={() => controller.handleCellTap(col, row)}
+                  className={`accessible-cell${isLocked ? ' accessible-cell--locked' : ''}${
+                    occupant ? ' accessible-cell--occupied' : ''
+                  }${isMove ? ' accessible-cell--move' : ''}${
+                    isMerge ? ' accessible-cell--merge' : ''
+                  }`}
+                  onClick={() => {
+                    if (!isLocked) controller.handleCellTap(col, row);
+                  }}
+                  disabled={isLocked}
                   aria-label={`${t('cellAria', { col: col + 1, row: row + 1 })}: ${label}`}
                   data-testid={`accessible-cell-${col}-${row}`}
                   data-occupant={occupantId ?? ''}
@@ -114,7 +123,9 @@ export function AccessiblePlacement({
                     {row + 1}
                   </span>
                   <span className="accessible-cell__content">
-                    {occupant ? (
+                    {isLocked ? (
+                      '🔒'
+                    ) : occupant ? (
                       <>
                         <CreatureAvatar
                           kind={occupant.typeId}

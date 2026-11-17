@@ -5,7 +5,15 @@ import {
   sellRefund,
 } from '../domain/characters';
 import { defeatComfortCoins, isDifficulty } from '../domain/difficulty';
-import { firstEmptyAlliedCell, isAlliedCell, isPositionFree, sameCell } from '../domain/grid';
+import {
+  EXPANSION_COLUMN_ORDER,
+  expansionCellCount,
+  firstEmptyAlliedCell,
+  isPlayableAlliedCell,
+  isPositionFree,
+  sameCell,
+} from '../domain/grid';
+import { nextExpansionCost } from '../domain/expansion';
 import {
   awardXp,
   battleXpPerUnit,
@@ -58,6 +66,13 @@ export interface MergeUndo {
 export interface PurchaseOutcome {
   readonly profile: PlayerProfile;
   readonly purchased: CharacterInstance;
+}
+
+export interface ExpansionPurchaseOutcome {
+  readonly profile: PlayerProfile;
+  readonly expansionCells: number;
+  readonly unlockedColumn: number;
+  readonly cost: number;
 }
 
 export interface UpgradePurchaseOutcome {
@@ -133,7 +148,9 @@ export function moveCharacter(
 ): Result<PlayerProfile> {
   const source = profile.characters.find((character) => character.id === characterId);
   if (!source) return fail('not-found', characterId);
-  if (!isAlliedCell(targetCol, targetRow)) return fail('not-allied-cell');
+  if (!isPlayableAlliedCell(targetCol, targetRow, profile.expansionCells)) {
+    return fail('not-allied-cell');
+  }
   if (sameCell(source, { col: targetCol, row: targetRow })) {
     return ok(profile);
   }
@@ -212,7 +229,7 @@ export function purchaseCharacter(
   if (!isCharacterTypeId(typeId)) return fail('invalid-character');
   const definition = CHARACTER_DEFINITIONS[typeId];
   if (profile.coins < definition.cost) return fail('insufficient-coins');
-  const emptyCell = firstEmptyAlliedCell(profile.characters);
+  const emptyCell = firstEmptyAlliedCell(profile.characters, profile.expansionCells);
   if (!emptyCell) return fail('board-full');
 
   const allocation = allocateCharacterId(profile);
@@ -234,6 +251,24 @@ export function purchaseCharacter(
     now,
   );
   return ok({ profile: nextProfile, purchased });
+}
+
+export function purchaseExpansion(
+  profile: PlayerProfile,
+  now = Date.now(),
+): Result<ExpansionPurchaseOutcome> {
+  const cost = nextExpansionCost(profile.expansionCells);
+  if (cost === null) return fail('max-expansion');
+  if (profile.coins < cost) return fail('insufficient-coins');
+  const nextCount = expansionCellCount(profile.expansionCells) + 1;
+  const unlockedColumn = EXPANSION_COLUMN_ORDER[nextCount - 1];
+  if (unlockedColumn === undefined) return fail('max-expansion');
+  return ok({
+    profile: updated({ ...profile, coins: profile.coins - cost, expansionCells: nextCount }, now),
+    expansionCells: nextCount,
+    unlockedColumn,
+    cost,
+  });
 }
 
 export function sellCharacter(

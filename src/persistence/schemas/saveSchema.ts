@@ -1,5 +1,6 @@
 import { isCharacterTypeId } from '../../game/domain/characters';
 import { isDifficulty } from '../../game/domain/difficulty';
+import { unlockedExpansionColumns, EXPANSION_ROW } from '../../game/domain/grid';
 import { MAX_CHARACTER_XP, MAX_MERGE_RANK } from '../../game/domain/progression';
 import {
   ALLY_ROW_START,
@@ -8,6 +9,7 @@ import {
   FIRST_CAMPAIGN_TOTAL_WAVES,
   MAX_ARMY_SIZE,
   MAX_COINS,
+  MAX_EXPANSION_CELLS,
   MAX_NEXT_CHARACTER_ID,
   PREVIOUS_TOTAL_WAVES,
   TOTAL_WAVES,
@@ -161,6 +163,7 @@ function parseBaseProfile(value: Record<string, unknown>): Result<{
   readonly unlockedWave: number;
   readonly completedWaves: readonly number[];
   readonly upgrades: Readonly<Record<string, number>>;
+  readonly expansionCells: number;
   readonly settings: GameSettings;
   readonly tutorialSeen: boolean;
   readonly nextCharacterId: number;
@@ -203,6 +206,12 @@ function parseBaseProfile(value: Record<string, unknown>): Result<{
   const unlockedWave = Math.max(value.unlockedWave, currentWave);
   const upgrades = parseUpgrades(value.upgrades);
   if (!upgrades.ok) return upgrades;
+  // Legacy saves predating the Mirror Invasion feature have no expansionCells field and must
+  // load with zero purchased cells so the original battlefield stays unchanged.
+  const rawExpansionCells = value.expansionCells ?? 0;
+  if (!isInt(rawExpansionCells, 0, MAX_EXPANSION_CELLS)) {
+    return fail('invalid-import', 'expansionCells');
+  }
   const settings = parseSettings(value.settings);
   if (!settings.ok) return settings;
   if (typeof value.tutorialSeen !== 'boolean') {
@@ -225,6 +234,7 @@ function parseBaseProfile(value: Record<string, unknown>): Result<{
     unlockedWave,
     completedWaves: completedWaves.value,
     upgrades: upgrades.value,
+    expansionCells: rawExpansionCells as number,
     settings: settings.value,
     tutorialSeen: value.tutorialSeen,
     nextCharacterId: value.nextCharacterId,
@@ -335,6 +345,13 @@ export function validateProfile(value: unknown): Result<PlayerProfile> {
   if (!characters.ok) return characters;
   const defeatXpCounts = parseDefeatXpCounts(value.defeatXpCounts);
   if (!defeatXpCounts.ok) return defeatXpCounts;
+  // A unit may only occupy a third-row cell that the profile has actually purchased.
+  const unlockedColumns = unlockedExpansionColumns(base.value.expansionCells);
+  for (const character of characters.value) {
+    if (character.row === EXPANSION_ROW && !unlockedColumns.includes(character.col)) {
+      return fail('invalid-import', 'character.locked-expansion-cell');
+    }
+  }
   return ok({
     profileId: base.value.profileId,
     name: base.value.name,
@@ -345,6 +362,7 @@ export function validateProfile(value: unknown): Result<PlayerProfile> {
     characters: characters.value,
     defeatXpCounts: defeatXpCounts.value,
     upgrades: base.value.upgrades,
+    expansionCells: base.value.expansionCells,
     settings: base.value.settings,
     tutorialSeen: base.value.tutorialSeen,
     nextCharacterId: base.value.nextCharacterId,

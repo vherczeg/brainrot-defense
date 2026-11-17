@@ -3,7 +3,7 @@ import { ENEMY_DEFINITIONS } from '../game/domain/enemies';
 import { waveModifierConfig } from '../game/domain/modifiers';
 import { isSurpriseBossWaveFor } from '../game/domain/surpriseBosses';
 import type { PlayerProfile } from '../game/domain/types';
-import { getWaveForProfile } from '../game/domain/waves';
+import { resolveWave } from '../game/domain/mirrorInvasion';
 import { formatNumber, t } from '../localization';
 import { CreatureAvatar } from './CreatureAvatar';
 import { Icon } from './Icon';
@@ -15,7 +15,7 @@ interface EnemyStack {
 }
 
 export function WavePreview({ profile }: { profile: PlayerProfile }) {
-  const wave = getWaveForProfile(profile.profileId, profile.currentWave);
+  const wave = resolveWave(profile, profile.currentWave);
   if (!wave) return null;
 
   const chapter = chapterOfWave(wave.id);
