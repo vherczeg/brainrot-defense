@@ -70,7 +70,10 @@ describe('complete M0 playthrough', () => {
       reducedMotion: true,
     });
 
-    for (const wave of WAVE_DEFINITIONS) {
+    // The 100-wave campaign is covered by the balance simulator (scripts/simulate.ts);
+    // this integration test keeps proving that the original 20-wave stretch stays
+    // completable with an ordinary strategy.
+    for (const wave of WAVE_DEFINITIONS.slice(0, 20)) {
       profile = spendCoins(profile);
       const roster = profile.characters.map((character) => character.id);
       const battle = createBattleState(profile.characters, wave, wave.id * 1000);
@@ -83,8 +86,9 @@ describe('complete M0 playthrough', () => {
     }
 
     expect(profile.completedWaves).toEqual(Array.from({ length: 20 }, (_, index) => index + 1));
-    expect(profile.currentWave).toBe(20);
-    expect(profile.unlockedWave).toBe(20);
+    // Completing wave 20 now opens wave 21 of the extended 100-wave campaign.
+    expect(profile.currentWave).toBe(21);
+    expect(profile.unlockedWave).toBe(21);
     expect(profile.coins).toBeGreaterThan(0);
     profile.characters.forEach((character) => {
       expect(character.mergeRank).toBeGreaterThanOrEqual(1);

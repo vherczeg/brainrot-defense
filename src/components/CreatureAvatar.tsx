@@ -5,9 +5,7 @@ import { lightningScorpionIconUrl } from '../game/rendering/lightningScorpion';
 import { megaBrainrotGorillaIconUrl } from '../game/rendering/megaBrainrotGorilla';
 import { miniBrainrotIconUrl } from '../game/rendering/miniBrainrot';
 import { shadowRunnerIconUrl } from '../game/rendering/shadowRunner';
-import type { CharacterTypeId, EnemyTypeId } from '../game/domain/types';
-
-export type CreatureKind = CharacterTypeId | EnemyTypeId;
+import { creatureShape, type CreatureKind } from '../game/rendering/creatureArt';
 
 interface CreatureAvatarProps {
   readonly kind: CreatureKind;
@@ -17,115 +15,124 @@ interface CreatureAvatarProps {
   readonly mergeRank?: number;
 }
 
-function LaserCrocodile({ mergeRank }: { mergeRank: number }) {
+function cssColor(value: number): string {
+  return `#${value.toString(16).padStart(6, '0')}`;
+}
+
+function IconImage({ src }: { src: string; mergeRank?: number }) {
   return (
-    <image
-      href={laserCrocodileIconUrl(mergeRank)}
-      x="0"
-      y="0"
-      width="100"
-      height="100"
-      preserveAspectRatio="xMidYMid meet"
-    />
+    <image href={src} x="0" y="0" width="100" height="100" preserveAspectRatio="xMidYMid meet" />
   );
 }
 
-function LightningScorpion({ mergeRank }: { mergeRank: number }) {
-  return (
-    <image
-      href={lightningScorpionIconUrl(mergeRank)}
-      x="0"
-      y="0"
-      width="100"
-      height="100"
-      preserveAspectRatio="xMidYMid meet"
-    />
-  );
-}
+// The seven original units keep their hand-drawn generated icons. Every M4 unit (and the
+// two new heroes) is drawn from the shared procedural creature-art, giving each a distinct,
+// recognizable silhouette that matches the battlefield renderer.
 
-function MiniBrainrot() {
+function ProceduralCreature({ kind }: { kind: CreatureKind }) {
+  const shape = creatureShape(kind);
   return (
-    <image
-      href={miniBrainrotIconUrl()}
-      x="0"
-      y="0"
-      width="100"
-      height="100"
-      preserveAspectRatio="xMidYMid meet"
-    />
-  );
-}
-
-function ArmoredSlug() {
-  return (
-    <image
-      href={armoredSnailIconUrl()}
-      x="0"
-      y="0"
-      width="100"
-      height="100"
-      preserveAspectRatio="xMidYMid meet"
-    />
-  );
-}
-
-function ShadowRunner() {
-  return (
-    <image
-      href={shadowRunnerIconUrl()}
-      x="0"
-      y="0"
-      width="100"
-      height="100"
-      preserveAspectRatio="xMidYMid meet"
-    />
-  );
-}
-
-function MegaBoss() {
-  return (
-    <image
-      href={megaBrainrotGorillaIconUrl()}
-      x="0"
-      y="0"
-      width="100"
-      height="100"
-      preserveAspectRatio="xMidYMid meet"
-    />
-  );
-}
-
-function GreenVenomFalcon() {
-  return (
-    <image
-      href={greenVenomFalconIconUrl()}
-      x="0"
-      y="0"
-      width="100"
-      height="100"
-      preserveAspectRatio="xMidYMid meet"
-    />
+    <g transform="translate(50 42)">
+      {shape.commands.map((command, index) => {
+        switch (command.kind) {
+          case 'circle':
+            return (
+              <circle
+                key={index}
+                cx={command.x}
+                cy={command.y}
+                r={command.r}
+                fill={cssColor(command.fill)}
+                opacity={command.alpha ?? 1}
+              />
+            );
+          case 'ellipse':
+            return (
+              <ellipse
+                key={index}
+                cx={command.x}
+                cy={command.y}
+                rx={command.rx}
+                ry={command.ry}
+                fill={cssColor(command.fill)}
+                opacity={command.alpha ?? 1}
+              />
+            );
+          case 'poly':
+            return (
+              <polygon
+                key={index}
+                points={command.points.join(' ')}
+                fill={cssColor(command.fill)}
+                opacity={command.alpha ?? 1}
+              />
+            );
+          case 'roundRect':
+            return (
+              <rect
+                key={index}
+                x={command.x}
+                y={command.y}
+                width={command.w}
+                height={command.h}
+                rx={command.r}
+                ry={command.r}
+                fill={cssColor(command.fill)}
+                opacity={command.alpha ?? 1}
+              />
+            );
+          case 'strokePoly':
+            return (
+              <polyline
+                key={index}
+                points={command.points.join(' ')}
+                fill="none"
+                stroke={cssColor(command.stroke.color)}
+                strokeWidth={command.stroke.width}
+                opacity={command.stroke.alpha ?? 1}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            );
+          case 'strokeCircle':
+            return (
+              <circle
+                key={index}
+                cx={command.x}
+                cy={command.y}
+                r={command.r}
+                fill="none"
+                stroke={cssColor(command.stroke.color)}
+                strokeWidth={command.stroke.width}
+                opacity={command.stroke.alpha ?? 1}
+              />
+            );
+          default:
+            return null;
+        }
+      })}
+    </g>
   );
 }
 
 function CreatureShape({ kind, mergeRank }: { kind: CreatureKind; mergeRank: number }) {
   switch (kind) {
     case 'laser-crocodile':
-      return <LaserCrocodile mergeRank={mergeRank} />;
+      return <IconImage src={laserCrocodileIconUrl(mergeRank)} />;
     case 'lightning-scorpion':
-      return <LightningScorpion mergeRank={mergeRank} />;
+      return <IconImage src={lightningScorpionIconUrl(mergeRank)} />;
     case 'mini-brainrot':
-      return <MiniBrainrot />;
+      return <IconImage src={miniBrainrotIconUrl()} />;
     case 'armored-slug':
-      return <ArmoredSlug />;
+      return <IconImage src={armoredSnailIconUrl()} />;
     case 'shadow-runner':
-      return <ShadowRunner />;
+      return <IconImage src={shadowRunnerIconUrl()} />;
     case 'mega-brainrot-gorilla':
-      return <MegaBoss />;
+      return <IconImage src={megaBrainrotGorillaIconUrl()} />;
     case 'green-venom-falcon':
-      return <GreenVenomFalcon />;
+      return <IconImage src={greenVenomFalconIconUrl()} />;
     default:
-      return null;
+      return <ProceduralCreature kind={kind} />;
   }
 }
 

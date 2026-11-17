@@ -103,19 +103,20 @@ describe('wave rewards and retry policy', () => {
   });
 
   it('never advances beyond the final wave', () => {
+    // The campaign is 100 waves now; claiming the 100th reward must not push currentWave past 100.
     const profile = profileWith([], {
-      currentWave: 20,
-      unlockedWave: 20,
+      currentWave: 100,
+      unlockedWave: 100,
       coins: 0,
-      completedWaves: Array.from({ length: 19 }, (_, index) => index + 1),
+      completedWaves: Array.from({ length: 99 }, (_, index) => index + 1),
     });
-    const result = claimWaveReward(profile, 20);
+    const result = claimWaveReward(profile, 100);
     expect(result.ok).toBe(true);
     if (!result.ok) return;
-    expect(result.value.profile.currentWave).toBe(20);
-    expect(result.value.profile.unlockedWave).toBe(20);
+    expect(result.value.profile.currentWave).toBe(100);
+    expect(result.value.profile.unlockedWave).toBe(100);
     expect(result.value.profile.completedWaves).toEqual(
-      Array.from({ length: 20 }, (_, index) => index + 1),
+      Array.from({ length: 100 }, (_, index) => index + 1),
     );
   });
 

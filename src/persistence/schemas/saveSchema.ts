@@ -1,9 +1,11 @@
 import { isCharacterTypeId } from '../../game/domain/characters';
+import { isDifficulty } from '../../game/domain/difficulty';
 import { MAX_CHARACTER_XP, MAX_MERGE_RANK } from '../../game/domain/progression';
 import {
   ALLY_ROW_START,
   BOARD_COLS,
   BOARD_ROWS,
+  FIRST_CAMPAIGN_TOTAL_WAVES,
   MAX_ARMY_SIZE,
   MAX_COINS,
   MAX_NEXT_CHARACTER_ID,
@@ -103,7 +105,7 @@ function parseSettings(value: unknown): Result<GameSettings> {
     return fail('invalid-import', 'settings.reducedMotion');
   }
   const rawDifficulty = value.difficulty;
-  if (rawDifficulty !== undefined && rawDifficulty !== 'normal' && rawDifficulty !== 'hard') {
+  if (rawDifficulty !== undefined && !isDifficulty(rawDifficulty)) {
     return fail('invalid-import', 'settings.difficulty');
   }
   return ok({
@@ -184,9 +186,14 @@ function parseBaseProfile(value: Record<string, unknown>): Result<{
   const completedWaves = parseCompletedWaves(value.completedWaves);
   if (!completedWaves.ok) return completedWaves;
   const expectedCurrentWave = Math.min(completedWaves.value.length + 1, TOTAL_WAVES);
+  // Saves written when the campaign ended at wave 10 (M0.1) or wave 20 (M3.x) stored
+  // currentWave/unlockedWave at the final wave. Opening the next wave must not corrupt
+  // them: accept that legacy shape and advance it in memory.
   const legacyMaxedWave =
-    completedWaves.value.length >= PREVIOUS_TOTAL_WAVES &&
-    value.currentWave === PREVIOUS_TOTAL_WAVES;
+    (completedWaves.value.length >= PREVIOUS_TOTAL_WAVES &&
+      value.currentWave === PREVIOUS_TOTAL_WAVES) ||
+    (completedWaves.value.length >= FIRST_CAMPAIGN_TOTAL_WAVES &&
+      value.currentWave === FIRST_CAMPAIGN_TOTAL_WAVES);
   if (value.currentWave !== expectedCurrentWave && !legacyMaxedWave) {
     return fail('invalid-import', 'currentWave.order');
   }
@@ -228,7 +235,9 @@ function parseBaseProfile(value: Record<string, unknown>): Result<{
 
 function parseDefeatXpCounts(value: unknown): Result<readonly number[]> {
   if (value === undefined) return ok(Array.from({ length: TOTAL_WAVES }, () => 0));
-  if (!Array.isArray(value) || value.length !== TOTAL_WAVES) {
+  // Saves written by earlier 20-wave versions store a shorter array. Pad with zeros so the
+  // campaign extension never invalidates existing progress.
+  if (!Array.isArray(value) || value.length > TOTAL_WAVES) {
     return fail('invalid-import', 'defeatXpCounts');
   }
   const counts: number[] = [];
@@ -236,6 +245,7 @@ function parseDefeatXpCounts(value: unknown): Result<readonly number[]> {
     if (!isInt(count, 0, 3)) return fail('invalid-import', 'defeatXpCounts.item');
     counts.push(count);
   }
+  while (counts.length < TOTAL_WAVES) counts.push(0);
   return ok(counts);
 }
 

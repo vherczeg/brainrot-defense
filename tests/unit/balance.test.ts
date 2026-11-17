@@ -5,6 +5,7 @@ import {
   getWave,
   waveFirstCompletionBonus,
   waveReplayRewardCoins,
+  waveRewardCoins,
 } from '../../src/game/domain/waves';
 import { createBattleState, runBattleToCompletion } from '../../src/game/simulation/battle';
 import { profileWith, unit } from './testFixtures';
@@ -55,8 +56,26 @@ function representativeArmy() {
 }
 
 describe('M3.4 economy targets', () => {
-  it('keeps the exact documented first-clear reward table for all twenty waves', () => {
-    expect(WAVE_DEFINITIONS.map((wave) => wave.rewardCoins)).toEqual(EXPECTED_REWARDS);
+  it('keeps the exact documented first-clear reward table for the original twenty waves', () => {
+    // The campaign extension (waves 21–100) must not touch the original 20-wave economy.
+    expect(WAVE_DEFINITIONS.slice(0, 20).map((wave) => wave.rewardCoins)).toEqual(EXPECTED_REWARDS);
+    // The extended campaign adds positive, ordered rewards for every later wave.
+    const extended = WAVE_DEFINITIONS.slice(20).map((wave) => wave.rewardCoins);
+    expect(extended).toHaveLength(80);
+    for (const reward of extended) expect(reward).toBeGreaterThan(0);
+    const ordinary = WAVE_DEFINITIONS.slice(20).filter((wave) => !wave.isBossWave);
+    for (let index = 1; index < ordinary.length; index += 1) {
+      const previous = ordinary[index - 1];
+      const current = ordinary[index];
+      expect(previous).toBeDefined();
+      expect(current).toBeDefined();
+      if (previous !== undefined && current !== undefined) {
+        expect(current.rewardCoins).toBeGreaterThan(previous.rewardCoins);
+      }
+    }
+    for (const wave of WAVE_DEFINITIONS.slice(20).filter((entry) => entry.isBossWave)) {
+      expect(wave.rewardCoins).toBeGreaterThan(getWave(wave.id - 1)?.rewardCoins ?? 0);
+    }
   });
 
   it('keeps post-wave-10 gold inflation under control', () => {
@@ -72,8 +91,9 @@ describe('M3.4 economy targets', () => {
     for (const wave of WAVE_DEFINITIONS) {
       const replay = waveReplayRewardCoins(wave);
       const firstBonus = waveFirstCompletionBonus(wave);
-      expect(replay).toBe(Math.floor((wave.rewardCoins * 35) / 100));
-      expect(firstBonus).toBe(wave.rewardCoins - replay);
+      const scaled = waveRewardCoins(wave);
+      expect(replay).toBe(Math.floor((scaled * 35) / 100));
+      expect(firstBonus).toBe(scaled - replay);
     }
   });
 

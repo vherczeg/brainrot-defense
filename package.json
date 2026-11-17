@@ -17,7 +17,8 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "typecheck": "tsc --noEmit",
-    "simulate": "vite-node scripts/simulate.ts"
+    "simulate": "vite-node scripts/simulate.ts",
+    "balance": "vite-node scripts/balance.ts"
   },
   "dependencies": {
     "phaser": "3.90.0",

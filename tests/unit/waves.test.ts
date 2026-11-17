@@ -9,15 +9,17 @@ import {
   isValidEnemyPosition,
   waveFirstCompletionBonus,
   waveReplayRewardCoins,
+  waveRewardCoins,
 } from '../../src/game/domain/waves';
 
 describe('wave definitions', () => {
-  it('contains exactly twenty valid waves in order', () => {
+  it('contains exactly one hundred valid waves in order', () => {
+    // The 100-wave campaign extends the original 20 waves; ids stay contiguous from 1 to 100.
     expect(WAVE_DEFINITIONS).toHaveLength(TOTAL_WAVES);
     expect(WAVE_DEFINITIONS.map((wave) => wave.id)).toEqual(
       Array.from({ length: TOTAL_WAVES }, (_, index) => index + 1),
     );
-    expect(LAST_WAVE_ID).toBe(20);
+    expect(LAST_WAVE_ID).toBe(TOTAL_WAVES);
   });
 
   it('places every enemy in the enemy deployment area', () => {
@@ -83,18 +85,31 @@ describe('wave definitions', () => {
     expect((boss20?.rewardCoins ?? 0) / (wave19?.rewardCoins ?? 1)).toBeLessThanOrEqual(1.5);
   });
 
-  it('only marks waves 10 and 20 as boss waves', () => {
+  it('marks every tenth wave as a boss wave', () => {
+    // Requirement: waves 10, 20, 30, …, 100 all contain a mandatory boss encounter.
     expect(WAVE_DEFINITIONS.filter((wave) => wave.isBossWave).map((wave) => wave.id)).toEqual([
-      10, 20,
+      10, 20, 30, 40, 50, 60, 70, 80, 90, 100,
     ]);
+    for (const wave of WAVE_DEFINITIONS) {
+      expect(wave.isBossWave).toBe(wave.id % 10 === 0);
+    }
+  });
+
+  it('gives every wave a valid chapter', () => {
+    for (const wave of WAVE_DEFINITIONS) {
+      expect(wave.chapterId).toBeGreaterThanOrEqual(1);
+      expect(wave.chapterId).toBeLessThanOrEqual(10);
+      expect(wave.chapterId).toBe(Math.floor((wave.id - 1) / 10) + 1);
+    }
   });
 
   it('splits every reward into a 35% replay reward and a first-clear bonus', () => {
     for (const wave of WAVE_DEFINITIONS) {
       const replay = waveReplayRewardCoins(wave);
       const bonus = waveFirstCompletionBonus(wave);
-      expect(replay + bonus).toBe(wave.rewardCoins);
-      expect(replay).toBe(Math.floor((wave.rewardCoins * 35) / 100));
+      const scaled = waveRewardCoins(wave);
+      expect(replay + bonus).toBe(scaled);
+      expect(replay).toBe(Math.floor((scaled * 35) / 100));
       expect(replay).toBeGreaterThan(0);
       expect(bonus).toBeGreaterThan(0);
     }

@@ -5,7 +5,14 @@ import {
   characterStats,
 } from '../game/domain/characters';
 import { emptyAlliedCells } from '../game/domain/grid';
-import type { CharacterTypeId, PlayerProfile } from '../game/domain/types';
+import {
+  UPGRADE_DEFINITIONS,
+  UPGRADE_KINDS,
+  maxUpgradeLevelReached,
+  upgradeCost,
+  upgradeLevel,
+} from '../game/domain/upgrades';
+import type { CharacterTypeId, PlayerProfile, UpgradeKind } from '../game/domain/types';
 import { formatNumber, t } from '../localization';
 import { CreatureAvatar } from './CreatureAvatar';
 import { Icon } from './Icon';
@@ -45,6 +52,7 @@ export function ShopPanel({ profile }: { profile: PlayerProfile }) {
                   <span className="level-chip">{t('levelWithNumber', { level: 1 })}</span>
                 </div>
                 <p className="shop-card__role">{definition.roleHu}</p>
+                <p className="shop-card__special">{definition.specialHu}</p>
                 <div className="mini-stats">
                   <span>
                     <Icon name="skull" size={14} /> {stats.attack}
@@ -79,6 +87,61 @@ export function ShopPanel({ profile }: { profile: PlayerProfile }) {
           {t('boardFull')}
         </p>
       ) : null}
+      <div className="upgrades-block">
+        <div className="panel-heading">
+          <div>
+            <p className="panel-label">{t('upgradesTitle')}</p>
+            <h2 className="panel-title">{t('upgradesSubtitle')}</h2>
+          </div>
+        </div>
+        <div className="upgrades-list">
+          {UPGRADE_KINDS.map((kind: UpgradeKind) => {
+            const definition = UPGRADE_DEFINITIONS[kind];
+            const level = upgradeLevel(profile, kind);
+            const maxed = maxUpgradeLevelReached(profile, kind);
+            const cost = maxed ? 0 : upgradeCost(kind, level);
+            const tooExpensive = !maxed && profile.coins < cost;
+            return (
+              <article className="upgrade-card" key={kind} data-testid={`upgrade-${kind}`}>
+                <div className="upgrade-card__body">
+                  <div className="upgrade-card__title-row">
+                    <h3 className="upgrade-card__name">{definition.nameHu}</h3>
+                    <span className="rank-chip">
+                      {maxed ? t('upgradeMaxLabel') : t('upgradeLevelLabel', { level: level + 1 })}
+                    </span>
+                    <span className="level-chip">{t('upgradeLevelLabel', { level })}</span>
+                  </div>
+                  <p className="upgrade-card__description">{definition.descriptionHu}</p>
+                </div>
+                <button
+                  type="button"
+                  className="buy-button"
+                  disabled={maxed || tooExpensive}
+                  title={
+                    maxed
+                      ? t('errorMaxUpgrade')
+                      : tooExpensive
+                        ? t('notEnoughCoins')
+                        : t('upgradeBuy')
+                  }
+                  aria-label={`${t('upgradeBuy')} – ${definition.nameHu} – ${cost} ${t('coins')}`}
+                  onClick={() => controller.purchaseUpgrade(kind)}
+                  data-testid={`upgrade-buy-${kind}`}
+                >
+                  {maxed ? (
+                    t('upgradeMaxLabel')
+                  ) : (
+                    <>
+                      <Icon name="coin" size={18} />
+                      {formatNumber(cost)}
+                    </>
+                  )}
+                </button>
+              </article>
+            );
+          })}
+        </div>
+      </div>
     </section>
   );
 }

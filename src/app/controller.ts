@@ -4,6 +4,7 @@ import {
   mergeCharacters,
   moveCharacter,
   purchaseCharacter,
+  purchaseUpgrade,
   resolveBattleRewards,
   resolveDefeatRewards,
   sellCharacter,
@@ -32,9 +33,10 @@ import {
   type GameSettings,
   type PlayerProfile,
   type Result,
+  type UpgradeKind,
   type WaveEnemyConfig,
 } from '../game/domain/types';
-import { getWave } from '../game/domain/waves';
+import { getWaveForProfile } from '../game/domain/waves';
 import { createBattleState } from '../game/simulation/battle';
 import { BattleSession } from '../game/simulation/battleSession';
 import type { BattleEvent, BattleState } from '../game/simulation/types';
@@ -196,6 +198,8 @@ function errorKey(code: CommandErrorCode): TranslationKey {
     'no-army': 'errorNoArmy',
     'invalid-import': 'errorInvalidImport',
     'invalid-character': 'errorInvalidCharacter',
+    'invalid-upgrade': 'errorInvalidUpgrade',
+    'max-upgrade': 'errorMaxUpgrade',
     'corrupt-save': 'errorCorruptSave',
     'save-failed': 'errorSaveFailed',
     'unsupported-version': 'errorUnsupportedVersion',
@@ -919,6 +923,27 @@ export class GameController {
     this.commitProfile(nextProfile);
   }
 
+  purchaseUpgrade(kind: UpgradeKind): void {
+    if (!this.profile || this.phase !== 'preparation') return;
+    const outcome = purchaseUpgrade(this.profile, kind, this.now());
+    if (!outcome.ok) {
+      this.showToastKey(errorKey(outcome.error), {}, 'error');
+      this.sound.play('error');
+      return;
+    }
+    this.sound.play('buy');
+    this.showToastKey(
+      'toastUpgradePurchased',
+      {
+        name: t(`upgrade${kind === 'army-attack' ? 'AttackName' : 'HpName'}`),
+        level: outcome.value.level,
+        coins: outcome.value.profile.coins,
+      },
+      'success',
+    );
+    this.commitProfile(outcome.value.profile);
+  }
+
   requestSell(characterId?: string): void {
     if (this.phase !== 'preparation' || !this.profile) return;
     const targetId = characterId ?? this.selectedId;
@@ -1022,7 +1047,7 @@ export class GameController {
       this.sound.play('error');
       return;
     }
-    const wave = getWave(this.profile.currentWave);
+    const wave = getWaveForProfile(this.profile.profileId, this.profile.currentWave);
     if (!wave) {
       this.showToastKey('errorInvalidWave', {}, 'error');
       return;
@@ -1037,6 +1062,7 @@ export class GameController {
       wave,
       seed,
       this.profile.settings.difficulty,
+      this.profile.upgrades,
     );
     this.session = new BattleSession(state, this.profile.settings.battleSpeed);
     this.phase = 'battle';
@@ -1545,7 +1571,7 @@ export class GameController {
             characterId: character.id,
           }))
       : [];
-    const wave = getWave(this.profile.currentWave);
+    const wave = getWaveForProfile(this.profile.profileId, this.profile.currentWave);
     return {
       version: this.prepVersion,
       selectedId: this.selectedId,

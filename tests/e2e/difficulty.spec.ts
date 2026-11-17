@@ -94,7 +94,8 @@ test('opens an existing v2 wave-20 save as Normal, switches to Hard, and beats t
   await expect(page.getByTestId('battle-hud')).toBeVisible();
   await expect(page.getByTestId('battle-difficulty')).toContainText('Nehéz');
   await expect(page.getByTestId('result-overlay')).toBeVisible({ timeout: 90_000 });
-  await expect(page.getByTestId('result-title')).toContainText('MINDEN HULLÁMOT TELJESÍTETTÉL');
+  // Wave 20 is a boss milestone of the 100-wave campaign, not the finale anymore.
+  await expect(page.getByTestId('result-title')).toContainText('20. hullám teljesítve!');
   await expect(page.getByTestId('result-difficulty')).toContainText('Nehéz');
   await expect(page.getByTestId('result-overlay')).toContainText('+1200');
 });

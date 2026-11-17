@@ -4,6 +4,7 @@ import {
   isCharacterTypeId,
   sellRefund,
 } from '../domain/characters';
+import { defeatComfortCoins, isDifficulty } from '../domain/difficulty';
 import { firstEmptyAlliedCell, isAlliedCell, isPositionFree, sameCell } from '../domain/grid';
 import {
   awardXp,
@@ -12,12 +13,18 @@ import {
   defeatXpPerUnit,
   mergeCharacterXp,
 } from '../domain/progression';
-import { DEFEAT_COMFORT_COINS } from '../domain/state';
+import {
+  isUpgradeKind,
+  maxUpgradeLevelReached,
+  upgradeCost,
+  upgradeLevel,
+} from '../domain/upgrades';
 import {
   MAX_COINS,
   MAX_DEFEAT_XP_REWARDS,
   MAX_MERGE_RANK,
   MAX_NEXT_CHARACTER_ID,
+  MAX_UPGRADE_ENTRIES,
   TOTAL_WAVES,
   fail,
   ok,
@@ -28,8 +35,14 @@ import {
   type GameSettings,
   type PlayerProfile,
   type Result,
+  type UpgradeKind,
 } from '../domain/types';
-import { getWave, waveFirstCompletionBonus, waveReplayRewardCoins } from '../domain/waves';
+import {
+  getWave,
+  waveFirstCompletionBonus,
+  waveReplayRewardCoins,
+  waveRewardCoins,
+} from '../domain/waves';
 
 export interface MergeOutcome {
   readonly profile: PlayerProfile;
@@ -45,6 +58,13 @@ export interface MergeUndo {
 export interface PurchaseOutcome {
   readonly profile: PlayerProfile;
   readonly purchased: CharacterInstance;
+}
+
+export interface UpgradePurchaseOutcome {
+  readonly profile: PlayerProfile;
+  readonly kind: UpgradeKind;
+  readonly level: number;
+  readonly cost: number;
 }
 
 export interface SellOutcome {
@@ -249,7 +269,7 @@ export function claimWaveReward(
   const wave = getWave(waveId);
   if (!wave) return fail('invalid-wave');
   const firstCompletion = !profile.completedWaves.includes(waveId);
-  const rewardCoins = firstCompletion ? wave.rewardCoins : waveReplayRewardCoins(wave);
+  const rewardCoins = firstCompletion ? waveRewardCoins(wave) : waveReplayRewardCoins(wave);
   const firstCompletionBonus = firstCompletion ? waveFirstCompletionBonus(wave) : 0;
   if (rewardCoins > 0 && profile.coins > MAX_COINS - rewardCoins) return fail('coin-overflow');
   const completedWaves = firstCompletion
@@ -284,7 +304,8 @@ export function resolveDefeatRewards(
 ): Result<DefeatRewardOutcome> {
   const wave = getWave(waveId);
   if (!wave) return fail('invalid-wave');
-  if (profile.coins > MAX_COINS - DEFEAT_COMFORT_COINS) return fail('coin-overflow');
+  const comfortCoins = defeatComfortCoins(profile.settings.difficulty);
+  if (profile.coins > MAX_COINS - comfortCoins) return fail('coin-overflow');
 
   const firstCompletion = !profile.completedWaves.includes(waveId);
   const counterIndex = waveId - 1;
@@ -322,13 +343,13 @@ export function resolveDefeatRewards(
     profile: updated(
       {
         ...profile,
-        coins: profile.coins + DEFEAT_COMFORT_COINS,
+        coins: profile.coins + comfortCoins,
         characters,
         defeatXpCounts,
       },
       now,
     ),
-    comfortCoins: DEFEAT_COMFORT_COINS,
+    comfortCoins,
     xpPerUnit,
     totalXpAwarded,
     levelUps,
@@ -415,16 +436,47 @@ export function applyDefeatComfort(
   profile: PlayerProfile,
   now = Date.now(),
 ): Result<PlayerProfile> {
-  if (profile.coins > MAX_COINS - DEFEAT_COMFORT_COINS) return fail('coin-overflow');
+  const comfortCoins = defeatComfortCoins(profile.settings.difficulty);
+  if (profile.coins > MAX_COINS - comfortCoins) return fail('coin-overflow');
   return ok(
     updated(
       {
         ...profile,
-        coins: profile.coins + DEFEAT_COMFORT_COINS,
+        coins: profile.coins + comfortCoins,
       },
       now,
     ),
   );
+}
+
+export function purchaseUpgrade(
+  profile: PlayerProfile,
+  kind: UpgradeKind,
+  now = Date.now(),
+): Result<UpgradePurchaseOutcome> {
+  if (!isUpgradeKind(kind)) return fail('invalid-upgrade');
+  if (maxUpgradeLevelReached(profile, kind)) return fail('max-upgrade');
+  const currentLevel = upgradeLevel(profile, kind);
+  const cost = upgradeCost(kind, currentLevel);
+  if (profile.coins < cost) return fail('insufficient-coins');
+  const nextLevel = currentLevel + 1;
+  const upgrades: Record<string, number> = { ...profile.upgrades };
+  upgrades[kind] = nextLevel;
+  const entryCount = Object.keys(upgrades).length;
+  if (entryCount > MAX_UPGRADE_ENTRIES) return fail('invalid-upgrade');
+  return ok({
+    profile: updated(
+      {
+        ...profile,
+        coins: profile.coins - cost,
+        upgrades,
+      },
+      now,
+    ),
+    kind,
+    level: nextLevel,
+    cost,
+  });
 }
 
 export function updateSettings(
@@ -434,10 +486,9 @@ export function updateSettings(
 ): PlayerProfile {
   const battleSpeed: BattleSpeed =
     settings.battleSpeed === 2 ? 2 : settings.battleSpeed === 1 ? 1 : profile.settings.battleSpeed;
-  const difficulty: Difficulty =
-    settings.difficulty === 'hard' || settings.difficulty === 'normal'
-      ? settings.difficulty
-      : profile.settings.difficulty;
+  const difficulty: Difficulty = isDifficulty(settings.difficulty)
+    ? settings.difficulty
+    : profile.settings.difficulty;
   return updated(
     {
       ...profile,

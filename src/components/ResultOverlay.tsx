@@ -2,7 +2,7 @@ import { useGameController } from '../app/ControllerContext';
 import type { BattleResultView } from '../app/controller';
 import { CHARACTER_DEFINITIONS } from '../game/domain/characters';
 import { getWave } from '../game/domain/waves';
-import { formatNumber, t } from '../localization';
+import { difficultyLabel, formatNumber, t } from '../localization';
 import { CreatureAvatar } from './CreatureAvatar';
 import { Icon } from './Icon';
 import { Modal } from './Modal';
@@ -11,6 +11,14 @@ export function ResultOverlay({ result }: { result: BattleResultView }) {
   const controller = useGameController();
   const wave = getWave(result.waveId);
   const victory = result.outcome === 'victory';
+  const difficultyIcon =
+    result.difficulty === 'easy'
+      ? 'life-heart'
+      : result.difficulty === 'extreme'
+        ? 'skull'
+        : result.difficulty === 'hard'
+          ? 'swords'
+          : 'shield';
   return (
     <Modal
       title={victory ? t('resultVictory') : t('resultDefeat')}
@@ -31,8 +39,8 @@ export function ResultOverlay({ result }: { result: BattleResultView }) {
             className={`difficulty-chip difficulty-chip--${result.difficulty} result-difficulty`}
             data-testid="result-difficulty"
           >
-            <Icon name={result.difficulty === 'hard' ? 'swords' : 'shield'} size={14} />
-            {result.difficulty === 'hard' ? t('difficultyHard') : t('difficultyNormal')}
+            <Icon name={difficultyIcon} size={14} />
+            {difficultyLabel(result.difficulty)}
           </p>
           <h3 className="result-title" data-testid="result-title">
             {victory

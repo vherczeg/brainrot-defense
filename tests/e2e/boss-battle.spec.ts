@@ -76,7 +76,7 @@ test('defeats the wave 10 boss and opens wave 11', async ({ page }, testInfo) =>
   await expect(page.locator('.game-topbar h1')).toContainText('11. hullám');
 });
 
-test('defeats the Green Venom Falcon on wave 20 and completes all waves', async ({
+test('defeats the Green Venom Falcon on wave 20 and opens wave 21 of the 100-wave campaign', async ({
   page,
 }, testInfo) => {
   test.skip(testInfo.project.name !== 'chromium', 'Desktop boss battle test');
@@ -94,16 +94,18 @@ test('defeats the Green Venom Falcon on wave 20 and completes all waves', async 
   await page.getByTestId('battle-button').click();
   await expect(page.getByTestId('battle-hud')).toBeVisible();
   await expect(page.getByTestId('result-overlay')).toBeVisible({ timeout: 60_000 });
-  await expect(page.getByTestId('result-title')).toContainText('MINDEN HULLÁMOT TELJESÍTETTÉL');
+  // Wave 20 is a boss milestone of the extended campaign, not the finale anymore.
+  await expect(page.getByTestId('result-title')).toContainText('20. hullám teljesítve!');
   await expect(page.getByTestId('result-overlay')).toContainText('+1200');
   await expect(page.getByTestId('result-first-bonus')).toContainText('+780');
   await board.screenshot({ path: '/tmp/opencode/boss20_0.png' });
 
   await page.getByTestId('result-next').click();
   await expect(page.getByTestId('battle-button')).toBeVisible();
+  await expect(page.locator('.game-topbar h1')).toContainText('21. hullám');
   await page.getByTestId('battle-button').click();
   await expect(page.getByTestId('battle-hud')).toBeVisible();
   await expect(page.getByTestId('result-overlay')).toBeVisible({ timeout: 60_000 });
-  await expect(page.getByTestId('result-overlay')).toContainText('+420');
-  await expect(page.getByTestId('result-first-bonus')).toHaveCount(0);
+  await expect(page.getByTestId('result-overlay')).toContainText('+850');
+  await expect(page.getByTestId('result-first-bonus')).toHaveCount(1);
 });

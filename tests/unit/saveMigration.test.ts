@@ -180,7 +180,8 @@ describe('v1 -> v3 save migration', () => {
     expect(parsed.ok).toBe(true);
     if (!parsed.ok) return;
     expect(parsed.value.profile.settings.difficulty).toBe('hard');
-    expect(parsed.value.profile.defeatXpCounts).toHaveLength(20);
+    // The 100-wave campaign pads missing defeat counters; old 20-entry arrays migrate with zeros.
+    expect(parsed.value.profile.defeatXpCounts).toHaveLength(100);
     expect(parsed.value.profile.defeatXpCounts.every((count) => count === 0)).toBe(true);
   });
 
@@ -432,7 +433,8 @@ describe('IndexedDB legacy record migration', () => {
     if (!loaded.ok) return;
     expect(loaded.value.coins).toBe(4321);
     expect(loaded.value.settings.difficulty).toBe('hard');
-    expect(loaded.value.defeatXpCounts).toHaveLength(20);
+    // The 100-wave campaign pads missing defeat counters; old 20-entry arrays migrate with zeros.
+    expect(loaded.value.defeatXpCounts).toHaveLength(100);
     expect(loaded.value.defeatXpCounts.every((count) => count === 0)).toBe(true);
 
     const shadow = (await getRawMeta('shadow:v3-stored')) as StoredProfileRecord;

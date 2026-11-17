@@ -1,31 +1,41 @@
 import { useGameController } from '../app/ControllerContext';
 import type { Difficulty } from '../game/domain/types';
 import { t } from '../localization';
-import { Icon } from './Icon';
+import { Icon, type IconName } from './Icon';
+
+const DIFFICULTY_OPTIONS: readonly {
+  id: Difficulty;
+  label: string;
+  hint: string;
+  icon: IconName;
+}[] = [
+  { id: 'easy', label: t('difficultyEasy'), hint: t('difficultyEasyHint'), icon: 'life-heart' },
+  { id: 'normal', label: t('difficultyNormal'), hint: t('difficultyNormalHint'), icon: 'shield' },
+  { id: 'hard', label: t('difficultyHard'), hint: t('difficultyHardHint'), icon: 'swords' },
+  {
+    id: 'extreme',
+    label: t('difficultyExtreme'),
+    hint: t('difficultyExtremeHint'),
+    icon: 'skull',
+  },
+];
 
 export function DifficultySelector({ difficulty }: { difficulty: Difficulty }) {
   const controller = useGameController();
-  const options: readonly { id: Difficulty; label: string; icon: 'shield' | 'swords' }[] = [
-    { id: 'normal', label: t('difficultyNormal'), icon: 'shield' },
-    { id: 'hard', label: t('difficultyHard'), icon: 'swords' },
-  ];
+  const active = DIFFICULTY_OPTIONS.find((option) => option.id === difficulty);
 
   return (
     <section className="difficulty-panel panel" data-testid="difficulty-selector">
       <div className="difficulty-panel__copy">
         <p className="panel-label">{t('difficultyTitle')}</p>
-        <p className="difficulty-panel__hint">
-          {difficulty === 'hard' ? t('difficultyHardHint') : t('difficultyNormalHint')}
-        </p>
+        <p className="difficulty-panel__hint">{active?.hint ?? t('difficultyNormalHint')}</p>
       </div>
       <div
         className="difficulty-options"
         role="group"
-        aria-label={t('difficultyAria', {
-          difficulty: t(`difficulty${difficulty === 'hard' ? 'Hard' : 'Normal'}`),
-        })}
+        aria-label={t('difficultyAria', { difficulty: active?.label ?? t('difficultyNormal') })}
       >
-        {options.map((option) => {
+        {DIFFICULTY_OPTIONS.map((option) => {
           const selected = difficulty === option.id;
           return (
             <button

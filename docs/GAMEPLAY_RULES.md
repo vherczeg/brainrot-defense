@@ -1,4 +1,4 @@
-# Gameplay rules (M1.1)
+# Gameplay rules (M4)
 
 ## Board
 
@@ -273,6 +273,86 @@ to the ordinary curve after the boss premium, preventing a permanent post-boss r
   unchanged.
 - **M3.6 late-wave smoothing:** wave 18 removes one Shadow Runner L7; wave 19 removes one Shadow
   Runner L7 and downgrades another to L6. Wave 20 is unchanged.
+
+### The 100-wave campaign (M4)
+
+- Waves 21–100 extend the campaign in **ten chapters** of ten waves each (1–10: A káosz kapuja,
+  11–20: Méreg az égen, 21–30: A rozsda földje, 31–40: Vihar éjszakája, 41–50: A mocsár királya,
+  51–60: Az árnyék trónja, 61–70: Iker káosz, 71–80: A lávafolyosó, 81–90: A sárkány tornya,
+  91–100: A végső kapu). The chapter name is shown on the wave preview.
+- Every tenth wave is a **mandatory boss wave** (10, 20, 30, …, 100). The first 20 waves, their
+  rewards, enemy lists and both original bosses are untouched.
+- Ordinary rewards grow linearly from 850 (wave 21) to 2 800 (wave 99); boss waves pay a ~1.45×
+  premium and the finale pays 5 000. Replays always pay 35%.
+- **Wave modifiers** change a wave's rules and are announced on the wave preview:
+  Vihar (allies attack 15% slower), Őrjöngés (enemy attack +20%), Sebes szél (enemy move +35%),
+  Vastag páncél (enemy armor +0.05, capped at 0.9), Aranyláz (rewards ×1.5) and Sűrű köd
+  (allies move 20% slower). Modifiers are deterministic wave data, never random.
+- **Surprise bosses:** each 20-wave block contains exactly one hidden surprise-boss wave
+  (5 per full run), chosen deterministically from the profile id. It never replaces a mandatory
+  boss wave and never appears in waves 1–11. The surprise boss fights alone, pays 1.5× the wave
+  reward, and is announced as "MEGLEPETÉS FŐELLENSÉG" on the preview. Losing does not change the
+  selection; reloading does not reroll it.
+
+### New characters (M4)
+
+| Character      | Cost | Role           | Special                                                   |
+| -------------- | ---: | -------------- | --------------------------------------------------------- |
+| Lézer Krokodil |  100 | Ranged damage  | laser shots from range 3                                  |
+| Villám Skorpió |  150 | Area damage    | chain lightning; breaks phase shift; arcs back when alone |
+| Páncél Rinó    |  200 | Tank           | 30% armor; splash damage to nearby enemies                |
+| Fagy Bagoly    |  200 | Support sniper | slows the victim's attack/move; breaks phase shift        |
+
+All four use the same merge-rank (1–10) and XP-level (1–100) progression. Rank growth is
+×1.45 attack / ×1.5 HP per rank; level growth is +3.5% attack / +4% HP per level.
+
+### New enemies and boss mechanics (M4)
+
+New regular enemies (from wave 22 onward): Méreg Darázs (ranged poison), Kő Varangy (thorns),
+Vihar Varjú (chain lightning), Pajzs Rák (armor aura), Gyógy Gomba (heals allies), Köpködő Csiga
+(ranged), Tükör Moly (phase shift – lightning/frost breaks it), Káosz Manó (very fast),
+Bomba Manó (explodes on death) and Óriás Bogár (tank with enrage).
+
+New boss mechanics, all deterministic and telegraphed with status texts:
+
+- **Thorns** – melee attackers take a fraction of the thorned enemy's attack back.
+- **Phase shift** – damage taken ×0.3 while active; lightning and frost attacks break it and
+  start the cooldown.
+- **Summon** – spawns minions at fixed cells on a timer, capped per battle.
+- **Enrage** – one or more HP thresholds raise attack (and sometimes armor) with an "FELDÜHÖDÖTT!"
+  announcement.
+- **Explode** – on death, deals AoE damage around the unit.
+- **Stun** – freezes the nearest ally briefly.
+- **Heal** – restores the most wounded ally in range.
+- **Armor aura** – nearby allies gain armor (additive, capped at 0.9).
+
+### Army upgrades (M4)
+
+A permanent upgrade shop ("Sereg fejlesztése") offers two gold sinks, both capped at level 25:
+
+- **Sereg ereje:** +5% attack to every unit per level; cost 75 × (level+1)^1.5, rounded to 10.
+- **Sereg szíve:** +5% HP to every unit per level; cost 60 × (level+1)^1.5, rounded to 10.
+
+Upgrades apply at battle creation, affect every character and every rank, and are stored in the
+existing `upgrades` save field (validated, backward compatible).
+
+### Four difficulty modes (M4)
+
+| Mode     | Enemy HP | Enemy attack | Comfort on defeat |
+| -------- | -------: | -----------: | ----------------: |
+| Könnyű   |     ×0.8 |         ×0.8 |                70 |
+| Normál   |     ×1.0 |         ×1.0 |                50 |
+| Nehéz    |     ×1.4 |         ×1.2 |                30 |
+| Végtelen |     ×1.7 |        ×1.35 |                20 |
+
+Victory gold and XP are identical in every mode. The mode is stored in `settings.difficulty`
+and persists per profile. Old saves with normal/hard load unchanged.
+
+### Wave-100 finale
+
+The Mega Káosz Király (wave 100) fights in three enrage phases, summons Mini Brainrots, stuns
+and explodes on death. Beating wave 100 shows the campaign-complete screen; the campaign stays
+replayable at 35% rewards with no further progress gates.
 
 ## Combat simulation
 

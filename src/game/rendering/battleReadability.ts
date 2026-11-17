@@ -48,6 +48,10 @@ export function attackLinkColor(kind: AttackKind): number {
       return 0x7dff5a;
     case 'poison':
       return 0x7dff5a;
+    case 'ranged':
+      return 0xffd166;
+    case 'frost':
+      return 0x8ad1ff;
     default:
       return 0xffa35a;
   }

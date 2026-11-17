@@ -4,6 +4,15 @@ Státusz: **generált koncepció / ideiglenes placeholder, Ábel jóváhagyása 
 Nem végleges karaktergrafika. A végleges assetek ugyanezeket az útvonalakat és frame-számokat
 használhatják, így a csere a rendering layerben marad.
 
+M3.3 megjegyzés: a jelenlegi grafika nem elég jó véglegesnek (bagoly/nyúl sziluett, gyenge
+csőr/karmok). Az audit és a javasolt irány:
+
+- `docs/green-venom-falcon/ASSET_AUDIT.md`
+- `docs/green-venom-falcon/visual-v2/reference-sheet.png` (referencia, nem játékasset)
+- `docs/green-venom-falcon/FINAL_ASSET_SPEC.md` (végleges illusztrált asset specifikáció)
+
+A lenti fájlok a jelenlegi, változatlan M3.2 placeholder állományt írják le.
+
 ## Közös specifikáció
 
 - Frame méret: **256 × 256 px**, RGBA, átlátszó háttér.

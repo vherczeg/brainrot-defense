@@ -41,7 +41,7 @@ The rendering layers address creatures by stable IDs:
 - `armored-slug`
 - `shadow-runner`
 - `mega-brainrot-gorilla`
-- `green-venom-falcon` (generated provisional spritesheets; see `docs/green-venom-falcon/ASSET_LIST.md` and `ASSET_GUIDE.txt`)
+- `green-venom-falcon` (generated provisional spritesheets; visual audit and final art spec: `docs/green-venom-falcon/ASSET_AUDIT.md`, `FINAL_ASSET_SPEC.md`; v2 reference: `visual-v2/reference-sheet.png`)
 
 A future asset catalog can map these IDs to sprite sheets or individual textures. Domain code,
 commands, saves, and combat must not change when art is replaced.

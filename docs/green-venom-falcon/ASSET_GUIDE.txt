@@ -11,6 +11,13 @@ karaktergrafika: Ábelnek jóvá kell hagynia. A pontos fájllista és specifik�
 docs/green-venom-falcon/ASSET_LIST.md. A generált állapot a manifestben
 "generated-concept-placeholder-pending-abel-approval".
 
+M3.3 vizuális audit: a jelenlegi grafika bagoly/nyúl sziluettje és a gyenge csőr/karmok
+miatt nem fogadható el véglegesnek. Az audit: docs/green-venom-falcon/ASSET_AUDIT.md.
+Az új irány referencia (NEM játékasset, NEM végleges):
+docs/green-venom-falcon/visual-v2/reference-sheet.png. A végleges illusztrált asset
+specifikációja: docs/green-venom-falcon/FINAL_ASSET_SPEC.md. A játékban lévő assetek
+egyelőre változatlanok maradtak.
+
 Véglegesítéshez még szükséges
 ----------------------------
 1. Ábel vizuális jóváhagyása a generált irányra (barna tollazat, nagy szárnyak,

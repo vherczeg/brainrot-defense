@@ -58,18 +58,18 @@ interface PlayerProfile {
   profileId: string; // safe id: [a-zA-Z0-9_-], <= 80 chars
   name: string; // trimmed, 1..24 chars
   coins: number; // integer, 0..1_000_000_000
-  currentWave: number; // integer, 1..20
-  unlockedWave: number; // integer, 1..20, >= currentWave
-  completedWaves: number[]; // unique wave ids, sorted, subset of 1..20
+  currentWave: number; // integer, 1..100
+  unlockedWave: number; // integer, 1..100, >= currentWave
+  completedWaves: number[]; // unique wave ids, sorted, subset of 1..100
   characters: CharacterInstance[]; // 0..12 entries
-  upgrades: Record<string, number>; // <= 20 keys, finite values 0..1e9
+  upgrades: Record<string, number>; // <= 20 keys, finite values 0..1e9; 'army-attack'/'army-hp' 0..25
   settings: {
     soundEnabled: boolean;
     reducedMotion: boolean;
     battleSpeed: 1 | 2;
-    difficulty: 'normal' | 'hard';
+    difficulty: 'easy' | 'normal' | 'hard' | 'extreme';
   };
-  defeatXpCounts: number[]; // exactly 20 entries, each integer 0..3
+  defeatXpCounts: number[]; // up to 100 entries, each integer 0..3 (shorter arrays pad with zeros)
   tutorialSeen: boolean;
   nextCharacterId: number; // integer >= 1
   createdAt: number; // integer epoch ms
@@ -78,7 +78,7 @@ interface PlayerProfile {
 
 interface CharacterInstance {
   id: string; // safe id, <= 80 chars, unique per profile
-  typeId: 'laser-crocodile' | 'lightning-scorpion';
+  typeId: 'laser-crocodile' | 'lightning-scorpion' | 'armored-rhino' | 'frost-owl';
   mergeRank: number; // integer, 1..10
   totalXp: number; // integer, 0..245_025 (maximum is level 100)
   col: number; // integer, 0..5
@@ -95,11 +95,15 @@ Additional invariants enforced on import/save validation:
 - character IDs are unique;
 - character positions are unique and inside the allied area;
 - completed waves are unique, in range, and form a contiguous prefix starting at wave 1;
-- `currentWave` equals the next unfinished wave (`min(completedWaves.length + 1, 10)`);
+- `currentWave` equals the next unfinished wave (`min(completedWaves.length + 1, 100)`), with the
+  documented legacy exceptions: saves written when the campaign ended at wave 10 (M0.1) or wave 20
+  (M3.x) store `currentWave` at the final wave and are advanced in memory to the next wave;
 - `currentWave <= unlockedWave`;
 - `nextCharacterId` is an integer in `1..2_000_000_000`; at the upper bound the allocator reuses
   that starting point and skips existing IDs without advancing the stored value past the bound;
-- `defeatXpCounts` has exactly one entry per wave; each entry is an integer 0..3.
+- `defeatXpCounts` has at most one entry per wave (max 100); each entry is an integer 0..3.
+  Arrays written by the 20-wave versions are padded with zeros on load, so the campaign extension
+  never invalidates existing saves.
 - `coins` is an integer in `0..1_000_000_000`. Wave rewards and defeat coins that would exceed
   the bound are rejected with `coin-overflow` instead of creating an unsaveable profile. A victory
   whose coin reward overflows still completes the wave and grants XP with zero coins.
@@ -161,6 +165,9 @@ Migration rules:
 - The complete migrated profile is validated again against v4 before it is returned.
 - v2 saves keep every field and receive `settings.difficulty = 'normal'` plus zero defeat counters.
 - v3 saves keep their difficulty setting and receive zero defeat counters.
+- v4 saves from the 20-wave campaign load unchanged: short `defeatXpCounts` arrays are padded to
+  100 entries, a completed 20-wave campaign advances to wave 21, and `upgrades` levels for
+  `army-attack`/`army-hp` are clamped to 25 when read.
 - `level` is never interpreted as character level.
 - Character IDs, types, positions, coins, completed waves, wave unlock state, profile identity,
   settings, upgrades, tutorial state, and ID allocator state are preserved.

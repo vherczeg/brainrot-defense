@@ -1,0 +1,174 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1100" viewBox="0 0 1600 1100">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#171126"/><stop offset="1" stop-color="#241735"/>
+    </linearGradient>
+    <linearGradient id="brownBody" x1="0" y1="0" x2="0.3" y2="1">
+      <stop offset="0" stop-color="#e0ad6a"/><stop offset="0.42" stop-color="#a86a34"/><stop offset="1" stop-color="#4a2a12"/>
+    </linearGradient>
+    <linearGradient id="brownWing" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#c58b4d"/><stop offset="0.55" stop-color="#7a4822"/><stop offset="1" stop-color="#3a1f0c"/>
+    </linearGradient>
+    <linearGradient id="chest" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffe9b8"/><stop offset="0.55" stop-color="#d9b06c"/><stop offset="1" stop-color="#8a5b2c"/>
+    </linearGradient>
+    <linearGradient id="green" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#d6ff9a"/><stop offset="0.35" stop-color="#7dff5a"/><stop offset="1" stop-color="#1c7a2e"/>
+    </linearGradient>
+    <linearGradient id="beak" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#4b4845"/><stop offset="0.5" stop-color="#1d1b1a"/><stop offset="1" stop-color="#060606"/>
+    </linearGradient>
+    <linearGradient id="talon" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#383431"/><stop offset="1" stop-color="#020202"/>
+    </linearGradient>
+    <radialGradient id="eye" cx="0.4" cy="0.35" r="0.65">
+      <stop offset="0" stop-color="#fff7ad"/><stop offset="0.5" stop-color="#ffd23f"/><stop offset="1" stop-color="#b56a00"/>
+    </radialGradient>
+    <radialGradient id="poisonGlow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#b6ff7a" stop-opacity="0.8"/><stop offset="1" stop-color="#7dff5a" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#000" flood-opacity="0.55"/>
+    </filter>
+    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="9" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="1600" height="1100" fill="url(#bg)"/>
+  <rect x="36" y="36" width="1528" height="1028" rx="28" fill="none" stroke="#5c3b7a" stroke-width="2"/>
+  <text x="76" y="96" font-family="Helvetica" font-size="34" font-weight="bold" fill="#ffffff">GREEN VENOM FALCON</text>
+  <text x="76" y="130" font-family="Helvetica" font-size="18" fill="#c9b6e6">Visual direction v2 · PROVISIONAL VECTOR REFERENCE · not final game art · needs Ábel's approval</text>
+
+  <!-- Hero side profile -->
+  <g filter="url(#shadow)">
+    <!-- tail -->
+    <g transform="translate(540 470)">
+      <path d="M0 0 C90 10 150 60 190 128 C130 118 80 96 42 62 C24 132 12 190 -14 238 C-36 188 -48 130 -44 70 C-18 48 -8 22 0 0 Z" fill="url(#brownWing)" stroke="#2a1608" stroke-width="7"/>
+      <path d="M20 28 C92 44 136 88 164 130" stroke="#e0ad6a" stroke-width="5" fill="none" opacity="0.55"/>
+      <path d="M-8 50 C20 108 26 160 18 204" stroke="#e0ad6a" stroke-width="4" fill="none" opacity="0.45"/>
+      <path d="M50 74 C94 100 122 128 138 156" stroke="#2a1608" stroke-width="4" fill="none" opacity="0.6"/>
+    </g>
+
+    <!-- folded wing: broad, layered, not an ear -->
+    <g transform="translate(360 330)" filter="url(#shadow)">
+      <path d="M0 0 C120 -18 220 30 300 112 C338 152 370 206 402 288 C332 270 278 244 232 212 C260 260 280 304 292 350 C226 324 176 292 136 252 C150 306 158 354 156 396 C104 352 66 304 42 252 C30 220 18 188 6 156 Z" fill="url(#brownWing)" stroke="#2a1608" stroke-width="8"/>
+      <!-- layered feather plates -->
+      <path d="M34 40 C118 38 194 78 252 132 C282 162 306 196 326 236 C280 220 240 200 206 176 C220 206 228 236 230 264 C188 242 154 216 126 184 C134 214 138 242 136 268 C100 236 72 200 54 160 C42 122 34 80 34 40 Z" fill="#9b6338" opacity="0.7"/>
+      <path d="M60 64 C132 70 190 104 234 146 M80 100 C146 110 196 140 232 176 M92 138 C148 150 188 174 216 202" stroke="#f0c083" stroke-width="4" fill="none" opacity="0.45"/>
+      <path d="M262 202 C330 216 382 260 420 318 C368 308 324 288 290 262 C306 294 316 324 320 352 C282 322 252 288 232 252 Z" fill="#7a4822" opacity="0.8"/>
+      <!-- armor-like feather rims -->
+      <path d="M16 34 C118 18 222 70 306 168" stroke="#7dff5a" stroke-width="3" fill="none" opacity="0.45"/>
+      <path d="M44 214 C80 268 124 316 176 354" stroke="#7dff5a" stroke-width="2.5" fill="none" opacity="0.35"/>
+    </g>
+
+    <!-- body -->
+    <path d="M330 310 C422 272 532 304 588 392 C642 478 626 586 552 650 C478 714 370 706 318 636 C270 570 276 464 316 398 C322 372 326 336 330 310 Z" fill="url(#brownBody)" stroke="#2a1608" stroke-width="9"/>
+    <path d="M352 388 C404 358 474 372 516 420 C554 464 558 538 520 590 C482 642 416 656 370 622 C328 592 316 530 334 474 C342 442 344 414 352 388 Z" fill="url(#chest)" opacity="0.85"/>
+    <!-- chest feather scallops -->
+    <path d="M360 434 C390 420 420 426 442 448 C424 468 396 472 374 456 Z" fill="#f7dfac" opacity="0.65"/>
+    <path d="M382 486 C412 472 444 478 466 500 C446 520 416 524 394 508 Z" fill="#eccb90" opacity="0.6"/>
+    <path d="M396 536 C424 524 454 530 474 550 C456 568 426 572 406 558 Z" fill="#d9b06c" opacity="0.55"/>
+    <!-- poison glow and drips -->
+    <ellipse cx="390" cy="476" rx="86" ry="112" fill="url(#poisonGlow)" opacity="0.55"/>
+    <path d="M366 402 C386 430 378 464 398 490 C418 516 408 552 390 574 C372 552 380 516 360 490 C342 466 348 430 366 402 Z" fill="url(#green)" opacity="0.75" filter="url(#glow)"/>
+    <circle cx="418" cy="590" r="8" fill="#b6ff7a" opacity="0.9"/>
+    <circle cx="430" cy="616" r="5" fill="#7dff5a" opacity="0.8"/>
+    <circle cx="406" cy="634" r="4" fill="#7dff5a" opacity="0.7"/>
+
+    <!-- neck and head: tapered raptor skull, not a circle -->
+    <path d="M306 314 C312 254 324 198 360 164 C394 132 446 128 478 154 C514 182 524 228 510 270 C498 306 470 330 436 344 L360 366 Z" fill="url(#brownBody)" stroke="#2a1608" stroke-width="9"/>
+    <!-- swept-back crest feathers -->
+    <path d="M442 146 C492 124 542 120 588 136 C554 154 528 174 512 196 C548 190 582 196 612 214 C570 222 542 238 520 258 C548 260 574 272 592 292 C552 294 522 304 500 322 C486 288 470 252 458 218 C450 190 444 166 442 146 Z" fill="url(#brownWing)" stroke="#2a1608" stroke-width="6"/>
+    <path d="M468 168 C506 156 540 158 566 168 M486 204 C520 194 550 198 574 210" stroke="#f0c083" stroke-width="3" fill="none" opacity="0.45"/>
+    <!-- malar stripe -->
+    <path d="M358 246 C380 260 402 274 430 282 C410 306 386 316 360 312 C346 290 346 266 358 246 Z" fill="#2a1608" opacity="0.9"/>
+    <!-- eye + brow -->
+    <path d="M334 218 C356 200 392 198 416 214 C402 238 378 248 352 240 C342 234 336 226 334 218 Z" fill="#1b0f06"/>
+    <ellipse cx="378" cy="220" rx="18" ry="15" fill="url(#eye)" stroke="#3a1f0c" stroke-width="2"/>
+    <ellipse cx="374" cy="220" rx="5" ry="12" fill="#100a05"/>
+    <circle cx="382" cy="214" r="4" fill="#ffffff" opacity="0.85"/>
+    <path d="M330 202 C354 186 392 184 420 200" stroke="#f0c083" stroke-width="4" fill="none" opacity="0.7"/>
+
+    <!-- hooked beak: prominent bird-of-prey shape -->
+    <path d="M332 246 C300 238 266 244 238 260 C210 276 190 296 178 318 C208 314 234 306 254 294 C246 314 250 334 264 350 C278 366 300 372 320 366 C306 352 300 334 306 318 C312 300 322 280 332 246 Z" fill="url(#beak)" stroke="#050505" stroke-width="5"/>
+    <path d="M304 260 C278 264 252 276 230 294 C252 288 274 282 294 274 Z" fill="#d9a441" opacity="0.9"/>
+    <path d="M252 292 C264 314 280 332 300 344" stroke="#5e5a56" stroke-width="3" fill="none" opacity="0.8"/>
+    <path d="M236 280 C224 292 214 306 208 322" stroke="#7dff5a" stroke-width="5" fill="none" opacity="0.65" filter="url(#glow)"/>
+
+    <!-- legs and ENORMOUS black talons -->
+    <g filter="url(#shadow)">
+      <path d="M386 620 C382 664 386 700 398 736 L440 736 C432 698 432 660 438 626 Z" fill="#5a3518" stroke="#2a1608" stroke-width="6"/>
+      <path d="M486 616 C486 660 490 698 502 732 L544 732 C534 696 532 658 538 622 Z" fill="#5a3518" stroke="#2a1608" stroke-width="6"/>
+      <!-- foot 1 -->
+      <path d="M398 720 C410 718 424 720 436 728 L454 776 C440 780 428 776 418 768 L398 792 C388 782 386 770 392 760 Z" fill="url(#talon)" stroke="#000" stroke-width="4"/>
+      <path d="M404 736 C376 748 344 770 318 802 C352 800 382 786 408 764 Z" fill="url(#talon)" stroke="#000" stroke-width="4"/>
+      <path d="M420 740 C412 774 410 806 416 840 C430 812 438 782 440 750 Z" fill="url(#talon)" stroke="#000" stroke-width="4"/>
+      <path d="M438 732 C462 748 482 770 496 798 C470 796 446 780 430 756 Z" fill="url(#talon)" stroke="#000" stroke-width="4"/>
+      <path d="M410 724 C442 706 470 706 492 720 C474 734 448 742 424 740 Z" fill="#2a1608"/>
+      <!-- foot 2 -->
+      <path d="M502 718 C514 716 528 718 540 726 L558 774 C544 778 532 774 522 766 L502 790 C492 780 490 768 496 758 Z" fill="url(#talon)" stroke="#000" stroke-width="4"/>
+      <path d="M508 734 C480 746 448 768 422 800 C456 798 486 784 512 762 Z" fill="url(#talon)" stroke="#000" stroke-width="4"/>
+      <path d="M524 738 C516 772 514 804 520 838 C534 810 542 780 544 748 Z" fill="url(#talon)" stroke="#000" stroke-width="4"/>
+      <path d="M542 730 C566 746 586 768 600 796 C574 794 550 778 534 754 Z" fill="url(#talon)" stroke="#000" stroke-width="4"/>
+      <!-- green venom on talons -->
+      <path d="M330 792 C342 780 356 774 370 776" stroke="#7dff5a" stroke-width="4" fill="none" opacity="0.8"/>
+      <path d="M470 786 C482 774 496 770 510 772" stroke="#7dff5a" stroke-width="4" fill="none" opacity="0.8"/>
+    </g>
+  </g>
+
+  <!-- right side: detail callouts -->
+  <g transform="translate(980 160)">
+    <text x="0" y="0" font-family="Helvetica" font-size="24" font-weight="bold" fill="#ffffff">KEY SHAPES TO ILLUSTRATE</text>
+
+    <!-- beak detail -->
+    <g transform="translate(0 36)">
+      <rect width="520" height="220" rx="18" fill="#20142f" stroke="#5c3b7a" stroke-width="2"/>
+      <text x="20" y="34" font-family="Helvetica" font-size="18" fill="#b6ff7a">1 · HOOKED BEAK + FALCON FACE</text>
+      <g transform="translate(70 120) scale(1.35)">
+        <path d="M12 0 C-14 -8 -46 -2 -72 16 C-96 32 -112 50 -124 72 C-94 66 -68 56 -48 42 C-56 64 -52 86 -36 102 C-20 118 4 122 24 112 C10 96 4 78 10 60 C16 42 22 20 12 0 Z" fill="url(#beak)" stroke="#050505" stroke-width="4"/>
+        <path d="M-12 12 C-36 18 -60 30 -80 48 C-58 42 -36 34 -18 26 Z" fill="#d9a441"/>
+        <path d="M-66 64 C-56 84 -42 100 -24 112" stroke="#5e5a56" stroke-width="3" fill="none"/>
+        <path d="M20 -12 C46 -32 82 -34 108 -18 C92 4 68 16 44 14 C34 6 26 -2 20 -12 Z" fill="#1b0f06"/>
+        <ellipse cx="68" cy="-10" rx="16" ry="13" fill="url(#eye)" stroke="#3a1f0c" stroke-width="2"/>
+        <ellipse cx="64" cy="-10" rx="4" ry="10" fill="#100a05"/>
+        <circle cx="72" cy="-15" r="3.5" fill="#ffffff" opacity="0.9"/>
+        <path d="M14 -34 C40 -50 80 -50 110 -34" stroke="#f0c083" stroke-width="4" fill="none"/>
+      </g>
+    </g>
+
+    <!-- talon detail -->
+    <g transform="translate(0 282)">
+      <rect width="520" height="250" rx="18" fill="#20142f" stroke="#5c3b7a" stroke-width="2"/>
+      <text x="20" y="34" font-family="Helvetica" font-size="18" fill="#b6ff7a">2 · ENORMOUS BLACK TALONS</text>
+      <g transform="translate(60 65) scale(0.92)">
+        <path d="M40 0 C54 -2 68 0 80 8 L104 92 C88 100 72 96 58 86 L30 118 C18 106 16 90 24 76 Z" fill="url(#talon)" stroke="#000" stroke-width="4"/>
+        <path d="M50 22 C6 40 -34 68 -66 106 C-22 104 18 86 52 56 Z" fill="url(#talon)" stroke="#000" stroke-width="4"/>
+        <path d="M66 28 C54 76 52 122 60 168 C78 128 88 84 90 42 Z" fill="url(#talon)" stroke="#000" stroke-width="4"/>
+        <path d="M84 16 C120 38 148 68 166 106 C130 102 98 80 74 48 Z" fill="url(#talon)" stroke="#000" stroke-width="4"/>
+        <path d="M0 132 C34 116 74 114 108 128 C82 146 44 154 12 148 Z" fill="#2a1608"/>
+        <path d="M-60 106 C-46 92 -28 84 -8 84" stroke="#7dff5a" stroke-width="6" fill="none" opacity="0.8"/>
+        <path d="M60 168 C68 180 78 188 90 192" stroke="#7dff5a" stroke-width="5" fill="none" opacity="0.7"/>
+      </g>
+    </g>
+
+    <!-- palette + style -->
+    <g transform="translate(0 564)">
+      <rect width="520" height="320" rx="18" fill="#20142f" stroke="#5c3b7a" stroke-width="2"/>
+      <text x="20" y="34" font-family="Helvetica" font-size="18" fill="#b6ff7a">3 · PALETTE + MATERIAL RULES</text>
+      <g transform="translate(20 56)">
+        <rect width="86" height="54" rx="10" fill="#e0ad6a"/><text x="43" y="80" text-anchor="middle" font-family="Helvetica" font-size="12" fill="#20142f">HIGHLIGHT</text>
+        <rect x="98" width="86" height="54" rx="10" fill="#a86a34"/><text x="141" y="80" text-anchor="middle" font-family="Helvetica" font-size="12" fill="#20142f">BROWN</text>
+        <rect x="196" width="86" height="54" rx="10" fill="#4a2a12"/><text x="239" y="80" text-anchor="middle" font-family="Helvetica" font-size="12" fill="#ffffff">DEEP BROWN</text>
+        <rect x="294" width="86" height="54" rx="10" fill="#7dff5a"/><text x="337" y="80" text-anchor="middle" font-family="Helvetica" font-size="12" fill="#20142f">VENOM</text>
+        <rect x="392" width="86" height="54" rx="10" fill="#070707"/><text x="435" y="80" text-anchor="middle" font-family="Helvetica" font-size="12" fill="#ffffff">TALON</text>
+      </g>
+      <text x="20" y="150" font-family="Helvetica" font-size="15" fill="#d8c8ef">• Layered feather plates with gold/venom rims, not flat fill.</text>
+      <text x="20" y="178" font-family="Helvetica" font-size="15" fill="#d8c8ef">• Strong top-left light, warm rim light, deep brown shadow.</text>
+      <text x="20" y="206" font-family="Helvetica" font-size="15" fill="#d8c8ef">• Fierce eye + heavy brow; readable at 150 px display width.</text>
+      <text x="20" y="234" font-family="Helvetica" font-size="15" fill="#d8c8ef">• Child-friendly fantasy: stylized, not gory; green venom glow.</text>
+      <text x="20" y="262" font-family="Helvetica" font-size="15" fill="#d8c8ef">• Silhouette test: beak, swept crest, broad wings, huge talons.</text>
+      <text x="20" y="290" font-family="Helvetica" font-size="15" fill="#ffd447">• This sheet is a silhouette/material guide, NOT final art.</text>
+    </g>
+  </g>
+</svg>

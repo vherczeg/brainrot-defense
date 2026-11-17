@@ -12,6 +12,8 @@ import {
   type EnemyTypeId,
 } from '../../../game/domain/types';
 import type { BattleEvent, BattleState, BattleUnit } from '../../../game/simulation/types';
+import { isFlyingCreature } from '../creatureArt';
+import { drawCreatureArtToGraphics } from '../creatureArtPhaser';
 import {
   LASER_CROCODILE_ANIMATIONS,
   LASER_CROCODILE_DISPLAY_WIDTH,
@@ -792,34 +794,7 @@ export class BattleScene extends Phaser.Scene {
     mergeRank: number,
   ): void {
     this.drawAllyAura(g, typeId, mergeRank);
-    const colors = CHARACTER_DEFINITIONS[typeId].colors;
-    g.fillStyle(colors.secondary, 1);
-    g.fillEllipse(-6, 6, 52, 34);
-    g.fillStyle(colors.primary, 1);
-    g.fillEllipse(1, 2, 48, 34);
-    g.fillStyle(colors.secondary, 1);
-    g.fillCircle(-24, -10, 10);
-    g.fillCircle(20, -10, 10);
-    g.fillStyle(colors.primary, 1);
-    g.fillCircle(-24, -10, 7);
-    g.fillCircle(20, -10, 7);
-    g.fillStyle(colors.primary, 1);
-    g.fillTriangle(24, 14, 38, 22, 20, 24);
-    g.fillTriangle(30, 4, 42, 0, 36, 14);
-    g.fillStyle(0xd8fbff, 1);
-    g.fillCircle(-4, 0, 6);
-    g.fillCircle(10, 0, 6);
-    g.fillStyle(0x1f1680, 1);
-    g.fillCircle(-4, 0, 2.6);
-    g.fillCircle(10, 0, 2.6);
-    g.lineStyle(3, colors.accent, 1);
-    g.beginPath();
-    g.moveTo(-30, 0);
-    g.lineTo(-38, -8);
-    g.lineTo(-30, -14);
-    g.strokePath();
-    g.fillStyle(colors.accent, 1);
-    g.fillTriangle(-42, -18, -34, -12, -40, -4);
+    drawCreatureArtToGraphics(g, typeId);
   }
 
   private drawEnemyArt(
@@ -828,137 +803,9 @@ export class BattleScene extends Phaser.Scene {
     level: number,
     isBoss: boolean,
   ): void {
-    const colors = ENEMY_DEFINITIONS[typeId].colors;
-    if (typeId === 'green-venom-falcon') {
-      // Placeholder procedural art until the final Green Venom Falcon spritesheet exists.
-      // See docs/green-venom-falcon/ASSET_GUIDE.txt for the missing asset specification.
-      g.fillStyle(colors.secondary, 1);
-      g.fillTriangle(-30, -6, -58, -34, -14, -22);
-      g.fillTriangle(30, -6, 58, -34, 14, -22);
-      g.fillStyle(colors.primary, 1);
-      g.fillEllipse(0, 2, 58, 46);
-      g.fillTriangle(-20, 20, -4, 20, -12, 34);
-      g.fillTriangle(20, 20, 4, 20, 12, 34);
-      g.fillCircle(0, -20, 22);
-      g.fillStyle(colors.secondary, 1);
-      g.fillTriangle(-16, -26, -24, -42, -4, -34);
-      g.fillTriangle(16, -26, 24, -42, 4, -34);
-      g.fillStyle(colors.accent, 1);
-      g.fillTriangle(-5, -16, 5, -16, 0, -4);
-      g.fillCircle(-9, -24, 4);
-      g.fillCircle(9, -24, 4);
-      g.fillStyle(0x0a1207, 1);
-      g.fillCircle(-9, -24, 2);
-      g.fillCircle(9, -24, 2);
-      g.lineStyle(5, 0x070707, 1);
-      g.beginPath();
-      g.moveTo(-18, 22);
-      g.lineTo(-24, 40);
-      g.lineTo(-34, 48);
-      g.moveTo(-18, 22);
-      g.lineTo(-10, 42);
-      g.lineTo(-4, 50);
-      g.moveTo(18, 22);
-      g.lineTo(24, 40);
-      g.lineTo(34, 48);
-      g.moveTo(18, 22);
-      g.lineTo(10, 42);
-      g.lineTo(4, 50);
-      g.strokePath();
-      g.fillStyle(0x070707, 1);
-      g.fillTriangle(-36, 48, -28, 42, -28, 54);
-      g.fillTriangle(-6, 50, 2, 44, 2, 56);
-      g.fillTriangle(36, 48, 28, 42, 28, 54);
-      g.fillTriangle(6, 50, -2, 44, -2, 56);
-      g.fillStyle(colors.accent, 0.9);
-      g.fillCircle(26, 10, 5);
-      g.fillCircle(32, 18, 3.5);
-      g.lineStyle(3, colors.accent, 0.75);
-      g.strokeCircle(0, 0, 46);
-      return;
-    }
-    if (isBoss) {
-      g.fillStyle(colors.secondary, 1);
-      g.fillCircle(-26, 22, 16);
-      g.fillCircle(26, 22, 16);
-      g.fillStyle(colors.primary, 1);
-      g.fillEllipse(0, 6, 60, 54);
-      g.fillCircle(0, -18, 30);
-      g.fillStyle(colors.secondary, 1);
-      g.fillTriangle(-22, -38, -34, -58, -12, -44);
-      g.fillTriangle(22, -38, 34, -58, 12, -44);
-      g.fillStyle(colors.accent, 1);
-      g.fillCircle(-11, -22, 5);
-      g.fillCircle(11, -22, 5);
-      g.fillStyle(0x1c0618, 1);
-      g.fillCircle(-11, -22, 2.4);
-      g.fillCircle(11, -22, 2.4);
-      g.fillStyle(0xffffff, 0.85);
-      g.fillTriangle(-14, -6, -6, -6, -10, 2);
-      g.fillTriangle(6, -6, 14, -6, 10, 2);
-      g.lineStyle(3, colors.accent, 0.7);
-      g.strokeCircle(0, 2, 48);
-      return;
-    }
-    if (typeId === 'mini-brainrot') {
-      g.fillStyle(colors.secondary, 1);
-      g.fillTriangle(-14, -22, -24, -38, -4, -30);
-      g.fillTriangle(14, -22, 24, -38, 4, -30);
-      g.fillStyle(colors.primary, 1);
-      g.fillEllipse(0, 4, 58, 52);
-      g.fillStyle(0xffffff, 0.92);
-      g.fillCircle(-11, 0, 6);
-      g.fillCircle(11, 0, 6);
-      g.fillStyle(0x3a0c1c, 1);
-      g.fillCircle(-11, 0, 2.7);
-      g.fillCircle(11, 0, 2.7);
-      g.lineStyle(3, colors.secondary, 1);
-      g.beginPath();
-      g.moveTo(-10, 16);
-      g.lineTo(0, 21);
-      g.lineTo(10, 16);
-      g.strokePath();
-      if (level >= 3) {
-        g.lineStyle(2.5, colors.accent, 0.8);
-        g.strokeCircle(0, 4, 32);
-      }
-      return;
-    }
-    if (typeId === 'armored-slug') {
-      g.fillStyle(0xffa36b, 1);
-      g.fillRoundedRect(-32, 16, 64, 16, 8);
-      g.fillStyle(colors.primary, 1);
-      g.fillEllipse(0, 2, 60, 50);
-      g.lineStyle(4, colors.accent, 0.8);
-      g.strokeCircle(0, 2, 18);
-      g.beginPath();
-      g.arc(0, 2, 10, 0.4, 4.4);
-      g.strokePath();
-      g.fillStyle(0xffffff, 0.95);
-      g.fillCircle(-20, 14, 5);
-      g.fillCircle(-8, 16, 5);
-      g.fillStyle(0x31101c, 1);
-      g.fillCircle(-20, 14, 2.2);
-      g.fillCircle(-8, 16, 2.2);
-      g.fillStyle(colors.accent, 1);
-      g.fillTriangle(-30, -6, -40, -16, -24, -14);
-      g.fillTriangle(30, -6, 40, -16, 24, -14);
-      return;
-    }
-    g.fillStyle(colors.primary, 1);
-    g.fillTriangle(-32, 6, 18, -28, 32, -6);
-    g.fillTriangle(32, -6, 8, 16, 30, 30);
-    g.fillStyle(colors.secondary, 1);
-    g.fillTriangle(-30, 26, -40, 40, -16, 24);
-    g.fillStyle(colors.accent, 1);
-    g.fillCircle(8, -8, 5);
-    g.fillStyle(0x3d0f1e, 1);
-    g.fillCircle(9, -8, 2.2);
-    g.lineStyle(3, colors.accent, 0.8);
-    g.beginPath();
-    g.moveTo(-20, 4);
-    g.lineTo(2, 10);
-    g.strokePath();
+    void level;
+    void isBoss;
+    drawCreatureArtToGraphics(g, typeId);
   }
 
   private drawCellFill(col: number, row: number, color: number, alpha: number): void {
@@ -1000,9 +847,12 @@ export class BattleScene extends Phaser.Scene {
     }
     const reduced = snapshot.activeProfile?.settings.reducedMotion ?? false;
     for (const view of this.unitViews.values()) {
-      view.container.y = reduced
-        ? view.baseY
-        : view.baseY + Math.sin(time * 0.0024 + view.phaseOffset) * 2;
+      // Grounded units stay visually anchored; only hovering creatures float gently.
+      const flying = isFlyingCreature(view.typeId);
+      view.container.y =
+        reduced || !flying
+          ? view.baseY
+          : view.baseY + Math.sin(time * 0.0016 + view.phaseOffset) * 1.5;
     }
     for (const [index, preview] of this.previewViews.entries()) {
       const baseY = preview.getData('baseY') as number | undefined;
@@ -1353,7 +1203,15 @@ export class BattleScene extends Phaser.Scene {
         } else {
           const attacker = this.unitViews.get(event.attackerId);
           if (!reduced) {
-            this.spawnImpact(to, attacker?.typeId === 'green-venom-falcon' ? 0x7dff5a : 0xffa35a);
+            const impactColor =
+              event.kind === 'frost'
+                ? 0x8ad1ff
+                : event.kind === 'ranged'
+                  ? 0xffd166
+                  : attacker?.typeId === 'green-venom-falcon'
+                    ? 0x7dff5a
+                    : 0xffa35a;
+            this.spawnImpact(to, impactColor);
             if (attacker?.typeId === ARMORED_SNAIL_ENEMY_ID) {
               this.spawnOneShotEffect(to, ARMORED_SNAIL_EFFECTS.slimeSplash, 76, {
                 ground: true,
@@ -1394,7 +1252,10 @@ export class BattleScene extends Phaser.Scene {
               ? '#b6ff7a'
               : undefined;
         this.spawnDamageText(at, event.amount, reduced, damageColor);
-        if (!reduced && view?.sprite) this.flashSprite(view.sprite);
+        if (!reduced) {
+          if (view?.sprite) this.flashSprite(view.sprite);
+          else if (view) this.recoilContainer(view);
+        }
         if (!reduced && view?.typeId === ARMORED_SNAIL_ENEMY_ID) {
           this.spawnUnitOneShotEffect(view, ARMORED_SNAIL_EFFECTS.shellHit, 64, 0.85);
         }
@@ -1432,7 +1293,45 @@ export class BattleScene extends Phaser.Scene {
         } else if (event.status === 'spin-end' && view) {
           this.clearAnimationOverride(view);
           this.clearSpinAura(view);
+        } else if (event.status === 'slow') {
+          this.spawnFloatingText(at.px, at.py - 40, t('canvasSlowed'), '#8ad1ff', 15);
+        } else if (event.status === 'stunned') {
+          this.spawnFloatingText(at.px, at.py - 40, t('canvasStunned'), '#ffe86b', 16);
+          if (!reduced) this.spawnRing(at.px, at.py, 0xffe86b, 40, 320);
+        } else if (event.status === 'phase-start') {
+          this.spawnFloatingText(at.px, at.py - 46, t('canvasPhaseStart'), '#c9b8ff', 15);
+          if (!reduced) this.spawnRing(at.px, at.py, 0xc9b8ff, 46, 340);
+        } else if (event.status === 'phase-break') {
+          this.spawnFloatingText(at.px, at.py - 46, t('canvasPhaseBreak'), '#62e7ff', 16);
+          if (!reduced) this.spawnRing(at.px, at.py, 0x62e7ff, 52, 380);
+        } else if (event.status === 'phase-end') {
+          this.spawnFloatingText(at.px, at.py - 46, t('canvasPhaseEnd'), '#c9b8ff', 14);
+        } else if (event.status === 'enrage') {
+          this.spawnFloatingText(at.px, at.py - 52, t('canvasEnrage'), '#ff6b3a', 17);
+          if (!reduced) this.spawnRing(at.px, at.py, 0xff6b3a, 60, 420);
         }
+        break;
+      }
+      case 'heal': {
+        const at = gridToPixel(event.at.x, event.at.y);
+        this.spawnFloatingText(at.px, at.py - 34, `+${event.amount}`, '#8bffa8', 15);
+        if (!reduced) this.spawnDotBurst(at, 0x8bffa8, 5);
+        break;
+      }
+      case 'summon': {
+        const at = gridToPixel(event.at.x, event.at.y);
+        this.spawnFloatingText(at.px, at.py - 36, t('canvasSummon'), '#c98bff', 14);
+        if (!reduced) this.spawnRing(at.px, at.py, 0xc98bff, 40, 360);
+        break;
+      }
+      case 'explode': {
+        const at = gridToPixel(event.at.x, event.at.y);
+        this.spawnFloatingText(at.px, at.py - 34, t('canvasExplode'), '#ff6b3a', 16);
+        if (!reduced) {
+          this.spawnRing(at.px, at.py, 0xff6b3a, 74, 420);
+          this.spawnDeathBurst(at, 0xff6b3a, 12, 60);
+        }
+        this.controller.playSound('hit');
         break;
       }
       case 'earthquake': {
@@ -1801,6 +1700,20 @@ export class BattleScene extends Phaser.Scene {
   private flashSprite(sprite: Phaser.GameObjects.Sprite): void {
     sprite.setTint(0xffffff);
     this.time.delayedCall(110, () => sprite.clearTint());
+  }
+
+  private recoilContainer(view: UnitView): void {
+    if (!view.alive) return;
+    const base = view.container.scaleX;
+    this.tweens.killTweensOf(view.container);
+    this.tweens.add({
+      targets: view.container,
+      scaleX: base * 0.9,
+      scaleY: base * 0.9,
+      duration: 70,
+      yoyo: true,
+      onComplete: () => view.container.setScale(base),
+    });
   }
 
   private spawnVictoryBurst(): void {

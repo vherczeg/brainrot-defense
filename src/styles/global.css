@@ -1596,6 +1596,83 @@ ol {
   line-height: 1.35;
 }
 
+/* Upgrades (late-game coin sink) */
+.upgrades-block {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px dashed rgba(120, 148, 240, 0.22);
+}
+
+.upgrades-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.upgrade-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 9px;
+  padding: 9px;
+  border-radius: 15px;
+  border: 1px solid rgba(255, 216, 90, 0.22);
+  background: linear-gradient(160deg, rgba(60, 48, 20, 0.55), rgba(24, 16, 6, 0.65));
+}
+
+.upgrade-card__title-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.upgrade-card__name {
+  font-size: 0.84rem;
+  font-weight: 900;
+}
+
+.upgrade-card__description {
+  margin: 2px 0 0;
+  color: var(--muted);
+  font-size: 0.66rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.shop-card__special {
+  margin: 1px 0 5px;
+  color: var(--muted-2);
+  font-size: 0.62rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.wave-modifier {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  margin: 8px 0 0;
+  padding: 7px 10px;
+  border-radius: 11px;
+  border: 1px solid rgba(98, 231, 255, 0.28);
+  background: rgba(98, 231, 255, 0.08);
+  color: var(--muted);
+  font-size: 0.68rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.wave-modifier svg {
+  flex: 0 0 auto;
+  margin-top: 1px;
+  color: #62e7ff;
+}
+
+.wave-modifier strong {
+  color: #a8ecff;
+}
+
 /* Inspector */
 .inspector {
   display: flex;
@@ -3386,6 +3463,32 @@ ol {
   background: rgba(255, 163, 90, 0.14);
   color: #ffd0a6;
   box-shadow: inset 0 0 0 1px rgba(255, 163, 90, 0.14);
+}
+
+.difficulty-option--easy.difficulty-option--active {
+  border-color: rgba(141, 255, 190, 0.55);
+  background: rgba(141, 255, 190, 0.1);
+  color: #c9ffe1;
+  box-shadow: inset 0 0 0 1px rgba(141, 255, 190, 0.1);
+}
+
+.difficulty-option--extreme.difficulty-option--active {
+  border-color: rgba(255, 90, 122, 0.7);
+  background: rgba(255, 90, 122, 0.16);
+  color: #ffc2cf;
+  box-shadow: inset 0 0 0 1px rgba(255, 90, 122, 0.16);
+}
+
+.difficulty-chip--easy {
+  border-color: rgba(141, 255, 190, 0.32);
+  background: rgba(141, 255, 190, 0.08);
+  color: #c9ffe1;
+}
+
+.difficulty-chip--extreme {
+  border-color: rgba(255, 90, 122, 0.4);
+  background: rgba(255, 90, 122, 0.1);
+  color: #ffc2cf;
 }
 
 .difficulty-chip {

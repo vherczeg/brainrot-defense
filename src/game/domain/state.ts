@@ -7,7 +7,6 @@ import {
 } from './types';
 
 export const DEFAULT_PROFILE_NAME = 'Ábel';
-export const DEFEAT_COMFORT_COINS = 50;
 
 const STARTER_CHARACTERS: readonly CharacterInstance[] = [
   {
